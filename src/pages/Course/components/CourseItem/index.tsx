@@ -1,4 +1,4 @@
-import { Pencil } from "phosphor-react";
+import { DotsThree, Pencil, Trash } from "phosphor-react";
 import React from "react";
 import {
   CourseDescription,
@@ -19,8 +19,8 @@ export function CourseItem() {
         <CourseDescription>
           <CourseItemInfoContent>
             <h3>Photoshop</h3>
-            <CourseInfoType >
-                <p>FIC</p>
+            <CourseInfoType>
+              <p>FIC</p>
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>
@@ -31,12 +31,12 @@ export function CourseItem() {
         </CourseDescription>
       </CourseItemInfoContent>
 
-      <CourseItemButtonContainer >
+      <CourseItemButtonContainer>
         <CourseItemButton buttonColor="edit">
-
+          <DotsThree color="#000" size={25} />
         </CourseItemButton>
         <CourseItemButton buttonColor="delete">
-            
+          <Trash color="#fff" size={25} />
         </CourseItemButton>
       </CourseItemButtonContainer>
     </CourseItemContainer>
