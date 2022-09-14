@@ -1,4 +1,6 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { CourseItem } from "./components/CourseItem";
+import NewCourseModal from "./components/NewCourseModal";
 import {
   CourseButtonContainer,
   CourseContainer,
@@ -15,7 +17,12 @@ export function Course() {
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
           <CourseButtonContainer>
-            <button>Novo Curso</button>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <button>Novo Curso</button>
+              </Dialog.Trigger>
+              <NewCourseModal />
+            </Dialog.Root>
           </CourseButtonContainer>
         </CourseTitleContainer>
         <input type="text" placeholder="Buscar por Curso" />
