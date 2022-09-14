@@ -5,6 +5,7 @@ export const GlobalStyle = createGlobalStyle`
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: 'Inter', sans-serif;
     }
     body {
         background: ${(props) => props.theme['background']};
@@ -14,13 +15,10 @@ export const GlobalStyle = createGlobalStyle`
     
     }
     body, textarea  {
-        font-family: 'Baloo 2', cursive;
+        font-family: 'Inter', sans-serif;
         font-weight: 400;
-        font-size: 1rem;
     }
-    input, button {
-        font-family: 'Roboto', sans-serif;
-    }
+    
     button {
         cursor: pointer;
         transition: background-color 0.5s ease;
