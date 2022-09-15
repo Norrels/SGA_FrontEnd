@@ -3,13 +3,14 @@ import { DefaultLayout } from "./layout/DefaultLayout";
 import { Course } from "./pages/Course";
 import { Dashboard } from "./pages/Dashboard";
 import { Home } from "./pages/Home";
+import { Login } from "./pages/Login";
 import { Places } from "./pages/Places";
 import { Teacher } from "./pages/Teacher";
 
 export function Router() {
   return (
     <Routes>
-      <Route path="/" element={<h1>Home</h1>} />
+      <Route path="/" element={<Login/>} />
       
       <Route path="/" element={<DefaultLayout/>}>
         <Route path="/aulas" element={<Home />} />
