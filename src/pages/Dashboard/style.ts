@@ -283,6 +283,7 @@ export const ThreeBlock = styled.div`
   padding: 30px;
 
   margin-left: 15px;
+  
 `;
 
 export const TeacherClassContainer = styled.div`
