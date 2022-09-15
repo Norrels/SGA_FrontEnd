@@ -99,6 +99,7 @@ export const FirstBlock = styled.div`
   background: rgba(255, 255, 255, 0.62);
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 9px;
+  height: 707px;
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   padding: 30px;
 `;
@@ -133,10 +134,18 @@ export const FirstSelectBlock = styled.div`
 
 export const BlockText = styled.div`
   display: flex;
+  justify-content: space-between;
+
+  align-items: center;
+  h3 {
+    color: ${(props) => props.theme["blue-500"]};
+  }
+
+  margin-bottom: 20px;
 `;
 
 export const BlockBoard = styled.div`
-  height: 300px;
+  height: 500px;
 `;
 
 export const BlockDescription = styled.div``;
@@ -144,12 +153,32 @@ export const BlockDescription = styled.div``;
 export const HoursWorkedDescription = styled.div<SubtitleProps>`
   justify-content: space-between;
   display: flex;
+  grid-template-columns: 70% 30%;
+
+  margin-bottom: 10px;
 
   h5 {
+    
+
+    display: flex;
+    align-items: center;
     color: ${(props) => props.theme[SUBTITLE[props.subTitleColor]]};
   }
 
+  h5 svg {
+    margin-right: 10px;
+    align-items: center;
+  }
+
+  p {
+    display: flex;
+  }
+
   span {
+    margin-top: auto;
+    margin-top: auto;
+    margin-left: 10px;
+    text-align: justify;
     display: block;
     height: 20px;
     width: 20px;
@@ -165,3 +194,119 @@ const SUBTITLE = {
 interface SubtitleProps {
   subTitleColor: keyof typeof SUBTITLE;
 }
+
+export const SecondBlock = styled.div`
+  margin-top: 20px;
+
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 9px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  padding: 30px;
+
+  margin-bottom: 20px;
+`;
+
+export const SecondBlockContainer = styled.div`
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+`;
+
+export const SecondBlockContent = styled.div`
+  h3 {
+    color: ${(props) => props.theme["blue-500"]};
+  }
+
+  margin-top: auto;
+`;
+
+export const BlockDay = styled.div<ArrowProps>`
+  display: block;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+
+  width: 108px;
+  height: 100px;
+
+  span {
+    display: flex;
+    position: relative;
+    width: 35px;
+    height: 35px;
+
+    border-radius: 9px;
+    background-color: ${(props) => props.theme["blue-200"]};
+
+    top: -10px;
+    left: 10px;
+
+    align-items: center;
+    justify-content: center;
+  }
+
+  p,
+  h2 {
+    margin-left: 15px;
+  }
+
+  h2 {
+    margin-top: 5px;
+  }
+
+  h2 svg {
+    color: ${(props) => {
+      if (props.theme[ARROW[props.arrow]] == "#000") {
+        return "green";
+      } else {
+        return "red";
+      }
+    }};
+  }
+`;
+
+const ARROW = {
+  1: "black",
+  2: "white",
+} as const;
+
+interface ArrowProps {
+  arrow: keyof typeof ARROW;
+}
+
+export const ThreeBlock = styled.div`
+  background: rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 9px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  padding: 30px;
+
+  margin-left: 15px;
+`;
+
+export const TeacherClassContainer = styled.div`
+  overflow-y: scroll;
+  height: 800px;
+
+  padding-right: 10px;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0,0,0,0.1);
+  }
+  ::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    background: rgba(0,0,0,0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover{
+  	background: rgba(0,0,0,0.4);
+  }
+  ::-webkit-scrollbar-thumb:active{
+  	background: rgba(0,0,0,.9);
+  }
+`;
