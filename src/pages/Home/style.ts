@@ -13,32 +13,12 @@ export const HomeContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  input {
-    height: 3.75rem;
-    margin-top: 4.313rem;
-    padding-left: 1.813rem;
-
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-
-    color: ${(props) => props.theme["black"]};
-    font-weight: 700;
-    font-size: 1rem;
-
-    &:placeholder {
-      font-weight: 500;
-      color: ${(props) => props.theme["sub-title"]};
-    }
-  }
 `;
 
 const BUTTONS = {
-    1: "black",
-    2: "blue-300",
-    3: "blue-400",
+  1: "black",
+  2: "blue-300",
+  3: "blue-400",
 } as const;
 
 interface ButtonsProps {
@@ -49,12 +29,12 @@ export const HomeButtonCreate = styled.div<ButtonsProps>`
   button {
     background: ${(props) => {
       if (props.theme[BUTTONS[props.buttonsColor]] == "#000") {
-        return "linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);"
-     } else if (props.theme[BUTTONS[props.buttonsColor]] == "#25B5E9") {
-        return "linear-gradient(180deg, #5AADD1 0%, #367FBF 100%);"
-     } else {
-        return "linear-gradient(180deg, #367FBF 0%, #0031B0 100%);"
-     }
+        return "linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);";
+      } else if (props.theme[BUTTONS[props.buttonsColor]] == "#25B5E9") {
+        return "linear-gradient(180deg, #5AADD1 0%, #367FBF 100%);";
+      } else {
+        return "linear-gradient(180deg, #367FBF 0%, #0031B0 100%);";
+      }
     }};
   }
 `;
@@ -110,13 +90,9 @@ export const HomeTitleContainer = styled.div`
   }
 `;
 
-export const HomeList = styled.section`
-  margin-top: 2rem;
-  margin-bottom: 3rem;
-`;
-
-export const HomeSearchInput = styled.div`
-  margin-top: 4.313rem;
+export const HomeSearchInput = styled.section`
+  margin-top: 5.188rem;
+  margin-bottom: 3.188rem;
 `;
 
 export const HomeTextContentSearchInput = styled.h3`
@@ -131,47 +107,50 @@ export const HomeUpContentSearchInput = styled.div`
 export const HomeDownContentSearchInput = styled.div`
   input {
     width: 100%;
-    margin-top: 0rem;
+    height: 3.75rem;
+    margin-top: 0.625rem;
+    padding-left: 1.813rem;
+
+    border: none;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+    color: ${(props) => props.theme["black"]};
+    font-weight: 700;
+    font-size: 1rem;
+
+    &:placeholder {
+      font-weight: 500;
+      color: ${(props) => props.theme["sub-title"]};
+    }
   }
 `;
 
 export const HomeDownFilterContentSearchInput = styled.div`
-  margin-top: 20px;
-  display: grid;
-  grid-template-columns: 20% 80%;
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 export const HomeSelectOptionSearch = styled.div`
-  display: grid;
-
   select {
     border-radius: 8px;
-    padding: 10px;
+    width: 12.5rem;
+    height: 2.5rem;
+    padding-left: 1.313rem;
 
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 1rem;
     border: none;
     box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
   }
 `;
 
 export const HomeSelectFilterOptionSearch = styled.div`
-  display: grid;
-  grid-template-columns: 20% 20% 20% 20% 20%;
-
-  input {
-    width: 20px;
-
-    margin-top: 0;
-    height: 10px;
-
-    min-width: 20px;
-    min-height: 20px;
-    background-color: red;
-  }
-
-  :checked ~ input {
-    background-color: ${(props) => props.theme["blue-200"]};
-  }
+  display: flex;
+  gap: 1.875rem;
+  align-items: center;
 `;
 
 const COLORS = {
@@ -188,12 +167,169 @@ interface ColorsProps {
 export const InputCheckbox = styled.div<ColorsProps>`
   display: flex;
   align-items: center;
-  margin-left: auto;
-  accent-color: ${(props) => props.theme[COLORS[props.colorsColor]]};
+  gap: 0.875rem;
+
+  input {
+    width: 100%;
+    min-width: 1.688rem;
+    min-height: 1.688rem;
+
+    border: none;
+
+    accent-color: ${(props) => props.theme[COLORS[props.colorsColor]]};
+  }
 
   span {
     color: ${(props) => props.theme[COLORS[props.colorsColor]]};
-    margin-left: 10px;
+
     font-weight: bold;
+    font-size: 1.25rem;
+  }
+`;
+
+export const HomeCalenderContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+`;
+
+export const HomeCalenderHeader = styled.header`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const HomeCalenderOrderBy = styled.span`
+  width: 10rem;
+
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    background: linear-gradient(180deg, #25b5e9 45.83%, #367fbf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    font-family: "Inter";
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+`;
+
+export const HomeCalenderHeaderDays = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 6.25rem);
+  flex-direction: row;
+  gap: 1.25rem;
+`;
+
+export const HomeCalenderDay = styled.span`
+  height: 6.25rem;
+  background: rgba(255, 255, 255, 0.5);
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 9px;
+  gap: 0.563rem;
+
+  strong {
+    background: linear-gradient(180deg, #25b5e9 45.83%, #367fbf 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    font-weight: 600;
+    font-size: 2rem;
+  }
+
+  p {
+    font-weight: 700;
+    font-size: 0.75rem;
+  }
+`;
+
+export const HomeCalenderContent = styled.main`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+export const HomePlaces = styled.span`
+  width: 10rem;
+
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 9px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: ${(props) => props.theme["blue-500"]};
+
+    font-family: "Inter";
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+`;
+
+export const HomeClassesContainer = styled.article`
+  display: grid;
+  grid-template-columns: repeat(7, 6.25rem);
+  flex-direction: row;
+  gap: 1.25rem;
+`;
+
+const PERIOD = {
+  mornig: "blue-400",
+  afternoon: "blue-500",
+  night: "blue-600",
+} as const;
+
+interface ClassProps {
+  period: keyof typeof PERIOD;
+}
+
+export const HomeClasses = styled.div`
+  height: 6.25rem;
+  background: rgba(255, 255, 255, 0.5);
+
+  border-radius: 9px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+export const HomeClass = styled.span<ClassProps>`
+  height: 1.7rem;
+  display: flex;
+  padding-left: 0.5rem;
+  align-items: center;
+  background-color: ${(props) => props.theme[PERIOD[props.period]]};
+  color: ${(props) => props.theme["white"]};
+
+  &:first-child {
+    border-radius: 8px 8px 0px 0px;
+  }
+
+  &:last-child {
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  &:not(:has(p)) {
+    background: transparent;
+  }
+
+  p {
+    font-size: 1rem;
+    font-weight: 700;
   }
 `;

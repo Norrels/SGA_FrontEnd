@@ -24,7 +24,7 @@ export const HeaderNavBar = styled.nav`
   a {
     color: ${(props) => props.theme["black"]};
     font-weight: bold;
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     text-decoration: none;
 
     &.active {
@@ -37,7 +37,7 @@ export const HeaderNavBar = styled.nav`
 export const HeaderUser = styled.span`
   color: ${(props) => props.theme["black"]};
   font-weight: bold;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
 
   display: flex;
   flex-direction: row;
@@ -50,3 +50,16 @@ export const HeaderUser = styled.span`
     align-items: center;
   }
 `;
+
+export const HeaderNavMenu = styled.span`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  :has(a.active) {
+    svg {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`

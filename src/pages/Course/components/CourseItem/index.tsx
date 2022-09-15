@@ -6,6 +6,7 @@ import {
   CourseItemButton,
   CourseItemButtonContainer,
   CourseItemContainer,
+  CourseItemIcon,
   CourseItemInfoContent,
 } from "./style";
 
@@ -13,9 +14,10 @@ export function CourseItem() {
   return (
     <CourseItemContainer>
       <CourseItemInfoContent>
-        <CourseItemInfoContent>
-          <Pencil />
-        </CourseItemInfoContent>
+        <CourseItemIcon>
+          <Pencil size={30} />
+        </CourseItemIcon>
+
         <CourseDescription>
           <CourseItemInfoContent>
             <h3>Photoshop</h3>
@@ -35,6 +37,7 @@ export function CourseItem() {
         <CourseItemButton buttonColor="edit">
           <DotsThree color="#000" size={25} />
         </CourseItemButton>
+        
         <CourseItemButton buttonColor="delete">
           <Trash color="#fff" size={25} />
         </CourseItemButton>

@@ -2,10 +2,20 @@ import { ArrowLeft, ArrowRight, Calendar, Info } from "phosphor-react";
 import {
   HomeButtonContainer,
   HomeButtonCreate,
+  HomeCalenderContainer,
+  HomeCalenderContent,
+  HomeCalenderDay,
+  HomeCalenderHeader,
+  HomeCalenderHeaderDays,
+  HomeCalenderOrderBy,
+  HomeClass,
+  HomeClasses,
+  HomeClassesContainer,
   HomeContainer,
   HomeContent,
   HomeDownContentSearchInput,
   HomeDownFilterContentSearchInput,
+  HomePlaces,
   HomeSearchInput,
   HomeSelectFilterOptionSearch,
   HomeSelectOptionSearch,
@@ -44,9 +54,11 @@ export function Home() {
             <ArrowRight size={32} />
             <Calendar size={32} />
           </HomeUpContentSearchInput>
+
           <HomeDownContentSearchInput>
             <input type="text" placeholder="Buscar por Curso" />
           </HomeDownContentSearchInput>
+
           <HomeDownFilterContentSearchInput>
             <HomeSelectOptionSearch>
               <select>
@@ -54,6 +66,7 @@ export function Home() {
                 <option>Professores</option>
               </select>
             </HomeSelectOptionSearch>
+
             <HomeSelectFilterOptionSearch>
               <InputCheckbox colorsColor={1}>
                 <input type="checkbox" /> <span>Todos</span>
@@ -67,12 +80,92 @@ export function Home() {
               <InputCheckbox colorsColor={4}>
                 <input type="checkbox" /> <span>Noite</span>
               </InputCheckbox>
-              <InputCheckbox colorsColor={1}>
-                <Info size={32} />
-              </InputCheckbox>
+
+              <Info size={32} />
             </HomeSelectFilterOptionSearch>
           </HomeDownFilterContentSearchInput>
         </HomeSearchInput>
+
+        <HomeCalenderContainer>
+          <HomeCalenderHeader>
+            <HomeCalenderOrderBy>
+              <p>Crescente</p>
+            </HomeCalenderOrderBy>
+            <HomeCalenderHeaderDays>
+              <HomeCalenderDay>
+                <strong>28</strong>
+                <p>Domingo</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>29</strong>
+                <p>Segunda</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>30</strong>
+                <p>Terça</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>31</strong>
+                <p>Quarta</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>01</strong>
+                <p>Quinta</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>02</strong>
+                <p>Sexta</p>
+              </HomeCalenderDay>
+              <HomeCalenderDay>
+                <strong>03</strong>
+                <p>Sabado</p>
+              </HomeCalenderDay>
+            </HomeCalenderHeaderDays>
+          </HomeCalenderHeader>
+
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+        </HomeCalenderContainer>
       </HomeContent>
     </HomeContainer>
   );

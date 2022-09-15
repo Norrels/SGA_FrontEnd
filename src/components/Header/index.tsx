@@ -4,6 +4,7 @@ import {
   HeaderContainer,
   HeaderContent,
   HeaderNavBar,
+  HeaderNavMenu,
   HeaderUser,
 } from "./style";
 import Logo from "../../assets/Logo.svg";
@@ -15,9 +16,15 @@ export function Header() {
         <img src={Logo} alt="" />
 
         <HeaderNavBar>
-          <NavLink to="/aulas">Início</NavLink>
+          <HeaderNavMenu>
+            <NavLink to="/aulas">Início</NavLink>
+            <CaretDown weight="fill" />
+          </HeaderNavMenu>
           <NavLink to="/dashboard">Dashboard</NavLink>
-          <NavLink to="/professores">Professores</NavLink>
+          <HeaderNavMenu>
+            <NavLink to="/professores">Professores</NavLink>
+            <CaretDown weight="fill" />
+          </HeaderNavMenu>
           <NavLink to="/cursos">Cursos</NavLink>
           <NavLink to="/ambientes">Ambientes</NavLink>
         </HeaderNavBar>

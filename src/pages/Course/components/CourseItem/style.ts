@@ -31,6 +31,17 @@ export const CourseItemInfoContent = styled.div`
     }
 `
 
+export const CourseItemIcon = styled.span`
+width: 3.125rem;
+height:3.125rem;
+display: flex;
+align-items: center;
+justify-content: center;
+border-radius: 8px;
+
+background: ${(props) => props.theme["white-300"]};
+`
+
 export const CourseInfoType = styled.div`
     font-size: 0.800rem;
     width: 100px;
