@@ -49,8 +49,11 @@ export const TeacherTitleContainer = styled.section`
 
     font-size: 2.813rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]};
-   
+    
+    background: linear-gradient(90deg, #0F62AB 38.16%, #0031B0 38.16%, #25B5E9 64.48%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
@@ -73,15 +76,14 @@ export const TeacherButtonContainer = styled.div`
     border: none;
     border-radius: 8px;
     background-color: ${(props) => props.theme["blue-500"]};
-   
+
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
     font-weight: bold;
-   
   }
 `;
 
 export const TeacherList = styled.section`
   margin-top: 2rem;
   margin-bottom: 3rem;
-`
+`;
