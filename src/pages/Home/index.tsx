@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, Calendar, Info } from "phosphor-react";
 import {
   HomeButtonContainer,
+  HomeButtonCreate,
   HomeContainer,
   HomeContent,
   HomeDownContentSearchInput,
@@ -22,9 +23,15 @@ export function Home() {
           <h1>Bem Vindo</h1>
           <p>Selecione um tipo de curso e crie uma nova aula</p>
           <HomeButtonContainer>
-            <button>Regular</button>
-            <button>FIC</button>
-            <button>Customizavel</button>
+            <HomeButtonCreate buttonsColor={1}>
+              <button>Regular</button>
+            </HomeButtonCreate>
+            <HomeButtonCreate buttonsColor={2}>
+              <button>FIC</button>
+            </HomeButtonCreate>
+            <HomeButtonCreate buttonsColor={3}>
+              <button>Customizavel</button>
+            </HomeButtonCreate>
           </HomeButtonContainer>
         </HomeTitleContainer>
 
@@ -46,17 +53,16 @@ export function Home() {
                 <option>Salas</option>
                 <option>Professores</option>
               </select>
-              
             </HomeSelectOptionSearch>
             <HomeSelectFilterOptionSearch>
               <InputCheckbox colorsColor={1}>
-                <input type="checkbox" /> <span>Todos</span> 
+                <input type="checkbox" /> <span>Todos</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={2}>
-                <input type="checkbox" /> <span>Manhã</span> 
+                <input type="checkbox" /> <span>Manhã</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={3}>
-                <input type="checkbox" /> <span>Tarde</span> 
+                <input type="checkbox" /> <span>Tarde</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={4}>
                 <input type="checkbox" /> <span>Noite</span>

@@ -35,6 +35,30 @@ export const HomeContent = styled.div`
   }
 `;
 
+const BUTTONS = {
+    1: "black",
+    2: "blue-300",
+    3: "blue-400",
+} as const;
+
+interface ButtonsProps {
+  buttonsColor: keyof typeof BUTTONS;
+}
+
+export const HomeButtonCreate = styled.div<ButtonsProps>`
+  button {
+    background: ${(props) => {
+      if (props.theme[BUTTONS[props.buttonsColor]] == "#000") {
+        return "linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);"
+     } else if (props.theme[BUTTONS[props.buttonsColor]] == "#25B5E9") {
+        return "linear-gradient(180deg, #5AADD1 0%, #367FBF 100%);"
+     } else {
+        return "linear-gradient(180deg, #367FBF 0%, #0031B0 100%);"
+     }
+    }};
+  }
+`;
+
 export const HomeButtonContainer = styled.div`
   margin-top: 2rem;
   display: flex;
@@ -47,13 +71,13 @@ export const HomeButtonContainer = styled.div`
 
     border-radius: 8px;
     border: none;
-    background-color: ${(props) => props.theme["blue-500"]};
 
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
     font-weight: bold;
   }
 `;
+
 export const HomeTitleContainer = styled.div`
   margin-top: 2rem;
 
@@ -67,7 +91,15 @@ export const HomeTitleContainer = styled.div`
 
     font-size: 2.813rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]};
+    background: linear-gradient(
+      90deg,
+      #0f62ab 40.94%,
+      #0031b0 40.94%,
+      #25b5e9 58.61%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
