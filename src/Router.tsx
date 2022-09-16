@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
+import { Admin } from "./pages/Admin";
+import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";
 import { Dashboard } from "./pages/Dashboard";
 import { Home } from "./pages/Home";
@@ -18,6 +20,8 @@ export function Router() {
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
+        <Route path="/chamadas" element={<Call />} />
+        <Route path="/admins" element={<Admin />} />
       </Route>
     </Routes>
   );
