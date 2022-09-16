@@ -11,7 +11,6 @@ export const HomeContent = styled.div`
   max-width: 1120px;
   width: 100%;
 
-
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -203,15 +202,15 @@ export const HomeCalenderHeader = styled.header`
   padding-top: 1rem;
   padding-bottom: 1rem;
   top: 0;
-  
-  background: ${(props) => props.theme['background']};
- 
+
+
+  background: ${(props) => props.theme["background"]};
 `;
 
 export const HomeCalenderOrderBy = styled.span`
   width: 15rem;
 
-  background: ${(props) => props.theme['white-400']};
+  background: ${(props) => props.theme["white-400"]};
   border-radius: 9px;
 
   display: flex;
@@ -239,7 +238,7 @@ export const HomeCalenderHeaderDays = styled.div`
 
 export const HomeCalenderDay = styled.span`
   height: 6rem;
-  background: ${(props) => props.theme['white-400']};
+  background: ${(props) => props.theme["white-400"]};
 
   display: flex;
   align-items: center;
@@ -272,7 +271,7 @@ export const HomeCalenderContent = styled.main`
 
 export const HomePlaces = styled.span`
   width: 15rem;
-  height: 10rem;
+  height: 10.3rem;
 
   background: rgba(255, 255, 255, 0.5);
   border-radius: 9px;
@@ -308,7 +307,7 @@ interface ClassProps {
 }
 
 export const HomeClasses = styled.div`
-  height: 8rem;
+  height: 10.3rem;
   background: rgba(255, 255, 255, 0.5);
 
   border-radius: 9px;
@@ -324,8 +323,8 @@ export const HomeClass = styled.span<ClassProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
- padding: 0.4rem;
- 
+  padding: 0.4rem;
+
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
 
@@ -349,10 +348,9 @@ export const HomeClass = styled.span<ClassProps>`
 
 export const HomeDivider = styled.span`
   opacity: 0.2;
-  background-color: ${(props) => props.theme['gray-700']};
+  background-color: ${(props) => props.theme["gray-700"]};
   display: block;
   height: 1px;
   width: 100%;
-
-
-`
+  z-index: -1;
+`;

@@ -6,6 +6,7 @@ export const defaultTheme = {
 
   'sub-title' : '#3F3C3C',
   'gray-700'  : '#6D6D6D',
+  'gray-600' : '#B5B5B5',
 
   'black' : '#000',
 
