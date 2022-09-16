@@ -4,11 +4,13 @@ export const HomeContainer = styled.main`
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
 `;
 
 export const HomeContent = styled.div`
   max-width: 1120px;
   width: 100%;
+
 
   display: flex;
   flex-direction: column;
@@ -190,19 +192,26 @@ export const InputCheckbox = styled.div<ColorsProps>`
 export const HomeCalenderContainer = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 2rem;
 `;
 
 export const HomeCalenderHeader = styled.header`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  position: sticky;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  top: 0;
+  
+  background: ${(props) => props.theme['background']};
+ 
 `;
 
 export const HomeCalenderOrderBy = styled.span`
-  width: 10rem;
+  width: 15rem;
 
-  background: rgba(255, 255, 255, 0.5);
+  background: ${(props) => props.theme['white-400']};
   border-radius: 9px;
 
   display: flex;
@@ -223,14 +232,14 @@ export const HomeCalenderOrderBy = styled.span`
 
 export const HomeCalenderHeaderDays = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 6.25rem);
+  grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
   gap: 1.25rem;
 `;
 
 export const HomeCalenderDay = styled.span`
-  height: 6.25rem;
-  background: rgba(255, 255, 255, 0.5);
+  height: 6rem;
+  background: ${(props) => props.theme['white-400']};
 
   display: flex;
   align-items: center;
@@ -262,7 +271,8 @@ export const HomeCalenderContent = styled.main`
 `;
 
 export const HomePlaces = styled.span`
-  width: 10rem;
+  width: 15rem;
+  height: 10rem;
 
   background: rgba(255, 255, 255, 0.5);
   border-radius: 9px;
@@ -282,7 +292,7 @@ export const HomePlaces = styled.span`
 
 export const HomeClassesContainer = styled.article`
   display: grid;
-  grid-template-columns: repeat(7, 6.25rem);
+  grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
   gap: 1.25rem;
 `;
@@ -298,7 +308,7 @@ interface ClassProps {
 }
 
 export const HomeClasses = styled.div`
-  height: 6.25rem;
+  height: 8rem;
   background: rgba(255, 255, 255, 0.5);
 
   border-radius: 9px;
@@ -306,13 +316,16 @@ export const HomeClasses = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 0.5rem;
 `;
 
 export const HomeClass = styled.span<ClassProps>`
-  height: 1.7rem;
+  height: 5rem;
   display: flex;
-  padding-left: 0.5rem;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+ padding: 0.4rem;
+ 
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
 
@@ -333,3 +346,13 @@ export const HomeClass = styled.span<ClassProps>`
     font-weight: 700;
   }
 `;
+
+export const HomeDivider = styled.span`
+  opacity: 0.2;
+  background-color: ${(props) => props.theme['gray-700']};
+  display: block;
+  height: 1px;
+  width: 100%;
+
+
+`

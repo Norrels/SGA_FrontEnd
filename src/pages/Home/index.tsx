@@ -13,6 +13,7 @@ import {
   HomeClassesContainer,
   HomeContainer,
   HomeContent,
+  HomeDivider,
   HomeDownContentSearchInput,
   HomeDownFilterContentSearchInput,
   HomePlaces,
@@ -129,6 +130,631 @@ export function Home() {
             </HomePlaces>
             <HomeClassesContainer>
               <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Chile</p>
+                  <sup>Desenvolvim...</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Bruna</p>
+                  <sup>Logistica</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="night">
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon">
+                
+                </HomeClass >
+                <HomeClass period="night">
+                 
+                </HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+
+          {/* <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
                 <HomeClass period="mornig" ><p>Caio</p></HomeClass >
                 <HomeClass period="afternoon"><p>Chile</p></HomeClass >
                 <HomeClass period="night"><p>Bruna</p></HomeClass >
@@ -165,6 +791,267 @@ export function Home() {
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" ><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent>
+          <HomeDivider />
+          <HomeCalenderContent>
+            <HomePlaces>
+              <p>Lab - 10</p>
+            </HomePlaces>
+            <HomeClassesContainer>
+              <HomeClasses>
+                <HomeClass period="mornig" >
+                  <p>Caio</p>
+                  <sup>Photoshop</sup>
+                </HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+              <HomeClasses>
+                <HomeClass period="mornig"><p>Caio</p></HomeClass >
+                <HomeClass period="afternoon"><p>Chile</p></HomeClass >
+                <HomeClass period="night"><p>Bruna</p></HomeClass >
+              </HomeClasses>
+            </HomeClassesContainer>
+          </HomeCalenderContent> */}
         </HomeCalenderContainer>
       </HomeContent>
     </HomeContainer>
