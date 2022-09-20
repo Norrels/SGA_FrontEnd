@@ -1,9 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "phosphor-react";
+import { Check, X } from "phosphor-react";
 import Resumo from "../../../../assets/Resumo.svg";
 import {
   CloseButton,
   Content,
+  HomeCheckBox,
+  HomeCheckBoxButton,
+  HomeCheckBoxIndicator,
   ModalCreateClassContent,
   ModalCreateClassContentCollum,
   ModalCreateClassContentLine,
@@ -13,11 +16,12 @@ import {
   Overlay,
 } from "./style";
 
+
 interface ModalCreateNewClassProps {
-  name: string
+  name: string;
 }
 
-export function ModalCreateNewClass({name} : ModalCreateNewClassProps) {
+export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
   return (
     <Dialog.Portal>
       <Overlay />
@@ -63,31 +67,59 @@ export function ModalCreateNewClass({name} : ModalCreateNewClassProps) {
           <ModalCreateClassDays>
             <span>
               <label>Dom</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Seg</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Ter</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Qua</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Qui</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Sex</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
             <span>
               <label>Sab</label>
-              <input type="checkbox" />
+              <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check size={20} weight="bold" />
+                </HomeCheckBoxIndicator>
+              </HomeCheckBox>
             </span>
           </ModalCreateClassDays>
 
@@ -125,7 +157,7 @@ export function ModalCreateNewClass({name} : ModalCreateNewClassProps) {
             </div>
           </ModalCreateClassSumarryContent>
 
-          <button>Criar</button>
+          <HomeCheckBoxButton>Criar</HomeCheckBoxButton>
         </ModalCreateClassContent>
       </Content>
     </Dialog.Portal>

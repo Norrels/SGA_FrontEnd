@@ -11,8 +11,17 @@
   "dependencies": {
     "@hookform/resolvers": "^2.9.8",
     "@radix-ui/react-accordion": "^1.0.0",
+<<<<<<< HEAD
     "@radix-ui/react-dialog": "^1.0.0",
     "@stitches/react": "^1.2.8",
+=======
+    "@radix-ui/react-checkbox": "^1.0.0",
+    "@radix-ui/react-context-menu": "^1.0.0",
+    "@radix-ui/react-dialog": "^1.0.0",
+    "@radix-ui/react-dropdown-menu": "^1.0.0",
+    "@radix-ui/react-hover-card": "^1.0.0",
+    "@radix-ui/react-popover": "1.0.0",
+>>>>>>> 8d6d340f78da5a9a2373c40fe0d825e0582b554c
     "axios": "^0.27.2",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
