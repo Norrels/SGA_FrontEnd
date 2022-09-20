@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import styled from "styled-components";
+import * as Checkbox from "@radix-ui/react-checkbox";
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
@@ -55,20 +56,6 @@ export const CloseButton = styled(Dialog.Close)`
 export const AvaliableModalContainer = styled.form`
   margin-top: 3rem;
 
-  button {
-    width: 100%;
-    height: 3rem;
-    margin-top: 2rem;
-
-    border: none;
-    border-radius: 8px;
-    background: ${(props) => props.theme["blue-500"]};
-
-    font-size: 1.563rem;
-    font-weight: 700;
-    color: ${(props) => props.theme["white"]};
-  }
-
   sup {
     font-size: 1.25rem;
     font-style: italic;
@@ -113,17 +100,6 @@ export const ModalCreateClassContent = styled.form`
     color: ${(props) => props.theme["sub-title"]};
   }
 
-  button {
-    padding: 1.5rem;
-
-    border: none;
-    border-radius: 8px;
-    background: ${(props) => props.theme["blue-500"]};
-
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: ${(props) => props.theme["white"]};
-  }
 `;
 
 export const ModalCreateClassContentLine = styled.article`
@@ -156,22 +132,11 @@ export const ModalCreateClassDays = styled.article`
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-  }
-
-  input {
-    width: 2.5em;
-    height: 2.5em;
-    background-color: white;
-    border-radius: 50%;
-    vertical-align: middle;
-    border: 1px solid #ddd;
-    appearance: none;
-    -webkit-appearance: none;
-    outline: none;
-    cursor: pointer;
-
-    &:checked {
-      background-color: ${(props) => props.theme["blue-300"]};
+    
+    input:checked {
+      button {
+        background-color: ${(props) => props.theme["black"]};
+      }
     }
   }
 `;
@@ -241,4 +206,36 @@ export const ModalCreateClassSumarryContent = styled.article`
       }
     }
   }
+`;
+
+export const HomeCheckBox = styled(Checkbox.Root)`
+  background-color: ${(props) => props.theme["white"]};
+  height: 2.125rem;
+  width: 2.125rem;
+  border: none;
+  border-radius: 999999px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+`;
+
+export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+
+`;
+
+export const HomeCheckBoxButton = styled.button`
+  width: 100%;
+
+  padding: 10px;
+  margin-top: 2rem;
+
+  border: none;
+  border-radius: 8px;
+  background: ${(props) => props.theme["blue-500"]};
+
+  font-size: 1.563rem;
+  font-weight: 700;
+  color: ${(props) => props.theme["white"]};
 `;

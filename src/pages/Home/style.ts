@@ -345,6 +345,7 @@ export const HomeClass = styled.div<ClassProps>`
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
 
+
   &:not(:has(p)) {
     background: transparent;
   }
@@ -369,6 +370,7 @@ export const HomeCheckBox = styled(Checkbox.Root)`
   width: 1.75rem;
   height: 1.75rem;
   border: none;
+  border-radius: 8px;
 `
 
 export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`

@@ -33,7 +33,7 @@ import * as ContextMenu from "@radix-ui/react-context-menu";
 import { RightClick } from "./components/RightClick";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import { SubtitlteHover } from "./components/SubtitleHover";
-import * as Checkbox from '@radix-ui/react-checkbox';
+import * as Checkbox from "@radix-ui/react-checkbox";
 
 export function Home() {
   return (
@@ -94,28 +94,43 @@ export function Home() {
 
             <HomeSelectFilterOptionSearch>
               <InputCheckbox colorsColor={1}>
-                <input type="checkbox" /> <span>Todos</span>
+                <HomeCheckBox>
+                  <HomeCheckBoxIndicator>
+                    <Check size={30} weight="bold" />
+                  </HomeCheckBoxIndicator>
+                </HomeCheckBox>{" "}
+                <span>Todos</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={2}>
-                <input type="checkbox" /> <span>Manhã</span>
+                <HomeCheckBox>
+                  <HomeCheckBoxIndicator>
+                    <Check size={30} weight="bold" />
+                  </HomeCheckBoxIndicator>
+                </HomeCheckBox>{" "}
+                <span>Manhã</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={3}>
                 <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check></Check>
+                  <HomeCheckBoxIndicator>
+                    <Check size={30} weight="bold" />
                   </HomeCheckBoxIndicator>
                 </HomeCheckBox>
-               <span>Tarde</span>
+                <span>Tarde</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={4}>
-                <input type="checkbox" /> <span>Noite</span>
+                <HomeCheckBox>
+                  <HomeCheckBoxIndicator>
+                    <Check size={30} weight="bold" />
+                  </HomeCheckBoxIndicator>
+                </HomeCheckBox>
+                <span>Noite</span>
               </InputCheckbox>
 
               <HoverCard.Root openDelay={2}>
                 <HoverCard.Trigger asChild>
                   <Info size={30} opacity={0.5} />
                 </HoverCard.Trigger>
-                <SubtitlteHover/>
+                <SubtitlteHover />
               </HoverCard.Root>
             </HomeSelectFilterOptionSearch>
           </HomeDownFilterContentSearchInput>
