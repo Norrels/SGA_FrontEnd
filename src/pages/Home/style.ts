@@ -203,7 +203,6 @@ export const HomeCalenderHeader = styled.header`
   padding-bottom: 1rem;
   top: 0;
 
-
   background: ${(props) => props.theme["background"]};
 `;
 
@@ -297,7 +296,7 @@ export const HomeClassesContainer = styled.article`
 `;
 
 const PERIOD = {
-  mornig: "blue-400",
+  morning: "blue-400",
   afternoon: "blue-500",
   night: "blue-600",
 } as const;
@@ -316,25 +315,34 @@ export const HomeClasses = styled.div`
   flex-direction: column;
   justify-content: space-between;
   gap: 0.5rem;
+
+  span {
+    &:first-child {
+      div {
+        border-radius: 8px 8px 0px 0px;
+      }
+    }
+
+     &:last-child {
+      div {
+        border-radius: 0px 0px 8px 8px;
+      }
+     
+    }
+  }
+
+
 `;
 
-export const HomeClass = styled.span<ClassProps>`
-  height: 5rem;
+export const HomeClass = styled.div<ClassProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0.4rem;
+  border-radius: 0;
 
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
-
-  &:first-child {
-    border-radius: 8px 8px 0px 0px;
-  }
-
-  &:last-child {
-    border-radius: 0px 0px 8px 8px;
-  }
 
   &:not(:has(p)) {
     background: transparent;

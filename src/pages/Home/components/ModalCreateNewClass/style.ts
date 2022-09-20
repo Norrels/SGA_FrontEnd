@@ -12,18 +12,21 @@ export const Overlay = styled(Dialog.Overlay)`
 `;
 
 export const Content = styled(Dialog.Content)`
+  width: 46.875rem;
+
   //Hackerzinho para centralizar
   position: fixed;
   top: 50%;
   left: 50%;
 
   border-radius: 6px;
-  padding: 3rem 2rem 4rem 5rem;
+  padding: 3rem 2rem 4rem 4rem;
   background: ${(props) => props.theme["white"]};
 
   transform: translate(-50%, -50%);
 
   h2 {
+    padding-left: 0.2rem;
     font-size: 2.5rem;
     width: fit-content;
     font-weight: 800;
@@ -43,7 +46,7 @@ export const CloseButton = styled(Dialog.Close)`
   background: transparent;
   border: 0;
   top: 3.5rem;
-  right: 2.5rem;
+  right: 4.5rem;
   line-height: 0;
   cursor: pointer;
   color: ${(props) => props.theme["black"]};
@@ -79,6 +82,7 @@ export const ModalCreateClassContent = styled.form`
   display: flex;
   overflow: auto;
   padding-right: 2.4rem;
+  padding-left: 0.5rem;
 
   display: flex;
   flex-direction: column;

@@ -17,16 +17,16 @@ export function Header() {
 
         <HeaderNavBar>
           <HeaderNavMenu>
-            <NavLink to="/aulas">Início</NavLink>
+            <NavLink to="/aulas" title="Início">Início</NavLink>
             <CaretDown weight="fill" />
           </HeaderNavMenu>
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink to="/dashboard" title="Dashboard">Dashboard</NavLink>
           <HeaderNavMenu>
-            <NavLink to="/professores">Professores</NavLink>
+            <NavLink to="/professores" title="Professor">Professores</NavLink>
             <CaretDown weight="fill" />
           </HeaderNavMenu>
-          <NavLink to="/cursos">Cursos</NavLink>
-          <NavLink to="/ambientes">Ambientes</NavLink>
+          <NavLink to="/cursos" title="Cursos">Cursos</NavLink>
+          <NavLink to="/ambientes" title="Ambientes">Ambientes</NavLink>
         </HeaderNavBar>
 
         <HeaderUser>
