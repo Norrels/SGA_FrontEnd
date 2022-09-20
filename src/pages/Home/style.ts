@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import * as Checkbox from '@radix-ui/react-checkbox';
 
 export const HomeContainer = styled.main`
   width: 100%;
@@ -362,3 +363,16 @@ export const HomeDivider = styled.span`
   width: 100%;
   z-index: -1;
 `;
+
+export const HomeCheckBox = styled(Checkbox.Root)`
+  background-color: ${(props) => props.theme["white"]};
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+`
+
+export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`

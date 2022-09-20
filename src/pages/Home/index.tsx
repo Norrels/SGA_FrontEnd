@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, Calendar, Info } from "phosphor-react";
+import { ArrowLeft, ArrowRight, Calendar, Check, Info } from "phosphor-react";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
   HomeButtonContainer,
@@ -9,6 +9,8 @@ import {
   HomeCalenderHeader,
   HomeCalenderHeaderDays,
   HomeCalenderOrderBy,
+  HomeCheckBox,
+  HomeCheckBoxIndicator,
   HomeClass,
   HomeClasses,
   HomeClassesContainer,
@@ -27,10 +29,11 @@ import {
   InputCheckbox,
 } from "./style";
 import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
-import * as ContextMenu from '@radix-ui/react-context-menu';
+import * as ContextMenu from "@radix-ui/react-context-menu";
 import { RightClick } from "./components/RightClick";
-import * as HoverCard from '@radix-ui/react-hover-card';
-
+import * as HoverCard from "@radix-ui/react-hover-card";
+import { SubtitlteHover } from "./components/SubtitleHover";
+import * as Checkbox from '@radix-ui/react-checkbox';
 
 export function Home() {
   return (
@@ -97,13 +100,23 @@ export function Home() {
                 <input type="checkbox" /> <span>Manhã</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={3}>
-                <input type="checkbox" /> <span>Tarde</span>
+                <HomeCheckBox>
+                <HomeCheckBoxIndicator>
+                  <Check></Check>
+                  </HomeCheckBoxIndicator>
+                </HomeCheckBox>
+               <span>Tarde</span>
               </InputCheckbox>
               <InputCheckbox colorsColor={4}>
                 <input type="checkbox" /> <span>Noite</span>
               </InputCheckbox>
 
-              <Info size={30} opacity={0.5} />
+              <HoverCard.Root openDelay={2}>
+                <HoverCard.Trigger asChild>
+                  <Info size={30} opacity={0.5} />
+                </HoverCard.Trigger>
+                <SubtitlteHover/>
+              </HoverCard.Root>
             </HomeSelectFilterOptionSearch>
           </HomeDownFilterContentSearchInput>
         </HomeSearchInput>
@@ -150,29 +163,13 @@ export function Home() {
               <p>Lab - 10</p>
             </HomePlaces>
             <HomeClassesContainer>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-              </HomeClasses>
-              <HomeClasses>
-
-
-
-              </HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
+              <HomeClasses></HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
           <HomeDivider />
@@ -182,107 +179,103 @@ export function Home() {
             </HomePlaces>
             <HomeClassesContainer>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Chile</p>
                   <sup>Desenvolvim...</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Bruna</p>
                   <sup>Logistica</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
                 <ContextMenu.Root>
                   <ContextMenu.Trigger>
-                    <HomeClass period="morning" >
+                    <HomeClass period="morning">
                       <p>Caio</p>
                       <sup>Photoshoaap</sup>
-                    </HomeClass >
+                    </HomeClass>
                   </ContextMenu.Trigger>
                   <RightClick />
                 </ContextMenu.Root>
 
-                <HomeClass period="afternoon">
+                <HomeClass period="afternoon"></HomeClass>
 
-                </HomeClass >
-
-                <HomeClass period="night">
-
-                </HomeClass >
+                <HomeClass period="night"></HomeClass>
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
@@ -295,113 +288,109 @@ export function Home() {
               <HomeClasses>
                 <ContextMenu.Root>
                   <ContextMenu.Trigger>
-                    <HomeClass period="morning" >
+                    <HomeClass period="morning">
                       <p>Caio</p>
                       <sup>Photoshop</sup>
-                    </HomeClass >
+                    </HomeClass>
                   </ContextMenu.Trigger>
                   <RightClick />
                 </ContextMenu.Root>
                 <ContextMenu.Root>
                   <ContextMenu.Trigger>
-                    <HomeClass period="afternoon" >
+                    <HomeClass period="afternoon">
                       <p>Caio</p>
                       <sup>Photoshop</sup>
-                    </HomeClass >
+                    </HomeClass>
                   </ContextMenu.Trigger>
                   <RightClick />
                 </ContextMenu.Root>
                 <ContextMenu.Root>
                   <ContextMenu.Trigger>
-                    <HomeClass period="night" >
+                    <HomeClass period="night">
                       <p>Caio</p>
                       <sup>Photoshop</sup>
-                    </HomeClass >
+                    </HomeClass>
                   </ContextMenu.Trigger>
                   <RightClick />
                 </ContextMenu.Root>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
-                <HomeClass period="afternoon">
-
-                </HomeClass >
-                <HomeClass period="night">
-
-                </HomeClass >
+                </HomeClass>
+                <HomeClass period="afternoon"></HomeClass>
+                <HomeClass period="night"></HomeClass>
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
@@ -412,100 +401,96 @@ export function Home() {
             </HomePlaces>
             <HomeClassesContainer>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
-                <HomeClass period="afternoon">
-
-                </HomeClass >
-                <HomeClass period="night">
-
-                </HomeClass >
+                </HomeClass>
+                <HomeClass period="afternoon"></HomeClass>
+                <HomeClass period="night"></HomeClass>
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
@@ -516,100 +501,96 @@ export function Home() {
             </HomePlaces>
             <HomeClassesContainer>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
-                <HomeClass period="afternoon">
-
-                </HomeClass >
-                <HomeClass period="night">
-
-                </HomeClass >
+                </HomeClass>
+                <HomeClass period="afternoon"></HomeClass>
+                <HomeClass period="night"></HomeClass>
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
@@ -620,100 +601,96 @@ export function Home() {
             </HomePlaces>
             <HomeClassesContainer>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="afternoon">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
                 <HomeClass period="night">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
+                </HomeClass>
               </HomeClasses>
               <HomeClasses>
-                <HomeClass period="morning" >
+                <HomeClass period="morning">
                   <p>Caio</p>
                   <sup>Photoshop</sup>
-                </HomeClass >
-                <HomeClass period="afternoon">
-
-                </HomeClass >
-                <HomeClass period="night">
-
-                </HomeClass >
+                </HomeClass>
+                <HomeClass period="afternoon"></HomeClass>
+                <HomeClass period="night"></HomeClass>
               </HomeClasses>
             </HomeClassesContainer>
           </HomeCalenderContent>
