@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Sliders } from "phosphor-react";
 import React from "react";
 import styled from "styled-components";
-import Accourdion from "./components/Accordion";
 
 import {
   SearchButtonContainer,
@@ -37,9 +36,7 @@ export default function AdvancedSearch() {
               <Sliders size={32} /> <h3>Filtrar por:</h3>
             </SearchFilterTitle>
             <SearchFilterContent>
-              <>
-                <Accourdion />
-              </>
+              <>{/* Select */}</>
             </SearchFilterContent>
           </SearchFilterContainer>
 
