@@ -29,7 +29,7 @@ import {
 import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
 import * as ContextMenu from '@radix-ui/react-context-menu';
 import { RightClick } from "./components/RightClick";
-
+import * as HoverCard from '@radix-ui/react-hover-card';
 
 
 export function Home() {
@@ -103,7 +103,7 @@ export function Home() {
                 <input type="checkbox" /> <span>Noite</span>
               </InputCheckbox>
 
-              <Info size={32} />
+              <Info size={30} opacity={0.5} />
             </HomeSelectFilterOptionSearch>
           </HomeDownFilterContentSearchInput>
         </HomeSearchInput>
