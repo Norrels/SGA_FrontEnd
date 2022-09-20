@@ -8,6 +8,7 @@ import {
 } from "./style";
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
+import NewTeacherModal from "./components/NewTeacherModal";
 
 export function Teacher() {
   return (
@@ -18,7 +19,13 @@ export function Teacher() {
           <p>Selecione um Professor ou crie um novo!</p>
 
           <TeacherButtonContainer>
-            <button>Novo professor</button>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <button>Novo professor</button>
+              </Dialog.Trigger>
+              <NewTeacherModal />
+            </Dialog.Root>
+
             <Dialog.Root>
               <Dialog.Trigger asChild>
                 <button>Disponibilidade</button>
