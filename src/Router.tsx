@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
 import {DefaultLayoutSup}  from "./layout/DefaultLayoutSup";
 import { Admin } from "./pages/Admin";
+import AdvancedSearch from "./pages/AdvancedSearch";
 import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";
 import { Dashboard } from "./pages/Dashboard";
@@ -21,6 +22,7 @@ export function Router() {
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
+        <Route path="/busca-avancada" element={<AdvancedSearch />} />
       </Route>
 
       <Route path="/" element={<DefaultLayoutSup />}>
