@@ -1,72 +1,84 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "phosphor-react";
+import { Plus, X } from "phosphor-react";
+import { useState } from "react";
 import {
-  NewModalContainer,
-  NewModalContent,
-  NewModalDivider,
-  NewModalOptionsContainer,
-  NewModalOptionsContent,
   CloseButton,
   Content,
   Overlay,
-  NewModalTypeContainerButton,
-  TypeCourseButton,
-  NewModalUnityOptionsContainer,
+  InputContainer,
+  InputContent,
+  InputContentDupo,
+  ContainerButtonCreate,
+  ContainerNewCompt,
+  InputContentScroll,
+  NewCompt,
+  ContainerInputStar,
+  ContentSelect,
+  ContentSelectHours,
 } from "./style";
 
 export default function NewCourseModal() {
+  const [input, setInput] = useState([0]);
+
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
         <CloseButton>
-          <X size={24} />
+          <X onClick={() => setInput([1])} size={24} />
         </CloseButton>
 
-        <Dialog.Title>Novo Curso</Dialog.Title>
+        <Dialog.Title>Novo curso</Dialog.Title>
 
-        <NewModalContainer>
-          <NewModalOptionsContainer>
-            <NewModalOptionsContent>
-              <span>
-                <p>Nome</p>
-                <input type="text" placeholder="Digite um nome" />
-              </span>
-            </NewModalOptionsContent>
-          </NewModalOptionsContainer>
+        <InputContainer>
+          <InputContent>
+            <label>Nome</label>
+            <input type="text" placeholder="digite seu nome" />
+          </InputContent>
 
-          <NewModalOptionsContainer>
-            <NewModalOptionsContent>
-              <span>
-                <p>Tipo</p>
-                <NewModalTypeContainerButton>
-                  <NewModalOptionsContainer></NewModalOptionsContainer>
-                </NewModalTypeContainerButton>
-              </span>
-            </NewModalOptionsContent>
-          </NewModalOptionsContainer>
+          <InputContent>
+            <label>Tipo</label>
+            <select>
+              <option>Selecione o tipo de curso</option>
+            </select>
+          </InputContent>
 
-          <NewModalOptionsContainer>
-            <NewModalOptionsContent>
-              <span>
-                <p>Unidade Curricular</p>
-                <NewModalUnityOptionsContainer>
-                  <NewModalContent>
-                    <input
-                      type="text"
-                      placeholder="Digite uma Unidade Curricular"
-                    />
-                  </NewModalContent>
-                  <NewModalContent>
-                    <input type="text" placeholder="Carga Horária" />
-                  </NewModalContent>
-                </NewModalUnityOptionsContainer>
-              </span>
-            </NewModalOptionsContent>
-          </NewModalOptionsContainer>
-          <button type="submit">Criar</button>
-        </NewModalContainer>
-        <Dialog.Description />
+          <InputContentScroll>
+            {input.map((v) => {
+              return (
+                <ContainerInputStar>
+                  <ContentSelect>
+                    <label>Unidade Curricular</label>
+                    <select>
+                      <option>Selecione uma Unidade Curricular</option>
+                      <option>Projetos 160h</option>
+                    </select>
+                  </ContentSelect>
+                  <ContentSelectHours>
+                    <label>Horas</label>
+                    <input type="text" placeholder="Digite as horas" />
+                  </ContentSelectHours>
+                </ContainerInputStar>
+              );
+            })}
+          </InputContentScroll>
+          <ContainerNewCompt
+            onClick={(e) => {
+              setInput([...input, 1]);
+            }}
+          >
+            <NewCompt>
+              <div>
+                <Plus size={32} />
+                <br />
+                <span>Adicionar Unidade Curricular</span>
+              </div>
+            </NewCompt>
+          </ContainerNewCompt>
+        </InputContainer>
+        <ContainerButtonCreate>
+          <button>Criar</button>
+        </ContainerButtonCreate>
       </Content>
     </Dialog.Portal>
   );

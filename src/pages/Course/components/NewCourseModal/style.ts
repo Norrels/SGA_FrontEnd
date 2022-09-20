@@ -18,13 +18,17 @@ export const Content = styled(Dialog.Content)`
   left: 50%;
 
   border-radius: 6px;
-  padding: 2.5rem 3rem;
+
+  padding: 3.75rem 5.688rem;
   background: ${(props) => props.theme["white"]};
 
+  width: 750px;
   transform: translate(-50%, -50%);
 
   h2 {
-    color: ${(props) => props.theme["blue-600"]};
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: ${(props) => props.theme["blue-500"]};
   }
 `;
 export const CloseButton = styled(Dialog.Close)`
@@ -36,110 +40,249 @@ export const CloseButton = styled(Dialog.Close)`
   line-height: 0;
   cursor: pointer;
   color: ${(props) => props.theme["black"]};
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
 `;
 
-export const NewModalContainer = styled.form`
-  margin-top: 3rem;
+export const InputContainer = styled.div`
+  margin-top: 50px;
+`;
 
-  button {
-    width: 100%;
-    height: 3rem;
-    margin-top: 2rem;
+export const InputContentScroll = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  margin-top: 40px;
+
+  height: 200px;
+  overflow-y: scroll;
+
+  select,
+  input:not([type="checkbox"]) {
+    /* width: 37.5rem; */
+    height: 5.313rem;
+    padding-left: 1.25rem;
 
     border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    background: ${(props) => props.theme["blue-500"]};
 
-    font-weight: 700;
-    color: ${(props) => props.theme["white"]};
-  }
-
-  sup {
-    font-style: italic;
-  }
-`;
-
-export const NewModalOptionsContainer = styled.section`
-  display: flex;
-  flex-direction: row;
-  gap: 3rem;
-  margin-bottom: 1rem;
-`;
-
-export const NewModalOptionsContent = styled.div`
-  display: grid;
-  width: 100%;
-  gap: 2rem;
-
-  span {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    p {
-      font-size: 1rem;
-      font-weight: 700;
-      color: ${(props) => props.theme["gray-700"]};
-    }
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
   }
 
   select,
   input {
-    height: 3rem;
-    padding-left: 0.8rem;
+    height: 5.313rem;
+    padding-left: 1.25rem;
 
     border: none;
-    border-radius: 8px;
     box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 
-    font-weight: 600;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["sub-title"]};
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+`;
+
+export const InputContent = styled.div`
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  select,
+  input:not([type="checkbox"]) {
+    /* width: 37.5rem; */
+    height: 5.313rem;
+    padding-left: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  select,
+  input {
+    height: 5.313rem;
+    padding-left: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["sub-title"]};
+  }
+`;
+
+export const ContentSelect = styled.div`
+  width: 60%;
+
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;
+
+export const ContainerInputStar = styled.div`
+  display: flex !important;
+`;
+
+export const InputContentDupo = styled.div`
+  display: flex;
+
+  div {
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+
+    // padding: 10px;
+
+    gap: 1rem;
+  }
+
+  div label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["sub-title"]};
+  }
+
+  justify-content: space-around;
+
+  input:not([type="file"]) {
+    height: 5.313rem;
+    padding-left: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input:not([type="text"]) {
+    width: 100%;
+    height: 5.313rem;
+    padding-left: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+  select,
+  input {
+    height: 5.313rem;
+    padding-left: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
   }
 `;
 
-export const NewModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
+export const ContainerNewCompt = styled.div`
+  width: 100%;
 
-  justify-content: space-around;
+  margin-top: 30px;
 `;
 
-export const NewModalDivider = styled.span`
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: ${(props) => props.theme["gray-700"]};
-
+export const NewCompt = styled.div`
+  border: 1px dashed black;
+  text-align: center;
   display: flex;
   justify-content: center;
-`;
 
-export const NewModalTypeContainerButton  = styled.div`
+  height: 75px;
+  padding: 5px;
 
-`;
+  cursor: pointer;
 
-const BUTTONS = {
-    edit: "blue-200",
-    delete: "blue-400",
-  } as const;
-  
-  interface ButtonProps {
-    buttonColor: keyof typeof BUTTONS;
+  div {
+    cursor: pointer;
   }
+`;
 
-export const TypeCourseButton = styled.button<ButtonProps>`
+export const ContainerButtonCreate = styled.div`
+  margin-top: 30px;
+
+  button {
+    width: 100%;
+    height: 3.75rem;
+
     border: none;
     border-radius: 8px;
-    padding: 0.2rem;
-  
-    background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: ${(props) => props.theme["blue-500"]};
+
+    color: ${(props) => props.theme["white"]};
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
 `;
 
-export const NewModalUnityOptionsContainer = styled.div`
-    display: grid;
-    width: 100%;
-    grid-template-columns: 70% 30%;
-`
+export const ContentSelectHours = styled.div`
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: baseline;
+
+  input {
+    width: 200px;
+  }
+
+  margin-left: 20px;
+`;
