@@ -35,6 +35,7 @@ import * as HoverCard from "@radix-ui/react-hover-card";
 import { SubtitlteHover } from "./components/SubtitleHover";
 import * as Checkbox from "@radix-ui/react-checkbox";
 
+
 export function Home() {
   return (
     <HomeContainer>
