@@ -31,7 +31,6 @@ export function EditPlaceModal({
   complemento,
   click,
 }: Place) {
-
   const [disabled, setDisabled] = useState(click);
 
   return (
@@ -48,7 +47,7 @@ export function EditPlaceModal({
           <></>
         )}
         <CloseButton>
-          <X />
+          <X onClick={() => setDisabled(true)} />
         </CloseButton>
 
         <Dialog.Title>Editar Ambiente</Dialog.Title>
@@ -143,7 +142,11 @@ export function EditPlaceModal({
                 </div>
                 <div>
                   <label>CEP</label>
-                  <input defaultValue={cep} type="text" placeholder="Digite o cep" />
+                  <input
+                    defaultValue={cep}
+                    type="text"
+                    placeholder="Digite o cep"
+                  />
                 </div>
               </>
             )}

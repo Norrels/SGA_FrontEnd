@@ -17,15 +17,14 @@ export const PlacesItemContainer = styled.article`
 
 export const PlacesItemIcon = styled.span`
   width: 3.125rem;
-  height:3.125rem;
+  height: 3.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
 
   background: ${(props) => props.theme["white-300"]};
-`
-
+`;
 
 export const PlacesItemInfoContainer = styled.div`
   display: flex;
@@ -55,13 +54,13 @@ export const PlacesItemButtonContainer = styled.div`
 `;
 
 export const PlacesItemButton = styled.button<ButtonProps>`
-border: none;
-border-radius: 8px;
-padding: 0.2rem;
+  border: none;
+  border-radius: 8px;
+  padding: 0.2rem;
 
-background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
 
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

@@ -138,6 +138,16 @@ export const InputContent = styled.div`
   flex-direction: column;
   gap: 1rem;
 
+  input:disabled{
+    background-color: #D9D9D9;
+    color: rgba(109, 109, 109, 0.5)
+  }
+
+  select:disabled{
+    background-color: #D9D9D9;
+    color: rgba(109, 109, 109, 0.5)
+  }
+
   select,
   input:not([type="checkbox"]) {
     /* width: 37.5rem; */
@@ -189,6 +199,11 @@ export const ContainerInputStar = styled.div`
 
 export const InputContentDupo = styled.div`
   display: flex;
+
+  input:disabled{
+    background-color: #D9D9D9;
+    color: rgba(109, 109, 109, 0.5)
+  }
 
   div {
     margin-top: 30px;
