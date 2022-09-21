@@ -236,7 +236,16 @@ export const HomeCalenderHeaderDays = styled.div`
   gap: 1.25rem;
 `;
 
-export const HomeCalenderDay = styled.span`
+const DAY = {
+  today: "today",
+  notToday: 'notToday'
+} as const;
+
+interface DayProps {
+  days: keyof typeof DAY;
+}
+
+export const HomeCalenderDay = styled.span<DayProps>`
   height: 6rem;
   background: ${(props) => props.theme["white-400"]};
 
@@ -248,7 +257,13 @@ export const HomeCalenderDay = styled.span`
   gap: 0.563rem;
 
   strong {
-    background: linear-gradient(180deg, #25b5e9 45.83%, #367fbf 100%);
+    background: ${(props) => {
+      if (DAY[props.days] == "today") {
+        return "#0031B0";
+      } else if (DAY[props.days] == "notToday") {
+        return "linear-gradient(180deg, #25B5E9 45.83%, #367FBF 100%);";
+      }
+    }};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -258,10 +273,12 @@ export const HomeCalenderDay = styled.span`
   }
 
   p {
+    text-transform: capitalize; 
     font-weight: 700;
     font-size: 0.75rem;
   }
 `;
+
 
 export const HomeCalenderContent = styled.main`
   display: flex;
