@@ -272,17 +272,3 @@ export const ContainerButtonCreate = styled.div`
     font-weight: bold;
   }
 `;
-
-export const ContentSelectHours = styled.div`
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: baseline;
-
-  input {
-    width: 200px;
-  }
-
-  margin-left: 20px;
-`;

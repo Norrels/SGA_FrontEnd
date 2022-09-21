@@ -47,6 +47,22 @@ export const CloseButton = styled(Dialog.Close)`
   }
 `;
 
+export const NoteButton = styled.div`
+ position: absolute;
+  background: transparent;
+  border: 0;
+  top: 2.5rem;
+  right: 6rem;
+  line-height: 0;
+  cursor: pointer;
+  color: ${(props) => props.theme["black"]};
+
+  svg {
+    width: 40px;
+    height: 40px;
+  }
+`;
+
 export const InputContainer = styled.div`
   margin-top: 50px;
 `;
@@ -271,18 +287,4 @@ export const ContainerButtonCreate = styled.div`
     font-size: 1.125rem;
     font-weight: bold;
   }
-`;
-
-export const ContentSelectHours = styled.div`
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: end;
-  align-items: baseline;
-
-  input {
-    width: 200px;
-  }
-
-  margin-left: 20px;
 `;

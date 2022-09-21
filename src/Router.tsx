@@ -1,11 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
-import {DefaultLayoutSup}  from "./layout/DefaultLayoutSup";
+import { DefaultLayoutSup } from "./layout/DefaultLayoutSup";
 import { Admin } from "./pages/Admin";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";
 import { Dashboard } from "./pages/Dashboard";
+import { Holiday } from "./pages/Holiday/Index";
 import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Places } from "./pages/Places";
@@ -23,6 +24,7 @@ export function Router() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
         <Route path="/busca-avancada" element={<AdvancedSearch />} />
+        <Route path="/dias-nao-letivos" element={<Holiday />} />
       </Route>
 
       <Route path="/" element={<DefaultLayoutSup />}>
