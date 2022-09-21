@@ -140,21 +140,26 @@ export function EditCourseModal({
                   </>
                 ))
               ) : (
-                <>
-                  <ContainerInputStar>
-                    <ContentSelect>
-                      <label>Unidade Curricular</label>
-                      <select>
-                        <option>Selecione uma Unidade Curricular</option>
-                        <option>Projetos 160h</option>
-                      </select>
-                    </ContentSelect>
-                    <ContentSelectHours>
-                      <label>Horas</label>
-                      <input type="text" placeholder="Digite as horas" />
-                    </ContentSelectHours>
-                  </ContainerInputStar>
-                </>
+                unidadeCurricular?.map((value) => (
+                  <>
+                    <ContainerInputStar>
+                      <ContentSelect>
+                        <label>Unidade Curricular</label>
+                        <select>
+                          <option>{value.UnidadeCurricular}</option>
+                        </select>
+                      </ContentSelect>
+                      <ContentSelectHours>
+                        <label>Horas</label>
+                        <input
+                          type="text"
+                          placeholder="Digite as horas"
+                          defaultValue={value.Horas}
+                        />
+                      </ContentSelectHours>
+                    </ContainerInputStar>
+                  </>
+                ))
               )}
             </InputContentScroll>
           </InputContent>
