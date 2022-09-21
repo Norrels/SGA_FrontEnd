@@ -31,7 +31,7 @@ export function EditPlaceModal({
   complemento,
   click,
 }: Place) {
-    
+
   const [disabled, setDisabled] = useState(click);
 
   return (
@@ -70,7 +70,7 @@ export function EditPlaceModal({
                 <label>Nome</label>
                 <input
                   type="text"
-                  value={name}
+                  defaultValue={name}
                   placeholder="Digite o nome do ambiente"
                 />
               </>
@@ -136,14 +136,14 @@ export function EditPlaceModal({
                 <div>
                   <label>Capacidade</label>
                   <input
-                    value={capacidade}
+                    defaultValue={capacidade}
                     type="text"
                     placeholder="Digite o nome do ambiente"
                   />
                 </div>
                 <div>
                   <label>CEP</label>
-                  <input value={cep} type="text" placeholder="Digite o cep" />
+                  <input defaultValue={cep} type="text" placeholder="Digite o cep" />
                 </div>
               </>
             )}
@@ -164,7 +164,7 @@ export function EditPlaceModal({
               <>
                 <label>Complemento</label>
                 <input
-                  value={complemento}
+                  defaultValue={complemento}
                   type="text"
                   placeholder="Digite o complemento"
                 />

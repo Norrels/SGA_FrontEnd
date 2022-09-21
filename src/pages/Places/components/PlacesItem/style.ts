@@ -55,13 +55,13 @@ export const PlacesItemButtonContainer = styled.div`
 `;
 
 export const PlacesItemButton = styled.button<ButtonProps>`
-  border: none;
-  border-radius: 8px;
-  padding: 0.2rem;
+border: none;
+border-radius: 8px;
+padding: 0.2rem;
 
-  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 `;
