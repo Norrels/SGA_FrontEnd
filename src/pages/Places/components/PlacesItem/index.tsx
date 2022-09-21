@@ -1,29 +1,69 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
-import { PlacesItemButton, PlacesItemButtonContainer, PlacesItemContainer, PlacesItemIcon, PlacesItemInfoContainer, PlacesItemInfoContent } from "./style";
+import React from "react";
+import { EditPlaceModal } from "../EditPlaceModal";
+import {
+  PlacesItemButton,
+  PlacesItemButtonContainer,
+  PlacesItemContainer,
+  PlacesItemIcon,
+  PlacesItemInfoContainer,
+  PlacesItemInfoContent,
+} from "./style";
 
-export function PlacesItem() {
+interface Place {
+  id: number;
+  name?: string;
+  capacidade?: number;
+  tipoAmbiente?: string;
+  cep?: string;
+  complemento?: string;
+}
+[];
+
+export function Place({
+  id,
+  name,
+  capacidade,
+  tipoAmbiente,
+  cep,
+  complemento,
+}: Place) {
   return (
     <PlacesItemContainer>
       <PlacesItemInfoContainer>
         <PlacesItemIcon>
-          <ChalkboardTeacher size={30}/>
+          <ChalkboardTeacher size={30} />
         </PlacesItemIcon>
-        
+
         <PlacesItemInfoContent>
-          <h3>Lab - 12</h3>
-          <p>Capacidade: 20h</p>
+          <h3>{name}</h3>
+          <p>Capacidade: {capacidade}</p>
         </PlacesItemInfoContent>
       </PlacesItemInfoContainer>
 
       <PlacesItemButtonContainer>
-        <PlacesItemButton buttonColor="edit">
-          <DotsThree color="#000" size={25} />
-        </PlacesItemButton>
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <PlacesItemButton id={id + ""} buttonColor="edit">
+              <DotsThree color="#000" size={25} />
+            </PlacesItemButton>
+          </Dialog.Trigger>
+          <EditPlaceModal
+            id={id}
+            name={name}
+            capacidade={capacidade}
+            tipoAmbiente={tipoAmbiente}
+            cep={cep}
+            complemento={complemento}
+            click={true}
+          />
+        </Dialog.Root>
 
-        <PlacesItemButton buttonColor="delete">
+        <PlacesItemButton id={id + ""} buttonColor="delete">
           <Trash color="#fff" size={25} />
         </PlacesItemButton>
       </PlacesItemButtonContainer>
     </PlacesItemContainer>
-  )
+  );
 }
