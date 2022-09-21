@@ -44,9 +44,9 @@ export function Place({
 
       <PlacesItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger>
+          <Dialog.Trigger style={{border : "none"}}>
             <PlacesItemButton id={id + ""} buttonColor="edit">
-              <DotsThree color="#000" size={25} />
+              <DotsThree size={25} />
             </PlacesItemButton>
           </Dialog.Trigger>
           <EditPlaceModal

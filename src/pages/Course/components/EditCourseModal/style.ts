@@ -48,7 +48,7 @@ export const CloseButton = styled(Dialog.Close)`
 `;
 
 export const NoteButton = styled.div`
- position: absolute;
+  position: absolute;
   background: transparent;
   border: 0;
   top: 2.5rem;
@@ -138,14 +138,14 @@ export const InputContent = styled.div`
   flex-direction: column;
   gap: 1rem;
 
-  input:disabled{
-    background-color: #D9D9D9;
-    color: rgba(109, 109, 109, 0.5)
+  input:disabled {
+    background-color: #d9d9d9;
+    color: rgba(109, 109, 109, 0.5);
   }
 
-  select:disabled{
-    background-color: #D9D9D9;
-    color: rgba(109, 109, 109, 0.5)
+  select:disabled {
+    background-color: #d9d9d9;
+    color: rgba(109, 109, 109, 0.5);
   }
 
   select,
@@ -200,9 +200,9 @@ export const ContainerInputStar = styled.div`
 export const InputContentDupo = styled.div`
   display: flex;
 
-  input:disabled{
-    background-color: #D9D9D9;
-    color: rgba(109, 109, 109, 0.5)
+  input:disabled {
+    background-color: #d9d9d9;
+    color: rgba(109, 109, 109, 0.5);
   }
 
   div {

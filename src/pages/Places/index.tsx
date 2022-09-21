@@ -65,6 +65,7 @@ export function Places() {
         <PlacesList>
           {places.map((value) => (
             <Place
+              key={value.id}
               id={value.id}
               name={value.name}
               capacidade={value.capacidade}

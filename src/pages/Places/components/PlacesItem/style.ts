@@ -17,15 +17,14 @@ export const PlacesItemContainer = styled.article`
 
 export const PlacesItemIcon = styled.span`
   width: 3.125rem;
-  height:3.125rem;
+  height: 3.125rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
 
   background: ${(props) => props.theme["white-300"]};
-`
-
+`;
 
 export const PlacesItemInfoContainer = styled.div`
   display: flex;
