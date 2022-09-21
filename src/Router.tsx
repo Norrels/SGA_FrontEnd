@@ -23,9 +23,11 @@ export function Router() {
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
-        <Route path="/busca-avancada" element={<AdvancedSearch />} />
+       
         <Route path="/dias-nao-letivos" element={<Holiday />} />
       </Route>
+
+      <Route path="/busca-avancada" element={<AdvancedSearch />} />
 
       <Route path="/" element={<DefaultLayoutSup />}>
         <Route path="/chamadas" element={<Call />} />

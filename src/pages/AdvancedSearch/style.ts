@@ -1,64 +1,173 @@
 import styled from "styled-components";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Accordion from '@radix-ui/react-accordion';
 
-export const SearchContainer = styled.main`
+export const HeaderContainer = styled.header`
   width: 100%;
+  margin-top: 2rem;
+
   display: flex;
   justify-content: center;
 `;
 
-export const SearchContent = styled.div`
+export const HeaderContent = styled.div`
+  max-width: 1120px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const HeaderNavBar = styled.nav`
+  width: 80%;
+
+  display: flex;
+  justify-content: space-evenly;
+
+  a {
+    color: ${(props) => props.theme["black"]};
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+
+    &.active {
+      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`;
+
+export const HeaderUser = styled.span`
+  color: ${(props) => props.theme["black"]};
+  font-weight: bold;
+  font-size: 1.25rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  button {
+    border: none;
+
+    display: flex;
+    align-items: center;
+  }
+`;
+
+export const HeaderNavMenu = styled.span`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+
+  svg {
+    cursor: pointer;
+  }
+
+  :has(a.active) {
+    svg {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`;
+
+export const HeaderNavMenuArrow = styled.span`
+  width: 100%;
+  margin-top: -1.4rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    color: ${(props) => props.theme["white"]} !important;
+  }
+`;
+
+export const HeaderNavMenuContent = styled(DropdownMenu.Content)`
+  background: ${(props) => props.theme["white"]};
+  padding: 0.2rem 0.6rem 0.6rem 0.6rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+
+  a {
+    &.active {
+      border-bottom: unset;
+      color: unset;
+    }
+  }
+`;
+
+export const HeaderNavMenuItem = styled(DropdownMenu.Item)`
+  width: 100%;
+
+  display: flex;
+  border-radius: 4px;
+
+  cursor: pointer;
+  transition: color, background-color 0.1s;
+
+  &:hover {
+    background: ${(props) => props.theme["blue-500"]};
+  }
+
+  a {
+    width: 100%;
+    max-width: 100%;
+    padding: 4px;
+
+    transition: color, background-color 0.1s;
+
+    &:hover {
+      color: ${(props) => props.theme["white"]};
+    }
+  }
+`;
+
+export const AdvancedContainer = styled.main`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+`;
+
+export const AdvancedContent = styled.div`
   max-width: 1120px;
   width: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
 
-  input {
-    height: 3.75rem;
-    margin-top: 4.313rem;
-    padding-left: 1.813rem;
+export const AdvancedSearchInput = styled.input`
+  height: 3.75rem;
+  margin-top: 4.313rem;
+  padding-left: 1.813rem;
 
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
 
-    color: ${(props) => props.theme["black"]};
-    font-weight: 700;
-    font-size: 1rem;
+  color: ${(props) => props.theme["black"]};
+  font-weight: 700;
+  font-size: 1rem;
 
-    &:placeholder {
-      font-weight: 500;
-      color: ${(props) => props.theme["sub-title"]};
-    }
+  &:placeholder {
+    font-weight: 500;
+    color: ${(props) => props.theme["sub-title"]};
   }
 `;
 
-export const SearchButtonContainer = styled.div`
+export const AdvancedTitleContainer = styled.section`
   margin-top: 2rem;
+
   display: flex;
   justify-content: center;
-  gap: 2rem;
-
-  button {
-    width: 12.75rem;
-    height: 3.75rem;
-
-    border-radius: 8px;
-    border: none;
-    background-color: ${(props) => props.theme["blue-500"]};
-
-    color: ${(props) => props.theme["white"]};
-    font-size: 1.125rem;
-    font-weight: bold;
-  }
-`;
-export const SearchTitleContainer = styled.div`
-  margin-top: 2rem;
-
-  justify-content: center;
-  text-align: center;
   align-items: center;
   flex-direction: column;
 
@@ -72,64 +181,88 @@ export const SearchTitleContainer = styled.div`
 
   p {
     font-size: 1.125rem;
-
     font-weight: 800;
     color: ${(props) => props.theme["sub-title"]};
   }
 `;
 
-export const SearchList = styled.section`
+export const AdvancedButtonContainer = styled.div`
   margin-top: 2rem;
-  margin-bottom: 3rem;
-`;
 
-export const SearchContainerInput = styled.div`
-  width: 100%;
-
-  input {
-    width: 80%;
-    margin-right: 20px;
-  }
+  display: flex;
+  gap: 2rem;
 
   button {
-    color: #0031b0;
-    border: 2px solid #0031b0;
-    background-color: none;
+    width: 12.75rem;
+    height: 3.75rem;
+
+    border: none;
     border-radius: 8px;
-    width: 108px;
-    height: 57px;
+    background-color: ${(props) => props.theme["blue-500"]};
+
+    color: ${(props) => props.theme["white"]};
+    font-size: 1.125rem;
+    font-weight: bold;
   }
 `;
 
-export const SearchDupoContainer = styled.div`
-  position: absolute;
-
-  left: 50px;
-  top: 380px;
-
-  width: 1800px !important;
+export const AdvancedTableContent = styled.main`
   display: flex;
+  margin: 3rem 0rem;
 
-  grid-template-columns: 20% 80%;
-`;
+  gap: 2.625rem;
+  height: 46.875rem;
 
-export const SearchFilterContainer = styled.div`
-  width: 250px !important;
-`;
+  aside {
+    width: 25%;
+    border-radius: 8px;
+    padding: 1.875rem 1.25rem;
+    background-color: ${(props) => props.theme["white"]};
+  }
 
-export const SearchFilterContent = styled.div`
-  background-color: #fff;
-  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-`;
+  table {
+    width: 75%;
+    border-collapse: collapse;
+    overflow: hidden;
+  }
 
-export const SearchFilterTitle = styled.div`
-  display: flex;
-  align-items: center;
+  thead th {
+    padding: 10px;
+    color: ${(props) => props.theme["white"]};
 
-  svg {
-    color: #0031b0;
+    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+  }
+
+  tr {
+    background: ${(props) => props.theme["white"]};
+
+    :nth-child(2n) {
+      background: ${(props) => props.theme["white-200"]};
+
+    }
+  }
+
+  td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+
+    font-weight: 500;
   }
 `;
 
-export const SearchListContainer = styled.div``;
+export const AdvancedFilterItens = styled.article`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const AdvancedContentTitle = styled(Accordion.Header)`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const AdvancedFilterContent = styled(Accordion.Root)`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`
