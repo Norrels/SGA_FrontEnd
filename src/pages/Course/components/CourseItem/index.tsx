@@ -50,11 +50,13 @@ export function CourseItem({ id, name, tipoCurso, cargaHoraria, unidadeCurricula
 
       <CourseItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger>
+          <Dialog.Trigger style={{border : "none"}}>
             <CourseItemButton buttonColor="edit">
               <DotsThree color="#000" size={25} />
             </CourseItemButton>
-            <EditCourseModal
+            
+          </Dialog.Trigger>
+          <EditCourseModal
               id={id}
               name={name}
               tipoCurso={tipoCurso}
@@ -62,7 +64,6 @@ export function CourseItem({ id, name, tipoCurso, cargaHoraria, unidadeCurricula
               unidadeCurricular={unidadeCurricular}
               click={true}
             />
-          </Dialog.Trigger>
         </Dialog.Root>
 
         <CourseItemButton buttonColor="delete">

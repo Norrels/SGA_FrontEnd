@@ -13,6 +13,8 @@ export const Overlay = styled(Dialog.Overlay)`
 
 export const Content = styled(Dialog.Content)`
   //Hackerzinho para centralizar
+  z-index: 1000;
+
   position: fixed;
   top: 50%;
   left: 50%;
