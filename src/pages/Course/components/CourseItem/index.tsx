@@ -1,5 +1,7 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
 import React from "react";
+import { EditCourseModal } from "../EditCourseModal";
 import {
   CourseDescription,
   CourseInfoType,
@@ -10,7 +12,20 @@ import {
   CourseItemInfoContent,
 } from "./style";
 
-export function CourseItem() {
+interface UnidadeCurricular {
+  UnidadeCurricular: string,
+  Horas: number
+}[]
+
+interface Course {
+  id?: number;
+  name?: string;
+  tipoCurso?: string;
+  cargaHoraria?: string;
+  unidadeCurricular?: UnidadeCurricular[];
+}
+
+export function CourseItem({ id, name, tipoCurso, cargaHoraria, unidadeCurricular }: Course) {
   return (
     <CourseItemContainer>
       <CourseItemInfoContent>
@@ -20,24 +35,36 @@ export function CourseItem() {
 
         <CourseDescription>
           <CourseItemInfoContent>
-            <h3>Photoshop</h3>
+            <h3>{name}</h3>
             <CourseInfoType>
-              <p>FIC</p>
+              <p>{tipoCurso}</p>
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>
             <p>
-              Carga horária: <span>40h</span>
+              Carga horária: <span>{cargaHoraria}</span>
             </p>
           </CourseItemInfoContent>
         </CourseDescription>
       </CourseItemInfoContent>
 
       <CourseItemButtonContainer>
-        <CourseItemButton buttonColor="edit">
-          <DotsThree color="#000" size={25} />
-        </CourseItemButton>
-        
+        <Dialog.Root>
+          <Dialog.Trigger>
+            <CourseItemButton buttonColor="edit">
+              <DotsThree color="#000" size={25} />
+            </CourseItemButton>
+            <EditCourseModal
+              id={id}
+              name={name}
+              tipoCurso={tipoCurso}
+              cargaHoraria={cargaHoraria}
+              unidadeCurricular={unidadeCurricular}
+              click={true}
+            />
+          </Dialog.Trigger>
+        </Dialog.Root>
+
         <CourseItemButton buttonColor="delete">
           <Trash color="#fff" size={25} />
         </CourseItemButton>
