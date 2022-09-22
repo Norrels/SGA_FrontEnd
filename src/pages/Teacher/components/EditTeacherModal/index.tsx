@@ -46,17 +46,28 @@ interface curso {
   tipoCurso?: string;
 }
 
+export interface IInput {
+  id?: number;
+  nome?: string;
+  horas?: number;
+  unidade?: string;
+}
+
 export function EditTeacherModal({
   id,
   nome,
   cargaSemanal,
   ausencia,
   url,
-  listaCompetencia,
+  listaCompetencia
 }: Teacher) {
-
-  const [input, setInput] = useState([0]);
+  const [input, setInput] = useState<IInput[]>([]);
   const [disabled, setDisabled] = useState(true);
+
+  function onExit() {
+    setInput([]);
+    setDisabled(true);
+  }
 
   return (
     <Dialog.Portal>
@@ -72,7 +83,7 @@ export function EditTeacherModal({
           <></>
         )}
         <CloseButton>
-          <X onClick={() => setInput([...input, 0])} size={24} />
+          <X onClick={() => onExit()} size={24} />
         </CloseButton>
 
         <Dialog.Title>Novo Professor</Dialog.Title>
@@ -133,7 +144,6 @@ export function EditTeacherModal({
                 <div>
                   <label>Foto</label>
                   <input
-                    defaultValue={url}
                     type="file"
                     id="file"
                     accept="image/*"
@@ -147,7 +157,7 @@ export function EditTeacherModal({
             {disabled
               ? listaCompetencia?.map((v) => (
                   <>
-                    <ContainerInputStar>
+                    <ContainerInputStar key={v.id}>
                       <ContentSelect>
                         <label>Competência</label>
                         <select disabled>
@@ -162,21 +172,37 @@ export function EditTeacherModal({
                     </ContainerInputStar>
                   </>
                 ))
-              : input?.map((v) => (
+              : listaCompetencia?.map((v) => (
                   <>
-                    <ContainerInputStar>
-                      <ContentSelect>
-                        <label>{v}</label>
-                        <select>
-                          <option></option>
-                          <option>Java</option>
-                        </select>
-                      </ContentSelect>
-                      {/* <Rating
-                        edit_={true}
-                        nivelHabilidade={Number(v.nivelHabilidade)}
-                      /> */}
-                    </ContainerInputStar>
+                    <>
+                      <ContainerInputStar key={v.id}>
+                        <ContentSelect>
+                          <label>Competência</label>
+                          <select>
+                            <option>{v.unidadeCurricular?.nome}</option>
+                            <option>Java</option>
+                          </select>
+                        </ContentSelect>
+                        <Rating
+                          edit_={true}
+                          nivelHabilidade={Number(v.nivelHabilidade)}
+                        />
+                      </ContainerInputStar>
+                    </>
+                    <>
+                      {input.map((v) => (
+                        <ContainerInputStar>
+                          <ContentSelect>
+                            <label>{v.nome}</label>
+                            <select>
+                              <option>{v.unidade}</option>
+                              <option>Java</option>
+                            </select>
+                          </ContentSelect>
+                          <Rating edit_={true} nivelHabilidade={0} />
+                        </ContainerInputStar>
+                      ))}
+                    </>
                   </>
                 ))}
           </InputContentScroll>
@@ -185,7 +211,15 @@ export function EditTeacherModal({
           ) : (
             <ContainerNewCompt
               onClick={(e) => {
-                setInput([...input, 1]);
+                setInput([
+                  ...input,
+                  {
+                    id: 0,
+                    nome: "Competência",
+                    unidade: "Selecione uma unidade curricular",
+                    horas: 0,
+                  },
+                ]);
               }}
             >
               <NewCompt>
