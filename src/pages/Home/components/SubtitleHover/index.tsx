@@ -1,10 +1,12 @@
 import * as HoverCard from "@radix-ui/react-hover-card";
-import { HoverCardContainer, HoverCardSubtitleColor } from "./style";
+import { CaretUp } from "phosphor-react";
+import { CaretUpContainer, HoverCardContainer, HoverCardSubtitleColor } from "./style";
 
 export function SubtitlteHover() {
   return (
     <HoverCard.Portal>
       <HoverCardContainer>
+        <CaretUpContainer><CaretUp color="#fff" size="30" weight="fill"/></CaretUpContainer>
         <h4>Legendas</h4>
         <hr />
         <p>

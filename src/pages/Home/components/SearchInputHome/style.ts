@@ -1,12 +1,10 @@
 import styled from "styled-components";
-import * as Checkbox from '@radix-ui/react-checkbox';
-
+import * as Checkbox from "@radix-ui/react-checkbox";
 
 export const HomeSearchInputContainer = styled.section`
   margin-top: 5.188rem;
   margin-bottom: 3.188rem;
 `;
-
 
 export const HomeTextContentSearchInput = styled.h3`
   padding: 5px;
@@ -62,16 +60,15 @@ export const HomeSelectFilterOptionSearch = styled.div`
 `;
 
 const COLORS = {
-    1: "black",
-    2: "blue-300",
-    3: "blue-400",
-    4: "blue-500",
-  } as const;
-  
-  interface ColorsProps {
-    colorsColor: keyof typeof COLORS;
-  }
-  
+  1: "black",
+  2: "blue-300",
+  3: "blue-400",
+  4: "blue-500",
+} as const;
+
+interface ColorsProps {
+  colorsColor: keyof typeof COLORS;
+}
 
 export const InputCheckbox = styled.div<ColorsProps>`
   display: flex;
@@ -96,22 +93,49 @@ export const InputCheckbox = styled.div<ColorsProps>`
   }
 `;
 
-
 export const HomeUpContentSearchInput = styled.div`
   margin-bottom: 10px;
   display: flex;
+
+  button {
+    border: none;
+  }
 `;
 
 export const HomeCheckBox = styled(Checkbox.Root)`
-background-color: ${(props) => props.theme["white"]};
-width: 1.75rem;
-height: 1.75rem;
-border: none;
-border-radius: 8px;
-`
+  background-color: ${(props) => props.theme["white"]};
+  width: 1.75rem;
+  height: 1.75rem;
+  border: none;
+`;
 
 export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
-display: flex;
-align-items: center;
-justify-content: center;
-`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const HomeCalenderBox = styled.div`
+  position: relative;
+  width: 2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    position: absolute;
+    left: -10;
+    top: -0;
+  }
+
+  input {
+    opacity: 0;
+    width: 1rem;
+    height: 2rem;
+    position: absolute;
+    right: 9;
+    top: -0;
+    cursor: pointer;
+  }
+`;

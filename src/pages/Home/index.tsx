@@ -9,10 +9,37 @@ import {
   HomeContent,
   HomeTitleContainer,
 } from "./style";
+import { addDays, eachDayOfInterval, nextDay, previousDay, startOfWeek } from "date-fns";
+import { useState } from "react";
 
 
 export function Home() {
- 
+  const today = new Date();
+  //Dia de referencia
+  const [referenceDay, setReferenceDay] = useState(today);
+
+  const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
+
+  const daysWeek = eachDayOfInterval({
+    start: semana,
+    end: addDays(semana, 6),
+  });
+
+  function nextDayWeek() {
+    const nextWeek = startOfWeek(nextDay(semana, 0));
+    setReferenceDay(nextWeek);
+  }
+
+  function previousDayWeek() {
+    const previousWeekDay = startOfWeek(previousDay(semana, 0));
+    setReferenceDay(previousWeekDay);
+  }
+
+  function choicedDay(Data : Date) {
+    const dayChoiced = startOfWeek(new Date(Data))
+    setReferenceDay(dayChoiced)
+  }
+
   return (
     <HomeContainer>
       <HomeContent>
@@ -47,9 +74,9 @@ export function Home() {
           </HomeButtonContainer>
         </HomeTitleContainer>
 
-     
-        <HomeSearchInput/>
-        <Calender/>
+
+        <HomeSearchInput referenceDay={referenceDay} previousDayWeek={previousDayWeek} choiceDayWeek={choicedDay} nextDayWeek={nextDayWeek}/>
+        <Calender today={today} days={daysWeek} />
       </HomeContent>
     </HomeContainer>
   );

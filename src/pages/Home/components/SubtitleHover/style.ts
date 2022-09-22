@@ -8,6 +8,10 @@ export const HoverCardContainer = styled(HoverCard.Content)`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  position: relative;
+  margin-top: 1rem;
+
+  
 
   h4 {
     width: 100%;
@@ -28,6 +32,18 @@ export const HoverCardContainer = styled(HoverCard.Content)`
   }
 
 `;
+
+export const CaretUpContainer = styled.span`
+
+    position: absolute;
+    top: -1rem;
+    width: 100%;  
+    left: 0rem;
+    display: flex;
+    justify-content:center;
+
+  
+`
 
 const PERIOD = {
     morning: "blue-400",

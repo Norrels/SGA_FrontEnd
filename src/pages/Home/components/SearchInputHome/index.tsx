@@ -1,6 +1,7 @@
 import { ArrowLeft, ArrowRight, Calendar, Check, Info } from "phosphor-react";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import {
+  HomeCalenderBox,
   HomeCheckBox,
   HomeCheckBoxIndicator,
   HomeDownContentSearchInput,
@@ -13,73 +14,121 @@ import {
   InputCheckbox,
 } from "./style";
 import { SubtitlteHover } from "../SubtitleHover";
+import { ChangeEvent } from "react";
+import { endOfWeek, format, startOfWeek } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import { endOfDay } from "date-fns/esm";
 
-export function HomeSearchInput() {
+interface SearchInputProps {
+  previousDayWeek: () => void;
+  nextDayWeek: () => void;
+  choiceDayWeek: (data: Date) => void;
+  referenceDay: Date;
+}
+
+export function HomeSearchInput({ previousDayWeek, nextDayWeek, choiceDayWeek, referenceDay }: SearchInputProps) {
+  const firstWeekDay = startOfWeek(referenceDay)
+  const lastWeekDay = endOfWeek(referenceDay)
+
+  function handlePreviousDay() {
+    previousDayWeek()
+  }
+
+  function handleNextWeekDay() {
+    nextDayWeek()
+  }
+
+  function handleChoiceDay(event: ChangeEvent<HTMLInputElement>) {
+    const dayChoiced = startOfWeek(new Date(event.target.value))
+    choiceDayWeek(dayChoiced)
+  }
+
   return (
     <HomeSearchInputContainer>
-        <HomeUpContentSearchInput>
+
+      <HomeUpContentSearchInput>
+        <button onClick={handlePreviousDay}>
           <ArrowLeft size={32} />
-          <HomeTextContentSearchInput>
-            Agosto 01 - Setembro 02
-          </HomeTextContentSearchInput>
+        </button>
+
+        <HomeTextContentSearchInput>
+          {format(referenceDay, "LLLL", {
+            locale: ptBR,
+          })} {format(firstWeekDay, "d", {
+            locale: ptBR,
+          })} - {' '}
+          {format(lastWeekDay, "LLLL", {
+            locale: ptBR,
+          })} {format(lastWeekDay, "d", {
+            locale: ptBR,
+          })}
+        </HomeTextContentSearchInput>
+        <button onClick={handleNextWeekDay}>
           <ArrowRight size={32} />
+        </button>
+
+        <HomeCalenderBox>
+
           <Calendar size={32} />
-        </HomeUpContentSearchInput>
+          <input type="date" onChange={handleChoiceDay} />
+        </HomeCalenderBox>
 
-        <HomeDownContentSearchInput>
-          <input type="text" placeholder="Buscar por Curso" />
-        </HomeDownContentSearchInput>
+      </HomeUpContentSearchInput>
 
-        <HomeDownFilterContentSearchInput>
-          <HomeSelectOptionSearch>
-            <select>
-              <option>Salas</option>
-              <option>Professores</option>
-            </select>
-          </HomeSelectOptionSearch>
+      <HomeDownContentSearchInput>
+        <input type="text" placeholder="Buscar por Curso" />
+      </HomeDownContentSearchInput>
 
-          <HomeSelectFilterOptionSearch>
-            <InputCheckbox colorsColor={1}>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={30} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>{" "}
-              <span>Todos</span>
-            </InputCheckbox>
-            <InputCheckbox colorsColor={2}>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={30} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>{" "}
-              <span>Manhã</span>
-            </InputCheckbox>
-            <InputCheckbox colorsColor={3}>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={30} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-              <span>Tarde</span>
-            </InputCheckbox>
-            <InputCheckbox colorsColor={4}>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={30} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-              <span>Noite</span>
-            </InputCheckbox>
+      <HomeDownFilterContentSearchInput>
+        <HomeSelectOptionSearch>
+          <select>
+            <option>Salas</option>
+            <option>Professores</option>
+          </select>
+        </HomeSelectOptionSearch>
 
-            <HoverCard.Root openDelay={2}>
-              <HoverCard.Trigger asChild>
-                <Info size={30} opacity={0.5} />
-              </HoverCard.Trigger>
-              <SubtitlteHover />
-            </HoverCard.Root>
-          </HomeSelectFilterOptionSearch>
-        </HomeDownFilterContentSearchInput>
+        <HomeSelectFilterOptionSearch>
+          <InputCheckbox colorsColor={1}>
+            <HomeCheckBox>
+              <HomeCheckBoxIndicator>
+                <Check size={30} weight="bold" />
+              </HomeCheckBoxIndicator>
+            </HomeCheckBox>
+            <span>Todos</span>
+          </InputCheckbox>
+          <InputCheckbox colorsColor={2}>
+            <HomeCheckBox>
+              <HomeCheckBoxIndicator>
+                <Check size={30} weight="bold" />
+              </HomeCheckBoxIndicator>
+            </HomeCheckBox>
+            <span>Manhã</span>
+          </InputCheckbox>
+          <InputCheckbox colorsColor={3}>
+            <HomeCheckBox>
+              <HomeCheckBoxIndicator>
+                <Check size={30} weight="bold" />
+              </HomeCheckBoxIndicator>
+            </HomeCheckBox>
+            <span>Tarde</span>
+          </InputCheckbox>
+          <InputCheckbox colorsColor={4}>
+            <HomeCheckBox>
+              <HomeCheckBoxIndicator>
+                <Check size={30} weight="bold" />
+              </HomeCheckBoxIndicator>
+            </HomeCheckBox>
+            <span>Noite</span>
+          </InputCheckbox>
+
+          <HoverCard.Root openDelay={2}>
+            <HoverCard.Trigger asChild>
+              <Info size={30} opacity={0.5} />
+            </HoverCard.Trigger>
+            <SubtitlteHover />
+          </HoverCard.Root>
+        </HomeSelectFilterOptionSearch>
+      </HomeDownFilterContentSearchInput>
     </HomeSearchInputContainer>
   );
 }
