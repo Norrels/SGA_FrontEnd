@@ -13,24 +13,54 @@ import {
 } from "./style";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 
-import { addDays, eachDayOfInterval, format, startOfWeek } from "date-fns";
+import {
+  addDays,
+  eachDayOfInterval,
+  format,
+  nextDay,
+  startOfWeek,
+} from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { RightClick } from "../RightClick";
+import { ChangeEvent, useState } from "react";
+import { previousDay } from "date-fns/esm";
 
 
 export function Calender() {
   const today = new Date();
-  const semana = startOfWeek(today, { weekStartsOn: 0 });
-  const semanaMaisSete = addDays(semana, 6);
+  //Dia de referencia
+  const [referenceDay, setReferenceDay] = useState(today);
+
+  const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
   const result = eachDayOfInterval({
-    start: new Date(semana),
-    end: new Date(semanaMaisSete),
+    start: semana,
+    end: addDays(semana, 6),
   });
+
+
+
+  function handleNextWeekDay() {
+    const nextWeek = startOfWeek(nextDay(semana, 0));
+    setReferenceDay(nextWeek);
+  }
+
+  function handlePreviousDay() {
+    const previousWeekDay = startOfWeek(previousDay(semana, 0));
+    setReferenceDay(previousWeekDay);
+  }
+
+  function handleChoiceDay(event: ChangeEvent<HTMLInputElement>) {
+    const dayChoiced = startOfWeek(new Date(event.target.value))
+    setReferenceDay(dayChoiced)
+  }
 
   return (
     <HomeCalenderContainer>
       <HomeCalenderHeader>
+        <button onClick={handlePreviousDay}>-</button>
+        <button onClick={handleNextWeekDay}>+</button>
+        <input type="date" onChange={handleChoiceDay} />
         <HomeCalenderOrderBy>
           <p>Crescente</p>
         </HomeCalenderOrderBy>
@@ -39,7 +69,7 @@ export function Calender() {
             return (
               <HomeCalenderDay
                 key={day.getDay()}
-                days={day.getDay() == today.getDay() ? "today" : "notToday"}
+                days={format(day, "d' 'L") === format(today, "d' 'L") ? "today" : "notToday"}
               >
                 <strong>{parseInt(format(day, "d"))}</strong>
                 <p>

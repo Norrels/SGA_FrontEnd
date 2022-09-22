@@ -208,6 +208,7 @@ export const AdvancedTitleContainer = styled.section`
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
