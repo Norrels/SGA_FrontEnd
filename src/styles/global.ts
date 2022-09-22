@@ -25,6 +25,6 @@ export const GlobalStyle = createGlobalStyle`
     
     button {
         cursor: pointer;
-        transition: background-color 0.5s ease;
+        transition: background-color color 0.5s ease;
     }
 `

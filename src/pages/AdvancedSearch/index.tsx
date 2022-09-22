@@ -1,10 +1,38 @@
-import { AdvancedButtonContainer, AdvancedContainer, AdvancedContent, AdvancedContentTitle, AdvancedFilterContainer, AdvancedFilterContent, AdvancedFilterItens, AdvancedSearchInput, AdvancedTableContent, AdvancedTitleContainer, HeaderContainer, HeaderContent, HeaderNavBar, HeaderNavMenu, HeaderNavMenuArrow, HeaderNavMenuContent, HeaderNavMenuItem, HeaderUser, TableContainer } from "./style";
+import {
+  AdvancedButtonContainer,
+  AdvancedContainer,
+  AdvancedContent,
+  AdvancedContentTitle,
+  AdvancedFilterContainer,
+  AdvancedFilterContent,
+  AdvancedFilterItens,
+  AdvancedFilterLabel,
+  AdvancedFilterTotal,
+  AdvancedSearchInput,
+  AdvancedTableContent,
+  AdvancedTitleContainer,
+  HeaderContainer,
+  HeaderContent,
+  HeaderNavBar,
+  HeaderNavMenu,
+  HeaderNavMenuArrow,
+  HeaderNavMenuContent,
+  HeaderNavMenuItem,
+  HeaderUser,
+  TableContainer,
+} from "./style";
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { CaretDown, CaretUp, DotsThree, User } from "phosphor-react";
+import {
+  CaretDown,
+  CaretUp,
+  DotsThree,
+  DotsThreeOutline,
+  Sliders,
+  User,
+} from "phosphor-react";
 import { NavLink } from "react-router-dom";
-import * as Accordion from '@radix-ui/react-accordion';
-
+import * as Accordion from "@radix-ui/react-accordion";
 
 export default function AdvancedSearch() {
   return (
@@ -77,53 +105,87 @@ export default function AdvancedSearch() {
         </HeaderContent>
       </HeaderContainer>
 
-
       <AdvancedContainer>
         <AdvancedContent>
           <AdvancedTitleContainer>
             <h1>Aulas</h1>
             <p>Faça buscas e aplique filtros para encontrar determinada aula</p>
           </AdvancedTitleContainer>
-          <AdvancedSearchInput type="text" placeholder="Burcar por aula " />
+
+          <AdvancedSearchInput>
+            <input type="text" placeholder="Burcar por aula " />
+            <button>Buscar</button>
+          </AdvancedSearchInput>
+
+          <AdvancedFilterLabel>
+            <Sliders color="#0031B0" size={25} />
+            <p>Filtrar por:</p>
+          </AdvancedFilterLabel>
 
           <AdvancedTableContent>
             <aside>
-              <AdvancedFilterContainer type="multiple" defaultValue={['1', '2', '3', '4']}>
+              <AdvancedFilterContainer
+                type="multiple"
+                defaultValue={["1", "2", "3", "4"]}
+              >
                 <Accordion.Item value="1">
                   <AdvancedContentTitle>
                     <p>Tipo de curso</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span> <input type="checkbox" /> Regular</span>
-                      <span> <input type="checkbox" /> FIC</span>
-                      <span> <input type="checkbox" /> Aprendizagem</span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Regular
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> FIC
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Aprendizagem
+                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
                 <Accordion.Item value="2">
                   <AdvancedContentTitle>
                     <p> Periodo</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span> <input type="checkbox" /> Manhã</span>
-                      <span> <input type="checkbox" /> Tarde</span>
-                      <span> <input type="checkbox" /> Noite</span>
-                      <span> <input type="checkbox" /> Integral</span>
+                      <span>
+                        <input type="checkbox" /> Manhã
+                      </span>
+                      <span>
+                        <input type="checkbox" /> Tarde
+                      </span>
+                      <span>
+                        <input type="checkbox" /> Noite
+                      </span>
+                      <span>
+                        <input type="checkbox" /> Integral
+                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
                 <Accordion.Item value="3">
                   <AdvancedContentTitle>
                     <p>Intervalo</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span>  Data de início</span>
+                      <span> Data de início</span>
                       <input type="date" />
                       <span> Data final</span>
                       <input type="date" />
@@ -133,42 +195,84 @@ export default function AdvancedSearch() {
                 <Accordion.Item value="4">
                   <AdvancedContentTitle>
                     <p>Dias</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span> <input type="checkbox" /> Segunda-Feira</span>
-                      <span> <input type="checkbox" /> Terça-Feira</span>
-                      <span> <input type="checkbox" /> Quarta-Feira</span>
-                      <span> <input type="checkbox" /> Integral</span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Segunda-Feira
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Terça-Feira
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Quarta-Feira
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Integral
+                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
                 <Accordion.Item value="5">
                   <AdvancedContentTitle>
                     <p>Professores</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span> <input type="checkbox" /> Bruna</span>
-                      <span> <input type="checkbox" /> Bruno</span>
-                      <span> <input type="checkbox" /> Chile</span>
-                      <span> <input type="checkbox" /> Leila</span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Bruna
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Bruno
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Chile
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Leila
+                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
                 <Accordion.Item value="6">
                   <AdvancedContentTitle>
                     <p>Ambientes</p>
-                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                    <Accordion.Trigger>
+                      <CaretDown color="#25B5E9" size={20} />
+                    </Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span> <input type="checkbox" /> Sala 1</span>
-                      <span> <input type="checkbox" /> Sala 2</span>
-                      <span> <input type="checkbox" /> Lab 3</span>
-                      <span> <input type="checkbox" /> Oficina 1</span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Sala 1
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Sala 2
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Lab 3
+                      </span>
+                      <span>
+                        {" "}
+                        <input type="checkbox" /> Oficina 1
+                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -189,125 +293,162 @@ export default function AdvancedSearch() {
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
-                  </tr><tr>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
+                  </tr>
+                  <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
 
                   <tr>
@@ -315,34 +456,44 @@ export default function AdvancedSearch() {
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                   <tr>
                     <td>Excel</td>
                     <td>Chile</td>
                     <td>Lab-15</td>
                     <td>30/08/2021</td>
-                    <td><DotsThree /></td>
+                    <td>
+                      <DotsThreeOutline size={20} />
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </TableContainer>
-
           </AdvancedTableContent>
+          <AdvancedFilterTotal>
+            <p>1.055 resultados encontrados</p>
+          </AdvancedFilterTotal>
         </AdvancedContent>
       </AdvancedContainer>
     </>
