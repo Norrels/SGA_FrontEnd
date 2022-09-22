@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
+import { useState } from "react";
 import { EditTeacherModal } from "../EditTeacherModal";
 import {
   TeacherItemButton,
@@ -45,6 +46,12 @@ export function TeacherItem({
   url,
   listaCompetencia,
 }: Teacher) {
+
+  var i = 0;
+  function onExit() {
+    console.log(i++)
+  }
+
   return (
     <TeacherItemContainer>
       <TeacherItemInfoContainer>
@@ -57,7 +64,7 @@ export function TeacherItem({
       </TeacherItemInfoContainer>
 
       <TeacherItemButtonContainer>
-        <Dialog.Root>
+        <Dialog.Root onOpenChange={() => onExit()}>
           <Dialog.Trigger asChild>
             <TeacherItemButton buttonColor="edit">
               <DotsThree color="#000" size={25} />
