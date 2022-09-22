@@ -1,4 +1,4 @@
-import { AdvancedButtonContainer, AdvancedContainer, AdvancedContent, AdvancedContentTitle, AdvancedFilterContent, AdvancedFilterItens, AdvancedSearchInput, AdvancedTableContent, AdvancedTitleContainer, HeaderContainer, HeaderContent, HeaderNavBar, HeaderNavMenu, HeaderNavMenuArrow, HeaderNavMenuContent, HeaderNavMenuItem, HeaderUser } from "./style";
+import { AdvancedButtonContainer, AdvancedContainer, AdvancedContent, AdvancedContentTitle, AdvancedFilterContainer, AdvancedFilterContent, AdvancedFilterItens, AdvancedSearchInput, AdvancedTableContent, AdvancedTitleContainer, HeaderContainer, HeaderContent, HeaderNavBar, HeaderNavMenu, HeaderNavMenuArrow, HeaderNavMenuContent, HeaderNavMenuItem, HeaderUser, TableContainer } from "./style";
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { CaretDown, CaretUp, DotsThree, User } from "phosphor-react";
@@ -88,11 +88,11 @@ export default function AdvancedSearch() {
 
           <AdvancedTableContent>
             <aside>
-              <AdvancedFilterContent type="multiple">
+              <AdvancedFilterContainer type="multiple" defaultValue={['1', '2', '3', '4']}>
                 <Accordion.Item value="1">
                   <AdvancedContentTitle>
-                    Tipo de curso
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
+                    <p>Tipo de curso</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
@@ -104,8 +104,8 @@ export default function AdvancedSearch() {
                 </Accordion.Item>
                 <Accordion.Item value="2">
                   <AdvancedContentTitle>
-                    Periodo
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
+                    <p> Periodo</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
@@ -118,40 +118,39 @@ export default function AdvancedSearch() {
                 </Accordion.Item>
                 <Accordion.Item value="3">
                   <AdvancedContentTitle>
-                    Dias
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
+                    <p>Intervalo</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span>  Manhã</span>
+                      <span>  Data de início</span>
                       <input type="date" />
-                      <span> Tarde</span>
-                      <input type="date" />
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="3">
-                  <AdvancedContentTitle>
-                    Dias
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      <span>  Manhã</span>
-                      <input type="date" />
-                      <span> Tarde</span>
+                      <span> Data final</span>
                       <input type="date" />
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
                 <Accordion.Item value="4">
                   <AdvancedContentTitle>
-                    Professores
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
+                    <p>Dias</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-
+                      <span> <input type="checkbox" /> Segunda-Feira</span>
+                      <span> <input type="checkbox" /> Terça-Feira</span>
+                      <span> <input type="checkbox" /> Quarta-Feira</span>
+                      <span> <input type="checkbox" /> Integral</span>
+                    </AdvancedFilterItens>
+                  </Accordion.Content>
+                </Accordion.Item>
+                <Accordion.Item value="5">
+                  <AdvancedContentTitle>
+                    <p>Professores</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
+                  </AdvancedContentTitle>
+                  <Accordion.Content>
+                    <AdvancedFilterItens>
                       <span> <input type="checkbox" /> Bruna</span>
                       <span> <input type="checkbox" /> Bruno</span>
                       <span> <input type="checkbox" /> Chile</span>
@@ -159,10 +158,10 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
-                <Accordion.Item value="5">
+                <Accordion.Item value="6">
                   <AdvancedContentTitle>
-                    Ambientes
-                    <Accordion.Trigger><CaretDown /></Accordion.Trigger>
+                    <p>Ambientes</p>
+                    <Accordion.Trigger><CaretDown color="#25B5E9" size={20} /></Accordion.Trigger>
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
@@ -173,69 +172,176 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
-              </AdvancedFilterContent>
+              </AdvancedFilterContainer>
             </aside>
+            <TableContainer>
+              <table>
+                <thead>
+                  <th>Curso</th>
+                  <th>Professor</th>
+                  <th>Ambiente</th>
+                  <th>Data</th>
+                  <th>Ver mais</th>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr><tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
 
-            <table>
-              <thead>
-                <th>Curso</th>
-                <th>Professor</th>
-                <th>Ambiente</th>
-                <th>Data</th>
-                <th>Ver mais</th>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-                <tr>
-                  <td>Excel</td>
-                  <td>Chile</td>
-                  <td>Lab-15</td>
-                  <td>30/08/2021</td>
-                  <td><DotsThree /></td>
-                </tr>
-              </tbody>
-            </table>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                  <tr>
+                    <td>Excel</td>
+                    <td>Chile</td>
+                    <td>Lab-15</td>
+                    <td>30/08/2021</td>
+                    <td><DotsThree /></td>
+                  </tr>
+                </tbody>
+              </table>
+            </TableContainer>
+
           </AdvancedTableContent>
         </AdvancedContent>
       </AdvancedContainer>
