@@ -1,10 +1,26 @@
-import * as Dialog from '@radix-ui/react-dialog'
-import React from 'react'
-import { HolidayItem } from './components/HolidayItem'
-import { NewHolidayModal } from './components/NewHolidayModal'
-import { HolidayButtonContainer, HolidayContainer, HolidayContent, HolidayList, HolidayTitleContainer } from './style'
+import * as Dialog from "@radix-ui/react-dialog";
+import React from "react";
+import { HolidayItem } from "./components/HolidayItem";
+import { NewHolidayModal } from "./components/NewHolidayModal";
+import {
+  HolidayButtonContainer,
+  HolidayContainer,
+  HolidayContent,
+  HolidayList,
+  HolidayTitleContainer,
+} from "./style";
 
 export function Holiday() {
+  const holidays = [
+    {
+      id: 2,
+      dataInicio: "2022-10-10",
+      dataFinal: "",
+      nome: "Dia das Crianças",
+      tipoDeDia: "FERIADO",
+    },
+  ];
+
   return (
     <HolidayContainer>
       <HolidayContent>
@@ -23,13 +39,18 @@ export function Holiday() {
         <input type="text" placeholder="Buscar um dia não letivo" />
 
         <HolidayList>
-          <HolidayItem />
-          <HolidayItem />
-          <HolidayItem />
-          <HolidayItem />
-          <HolidayItem />
+          {holidays.map((v) => (
+            <HolidayItem
+              key={v.id}
+              id={v.id}
+              dataFinal={v.dataFinal}
+              dataInicio={v.dataInicio}
+              nome={v.nome}
+              tipoDeDia={v.tipoDeDia}
+            />
+          ))}
         </HolidayList>
       </HolidayContent>
     </HolidayContainer>
-  )
+  );
 }
