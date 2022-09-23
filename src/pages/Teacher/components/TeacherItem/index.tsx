@@ -83,8 +83,8 @@ export function TeacherItem({
 
         <TeacherItemButton buttonColor="delete">
           <Dialog.Root>
-            <Dialog.Trigger>
-              <Trash color="#fff" size={25} />
+            <Dialog.Trigger style={{backgroundColor: "#5AADD1", border: "none", display: "flex"}}>
+              <Trash color="white" size={25} />
             </Dialog.Trigger>
             <DisableTeacherModal />
           </Dialog.Root>
