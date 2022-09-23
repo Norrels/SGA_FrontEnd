@@ -64,10 +64,18 @@ export const DashTitleContainer = styled.div`
 
   h1 {
     margin: 0.5rem;
-
+    width: 100%;
+    text-align: center;
     font-size: 2.813rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]};
+    background: linear-gradient(
+      90deg,
+      #0031b0 40.94%,
+      #25b5e9 58.61%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 
   p {
@@ -144,56 +152,9 @@ export const BlockText = styled.div`
   margin-bottom: 20px;
 `;
 
-export const BlockBoard = styled.div`
-  height: 500px;
-`;
 
-export const BlockDescription = styled.div``;
 
-export const HoursWorkedDescription = styled.div<SubtitleProps>`
-  justify-content: space-between;
-  display: flex;
-  grid-template-columns: 70% 30%;
 
-  margin-bottom: 10px;
-
-  h5 {
-    
-
-    display: flex;
-    align-items: center;
-    color: ${(props) => props.theme[SUBTITLE[props.subTitleColor]]};
-  }
-
-  h5 svg {
-    margin-right: 10px;
-    align-items: center;
-  }
-
-  p {
-    display: flex;
-  }
-
-  span {
-    margin-top: auto;
-    margin-top: auto;
-    margin-left: 10px;
-    text-align: justify;
-    display: block;
-    height: 20px;
-    width: 20px;
-    background-color: ${(props) => props.theme[SUBTITLE[props.subTitleColor]]};
-  }
-`;
-
-const SUBTITLE = {
-  1: "blue-400",
-  2: "gray-700",
-} as const;
-
-interface SubtitleProps {
-  subTitleColor: keyof typeof SUBTITLE;
-}
 
 export const SecondBlock = styled.div`
   margin-top: 20px;
@@ -283,7 +244,6 @@ export const ThreeBlock = styled.div`
   padding: 30px;
 
   margin-left: 15px;
-  
 `;
 
 export const TeacherClassContainer = styled.div`
@@ -298,16 +258,16 @@ export const TeacherClassContainer = styled.div`
   }
   ::-webkit-scrollbar-track {
     border-radius: 10px;
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
   }
-  ::-webkit-scrollbar-thumb{
+  ::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0, 0, 0, 0.2);
   }
-  ::-webkit-scrollbar-thumb:hover{
-  	background: rgba(0,0,0,0.4);
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
   }
-  ::-webkit-scrollbar-thumb:active{
-  	background: rgba(0,0,0,.9);
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
   }
 `;
