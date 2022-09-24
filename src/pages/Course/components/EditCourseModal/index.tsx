@@ -41,7 +41,7 @@ export function EditCourseModal({
 }: Course) {
   const [disabled, setDisabled] = useState(click);
 
-  console.log(unidadeCurricular);
+
 
   return (
     <Dialog.Portal>

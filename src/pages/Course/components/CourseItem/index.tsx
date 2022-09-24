@@ -1,9 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
-import React from "react";
+import { CouseProps } from "../..";
 import { EditCourseModal } from "../EditCourseModal";
 import {
-  CourseDescription,
   CourseInfoType,
   CourseItemButton,
   CourseItemButtonContainer,
@@ -12,20 +11,11 @@ import {
   CourseItemInfoContent,
 } from "./style";
 
-interface UnidadeCurricular {
-  UnidadeCurricular: string,
-  Horas: number
-}[]
-
-interface Course {
-  id?: number;
-  name?: string;
-  tipoCurso?: string;
-  cargaHoraria?: string;
-  unidadeCurricular?: UnidadeCurricular[];
+interface NewCouserModalProps {
+  course: CouseProps;
 }
 
-export function CourseItem({ id, name, tipoCurso, cargaHoraria, unidadeCurricular }: Course) {
+export function CourseItem({course} : NewCouserModalProps) {
   return (
     <CourseItemContainer>
       <CourseItemInfoContent>
@@ -33,37 +23,29 @@ export function CourseItem({ id, name, tipoCurso, cargaHoraria, unidadeCurricula
           <Pencil size={30} />
         </CourseItemIcon>
 
-        <CourseDescription>
+        <article>
           <CourseItemInfoContent>
-            <h3>{name}</h3>
+            <h3>{course.nome}</h3>
             <CourseInfoType>
-              <p>{tipoCurso}</p>
+              {course.tipo}
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>
             <p>
-              Carga horária: <span>{cargaHoraria}</span>
+              Carga horária: <span>{course.unidadeCurricular.horas}h</span>
             </p>
           </CourseItemInfoContent>
-        </CourseDescription>
+        </article>
       </CourseItemInfoContent>
 
       <CourseItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger style={{border : "none"}}>
+          <Dialog.Trigger>
             <CourseItemButton buttonColor="edit">
-              <DotsThree color="#000" size={25} />
+              <DotsThree color="#fff" size={25} />
             </CourseItemButton>
-            
           </Dialog.Trigger>
-          <EditCourseModal
-              id={id}
-              name={name}
-              tipoCurso={tipoCurso}
-              cargaHoraria={cargaHoraria}
-              unidadeCurricular={unidadeCurricular}
-              click={true}
-            />
+          <EditCourseModal/>
         </Dialog.Root>
 
         <CourseItemButton buttonColor="delete">

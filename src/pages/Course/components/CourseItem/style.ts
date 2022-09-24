@@ -18,7 +18,7 @@ export const CourseItemContainer = styled.div`
 export const CourseItemInfoContent = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 3rem;
+    gap: 1rem;
 
     img, svg {
         width: 40px;
@@ -28,6 +28,10 @@ export const CourseItemInfoContent = styled.div`
 
     span {
         font-weight: bold;
+    }
+
+    h3 {
+      margin-bottom: 0.2rem;
     }
 `
 
@@ -46,18 +50,24 @@ export const CourseInfoType = styled.div`
     font-size: 0.800rem;
     width: 100px;
     padding: 5px;
+    height: 20px;
 
-    background: ${(props) => props.theme["blue-200"]};
+    background: ${(props) => props.theme["blue-300"]};
     text-align: center;
     border-radius: 1rem;
     font-weight: bold;
+    color: ${(props) => props.theme["white"]};
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `
 
 export const CourseDescription = styled.div``
 
 const BUTTONS = {
-    edit: "blue-200",
-    delete: "blue-400",
+    edit: "blue-300",
+    delete: "blue-500",
   } as const;
   
   interface ButtonProps {
@@ -68,9 +78,14 @@ const BUTTONS = {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+
+    button {
+      border: none;
+      border-radius: 8px;
+    }
   `;
   
-  export const CourseItemButton = styled.button<ButtonProps>`
+  export const CourseItemButton = styled.div<ButtonProps>`
     border: none;
     border-radius: 8px;
     padding: 0.2rem;

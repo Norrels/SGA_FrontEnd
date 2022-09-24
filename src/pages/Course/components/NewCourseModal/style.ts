@@ -49,6 +49,7 @@ export const CloseButton = styled(Dialog.Close)`
 
 export const InputContainer = styled.div`
   margin-top: 50px;
+  
 `;
 
 export const InputContentScroll = styled.div`
