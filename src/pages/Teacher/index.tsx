@@ -95,6 +95,7 @@ export function Teacher() {
               <Dialog.Trigger asChild>
                 <button>Novo professor</button>
               </Dialog.Trigger>
+              
               <NewTeacherModal />
             </Dialog.Root>
 

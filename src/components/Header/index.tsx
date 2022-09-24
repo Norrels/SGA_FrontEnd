@@ -12,6 +12,8 @@ import {
 } from "./style";
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Dialog from "@radix-ui/react-dialog";
+import { EditUserModal } from "../components/EditUserModal";
 
 export function Header() {
   return (
@@ -76,9 +78,28 @@ export function Header() {
         <HeaderUser>
           <User size={23} />
           <p>Odair</p>
-          <button>
-            <CaretDown weight="fill" />
-          </button>
+            <DropdownMenu.Root>
+              <DropdownMenu.Trigger asChild>
+                <CaretDown weight="fill" />
+              </DropdownMenu.Trigger>
+
+              <HeaderNavMenuContent>
+                <HeaderNavMenuArrow>
+                  <CaretUp weight="fill" size={30} />
+                </HeaderNavMenuArrow>
+
+                <HeaderNavMenuItem>
+                  <Dialog.Root>
+                    <Dialog.Trigger>
+                      <button>Editar Perfil</button>
+                    </Dialog.Trigger>
+
+                    <EditUserModal />
+                  </Dialog.Root>
+
+                </HeaderNavMenuItem>
+              </HeaderNavMenuContent>
+            </DropdownMenu.Root>
         </HeaderUser>
       </HeaderContent>
     </HeaderContainer>
