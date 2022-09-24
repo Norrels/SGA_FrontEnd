@@ -16,7 +16,7 @@ export function Router() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-
+      
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/aulas" element={<Home />} />
         <Route path="/professores" element={<Teacher />} />
