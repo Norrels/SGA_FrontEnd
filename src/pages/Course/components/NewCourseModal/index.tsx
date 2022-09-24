@@ -1,25 +1,16 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CouseProps } from "../..";
 import {
   CloseButton,
   Content,
+  NewCourseModalButtonAddNewUnidadeCurricula,
+  NewCourseModalInputs,
+  NewCourseModalUnidadeCurricularContainer,
+  NewCouseModalCreateButton,
   Overlay,
-  InputContainer,
-  InputContent,
-  ContainerButtonCreate,
-  ContainerNewCompt,
-  InputContentScroll,
-  NewCompt,
-  ContainerInputStar,
-  ContentSelect,
-  ContentSelectHours,
 } from "./style";
-
-
 
 export const coursesInputs = z.object({
   nome: z.string(),
@@ -33,16 +24,16 @@ export const coursesInputs = z.object({
 export type CourseType = z.infer<typeof coursesInputs>;
 
 interface NewCouserModalProps {
-  addNewCourse: (data : CourseType) => void
+  addNewCourse: (data: CourseType) => void
 }
 
-export default function NewCourseModal({ addNewCourse} : NewCouserModalProps) {
-  const { register, handleSubmit, control, reset } = useForm<CourseType>();
- 
+export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
+  const { register, handleSubmit, reset } = useForm<CourseType>();
+
   function handleCreateNewCourse(data: CourseType) {
     addNewCourse(data)
+    reset()
   }
-
   return (
     <Dialog.Portal>
       <Overlay />
@@ -54,49 +45,43 @@ export default function NewCourseModal({ addNewCourse} : NewCouserModalProps) {
         <Dialog.Title>Novo curso</Dialog.Title>
 
         <form onSubmit={handleSubmit(handleCreateNewCourse)}>
-          <InputContainer >
-            <InputContent>
-              <label>Nome</label>
-              <input type="text" placeholder="digite seu nome" required {...register("nome")}/>
-            </InputContent>
+          <NewCourseModalInputs>
+            <label>Nome</label>
+            <input type="text" placeholder="digite seu nome" required {...register("nome")} />
+          </NewCourseModalInputs>
 
-            <InputContent>
-              <label>Tipo</label>
-              <select {...register("tipo")}>
-                <option>FIC</option>
-                <option>Regular</option>
+          <NewCourseModalInputs>
+            <label>Tipo</label>
+            <select {...register("tipo")}>
+              <option>FIC</option>
+              <option>Regular</option>
+            </select>
+          </NewCourseModalInputs>
+
+          <NewCourseModalUnidadeCurricularContainer>
+            <div>
+              <label>Unidade Curricular</label>
+              <select {...register("unidadeCurricular.nome")} required>
+                <option>Selecione uma Unidade Curricular</option>
+                <option>Projetos 160h</option>
               </select>
-            </InputContent>
+            </div>
 
-            <InputContentScroll>
+            <div>
+              <label>Horas</label>
+              <input type="text" placeholder="Digite as horas" required {...register("unidadeCurricular.horas")} />
+            </div>
+          </NewCourseModalUnidadeCurricularContainer>
 
-              <ContainerInputStar>
-                <ContentSelect>
-                  <label>Unidade Curricular</label>
-                  <select {...register("unidadeCurricular.nome")} required>
-                    <option>Selecione uma Unidade Curricular</option>
-                    <option>Projetos 160h</option>
-                  </select>
-                </ContentSelect>
-                <ContentSelectHours>
-                  <label>Horas</label>
-                  <input type="text" placeholder="Digite as horas" required {...register("unidadeCurricular.horas")} />
-                </ContentSelectHours>
-              </ContainerInputStar>
-            </InputContentScroll>
-            <ContainerNewCompt>
-              <NewCompt>
-                <div>
-                  <Plus size={32} />
-                  <br />
-                  <span>Adicionar Unidade Curricular</span>
-                </div>
-              </NewCompt>
-            </ContainerNewCompt>
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button type="submit">Criar</button>
-          </ContainerButtonCreate>
+          <NewCourseModalButtonAddNewUnidadeCurricula>
+              <Plus size={20} />
+              <br />
+              <p>Adicionar Unidade Curricular</p>
+          </NewCourseModalButtonAddNewUnidadeCurricula>
+
+          <div>
+            <NewCouseModalCreateButton type="submit">Criar</NewCouseModalCreateButton>
+          </div>
         </form>
       </Content>
     </Dialog.Portal>

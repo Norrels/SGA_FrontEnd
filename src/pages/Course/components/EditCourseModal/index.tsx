@@ -1,7 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
-import { ContentSelectHours } from "../NewCourseModal/style";
 import {
   CloseButton,
   ContainerButtonCreate,
@@ -127,7 +126,7 @@ export function EditCourseModal({
                           <option>{value.UnidadeCurricular}</option>
                         </select>
                       </ContentSelect>
-                      <ContentSelectHours>
+                      <div>
                         <label>Horas</label>
                         <input
                           disabled
@@ -135,7 +134,7 @@ export function EditCourseModal({
                           placeholder="Digite as horas"
                           value={value.Horas}
                         />
-                      </ContentSelectHours>
+                      </div>
                     </ContainerInputStar>
                   </>
                 ))
@@ -149,14 +148,14 @@ export function EditCourseModal({
                           <option>{value.UnidadeCurricular}</option>
                         </select>
                       </ContentSelect>
-                      <ContentSelectHours>
+                      <div>
                         <label>Horas</label>
                         <input
                           type="text"
                           placeholder="Digite as horas"
                           defaultValue={value.Horas}
                         />
-                      </ContentSelectHours>
+                      </div>
                     </ContainerInputStar>
                   </>
                 ))

@@ -53,7 +53,7 @@ export const CloseButton = styled(Dialog.Close)`
   color: ${(props) => props.theme["black"]};
 `;
 
-export const AvaliableModalContainer = styled.form`
+export const AvaliableModalContainer = styled.section`
   margin-top: 3rem;
 
   sup {
