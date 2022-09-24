@@ -13,7 +13,7 @@ import {
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
-import { EditUserModal } from "../components/EditUserModal";
+import { EditUserModal } from "./components/EditUserModal";
 
 export function Header() {
   return (
