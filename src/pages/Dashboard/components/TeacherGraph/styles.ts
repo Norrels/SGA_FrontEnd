@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const TeacherGraphContainer = styled.section`
-  background-color: ${(props) => props.theme["white"]};
+  background-color: ${(props) => props.theme["white-200"]};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: 9px;
   padding: 1.875rem 2.813rem;
@@ -93,7 +93,7 @@ export const TeacherGraphDescription = styled.article`
     }
   }
 
-  h5 svg {
+ svg {
     margin-right: 10px;
     align-items: center;
   }
@@ -127,7 +127,7 @@ export const TeacherGraphSubtitleSpan = styled.article`
     }
 
     :last-child {
-      background-color: ${(props) => props.theme["white-500"]}
+      background-color: ${(props) => props.theme["gray-400"]}
     }
   }
 `

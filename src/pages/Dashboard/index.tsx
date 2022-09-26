@@ -1,30 +1,15 @@
-import {
-  ArrowDown,
-  ArrowUp,
-  Clock,
-  Info,
-  Moon,
-  Sun,
-  SunHorizon,
 
-} from "phosphor-react";
 import {
-  BlockDay,
-  BlockText,
   DashboardContent,
   DashContainer,
   DashContent,
-  DashRightBoard,
   DashTitleContainer,
-  SecondBlock,
-  SecondBlockContainer,
-  SecondBlockContent,
-  TeacherClassContainer,
-  ThreeBlock,
+
 } from "./style";
-import { TeacherClass } from "./components/TeacherClass"
+import { TeacherCard } from "./components/TeacherCard";
 import { TeacherGraph } from "./components/TeacherGraph";
 import { ClassGraph } from "./components/ClassesGraph";
+import { InClassGraph } from "./components/InClassGraph";
 
 export function Dashboard() {
   return (
@@ -36,41 +21,14 @@ export function Dashboard() {
         </DashTitleContainer>
 
         <DashboardContent>
-
           <div>
             <TeacherGraph />
-            <ClassGraph/>
+            <ClassGraph />
           </div>
 
-
-
-
-
-          <DashRightBoard>
-            <ThreeBlock>
-              <BlockText>
-                <h3>Em Aula</h3>
-                <Info size={32} />
-              </BlockText>
-              <TeacherClassContainer>
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-                <TeacherClass />
-              </TeacherClassContainer>
-            </ThreeBlock>
-          </DashRightBoard>
+          <div>
+           <InClassGraph/>
+          </div>
         </DashboardContent>
       </DashContent>
     </DashContainer>

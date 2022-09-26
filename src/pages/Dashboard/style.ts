@@ -95,6 +95,7 @@ export const DashboardContent = styled.div`
   display: grid;
   flex-direction: column;
   grid-template-columns: 70% 30%;
+  gap: 1.563rem;
 
   margin-top: 50px;
 `;
