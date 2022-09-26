@@ -1,13 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import React from "react";
 import {
   CloseButton,
-  ContainerButtonCreate,
   Content,
-  InputContainer,
-  InputContent,
-  InputContentDupo,
+  EditUserModalDuoContainer,
   Overlay,
 } from "./style";
 
@@ -21,35 +17,35 @@ export function EditUserModal() {
         </CloseButton>
 
         <Dialog.Title>Editar Usuário</Dialog.Title>
-
-        <InputContainer>
-          <InputContent>
+        <form action="">
+          <article>
             <label>Nome</label>
-            <input type="text" placeholder="digite o nome do professor" />
-          </InputContent>
+            <input type="text" placeholder="Digite o seu nome" />
+          </article>
 
-          <InputContentDupo>
+          <EditUserModalDuoContainer>
             <div>
               <label>NIF</label>
-              <input type="text" placeholder="digite o NIF" />
+              <input type="text" placeholder="Insira seu NIF" />
             </div>
             <div>
               <label>Email</label>
-              <input type="text" placeholder="digite o Email" />
+              <input type="email" placeholder="Digite o seu Email" />
             </div>
-          </InputContentDupo>
-          <InputContent>
+          </EditUserModalDuoContainer>
+
+          <article>
             <label>Senha</label>
-            <input type="text" placeholder="digite a senha" />
-          </InputContent>
-          <InputContent>
+            <input type="password" placeholder="Insira sua nova senha" />
+          </article>
+
+          <article>
             <label>Repita a Senha</label>
-            <input type="text" placeholder="repita a senha" />
-          </InputContent>
-        </InputContainer>
-        <ContainerButtonCreate>
-          <button>Editar</button>
-        </ContainerButtonCreate>
+            <input type="password" placeholder="Repita a senha" />
+          </article>
+
+          <button type="submit">Editar</button>
+        </form>
       </Content>
     </Dialog.Portal>
   );

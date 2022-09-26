@@ -7,7 +7,11 @@ export const HomeSearchInputContainer = styled.section`
 `;
 
 export const HomeTextContentSearchInput = styled.h3`
-  padding: 5px;
+  width: 17rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
 `;
 
 export const HomeDownContentSearchInput = styled.div`
@@ -96,6 +100,7 @@ export const InputCheckbox = styled.div<ColorsProps>`
 export const HomeUpContentSearchInput = styled.div`
   margin-bottom: 10px;
   display: flex;
+  gap: 1rem;
 
   button {
     border: none;

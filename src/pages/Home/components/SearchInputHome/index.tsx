@@ -26,57 +26,62 @@ interface SearchInputProps {
   referenceDay: Date;
 }
 
-export function HomeSearchInput({ previousDayWeek, nextDayWeek, choiceDayWeek, referenceDay }: SearchInputProps) {
-  const firstWeekDay = startOfWeek(referenceDay)
-  const lastWeekDay = endOfWeek(referenceDay)
+export function HomeSearchInput({
+  previousDayWeek,
+  nextDayWeek,
+  choiceDayWeek,
+  referenceDay,
+}: SearchInputProps) {
+  const firstWeekDay = startOfWeek(referenceDay);
+  const lastWeekDay = endOfWeek(referenceDay);
 
   function handlePreviousDay() {
-    previousDayWeek()
+    previousDayWeek();
   }
 
   function handleNextWeekDay() {
-    nextDayWeek()
+    nextDayWeek();
   }
 
   function handleChoiceDay(event: ChangeEvent<HTMLInputElement>) {
-    const dayChoiced = startOfWeek(new Date(event.target.value))
-    choiceDayWeek(dayChoiced)
+    const dayChoiced = startOfWeek(new Date(event.target.value));
+    choiceDayWeek(dayChoiced);
   }
 
   return (
     <HomeSearchInputContainer>
-
       <HomeUpContentSearchInput>
         <button onClick={handlePreviousDay}>
-          <ArrowLeft size={32} />
+          <ArrowLeft size={30} />
         </button>
 
         <HomeTextContentSearchInput>
           {format(referenceDay, "LLLL", {
             locale: ptBR,
-          })} {format(firstWeekDay, "d", {
+          })}{" "}
+          {format(firstWeekDay, "d", {
             locale: ptBR,
-          })} - {' '}
+          })}{" "}
+          -{" "}
           {format(lastWeekDay, "LLLL", {
             locale: ptBR,
-          })} {format(lastWeekDay, "d", {
+          })}{" "}
+          {format(lastWeekDay, "d", {
             locale: ptBR,
           })}
         </HomeTextContentSearchInput>
         <button onClick={handleNextWeekDay}>
-          <ArrowRight size={32} />
+          <ArrowRight size={30} />
         </button>
 
         <HomeCalenderBox>
-
           <Calendar size={32} />
           <input type="date" onChange={handleChoiceDay} />
         </HomeCalenderBox>
-
       </HomeUpContentSearchInput>
 
       <HomeDownContentSearchInput>
-        <input type="text" placeholder="Buscar por Curso" />
+        <input type="text" placeholder="Buscar por curso" />
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>

@@ -69,7 +69,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Dom</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -77,7 +77,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Seg</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -85,7 +85,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Ter</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -93,7 +93,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Qua</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -101,7 +101,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Qui</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -109,7 +109,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Sex</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
@@ -117,7 +117,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <label>Sab</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
+                  <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>

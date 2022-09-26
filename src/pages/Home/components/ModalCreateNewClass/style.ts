@@ -215,6 +215,10 @@ export const HomeCheckBox = styled(Checkbox.Root)`
   border: none;
   border-radius: 999999px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+
+  &[data-state="checked"] {
+    background-color: ${(props) => props.theme["blue-500"]};
+  }
 `;
 
 export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
@@ -222,11 +226,11 @@ export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
   align-items: center;
   justify-content: center;
 
-
 `;
 
 export const HomeCheckBoxButton = styled.button`
   width: 100%;
+  height: 4rem;
 
   padding: 10px;
   margin-top: 2rem;
@@ -235,7 +239,7 @@ export const HomeCheckBoxButton = styled.button`
   border-radius: 8px;
   background: ${(props) => props.theme["blue-500"]};
 
-  font-size: 1.563rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: ${(props) => props.theme["white"]};
 `;
