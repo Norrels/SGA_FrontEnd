@@ -108,7 +108,7 @@ export const LoginButonContainer = styled.div`
 
   button {
     margin-top: 2.75rem;
-    height: 4.25rem;
+    height: 3.5rem;
     width: 16.5rem;
 
     background: linear-gradient(90.12deg, #2E64F0 -8.29%, rgba(45, 51, 102, 0.49) 118.16%);
@@ -116,7 +116,7 @@ export const LoginButonContainer = styled.div`
     border-radius: 8px;
 
     font-weight: 700;
-    font-size: 1.563rem;
+    font-size: 1.25rem;
     color: ${(props) => props.theme["white"]};
   }
 `;
