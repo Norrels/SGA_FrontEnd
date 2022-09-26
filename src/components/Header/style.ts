@@ -91,9 +91,9 @@ export const HeaderNavMenuContent = styled(DropdownMenu.Content)`
   padding: 0.2rem 0.6rem 0.6rem 0.6rem;
   border-radius: 8px;
   margin-top: 1rem;
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
 
   a {
-    
     &.active {
       border-bottom: unset;
       color: unset;
@@ -125,4 +125,27 @@ export const HeaderNavMenuItem = styled(DropdownMenu.Item)`
       color: ${(props) => props.theme["white"]};
     }
   }
-`
+`;
+
+export const HeaderEditUserButton = styled.button`
+  width: 100%;
+  padding: 0.2rem 0.4rem;
+
+  color: ${(props) => props.theme["black"]};
+  font-weight: bold;
+  font-size: 1.25rem;
+  background: transparent;
+  border-radius: 3px;
+  
+  transition: color, background-color 0.1s;
+  
+
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+
+  &:hover {
+    background: ${(props) => props.theme["blue-500"]};
+    color: ${(props) => props.theme["white"]};
+  }
+`;

@@ -1,8 +1,9 @@
-import { User, CaretDown, CaretUp } from "phosphor-react";
-import { NavLink } from "react-router-dom";
+import { User, CaretDown, CaretUp, SignOut } from "phosphor-react";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   HeaderContainer,
   HeaderContent,
+  HeaderEditUserButton,
   HeaderNavBar,
   HeaderNavMenu,
   HeaderNavMenuArrow,
@@ -16,6 +17,8 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { EditUserModal } from "./components/EditUserModal";
 
 export function Header() {
+  const navigate = useNavigate();
+
   return (
     <HeaderContainer>
       <HeaderContent>
@@ -78,28 +81,31 @@ export function Header() {
         <HeaderUser>
           <User size={23} />
           <p>Odair</p>
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild>
-                <CaretDown weight="fill" />
-              </DropdownMenu.Trigger>
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <CaretDown weight="fill" />
+            </DropdownMenu.Trigger>
 
-              <HeaderNavMenuContent>
-                <HeaderNavMenuArrow>
-                  <CaretUp weight="fill" size={30} />
-                </HeaderNavMenuArrow>
+            <HeaderNavMenuContent>
+              <HeaderNavMenuArrow>
+                <CaretUp weight="fill" size={30} />
+              </HeaderNavMenuArrow>
 
-                <HeaderNavMenuItem>
-                  <Dialog.Root>
-                    <Dialog.Trigger>
-                      <button>Editar Perfil</button>
-                    </Dialog.Trigger>
-
-                    <EditUserModal />
-                  </Dialog.Root>
-
-                </HeaderNavMenuItem>
-              </HeaderNavMenuContent>
-            </DropdownMenu.Root>
+              <HeaderNavMenuItem as={Dialog.Root}>
+                <Dialog.Trigger asChild>
+                  <HeaderEditUserButton>Editar Perfil</HeaderEditUserButton>
+                </Dialog.Trigger>
+                <EditUserModal />
+              </HeaderNavMenuItem>
+              <HeaderNavMenuItem>
+                <HeaderEditUserButton
+                  onClick={() => navigate("/", { replace: true })}
+                >
+                  Sair <SignOut />
+                </HeaderEditUserButton>
+              </HeaderNavMenuItem>
+            </HeaderNavMenuContent>
+          </DropdownMenu.Root>
         </HeaderUser>
       </HeaderContent>
     </HeaderContainer>
