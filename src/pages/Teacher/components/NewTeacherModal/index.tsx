@@ -51,7 +51,7 @@ export default function NewTeacherModal() {
             </div>
           </InputContentDupo>
           <InputContentScroll>
-            {input.map((v) => {
+            {/* {input.map((v) => {
               return (
                 <ContainerInputStar>
                   <ContentSelect>
@@ -64,7 +64,7 @@ export default function NewTeacherModal() {
                   <Rating />
                 </ContainerInputStar>
               );
-            })}
+            })} */}
           </InputContentScroll>
           <ContainerNewCompt
             onClick={(e) => {

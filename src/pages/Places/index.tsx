@@ -9,34 +9,31 @@ import {
 } from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal } from "./components/NewPlaceModal";
+import { useEffect, useState } from "react";
+import { API } from "../../lib/axios";
+
+export interface PlaceInterface {
+  id: number;
+  nome: string;
+  capacidade: number;
+  tipoAmbiente: string;
+  cep: string;
+  complemento: string;
+  ativo: boolean;
+}
+[];
 
 export function Places() {
-  const places = [
-    {
-      id: 1,
-      name: "Base CT CAI DS",
-      capacidade: 32,
-      tipoAmbiente: "Unidade Movel",
-      cep: "07654-321",
-      complemento: "Local lá longe",
-    },
-    {
-      id: 2,
-      name: "Lab-18",
-      capacidade: 42,
-      tipoAmbiente: "Presencial",
-      cep: "",
-      complemento: "",
-    },
-    {
-      id: 3,
-      name: "Postal Log",
-      capacidade: 18,
-      tipoAmbiente: "Empresa",
-      cep: "08412-741",
-      complemento: "é em uma empresa",
-    },
-  ];
+  const [places, setPlaces] = useState<PlaceInterface[]>([]);
+
+  async function fetchPlaces() {
+    const res = await API.get("ambiente");
+    setPlaces(res.data);
+  }
+
+  useEffect(() => {
+    fetchPlaces();
+  }, []);
 
   return (
     <PlacesContainer>
@@ -63,16 +60,8 @@ export function Places() {
         <input type="text" placeholder="Buscar por ambiente " />
 
         <PlacesList>
-          {places.map((value) => (
-            <Place
-              key={value.id}
-              id={value.id}
-              name={value.name}
-              capacidade={value.capacidade}
-              tipoAmbiente={value.tipoAmbiente}
-              cep={value.cep}
-              complemento={value.complemento}
-            />
+          {places.map((place) => (
+            <Place key={place.id} placeItem={place} />
           ))}
         </PlacesList>
       </PlacesContent>

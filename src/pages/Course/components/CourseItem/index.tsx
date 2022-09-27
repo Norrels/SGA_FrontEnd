@@ -27,12 +27,12 @@ export function CourseItem({course} : NewCouserModalProps) {
           <CourseItemInfoContent>
             <h3>{course.nome}</h3>
             <CourseInfoType>
-              {course.tipo}
+              {course.tipoCurso}
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>
             <p>
-              Carga horária: <span>{course.unidadeCurricular.horas}h</span>
+              Carga horária: <span>{/* {course.unidadeCurricular.horas} */}h</span>
             </p>
           </CourseItemInfoContent>
         </article>

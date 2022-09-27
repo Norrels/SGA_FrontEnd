@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
 import React from "react";
+import { PlaceInterface } from "../..";
 import { EditPlaceModal } from "../EditPlaceModal";
 import {
   PlacesItemButton,
@@ -11,24 +12,11 @@ import {
   PlacesItemInfoContent,
 } from "./style";
 
-interface Place {
-  id: number;
-  name?: string;
-  capacidade?: number;
-  tipoAmbiente?: string;
-  cep?: string;
-  complemento?: string;
+interface PlacesProps {
+  placeItem: PlaceInterface;
 }
-[];
 
-export function Place({
-  id,
-  name,
-  capacidade,
-  tipoAmbiente,
-  cep,
-  complemento,
-}: Place) {
+export function Place({ placeItem }: PlacesProps) {
   return (
     <PlacesItemContainer>
       <PlacesItemInfoContainer>
@@ -37,30 +25,30 @@ export function Place({
         </PlacesItemIcon>
 
         <PlacesItemInfoContent>
-          <h3>{name}</h3>
-          <p>Capacidade: {capacidade}</p>
+          <h3>{placeItem.nome}</h3>
+          <p>Capacidade: {placeItem.capacidade}</p>
         </PlacesItemInfoContent>
       </PlacesItemInfoContainer>
 
       <PlacesItemButtonContainer>
         <Dialog.Root>
           <Dialog.Trigger style={{border : "none"}}>
-            <PlacesItemButton id={id + ""} buttonColor="edit">
+            <PlacesItemButton /* id={id + ""} */ buttonColor="edit">
               <DotsThree size={25} />
             </PlacesItemButton>
           </Dialog.Trigger>
           <EditPlaceModal
-            id={id}
+            /* id={id}
             name={name}
             capacidade={capacidade}
             tipoAmbiente={tipoAmbiente}
             cep={cep}
             complemento={complemento}
-            click={true}
+            click={true} */
           />
         </Dialog.Root>
 
-        <PlacesItemButton id={id + ""} buttonColor="delete">
+        <PlacesItemButton /* id={id + ""} */ buttonColor="delete">
           <Trash color="#fff" size={25} />
         </PlacesItemButton>
       </PlacesItemButtonContainer>

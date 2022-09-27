@@ -9,9 +9,7 @@ export function Widget() {
     <ButtonContainer>
       <Popover.Root>
         <Popover.Trigger>
-          <button>
-            <ChatTeardropDots />
-          </button>
+          <ChatTeardropDots />
         </Popover.Trigger>
         <WidgetForm />
       </Popover.Root>

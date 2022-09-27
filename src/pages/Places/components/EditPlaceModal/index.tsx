@@ -22,16 +22,8 @@ interface Place {
   click: boolean;
 }
 
-export function EditPlaceModal({
-  id,
-  name,
-  capacidade,
-  tipoAmbiente,
-  cep,
-  complemento,
-  click,
-}: Place) {
-  const [disabled, setDisabled] = useState(click);
+export function EditPlaceModal() {
+  const [disabled, setDisabled] = useState(false);
 
   return (
     <Dialog.Portal>
@@ -59,7 +51,7 @@ export function EditPlaceModal({
                 <label>Nome</label>
                 <input
                   type="text"
-                  value={name}
+                  /* value={name} */
                   placeholder="Digite o nome do ambiente"
                   disabled
                 />
@@ -69,7 +61,7 @@ export function EditPlaceModal({
                 <label>Nome</label>
                 <input
                   type="text"
-                  defaultValue={name}
+                  /* defaultValue={name} */
                   placeholder="Digite o nome do ambiente"
                 />
               </>
@@ -82,7 +74,7 @@ export function EditPlaceModal({
                 <label>Tipo</label>
                 <select placeholder="Selecione o Tipo de Ambiente" disabled>
                   <option>
-                    {tipoAmbiente != "" ? tipoAmbiente : "Selecione uma Opção"}
+                    {/* {tipoAmbiente != "" ? tipoAmbiente : "Selecione uma Opção"} */}
                   </option>
                   <option>Unidade Movel</option>
                   <option>Presencial</option>
@@ -96,7 +88,7 @@ export function EditPlaceModal({
                 <label>Tipo</label>
                 <select placeholder="Selecione o Tipo de Ambiente">
                   <option>
-                    {tipoAmbiente != "" ? tipoAmbiente : "Selecione uma Opção"}
+                    {/* {tipoAmbiente != "" ? tipoAmbiente : "Selecione uma Opção"} */}
                   </option>
                   <option>Unidade Movel</option>
                   <option>Presencial</option>
@@ -114,7 +106,7 @@ export function EditPlaceModal({
                 <div>
                   <label>Capacidade</label>
                   <input
-                    value={capacidade}
+                    /* value={capacidade} */
                     type="text"
                     placeholder="Digite o nome do ambiente"
                     disabled
@@ -123,7 +115,7 @@ export function EditPlaceModal({
                 <div>
                   <label>CEP</label>
                   <input
-                    value={cep}
+                    /* value={cep} */
                     type="text"
                     placeholder="Digite o cep"
                     disabled
@@ -135,7 +127,7 @@ export function EditPlaceModal({
                 <div>
                   <label>Capacidade</label>
                   <input
-                    defaultValue={capacidade}
+                    /* defaultValue={capacidade} */
                     type="text"
                     placeholder="Digite o nome do ambiente"
                   />
@@ -143,7 +135,7 @@ export function EditPlaceModal({
                 <div>
                   <label>CEP</label>
                   <input
-                    defaultValue={cep}
+                    /* defaultValue={cep} */
                     type="text"
                     placeholder="Digite o cep"
                   />
@@ -157,7 +149,7 @@ export function EditPlaceModal({
               <>
                 <label>Complemento</label>
                 <input
-                  value={complemento}
+                  /* value={complemento} */
                   type="text"
                   placeholder="Digite o complemento"
                   disabled
@@ -167,7 +159,7 @@ export function EditPlaceModal({
               <>
                 <label>Complemento</label>
                 <input
-                  defaultValue={complemento}
+                  /* defaultValue={complemento} */
                   type="text"
                   placeholder="Digite o complemento"
                 />
