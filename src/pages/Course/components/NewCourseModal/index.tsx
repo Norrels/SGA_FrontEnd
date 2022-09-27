@@ -16,10 +16,10 @@ import {
 export const coursesInputs = z.object({
   nome: z.string(),
   tipo: z.string(),
-  unidadeCurricular: z.object({
+  /* unidadeCurricular: z.object({
     nome: z.string(),
     horas: z.string(),
-  }),
+  }), */
 });
 
 export type CourseType = z.infer<typeof coursesInputs>;
@@ -79,7 +79,7 @@ export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
               <NewCourseModalUnidadeCurricularContainer key={curricularUnit.indexOf(unit)}>
                 <div >
                   <label>Unidade Curricular</label>
-                  <select {...register("unidadeCurricular.nome")} required>
+                  <select /* {...register("unidadeCurricular.nome")} */ required>
                     <option>Selecione uma Unidade Curricular</option>
                     <option>Projetos 160h</option>
                   </select>
@@ -92,7 +92,7 @@ export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
                     type="text"
                     placeholder="Digite as horas"
                     required
-                    {...register("unidadeCurricular.horas")}
+                    /* {...register("unidadeCurricular.horas")} */
                   />
                 </div>
               </NewCourseModalUnidadeCurricularContainer>

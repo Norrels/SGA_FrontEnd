@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
 import { useState } from "react";
+import { Teacher } from "../..";
 import { DisableTeacherModal } from "../DisableTeacherModal";
 import { EditTeacherModal } from "../EditTeacherModal";
 import {
@@ -11,42 +12,11 @@ import {
   TeacherItemInfoContent,
 } from "./style";
 
-interface Teacher {
-  id?: number;
-  nome?: string;
-  cargaSemanal?: number;
-  ausencia?: string;
-  url?: string;
-  listaCompetencia?: listaCompetencia[];
+interface TeacherItemProps {
+  teacherItem: Teacher;
 }
 
-interface listaCompetencia {
-  id?: number;
-  unidadeCurricular?: unidadeCurricular;
-  nivelHabilidade?: string;
-}
-
-interface unidadeCurricular {
-  id?: number;
-  nome?: string;
-  horas?: number;
-  curso?: curso;
-}
-
-interface curso {
-  id?: number;
-  nome?: string;
-  tipoCurso?: string;
-}
-
-export function TeacherItem({
-  id,
-  nome,
-  cargaSemanal,
-  ausencia,
-  url,
-  listaCompetencia,
-}: Teacher) {
+export function TeacherItem({ teacherItem }: TeacherItemProps) {
   var i = 0;
   function onExit() {
     console.log(i++);
@@ -55,11 +25,11 @@ export function TeacherItem({
   return (
     <TeacherItemContainer>
       <TeacherItemInfoContainer>
-        <img src={url} alt="" />
+        <img alt="" />
 
         <TeacherItemInfoContent>
-          <h3>{nome}</h3>
-          <p>Carga horária: {cargaSemanal}hs</p>
+          <h3>{teacherItem.nome}</h3>
+          <p>Carga horária: {teacherItem.cargaSemanal}hs</p>
         </TeacherItemInfoContent>
       </TeacherItemInfoContainer>
 
@@ -71,13 +41,7 @@ export function TeacherItem({
             </TeacherItemButton>
           </Dialog.Trigger>
           <EditTeacherModal
-            key={id}
-            listaCompetencia={listaCompetencia}
-            id={id}
-            nome={nome}
-            cargaSemanal={cargaSemanal}
-            ausencia={ausencia}
-            url={url}
+            /*  */
           />
         </Dialog.Root>
 
