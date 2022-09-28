@@ -29,6 +29,11 @@ export function Places() {
   async function fetchPlaces() {
     const res = await API.get("ambiente");
     setPlaces(res.data);
+    console.log(res.data)
+  }
+
+  function addNewPlace(data : PlaceInterface) {
+    setPlaces([...places, data]);
   }
 
   useEffect(() => {
@@ -47,7 +52,7 @@ export function Places() {
               <Dialog.Trigger asChild>
                 <button>Novo ambiente</button>
               </Dialog.Trigger>
-              <NewPlaceModal />
+              <NewPlaceModal addNewPlace={addNewPlace}  />
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
