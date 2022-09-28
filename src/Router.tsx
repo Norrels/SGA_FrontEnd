@@ -11,6 +11,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Places } from "./pages/Places";
 import { Teacher } from "./pages/Teacher";
+import { ViewTeacher } from "./pages/ViewTeacher";
 
 export function Router() {
   return (
@@ -20,6 +21,7 @@ export function Router() {
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/aulas" element={<Home />} />
         <Route path="/professores" element={<Teacher />} />
+        <Route path="/professor/1" element={<ViewTeacher />} />
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
