@@ -40,9 +40,9 @@ export const ContainerClose = styled.div`
 `;
 
 export const ContainerSelect = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   div {
     border-radius: 10px;
@@ -61,8 +61,8 @@ export const ContainerSelect = styled.div`
     cursor: pointer;
 
     :hover {
-        transition: ease-in;
-        border-bottom: 1px solid ${(props) => props.theme["blue-400"]};
+      transition: ease-in;
+      border-bottom: 1px solid ${(props) => props.theme["blue-400"]};
     }
   }
 
@@ -72,14 +72,14 @@ export const ContainerSelect = styled.div`
 `;
 
 export const ContentHeader = styled.div`
-    padding: 15px;
+  padding: 15px;
 
-    svg {
-        color: white;
-        margin-right: 10px;
-    }
+  svg {
+    color: white;
+    margin-right: 10px;
+  }
 
-    display: flex;
+  display: flex;
 
   div {
     border-radius: 10px;
@@ -103,48 +103,48 @@ export const ContentHeader = styled.div`
 `;
 
 export const ContentBody = styled.div`
+  padding: 10px;
+
+  textarea {
+    resize: none;
+
+    border: 1px solid gray;
+    background-color: transparent;
+    color: white;
+    width: 100%;
     padding: 10px;
-
-    textarea {
-        resize: none;
-
-        border: 1px solid gray;
-        background-color: transparent;
-        color: white;
-        width: 100%;
-        padding: 10px;
-    }
+  }
 `;
 
 export const ContentFooter = styled.div`
-    display: flex;
-    width: 100%;
-    justify-content: center;
-`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
 
 export const ButtonLeftContainer = styled.div`
-    text-align: center;
-    justify-content: center;
+  text-align: center;
+  justify-content: center;
 
-    button {
-        height: 100%;
-        margin-right: 10px;
-        border-radius: 5px;
+  button {
+    height: 100%;
+    margin-right: 10px;
+    border-radius: 5px;
 
-        color: white;
-        background-color: rgb(39, 39, 42);
-        border: none;
-    }
-`
+    color: white;
+    background-color: rgb(39, 39, 42);
+    border: none;
+  }
+`;
 
 export const ButtonRightContainer = styled.div`
-    button {
-        padding: 10px;
-        width: 200px;
-        border-radius: 5px;
+  button {
+    padding: 10px;
+    width: 200px;
+    border-radius: 5px;
 
-        border: none;
-        color: white;
-        background-color: ${(props) => props.theme["blue-400"]};
-    }
-`
+    border: none;
+    color: white;
+    background-color: ${(props) => props.theme["blue-400"]};
+  }
+`;

@@ -12,15 +12,10 @@ import {
 } from "./style";
 
 export interface CouseProps {
-  id?: string;
+  id: string;
   nome: string;
   tipoCurso: string;
-  /* unidadeCurricular: {
-    id?: string;
-    nome: string;
-    horas: string;
-  }; */
-}
+}[]
 
 export function Course() {
   const [courses, setCourses] = useState<CouseProps[]>([]);
@@ -43,6 +38,7 @@ export function Course() {
     setCoursesFilted(coursesSearched);
   }
  */
+
   async function fetchCourses() {
     const res = await API.get("curso");
 
@@ -60,12 +56,12 @@ export function Course() {
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
           <CourseButtonContainer>
-            {/* <Dialog.Root>
+            <Dialog.Root>
               <Dialog.Trigger asChild>
                 <button>Novo Curso</button>
               </Dialog.Trigger>
-              <NewCourseModal addNewCourse={addNewCourse} />
-            </Dialog.Root> */}
+              <NewCourseModal addNewCourse={addNewCourse} /* addNewCourse={addNewCourse} */ />
+            </Dialog.Root>
           </CourseButtonContainer>
         </CourseTitleContainer>
         <input
