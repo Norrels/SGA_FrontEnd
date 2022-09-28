@@ -129,9 +129,9 @@ export function WidgetForm() {
           </Content>
         ) : (
           <></>
-        )}  
+        )}
 
-{type == "other" ? (
+        {type == "other" ? (
           <Content>
             <ContentHeader>
               <div onClick={() => setType("inicio")}>
@@ -168,7 +168,7 @@ export function WidgetForm() {
           </Content>
         ) : (
           <></>
-        )}  
+        )}
       </Popover.Content>
     </Popover.Portal>
   );

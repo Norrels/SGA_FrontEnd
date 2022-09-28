@@ -1,6 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
+import { z } from "zod";
 import { CouseProps } from "../..";
+import { API } from "../../../../lib/axios";
 import { EditCourseModal } from "../EditCourseModal";
 import {
   CourseInfoType,
@@ -15,7 +17,24 @@ interface NewCouserModalProps {
   course: CouseProps;
 }
 
+export const courseInput = z.object({
+  id: z.string(),
+  nome: z.string(),
+  tipoCurso: z.string(),
+})
+
+export type CourseType = z.infer<typeof courseInput>
+
 export function CourseItem({course} : NewCouserModalProps) {
+  
+  async function deleteCourseAPI(course : CourseType) {
+      const res = await API.delete(`curso/${course.id}`);
+
+      if(res.status == 200) {
+
+      }
+  }
+
   return (
     <CourseItemContainer>
       <CourseItemInfoContent>
@@ -48,7 +67,7 @@ export function CourseItem({course} : NewCouserModalProps) {
           <EditCourseModal/>
         </Dialog.Root>
 
-        <CourseItemButton buttonColor="delete">
+        <CourseItemButton buttonColor="delete" onClick={() => deleteCourseAPI(course)}>
           <Trash color="#fff" size={25} />
         </CourseItemButton>
       </CourseItemButtonContainer>

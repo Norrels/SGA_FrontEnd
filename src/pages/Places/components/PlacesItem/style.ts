@@ -53,7 +53,7 @@ export const PlacesItemButtonContainer = styled.div`
   gap: 1rem;
 `;
 
-export const PlacesItemButton = styled.button<ButtonProps>`
+export const PlacesItemButton = styled.div<ButtonProps>`
   border: none;
   border-radius: 8px;
   padding: 0.2rem;
@@ -63,4 +63,16 @@ export const PlacesItemButton = styled.button<ButtonProps>`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  button {
+    border: none;
+  border-radius: 8px;
+  padding: 0.2rem;
+
+  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
 `;

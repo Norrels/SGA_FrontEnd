@@ -32,20 +32,12 @@ export function Place({ placeItem }: PlacesProps) {
 
       <PlacesItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger style={{border : "none"}}>
-            <PlacesItemButton /* id={id + ""} */ buttonColor="edit">
+          <Dialog.Trigger style={{ border: "none" }}>
+            <PlacesItemButton buttonColor="edit">
               <DotsThree size={25} />
             </PlacesItemButton>
           </Dialog.Trigger>
-          <EditPlaceModal
-            /* id={id}
-            name={name}
-            capacidade={capacidade}
-            tipoAmbiente={tipoAmbiente}
-            cep={cep}
-            complemento={complemento}
-            click={true} */
-          />
+          <EditPlaceModal />
         </Dialog.Root>
 
         <PlacesItemButton /* id={id + ""} */ buttonColor="delete">

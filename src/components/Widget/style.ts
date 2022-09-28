@@ -20,7 +20,6 @@ export const ButtonContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-
     background-color: #0031b0;
     color: white;
     border: none;

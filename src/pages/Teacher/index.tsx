@@ -15,16 +15,15 @@ import { API } from "../../lib/axios";
 export interface Teacher {
   id: number;
   nome: string;
-  cargaSemanal: string;
+  cargaSemanal: number;
   ativo: boolean;
-  competencia: [
-    {
-      id: number;
-      unidadeCurricular: string;
-      nivelHabilidade: string;
-      nivel: number;
-    }
-  ];
+  email: string;
+  competencia: {
+    id: number;
+    unidadeCurricular: string;
+    nivelHabilidade: string;
+    nivel: number;
+  }[]
 }[]
 
 export function Teacher() {
@@ -39,6 +38,11 @@ export function Teacher() {
     fetchTeachers();
   }, []);
 
+  function addNewTeacher(data : Teacher) {
+    setTeachers([...teachers, data])
+  }
+
+
   return (
     <TeacherContainer>
       <TeacherContent>
@@ -52,7 +56,7 @@ export function Teacher() {
                 <button>Novo professor</button>
               </Dialog.Trigger>
 
-              <NewTeacherModal />
+              <NewTeacherModal addNewTeacher={addNewTeacher}  />
             </Dialog.Root>
 
             <Dialog.Root>
