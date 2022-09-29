@@ -17,6 +17,7 @@ export interface Teacher {
   nome: string;
   cargaSemanal: number;
   ativo: boolean;
+  foto?: string;
   email: string;
   competencia: {
     id: number;
@@ -34,9 +35,9 @@ export function Teacher() {
     setTeachers(res.data);
   }
 
-  useEffect(() => {
-    fetchTeachers();
-  }, []);
+  // useEffect(() => {
+  //   fetchTeachers();
+  // }, []);
 
   function addNewTeacher(data : Teacher) {
     setTeachers([...teachers, data])

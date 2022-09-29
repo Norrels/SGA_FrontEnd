@@ -25,7 +25,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
   return (
     <TeacherItemContainer>
       <TeacherItemInfoContainer>
-        <img alt="" />
+        <img alt="" src={teacherItem.foto} />
 
         <TeacherItemInfoContent>
           <h3>{teacherItem.nome}</h3>
@@ -40,10 +40,10 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
               <DotsThree color="#000" size={25} />
             </TeacherItemButton>
           </Dialog.Trigger>
-          <EditTeacherModal
+          {/* <EditTeacherModal
             
             teacherItem={teacherItem}
-          />
+          /> */}
         </Dialog.Root>
 
         <TeacherItemButton buttonColor="delete">

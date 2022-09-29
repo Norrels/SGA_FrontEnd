@@ -1,12 +1,9 @@
-
 import {
   DashboardContent,
   DashContainer,
   DashContent,
   DashTitleContainer,
-
 } from "./style";
-import { TeacherCard } from "./components/TeacherCard";
 import { TeacherGraph } from "./components/TeacherGraph";
 import { ClassGraph } from "./components/ClassesGraph";
 import { InClassGraph } from "./components/InClassGraph";

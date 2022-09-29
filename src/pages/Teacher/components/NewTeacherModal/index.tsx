@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
@@ -24,37 +24,65 @@ export const teacherInput = z.object({
   id: z.number(),
   nome: z.string(),
   cargaSemanal: z.number(),
+  foto: z.string(),
   ativo: z.boolean(),
   email: z.string(),
-  competencia: z.object({
-    id: z.number(),
-    unidadeCurricular: z.string(),
-    nivelHabilidade: z.string(),
-    nivel: z.number()
-  }).array()
-})
+  competencia: z
+    .object({
+      id: z.number(),
+      unidadeCurricular: z.string(),
+      nivelHabilidade: z.string(),
+      nivel: z.number(),
+    })
+    .array(),
+});
 
-export type TeacherType = z.infer<typeof teacherInput>
+export type TeacherType = z.infer<typeof teacherInput>;
 
 interface NewTeacherModalProps {
-  addNewTeacher: (data: TeacherType) => void
+  addNewTeacher: (data: TeacherType) => void;
 }
 
-export default function NewTeacherModal({addNewTeacher} : NewTeacherModalProps) {
-  const [input, setInput] = useState([1]);
-  const { register, reset, handleSubmit} = useForm<TeacherType>()
+export default function NewTeacherModal({
+  addNewTeacher,
+}: NewTeacherModalProps) {
+  const { register, reset, handleSubmit } = useForm<TeacherType>();
+  //Gambiara ? :D
+  const [baseImage, setBaseImage] = useState("");
 
-  function handleCreateNewTeacher(data : TeacherType) {
+  function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
-    createTeacherAPI(data)
+    createTeacherAPI(data);
     reset();
   }
 
-  async function createTeacherAPI(data : TeacherType) {
-    const res = await API.post("/professor", data);
-    if(res.status == 200) {
-      addNewTeacher(data);
-    }
+  async function createTeacherAPI(data: TeacherType) {
+    // const res = await API.post("/professor", data);
+    // if(res.status == 200) {
+      data.foto = baseImage
+    addNewTeacher(data);
+    // }
+  }
+
+  const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files![0];
+    const base64 = await convertBase64(file);
+    setBaseImage(String(base64));
+  };
+
+  function convertBase64(file: Blob) {
+    return new Promise((resolve, reject) => {
+      const fileRender = new FileReader();
+      fileRender.readAsDataURL(file);
+
+      fileRender.onload = function () {
+        resolve(fileRender.result);
+      };
+
+      fileRender.onerror = function (error) {
+        reject(error);
+      };
+    });
   }
 
   return (
@@ -63,7 +91,7 @@ export default function NewTeacherModal({addNewTeacher} : NewTeacherModalProps) 
       <form onSubmit={handleSubmit(handleCreateNewTeacher)}>
         <Content>
           <CloseButton>
-            <X onClick={() => setInput([1])} size={24} />
+            <X size={24} />
           </CloseButton>
 
           <Dialog.Title>Novo Professor</Dialog.Title>
@@ -71,25 +99,39 @@ export default function NewTeacherModal({addNewTeacher} : NewTeacherModalProps) 
           <InputContainer>
             <InputContent>
               <label>Nome</label>
-              <input type="text" placeholder="digite o nome do professor" {...register('nome')} />
+              <input
+                type="text"
+                placeholder="digite o nome do professor"
+                {...register("nome")}
+              />
             </InputContent>
             <InputContent>
               <label>Email</label>
-              <input type="email" placeholder="digite o email do professor" {...register('email')} />
+              <input
+                type="email"
+                placeholder="digite o email do professor"
+                {...register("email")}
+              />
             </InputContent>
             <InputContentDupo>
               <div>
                 <label>Carga horária Semanal</label>
-                <input type="text" placeholder="digite as horas" {...register('cargaSemanal')} />
+                <input
+                  type="text"
+                  placeholder="digite as horas"
+                  {...register("cargaSemanal")}
+                />
               </div>
               <div>
                 <label>Foto</label>
                 <input
                   type="file"
                   id="file"
+                  multiple={false}
                   accept="image/*"
                   placeholder="envie uma foto do professor"
-                  /* {...register('')} */
+                  onChange={uploadImage}
+                  // {...register("foto")}
                 />
               </div>
             </InputContentDupo>
@@ -110,9 +152,6 @@ export default function NewTeacherModal({addNewTeacher} : NewTeacherModalProps) 
             })} */}
             </InputContentScroll>
             <ContainerNewCompt
-              onClick={(e) => {
-                setInput([...input, 1]);
-              }}
             >
               <NewCompt>
                 <div>
