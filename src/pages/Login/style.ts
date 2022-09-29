@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+
 
 export const LoginHeaderContainer = styled.header`
   width: 100%;
@@ -41,6 +43,15 @@ export const LoginFormContainer = styled.main`
   justify-content: center;
 `;
 
+const hoverButton = keyframes`
+  0% {
+    background-position: 0 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  } 
+`;
+
 export const LoginFormContent = styled.div`
   max-width: 1120px;
   width: 100%;
@@ -53,7 +64,12 @@ export const LoginFormContent = styled.div`
     margin-bottom: 3.5rem;
     font-weight: 800;
     font-size: 2.5rem;
-    background: linear-gradient(92.38deg, #0e328f 18.43%, #367fbf 81.48%);
+    background: linear-gradient(
+      90deg,
+      #0f62ab -1.73%,
+      #0031b0 -1.72%,
+      #25b5e9 90.1%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -76,6 +92,36 @@ export const LoginFormContent = styled.div`
 
       color: ${(props) => props.theme["gray-700"]};
     }
+    
+
+    button {
+      width: 16.5rem;
+      margin-top: 2.75rem;
+      padding: 1.25rem;
+      
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      position: relative;
+
+      overflow: hidden;
+
+      border: none;
+      border-radius: 8px;
+
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: ${(props) => props.theme["white"]};
+
+      background: linear-gradient(90deg ,#0F62AB -6.06%, #0031B0 -6.05%, #25B5E9 113.64%);
+      background-size: 200% 200%;
+      transition-duration: 1s;
+
+      &:hover {
+        background-position: 100% 50%;
+      }
+    }
   }
 
   input {
@@ -95,29 +141,6 @@ export const LoginFormContent = styled.div`
 
     display: flex;
     flex-direction: column;
-
-   
-  }
-`;
-
-export const LoginButonContainer = styled.div`
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-
-  button {
-    margin-top: 2.75rem;
-    height: 3.5rem;
-    width: 16.5rem;
-
-    background: linear-gradient(90.12deg, #2E64F0 -8.29%, rgba(45, 51, 102, 0.49) 118.16%);
-    border: none;
-    border-radius: 8px;
-
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: ${(props) => props.theme["white"]};
   }
 `;
 
@@ -129,5 +152,10 @@ export const LoginLittleDivider = styled.span`
   border-radius: 8px;
 
   display: block;
-  background: linear-gradient(90.12deg, #302E88 -8.29%, #7F97BA 118.16%);
+  background: linear-gradient(
+    90deg,
+    #0f62ab -1.73%,
+    #0031b0 -1.72%,
+    #25b5e9 90.1%
+  );
 `;

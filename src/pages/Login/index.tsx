@@ -7,15 +7,14 @@ import {
   HeaderNavBar,
   LoginFormContainer,
   LoginFormContent,
-  LoginButonContainer,
   LoginLittleDivider,
 } from "./style";
 
 export function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleLogin() {
-    navigate('/aulas', {replace: true})
+    navigate("/aulas", { replace: true });
   }
 
   return (
@@ -44,10 +43,9 @@ export function Login() {
               O login só ira se realizado novamente em 7 dias <br /> após o
               login, ou ao seu deslogar
             </sup>
-
-            <LoginButonContainer>
-              <button type="button" onClick={handleLogin}>Entrar</button>
-            </LoginButonContainer>
+            <button type="button" onClick={handleLogin}>
+              Entrar
+            </button>
           </form>
 
           <img src={Mockup} alt="" />
