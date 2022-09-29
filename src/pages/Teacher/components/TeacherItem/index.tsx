@@ -41,7 +41,8 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
             </TeacherItemButton>
           </Dialog.Trigger>
           <EditTeacherModal
-            /*  */
+            
+            teacherItem={teacherItem}
           />
         </Dialog.Root>
 

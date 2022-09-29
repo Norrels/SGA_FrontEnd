@@ -1,7 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Plus, X } from "phosphor-react";
 import React, { useState } from "react";
+import { z } from "zod";
+import { Teacher } from "../..";
 import { Rating } from "./components/Rating";
+import { useForm } from "react-hook-form";
 import {
   CloseButton,
   ContainerButtonCreate,
@@ -17,34 +20,7 @@ import {
   NoteButton,
   Overlay,
 } from "./style";
-
-interface Teacher {
-  id?: number;
-  nome?: string;
-  cargaSemanal?: number;
-  ausencia?: string;
-  url?: string;
-  listaCompetencia?: listaCompetencia[];
-}
-
-interface listaCompetencia {
-  id?: number;
-  unidadeCurricular?: unidadeCurricular;
-  nivelHabilidade?: string;
-}
-
-interface unidadeCurricular {
-  id?: number;
-  nome?: string;
-  horas?: number;
-  curso?: curso;
-}
-
-interface curso {
-  id?: number;
-  nome?: string;
-  tipoCurso?: string;
-}
+import { API } from "../../../../lib/axios";
 
 export interface IInput {
   id?: number;
@@ -53,20 +29,52 @@ export interface IInput {
   unidade?: string;
 }
 
-export function EditTeacherModal({
-  id,
-  nome,
-  cargaSemanal,
-  ausencia,
-  url,
-  listaCompetencia
-}: Teacher) {
+export const teacherInput = z.object({
+  id: z.number(),
+  nome: z.string(),
+  cargaSemanal: z.number(),
+  ativo: z.boolean(),
+  email: z.string(),
+  competencia: z
+    .object({
+      id: z.number(),
+      unidadeCurricular: z.string(),
+      nivelHabilidade: z.string(),
+      nivel: z.number(),
+    })
+    .array(),
+});
+
+export type TeacherType = z.infer<typeof teacherInput>;
+
+interface EdiTeacherModalProps {
+  editNewTeacher: (data: TeacherType) => void;
+  teacherItem: Teacher;
+}
+
+export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
   const [input, setInput] = useState<IInput[]>([]);
   const [disabled, setDisabled] = useState(true);
+  const { register, reset, handleSubmit } = useForm<TeacherType>();
 
   function onExit() {
     setInput([]);
     setDisabled(true);
+  }
+
+  async function handleUpdateTeacher(data: TeacherType) {
+    console.log(data);
+
+    const res = await API.put(`professor/${teacherItem.id}`, {
+      id: teacherItem.id,
+      nome: data.nome,
+      email: data.email,
+      cargaSemanal: data.cargaSemanal,
+    });
+
+    if (res.status == 200) {
+      console.log("foi : " + res.data);
+    }
   }
 
   return (
@@ -88,73 +96,76 @@ export function EditTeacherModal({
 
         <Dialog.Title>Novo Professor</Dialog.Title>
 
-        <InputContainer>
-          {disabled ? (
-            <>
-              <InputContent>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  value={nome}
-                  placeholder="digite o nome do professor"
-                  disabled
-                />
-              </InputContent>
-              <InputContentDupo>
-                <div>
-                  <label>Carga horária Semanal</label>
+        <form onSubmit={handleSubmit(handleUpdateTeacher)}>
+          <InputContainer>
+            {disabled ? (
+              <>
+                <InputContent>
+                  <label>Nome</label>
                   <input
+                    defaultValue={teacherItem.nome}
                     type="text"
-                    value={cargaSemanal}
-                    placeholder="digite as horas"
+                    placeholder="digite o nome do professor"
                     disabled
                   />
-                </div>
-                <div>
-                  <label>Foto</label>
+                </InputContent>
+                <InputContentDupo>
+                  <div>
+                    <label>Carga horária Semanal</label>
+                    <input
+                      defaultValue={teacherItem.cargaSemanal}
+                      type="text"
+                      placeholder="digite as horas"
+                      disabled
+                    />
+                  </div>
+                  <div>
+                    <label>Foto</label>
+                    <input
+                      disabled
+                      type="file"
+                      id="file"
+                      accept="image/*"
+                      placeholder="envie uma foto do professor"
+                    />
+                  </div>
+                </InputContentDupo>
+              </>
+            ) : (
+              <>
+                <InputContent>
+                  <label>Nome</label>
                   <input
-                    disabled
-                    type="file"
-                    id="file"
-                    accept="image/*"
-                    placeholder="envie uma foto do professor"
-                  />
-                </div>
-              </InputContentDupo>
-            </>
-          ) : (
-            <>
-              <InputContent>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  defaultValue={nome}
-                  placeholder="digite o nome do professor"
-                />
-              </InputContent>
-              <InputContentDupo>
-                <div>
-                  <label>Carga horária Semanal</label>
-                  <input
+                    defaultValue={teacherItem.nome}
+                    {...register("nome")}
                     type="text"
-                    defaultValue={cargaSemanal}
-                    placeholder="digite as horas"
+                    placeholder="digite o nome do professor"
                   />
-                </div>
-                <div>
-                  <label>Foto</label>
-                  <input
-                    type="file"
-                    id="file"
-                    accept="image/*"
-                    placeholder="envie uma foto do professor"
-                  />
-                </div>
-              </InputContentDupo>
-            </>
-          )}
-          <InputContentScroll>
-            {disabled
+                </InputContent>
+                <InputContentDupo>
+                  <div>
+                    <label>Carga horária Semanal</label>
+                    <input
+                      {...register("cargaSemanal")}
+                      defaultValue={teacherItem.cargaSemanal}
+                      type="text"
+                      placeholder="digite as horas"
+                    />
+                  </div>
+                  <div>
+                    <label>Foto</label>
+                    <input
+                      type="file"
+                      id="file"
+                      accept="image/*"
+                      placeholder="envie uma foto do professor"
+                    />
+                  </div>
+                </InputContentDupo>
+              </>
+            )}
+            <InputContentScroll>
+              {/* {disabled
               ? listaCompetencia?.map((v) => (
                   <>
                     <ContainerInputStar key={v.id}>
@@ -204,9 +215,9 @@ export function EditTeacherModal({
                       ))}
                     </>
                   </>
-                ))}
-          </InputContentScroll>
-          {disabled ? (
+                ))} */}
+            </InputContentScroll>
+            {/* {disabled ? (
             <></>
           ) : (
             <ContainerNewCompt
@@ -230,11 +241,12 @@ export function EditTeacherModal({
                 </div>
               </NewCompt>
             </ContainerNewCompt>
-          )}
-        </InputContainer>
-        <ContainerButtonCreate>
-          <button>Criar</button>
-        </ContainerButtonCreate>
+          )} */}
+          </InputContainer>
+          <ContainerButtonCreate>
+            <button>Editar</button>
+          </ContainerButtonCreate>
+        </form>
       </Content>
     </Dialog.Portal>
   );
