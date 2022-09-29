@@ -16,6 +16,10 @@ interface PlacesProps {
   placeItem: PlaceInterface;
 }
 
+function editNewPlace(data: PlaceInterface) {
+
+}
+
 export function Place({ placeItem }: PlacesProps) {
   return (
     <PlacesItemContainer>
@@ -37,7 +41,10 @@ export function Place({ placeItem }: PlacesProps) {
               <DotsThree size={25} />
             </PlacesItemButton>
           </Dialog.Trigger>
-          <EditPlaceModal />
+          <EditPlaceModal
+            editNewPlace={editNewPlace}
+            placeItem={placeItem}
+          />
         </Dialog.Root>
 
         <PlacesItemButton /* id={id + ""} */ buttonColor="delete">
