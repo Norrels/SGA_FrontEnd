@@ -33,8 +33,13 @@ import {
 import { NavLink } from "react-router-dom";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
+import { useContext } from "react";
+import { TeacherContext } from "../../contexts/TeacherContext";
 
 export default function AdvancedSearch() {
+
+  const { teachers } = useContext(TeacherContext)
+
   return (
     <>
       <HeaderContainer>
@@ -229,22 +234,14 @@ export default function AdvancedSearch() {
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Bruna
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Bruno
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Chile
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Leila
-                      </span>
+                      {teachers.map((teacher) => {
+                        return (
+                          <span key={teacher.id}>
+                            {" "}
+                            <input type="checkbox" /> {teacher.nome}
+                          </span>
+                        )
+                      })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -278,7 +275,7 @@ export default function AdvancedSearch() {
                 </Accordion.Item>
               </AdvancedFilterContainer>
             </aside>
-            <AdvancedSeachTable/>
+            <AdvancedSeachTable />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
             <p>1.055 resultados encontrados</p>

@@ -9,40 +9,14 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { API } from "../../lib/axios";
+import { TeacherContext } from "../../contexts/TeacherContext";
 
-export interface Teacher {
-  id: number;
-  nome: string;
-  cargaSemanal: number;
-  ativo: boolean;
-  foto?: string;
-  email: string;
-  competencia: {
-    id: number;
-    unidadeCurricular: string;
-    nivelHabilidade: string;
-    nivel: number;
-  }[];
-}
-[];
+
 
 export function Teacher() {
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
-
-  async function fetchTeachers() {
-    const res = await API.get("professor");
-    setTeachers(res.data);
-  }
-
-  useEffect(() => {
-    fetchTeachers();
-  }, []);
-
-  function addNewTeacher(data: Teacher) {
-    setTeachers([...teachers, data]);
-  }
+  const { teachers } = useContext(TeacherContext)
 
   return (
     <TeacherContainer>
@@ -57,7 +31,7 @@ export function Teacher() {
                 <button>Novo professor</button>
               </Dialog.Trigger>
 
-              <NewTeacherModal addNewTeacher={addNewTeacher} />
+              <NewTeacherModal/>
             </Dialog.Root>
 
             <Dialog.Root>

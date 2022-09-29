@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
@@ -27,8 +27,7 @@ export const teacherInput = z.object({
   foto: z.string(),
   ativo: z.boolean(),
   email: z.string(),
-  competencia: z
-    .object({
+  competencia: z.object({
       id: z.number(),
       unidadeCurricular: z.string(),
       nivelHabilidade: z.string(),
@@ -39,13 +38,7 @@ export const teacherInput = z.object({
 
 export type TeacherType = z.infer<typeof teacherInput>;
 
-interface NewTeacherModalProps {
-  addNewTeacher: (data: TeacherType) => void;
-}
-
-export default function NewTeacherModal({
-  addNewTeacher,
-}: NewTeacherModalProps) {
+export default function NewTeacherModal() {
   const { register, reset, handleSubmit } = useForm<TeacherType>();
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
@@ -60,7 +53,7 @@ export default function NewTeacherModal({
     // const res = await API.post("/professor", data);
     // if(res.status == 200) {
       data.foto = baseImage
-    addNewTeacher(data);
+    // addNewTeacher(data);
     // }
   }
 
