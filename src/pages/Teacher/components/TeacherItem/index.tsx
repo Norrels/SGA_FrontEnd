@@ -3,7 +3,7 @@ import { DotsThree, Trash } from "phosphor-react";
 import { useState } from "react";
 import { Teacher } from "../..";
 import { DisableTeacherModal } from "../DisableTeacherModal";
-import { EditTeacherModal } from "../EditTeacherModal";
+import { EditTeacherModal, TeacherType } from "../EditTeacherModal";
 import {
   TeacherItemButton,
   TeacherItemButtonContainer,
@@ -17,9 +17,9 @@ interface TeacherItemProps {
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
-  var i = 0;
-  function onExit() {
-    console.log(i++);
+
+  function editTeacher(data: TeacherType) {
+    console.log(data)
   }
 
   return (
@@ -34,21 +34,27 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
       </TeacherItemInfoContainer>
 
       <TeacherItemButtonContainer>
-        <Dialog.Root onOpenChange={() => onExit()}>
+        <Dialog.Root>
           <Dialog.Trigger asChild>
             <TeacherItemButton buttonColor="edit">
               <DotsThree color="#000" size={25} />
             </TeacherItemButton>
           </Dialog.Trigger>
-          {/* <EditTeacherModal
-            
+          <EditTeacherModal
+            editNewTeacher={editTeacher}
             teacherItem={teacherItem}
-          /> */}
+          />
         </Dialog.Root>
 
         <TeacherItemButton buttonColor="delete">
           <Dialog.Root>
-            <Dialog.Trigger style={{backgroundColor: "#5AADD1", border: "none", display: "flex"}}>
+            <Dialog.Trigger
+              style={{
+                backgroundColor: "#5AADD1",
+                border: "none",
+                display: "flex",
+              }}
+            >
               <Trash color="white" size={25} />
             </Dialog.Trigger>
             <DisableTeacherModal />

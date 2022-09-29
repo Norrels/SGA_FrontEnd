@@ -52,7 +52,7 @@ interface EdiTeacherModalProps {
   teacherItem: Teacher;
 }
 
-export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
+export function EditTeacherModal({ teacherItem, editNewTeacher }: EdiTeacherModalProps) {
   const [input, setInput] = useState<IInput[]>([]);
   const [disabled, setDisabled] = useState(true);
   const { register, reset, handleSubmit } = useForm<TeacherType>();
@@ -63,17 +63,22 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
   }
 
   async function handleUpdateTeacher(data: TeacherType) {
-    console.log(data);
+    console.log({
+      id: teacherItem.id,
+      nome: data.nome,
+      email: data.nome+"@gmail.com",
+      cargaSemanal: data.cargaSemanal,
+    });
 
     const res = await API.put(`professor/${teacherItem.id}`, {
       id: teacherItem.id,
       nome: data.nome,
-      email: data.email,
+      email: data.nome+"@gmail.com",
       cargaSemanal: data.cargaSemanal,
     });
 
     if (res.status == 200) {
-      console.log("foi : " + res.data);
+      editNewTeacher(data);
     }
   }
 
