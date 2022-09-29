@@ -48,10 +48,11 @@ export const TeacherItemButtonContainer = styled.div`
   gap: 1rem;
 `;
 
-export const TeacherItemButton = styled.button<ButtonProps>`
+export const TeacherItemButton = styled.div<ButtonProps>`
   border: none;
   border-radius: 8px;
   padding: 0.2rem;
+  cursor: pointer;
 
   background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
 

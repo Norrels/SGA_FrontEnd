@@ -24,8 +24,9 @@ export interface Teacher {
     unidadeCurricular: string;
     nivelHabilidade: string;
     nivel: number;
-  }[]
-}[]
+  }[];
+}
+[];
 
 export function Teacher() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -35,14 +36,13 @@ export function Teacher() {
     setTeachers(res.data);
   }
 
-  // useEffect(() => {
-  //   fetchTeachers();
-  // }, []);
+  useEffect(() => {
+    fetchTeachers();
+  }, []);
 
-  function addNewTeacher(data : Teacher) {
-    setTeachers([...teachers, data])
+  function addNewTeacher(data: Teacher) {
+    setTeachers([...teachers, data]);
   }
-
 
   return (
     <TeacherContainer>
@@ -57,7 +57,7 @@ export function Teacher() {
                 <button>Novo professor</button>
               </Dialog.Trigger>
 
-              <NewTeacherModal addNewTeacher={addNewTeacher}  />
+              <NewTeacherModal addNewTeacher={addNewTeacher} />
             </Dialog.Root>
 
             <Dialog.Root>
