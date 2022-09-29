@@ -18,7 +18,7 @@ export function ViewTeacher() {
                     <TeacherProfileLeft>
                         {/* profile foto with status */}
                         <TeacherProfileLeftPhoto>
-                            <span>Em aulaa</span>
+                            <span>Em aula</span>
                             <img/>
                         </TeacherProfileLeftPhoto>
                         <p>Chile</p>
