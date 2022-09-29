@@ -26,7 +26,7 @@ export const courseInput = z.object({
 export type CourseType = z.infer<typeof courseInput>
 
 export function CourseItem({course} : NewCouserModalProps) {
-  
+
   async function deleteCourseAPI(course : CourseType) {
       const res = await API.delete(`curso/${course.id}`);
 
@@ -64,7 +64,9 @@ export function CourseItem({course} : NewCouserModalProps) {
               <DotsThree color="#fff" size={25} />
             </CourseItemButton>
           </Dialog.Trigger>
-          <EditCourseModal/>
+          <EditCourseModal
+            course={course}
+          />
         </Dialog.Root>
 
         <CourseItemButton buttonColor="delete" onClick={() => deleteCourseAPI(course)}>
