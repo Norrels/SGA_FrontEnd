@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const CallContainer = styled.main`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 export const CallContent = styled.div`
   max-width: 1120px;
@@ -36,49 +36,60 @@ export const CallContent = styled.div`
 `;
 
 export const CallButtonContainer = styled.div`
- margin-top: 2rem;
- display: flex;
- justify-content: center;
- gap: 2rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
 
- button {
+  button {
     width: 12.75rem;
     height: 3.75rem;
 
     border-radius: 8px;
     border: none;
     background-color: ${(props) => props.theme["blue-500"]};
-   
+
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
     font-weight: bold;
- }
-`
+  }
+`;
 export const CallTitleContainer = styled.div`
- margin-top: 2rem;
- 
- justify-content: center;
- text-align: center;
- align-items: center;
- flex-direction: column;
+  margin-top: 2rem;
 
- h1 {
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+
+  h1 {
+    background: linear-gradient(
+      90deg,
+      #0f62ab 41.74%,
+      #0031b0 41.74%,
+      #25b5e9 58.75%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+
     margin: 0.5rem;
 
     font-size: 2.813rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]}
- }
+    color: ${(props) => props.theme["blue-500"]};
+  }
 
- p{
+  p {
     font-size: 1.125rem;
 
     font-weight: 800;
-    color: ${(props) => props.theme["sub-title"]}
- }
+    color: ${(props) => props.theme["sub-title"]};
+  }
 `;
 
 export const CallList = styled.section`
-    margin-top: 2rem;
-    margin-bottom: 3rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
 `;
