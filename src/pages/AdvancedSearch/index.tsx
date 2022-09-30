@@ -34,11 +34,12 @@ import { NavLink } from "react-router-dom";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext } from "react";
-import { TeacherContext } from "../../contexts/TeacherContext";
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
+
 
 export default function AdvancedSearch() {
 
-  const { teachers } = useContext(TeacherContext)
+  const { teachers  } = useContext(ObjectsContext)
 
   return (
     <>
@@ -237,7 +238,6 @@ export default function AdvancedSearch() {
                       {teachers.map((teacher) => {
                         return (
                           <span key={teacher.id}>
-                            {" "}
                             <input type="checkbox" /> {teacher.nome}
                           </span>
                         )

@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Plus, X } from "phosphor-react";
 import React, { useState } from "react";
 import { z } from "zod";
-import { Teacher } from "../..";
 import { Rating } from "./components/Rating";
 import { useForm } from "react-hook-form";
 import {
@@ -21,6 +20,7 @@ import {
   Overlay,
 } from "./style";
 import { API } from "../../../../lib/axios";
+import { Teacher } from "../../../../Contexts/ObjectsContext";
 
 export interface IInput {
   id?: number;

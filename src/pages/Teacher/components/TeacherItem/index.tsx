@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
-import { Teacher } from "../../../../contexts/TeacherContext";
+import { Teacher } from "../../../../Contexts/ObjectsContext";
 import { DisableTeacherModal } from "../DisableTeacherModal";
 import { EditTeacherModal, TeacherType } from "../EditTeacherModal";
 import {

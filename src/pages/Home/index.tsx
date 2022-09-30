@@ -52,7 +52,7 @@ export function Home() {
                 <Dialog.Trigger asChild>
                   <button>Regular</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass name="regular" />
+                <ModalCreateNewClass name="Regular" />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={2}>

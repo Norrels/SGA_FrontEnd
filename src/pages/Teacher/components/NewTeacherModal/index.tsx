@@ -1,8 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { Rating } from "./components/Rating";
 import {
@@ -39,22 +40,18 @@ export const teacherInput = z.object({
 export type TeacherType = z.infer<typeof teacherInput>;
 
 export default function NewTeacherModal() {
+  //Pegando os métodos do UseForm
   const { register, reset, handleSubmit } = useForm<TeacherType>();
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
+  //Pwgando os professores do context
+  const { createTeacherAPI } = useContext(ObjectsContext)
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
+    data.foto = baseImage
     createTeacherAPI(data);
     reset();
-  }
-
-  async function createTeacherAPI(data: TeacherType) {
-    // const res = await API.post("/professor", data);
-    // if(res.status == 200) {
-      data.foto = baseImage
-    // addNewTeacher(data);
-    // }
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {

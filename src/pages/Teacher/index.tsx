@@ -11,46 +11,46 @@ import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
 import { useContext, useEffect, useState } from "react";
 import { API } from "../../lib/axios";
-import { TeacherContext } from "../../contexts/TeacherContext";
-
-
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
 export function Teacher() {
-  const { teachers } = useContext(TeacherContext)
+  const { teachers } = useContext(ObjectsContext)
 
   return (
-    <TeacherContainer>
-      <TeacherContent>
-        <TeacherTitleContainer>
-          <h1>Professores</h1>
-          <p>Selecione um Professor ou crie um novo!</p>
+   
+      <TeacherContainer>
+        <TeacherContent>
+          <TeacherTitleContainer>
+            <h1>Professores</h1>
+            <p>Selecione um Professor ou crie um novo!</p>
 
-          <TeacherButtonContainer>
-            <Dialog.Root>
-              <Dialog.Trigger asChild>
-                <button>Novo professor</button>
-              </Dialog.Trigger>
+            <TeacherButtonContainer>
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <button>Novo professor</button>
+                </Dialog.Trigger>
 
-              <NewTeacherModal/>
-            </Dialog.Root>
+                <NewTeacherModal />
+              </Dialog.Root>
 
-            <Dialog.Root>
-              <Dialog.Trigger asChild>
-                <button>Disponibilidade</button>
-              </Dialog.Trigger>
-              <AvaliableModal />
-            </Dialog.Root>
-          </TeacherButtonContainer>
-        </TeacherTitleContainer>
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <button>Disponibilidade</button>
+                </Dialog.Trigger>
+                <AvaliableModal />
+              </Dialog.Root>
+            </TeacherButtonContainer>
+          </TeacherTitleContainer>
 
-        <input type="text" placeholder="Buscar por professor" />
+          <input type="text" placeholder="Buscar por professor" />
 
-        <TeacherList>
-          {teachers.map((teacher) => (
-            <TeacherItem key={teacher.id} teacherItem={teacher} />
-          ))}
-        </TeacherList>
-      </TeacherContent>
-    </TeacherContainer>
+          <TeacherList>
+            {teachers.map((teacher) => (
+              <TeacherItem key={teacher.id} teacherItem={teacher} />
+            ))}
+          </TeacherList>
+        </TeacherContent>
+      </TeacherContainer>
+   
   );
 }

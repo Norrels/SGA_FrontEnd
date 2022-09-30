@@ -1,6 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
+import { useContext } from "react";
 import Resumo from "../../../../assets/Resumo.svg";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
   CloseButton,
   Content,
@@ -22,6 +24,14 @@ interface ModalCreateNewClassProps {
 }
 
 export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
+  const { courses } = useContext(ObjectsContext)
+
+
+  const courseFiltedByType = courses.filter((course) => {
+    if (course.tipoCurso == name) {
+        return course
+    }
+  })
   return (
     <Dialog.Portal>
       <Overlay />
@@ -35,7 +45,12 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
           <ModalCreateClassContentLine>
             <label htmlFor="">Curso</label>
             <select name="" id="">
-              <option value="">Selecione um curso</option>
+              {courseFiltedByType.map((course) => {
+                return (
+                  <option key={course.id} value="">{course.nome}</option>
+                )
+              })}
+
             </select>
           </ModalCreateClassContentLine>
 
@@ -65,7 +80,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
           </ModalCreateClassContentLines>
 
           <ModalCreateClassDays>
-            <span>
+            <span onClick={() => console.log(courses)}>
               <label>Dom</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
