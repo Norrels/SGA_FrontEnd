@@ -37,7 +37,7 @@ export function Login() {
               Gerencie e controle os <br /> espaços da escola
             </h1>
 
-            <input type="text" name="" id="" placeholder="Insira seu NIF" />
+            <input type="text" name="" id="" placeholder="Insira seu nif" />
             <input type="password" placeholder="Digite sua senha" />
             <sup>
               O login só ira se realizado novamente em 7 dias <br /> após o
