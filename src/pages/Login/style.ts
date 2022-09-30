@@ -1,12 +1,31 @@
 import styled, { keyframes } from "styled-components";
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
+const swipeRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px)
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  } 
+`;
 
 export const LoginHeaderContainer = styled.header`
   width: 100%;
   display: flex;
   justify-content: center;
   margin-top: 2rem;
+  animation: ${fadeIn} 1.5s ease-in-out forwards;
 `;
 
 export const LoginHeaderContent = styled.div`
@@ -73,13 +92,17 @@ export const LoginFormContent = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: ${swipeRight} 1.5s ease-in-out forwards;
   }
 
   img {
     margin-left: 40px;
     margin-top: -70px;
+    animation: ${fadeIn} 1.5s 1.2s ease-in-out forwards;
+    opacity: 0;
   }
 
+  
   form {
     height: 100%;
     padding-top: 4.375rem;
@@ -91,18 +114,21 @@ export const LoginFormContent = styled.div`
       font-size: 0.938rem;
 
       color: ${(props) => props.theme["gray-700"]};
+      animation: ${swipeRight} 1.5s 0.6s ease-in-out forwards;
+      opacity: 0;
     }
-    
 
+
+    // botão entrar
     button {
       width: 16.5rem;
-      margin-top: 2.75rem;
+      margin: 2.75rem auto 0 auto;
       padding: 1.25rem;
-      
+
       display: flex;
       align-items: center;
       justify-content: center;
-      
+
       position: relative;
 
       overflow: hidden;
@@ -114,9 +140,16 @@ export const LoginFormContent = styled.div`
       font-size: 1.25rem;
       color: ${(props) => props.theme["white"]};
 
-      background: linear-gradient(90deg ,#0F62AB -6.06%, #0031B0 -6.05%, #25B5E9 113.64%);
+      background: linear-gradient(
+        90deg,
+        #0f62ab -6.06%,
+        #0031b0 -6.05%,
+        #25b5e9 113.64%
+      );
       background-size: 200% 200%;
       transition-duration: 1s;
+      opacity: 0;
+      animation: ${swipeRight} 1s 1.2s ease-in-out forwards;
 
       &:hover {
         background-position: 100% 50%;
@@ -124,6 +157,7 @@ export const LoginFormContent = styled.div`
     }
   }
 
+  // inputs
   input {
     height: 3.625rem;
     width: 29.688rem;
@@ -141,6 +175,20 @@ export const LoginFormContent = styled.div`
 
     display: flex;
     flex-direction: column;
+    animation: ${swipeRight} 1.5s 0.6s ease-in-out forwards;
+    opacity: 0;
+
+    // Quando o input estiver focado
+    &:focus {
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
+      background: rgba(255, 255, 255, 0.45);
+      
+    }
+
+    // Alterar o placeholder do input
+    &::-webkit-input-placeholder {
+      /* color: ${(props) => props.theme["gray-500"]}; */
+    }
   }
 `;
 
@@ -158,4 +206,5 @@ export const LoginLittleDivider = styled.span`
     #0031b0 -1.72%,
     #25b5e9 90.1%
   );
+  animation: ${swipeRight} 1.5s ease-in-out forwards;
 `;
