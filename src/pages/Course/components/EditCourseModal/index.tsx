@@ -1,6 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { CouseProps } from "../..";
+import { API } from "../../../../lib/axios";
 import {
   CloseButton,
   ContainerButtonCreate,
@@ -15,32 +19,39 @@ import {
   Overlay,
 } from "./style";
 
-interface Course {
-  id?: number;
-  name?: string;
-  tipoCurso?: string;
-  cargaHoraria?: string;
-  click?: boolean;
-  unidadeCurricular?: UnidadeCurricular[];
+interface EditCourseModalProps {
+  course: CouseProps;
 }
 
-interface UnidadeCurricular {
-  UnidadeCurricular: string;
-  Horas: number;
-}
-[];
+export const courseInput = z.object({
+  id: z.number(),
+  nome: z.string(),
+  tipoCurso: z.string(),
+});
 
-export function EditCourseModal({
-  id,
-  name,
-  tipoCurso,
-  cargaHoraria,
-  click,
-  unidadeCurricular,
-}: Course) {
-  const [disabled, setDisabled] = useState(click);
+export type CourseType = z.infer<typeof courseInput>;
 
+export function EditCourseModal({ course }: EditCourseModalProps) {
+  const [disabled, setDisabled] = useState(true);
+  const { register, reset, handleSubmit } = useForm<CourseType>();
 
+  async function handleUpdatePlace(data: CourseType) {
+    console.log({
+      id: course.id,
+      nome: data.nome,
+      tipoCurso: data.tipoCurso,
+    });
+
+    const res = await API.put(`curso/${course.id}`, {
+      id: course.id,
+      nome: data.nome,
+      tipoCurso: data.tipoCurso,
+    });
+
+    if (res.status == 200) {
+      console.log("funcionou ! ");
+    }
+  }
 
   return (
     <Dialog.Portal>
@@ -60,112 +71,119 @@ export function EditCourseModal({
         </CloseButton>
 
         <Dialog.Title>Editar curso</Dialog.Title>
-
-        <InputContainer>
-          <InputContent>
-            {disabled ? (
-              <>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  value={name}
-                  placeholder="Digite o nome do curso"
-                  disabled
-                />
-              </>
-            ) : (
-              <>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  defaultValue={name}
-                  placeholder="Digite o nome do curso"
-                />
-              </>
-            )}
-          </InputContent>
-
-          <InputContent>
-            {disabled ? (
-              <>
-                <label>Tipo</label>
-                <select placeholder="Selecione o Tipo do Curso" disabled>
-                  <option>
-                    {tipoCurso != "" ? tipoCurso : "Selecione uma Opção"}
-                  </option>
-                  <option>Unidade Movel</option>
-                  <option>Presencial</option>
-                  <option>EAD</option>
-                  <option>Entidade</option>
-                  <option>Empresa</option>
-                </select>
-              </>
-            ) : (
-              <>
-                <label>Tipo</label>
-                <select placeholder="Selecione o Tipo de Curso">
-                  <option>
-                    {tipoCurso != "" ? tipoCurso : "Selecione uma Opção"}
-                  </option>
-                  <option>Unidade Movel</option>
-                  <option>Presencial</option>
-                  <option>EAD</option>
-                  <option>Entidade</option>
-                  <option>Empresa</option>
-                </select>
-              </>
-            )}
-            <InputContentScroll>
+        <form onSubmit={handleSubmit(handleUpdatePlace)}>
+          <InputContainer>
+            <InputContent>
               {disabled ? (
-                unidadeCurricular?.map((value) => (
-                  <>
-                    <ContainerInputStar>
-                      <ContentSelect>
-                        <label>Unidade Curricular</label>
-                        <select disabled>
-                          <option>{value.UnidadeCurricular}</option>
-                        </select>
-                      </ContentSelect>
-                      <div>
-                        <label>Horas</label>
-                        <input
-                          disabled
-                          type="text"
-                          placeholder="Digite as horas"
-                          value={value.Horas}
-                        />
-                      </div>
-                    </ContainerInputStar>
-                  </>
-                ))
+                <>
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    defaultValue={course.nome}
+                    placeholder="Digite o nome do curso"
+                    disabled
+                  />
+                </>
               ) : (
-                unidadeCurricular?.map((value) => (
-                  <>
-                    <ContainerInputStar>
-                      <ContentSelect>
-                        <label>Unidade Curricular</label>
-                        <select>
-                          <option>{value.UnidadeCurricular}</option>
-                        </select>
-                      </ContentSelect>
-                      <div>
-                        <label>Horas</label>
-                        <input
-                          type="text"
-                          placeholder="Digite as horas"
-                          defaultValue={value.Horas}
-                        />
-                      </div>
-                    </ContainerInputStar>
-                  </>
-                ))
+                <>
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    {...register("nome")}
+                    defaultValue={course.nome}
+                    placeholder="Digite o nome do curso"
+                  />
+                </>
               )}
-            </InputContentScroll>
-          </InputContent>
-        </InputContainer>
-        <ContainerButtonCreate>
-          <button>Editar</button>
-        </ContainerButtonCreate>
+            </InputContent>
+
+            <InputContent>
+              {disabled ? (
+                <>
+                  <label>Tipo</label>
+                  <select placeholder="Selecione o Tipo do Curso" disabled>
+                    <option
+                      value={course.tipoCurso != "" ? course.tipoCurso : ""}
+                    >
+                      {course.tipoCurso != ""
+                        ? course.tipoCurso
+                        : "Selecione uma Opção"}
+                    </option>
+                    <option value="CAI">CAI</option>
+                    <option value="FIC">FIC</option>
+                    <option value="CT">CT</option>
+                  </select>
+                </>
+              ) : (
+                <>
+                  <label>Tipo</label>
+                  <select
+                    placeholder="Selecione o Tipo de Curso"
+                    {...register("tipoCurso")}
+                  >
+                    <option
+                      value={course.tipoCurso != "" ? course.tipoCurso : ""}
+                    >
+                      {course.tipoCurso != ""
+                        ? course.tipoCurso
+                        : "Selecione uma Opção"}
+                    </option>
+                    <option value="CAI">CAI</option>
+                    <option value="FIC">FIC</option>
+                    <option value="CT">CT</option>
+                  </select>
+                </>
+              )}
+              <InputContentScroll>
+                {/* {disabled
+                ? unidadeCurricular?.map((value) => (
+                    <>
+                      <ContainerInputStar>
+                        <ContentSelect>
+                          <label>Unidade Curricular</label>
+                          <select disabled>
+                            <option>{value.UnidadeCurricular}</option>
+                          </select>
+                        </ContentSelect>
+                        <div>
+                          <label>Horas</label>
+                          <input
+                            disabled
+                            type="text"
+                            placeholder="Digite as horas"
+                            value={value.Horas}
+                          />
+                        </div>
+                      </ContainerInputStar>
+                    </>
+                  ))
+                : unidadeCurricular?.map((value) => (
+                    <>
+                      <ContainerInputStar>
+                        <ContentSelect>
+                          <label>Unidade Curricular</label>
+                          <select>
+                            <option>{value.UnidadeCurricular}</option>
+                          </select>
+                        </ContentSelect>
+                        <div>
+                          <label>Horas</label>
+                          <input
+                            type="text"
+                            placeholder="Digite as horas"
+                            defaultValue={value.Horas}
+                          />
+                        </div>
+                      </ContainerInputStar>
+                    </>
+                  ))} */}
+              </InputContentScroll>
+            </InputContent>
+            <ContainerButtonCreate>
+              <button>Editar</button>
+            </ContainerButtonCreate>
+          </InputContainer>
+        </form>
       </Content>
     </Dialog.Portal>
   );

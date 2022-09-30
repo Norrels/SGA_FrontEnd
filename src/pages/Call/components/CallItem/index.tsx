@@ -1,6 +1,9 @@
 import { DotsThree, Pencil, Trash } from "phosphor-react";
 import React from "react";
-import Minhocona from "../../../../assets/Minhocona.svg"
+import { CallInterface } from "../..";
+import Cobrinha from "../../../../assets/Cobrinha.svg"
+import Idea from "../../../../assets/Idea.svg"
+import Thought from "../../../../assets/Thought.svg"
 import {
   CallDescription,
   CallInfoType,
@@ -11,17 +14,29 @@ import {
   CallItemInfoContent,
 } from "./style";
 
-export function CallItem() {
+interface CallProps {
+  callItem: CallInterface;
+}
+
+export function CallItem({ callItem }: CallProps) {
   return (
     <CallItemContainer>
       <CallItemInfoContent>
         <CallItemIcon>
-          <img src={Minhocona} />
+          {callItem.tipoChamado == "OUTRO" ? (
+            <img src={Thought} />
+          ): (<></>)}
+          {callItem.tipoChamado == "IDEIA" ? (
+            <img src={Idea} />
+          ): (<></>)}
+          {callItem.tipoChamado == "PROBLEMA" ? (
+            <img src={Cobrinha} />
+          ): (<></>)}
         </CallItemIcon>
 
         <CallDescription>
           <CallItemInfoContent>
-            <h3>Problema</h3>
+            <h3>{callItem.tipoChamado}</h3>
             <CallInfoType>
               <p>Fechada</p>
             </CallInfoType>
