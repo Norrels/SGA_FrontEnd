@@ -133,11 +133,13 @@ export function AvaliableModal() {
             <TableScroow>
               <table>
                 <thead>
-                  <th>Curso</th>
-                  <th>Professor</th>
-                  <th>Peiodo</th>
-                  <th>Data</th>
-                  <th>Ver Mais</th>
+                  <tr>
+                    <th>Curso</th>
+                    <th>Professor</th>
+                    <th>Peiodo</th>
+                    <th>Data</th>
+                    <th>Ver Mais</th>
+                  </tr>
                 </thead>
                 <tbody>
                   <tr>
