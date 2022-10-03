@@ -1,5 +1,7 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import React from "react";
 import { AdminItem } from "./components/AdminItem";
+import { NewAdminModal } from "./components/NewAdminModal";
 import {
   AdminButtonContainer,
   AdminContainer,
@@ -16,7 +18,12 @@ export function Admin() {
           <h1>Administradores</h1>
           <p>Chamadas realizadas no momento</p>
           <AdminButtonContainer>
-            <button>Novo administrador</button>
+            <Dialog.Root>
+              <Dialog.Trigger>
+              <button>Novo administrador</button>
+              </Dialog.Trigger>
+              <NewAdminModal />
+            </Dialog.Root>
           </AdminButtonContainer>
         </AdminTitleContainer>
         <input type="text" placeholder="Buscar por Ambiente" />
