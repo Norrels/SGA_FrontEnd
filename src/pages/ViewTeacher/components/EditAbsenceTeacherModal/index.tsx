@@ -14,7 +14,7 @@ import {
   RightLeft,
 } from "./style";
 
-export function DisableTeacherModal() {
+export function EditAbsenceTeacherModal() {
   const [inativation, setInativation] = useState("aus");
 
   return (
@@ -25,13 +25,13 @@ export function DisableTeacherModal() {
           <X size={24} />
         </CloseButton>
 
-        <Dialog.Title>Inativar Professor</Dialog.Title>
+        <Dialog.Title>Inativação</Dialog.Title>
 
         <InputContainer>
           <InputContentTriple>
             {inativation == "aus" ? (
               <div>
-                <button style={{ background: "#25B5E9", color: "white" }}>
+                <button disabled style={{ background: "#25B5E9", color: "white" }}>
                   Ausência
                 </button>
               </div>
@@ -78,6 +78,7 @@ export function DisableTeacherModal() {
               <InputContent>
                 {inativation == "fer" ? (
                   <>
+                  {/* Colocar a opacidade menor, não só disabiltar o botão */}
                     <label>Descrição</label>
                     <input
                       disabled
