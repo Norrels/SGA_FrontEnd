@@ -1,8 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
   CloseButton,
@@ -26,14 +27,10 @@ export const coursesInputs = z.object({
 
 export type CourseType = z.infer<typeof coursesInputs>;
 
-interface NewCouserModalProps {
-  addNewCourse: (data: CourseType) => void;
-}
-
-/* { addNewCourse }: NewCouserModalProps */
-export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
+export default function NewCourseModal() {
   const { register, handleSubmit, reset } = useForm<CourseType>();
   const [curricularUnit, setCurricularUnit] = useState(["1"]);
+  const { createCourseAPI } = useContext(ObjectsContext)
 
   function handleAddNewCurricarUnit() {
     //Gambiara para arrumar o erro de key - Provisorio
@@ -47,14 +44,7 @@ export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
     reset();
   }
 
-  async function createCourseAPI(data: CourseType) {
-    const res = await API.post("curso", data);
 
-    if (res.status == 200) {
-      addNewCourse(data);
-      console.log("passo aqui")
-    }
-  }
   return (
     <Dialog.Portal>
       <Overlay />
@@ -81,7 +71,7 @@ export default function NewCourseModal({ addNewCourse }: NewCouserModalProps) {
 
               <select {...register("tipoCurso")}>
                 <option>FIC</option>
-                <option>Regular</option>
+                <option value="REGULAR">Regular</option>
               </select>
             </NewCourseModalInputs>
 

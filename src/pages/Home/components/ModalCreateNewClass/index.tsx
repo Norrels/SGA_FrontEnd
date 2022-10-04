@@ -1,6 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
+import { useContext } from "react";
 import Resumo from "../../../../assets/Resumo.svg";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
   CloseButton,
   Content,
@@ -22,6 +24,17 @@ interface ModalCreateNewClassProps {
 }
 
 export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
+  const { courses, placesList } = useContext(ObjectsContext)
+
+
+  const courseFiltedByType = courses.filter((course) => {
+    if (course.tipoCurso.toLowerCase() == name.toLowerCase()){
+      return course
+    } 
+    if(name == 'customizável'){
+      return course
+    }
+  })
   return (
     <Dialog.Portal>
       <Overlay />
@@ -35,7 +48,12 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
           <ModalCreateClassContentLine>
             <label htmlFor="">Curso</label>
             <select name="" id="">
-              <option value="">Selecione um curso</option>
+              {courseFiltedByType.map((course) => {
+                return (
+                  <option key={course.id} value="">{course.nome}</option>
+                )
+              })}
+
             </select>
           </ModalCreateClassContentLine>
 
@@ -65,7 +83,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
           </ModalCreateClassContentLines>
 
           <ModalCreateClassDays>
-            <span>
+            <span onClick={() => console.log(courses)}>
               <label>Dom</label>
               <HomeCheckBox>
                 <HomeCheckBoxIndicator>
@@ -136,6 +154,15 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <input type="number" placeholder="Digite as horas" />
             </ModalCreateClassContentCollum>
           </ModalCreateClassContentLines>
+
+          <ModalCreateClassContentLine>
+            <label htmlFor="">Ambiente</label>
+            <select placeholder="Digite o código da turma" >
+            {placesList.map((place) => {
+              return <option key={place.id}>{place.nome}</option>;
+            })}  
+            </select>
+          </ModalCreateClassContentLine>
 
           <ModalCreateClassSumarryContent>
             <img src={Resumo} alt="" />

@@ -1,7 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
   CloseButton,
   ContainerButtonCreate,
@@ -33,12 +35,14 @@ const newPlaceModalInput = z.object({
 
 export type NewPlaceType = z.infer<typeof newPlaceModalInput>
 
-export function NewPlaceModal({ addNewPlace }: NewPlaceModalProps) {
+export function NewPlaceModal() {
   const { register, handleSubmit, reset } = useForm<NewPlaceType>()
 
+  const { createPlacesAPI } = useContext(ObjectsContext)
+
   function handleCreateNewPlace(data: NewPlaceType) {
-    addNewPlace(data)
-    console.log(data)
+    data.ativo = true
+    createPlacesAPI(data)
     reset()
   }
   return (
@@ -61,11 +65,11 @@ export function NewPlaceModal({ addNewPlace }: NewPlaceModalProps) {
             <InputContent>
               <label>Tipo</label>
               <select placeholder="Selecione o Tipo de Ambiente" {...register("tipoAmbiente")}>
-                <option>Unidade Movel</option>
-                <option>Presencial</option>
+                <option value='UNIDADE_MOVEL'>Unidade Movel</option>
+                <option value='PRESENCIAL'>Presencial</option>
                 <option>EAD</option>
-                <option>Entidade</option>
-                <option>Empresa</option>
+                <option value='ENTIDADE'>Entidade</option>
+                <option value='EMPRESA'>Empresa</option>
               </select>
             </InputContent>
 

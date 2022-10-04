@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
 import { API } from "../../lib/axios";
@@ -10,44 +10,11 @@ import {
   CourseList,
   CourseTitleContainer,
 } from "./style";
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
-export interface CouseProps {
-  id: string;
-  nome: string;
-  tipoCurso: string;
-}[]
 
 export function Course() {
-  const [courses, setCourses] = useState<CouseProps[]>([]);
-  const [coursesFilted, setCoursesFilted] = useState<CouseProps[]>(courses);
-
-  function addNewCourse(data: CouseProps) {
-    setCourses([...courses, data]);
-    setCoursesFilted([...coursesFilted, data]);
-  }
-
-  /* function handleSearch(event: ChangeEvent<HTMLInputElement>) {
-    const coursesSearched = courses.filter((course) => {
-      if (
-        course.nome.toLowerCase().match(event.target.value) ||
-        course.tipo.toLowerCase().match(event.target.value)
-      ) {
-        return course;
-      }
-    });
-    setCoursesFilted(coursesSearched);
-  }
- */
-
-  async function fetchCourses() {
-    const res = await API.get("curso");
-
-    setCourses(res.data);
-  }
-
-  useEffect(() => {
-    fetchCourses();
-  }, []);
+  const { courses } = useContext(ObjectsContext)
 
   return (
     <CourseContainer>
@@ -60,7 +27,7 @@ export function Course() {
               <Dialog.Trigger asChild>
                 <button>Novo Curso</button>
               </Dialog.Trigger>
-              <NewCourseModal addNewCourse={addNewCourse} /* addNewCourse={addNewCourse} */ />
+              <NewCourseModal/>
             </Dialog.Root>
           </CourseButtonContainer>
         </CourseTitleContainer>

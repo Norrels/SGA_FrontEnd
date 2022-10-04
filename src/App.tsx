@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components';
-import { TeacherContextProvider } from './contexts/TeacherContext';
+import { ObjectsContextProvider } from './Contexts/ObjectsContext';
+
 import { Router } from "./Router";
 import { GlobalStyle } from './styles/global';
 import { defaultTheme } from './styles/themes/default';
@@ -10,11 +11,11 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
-        <TeacherContextProvider>
-          <Router />
-        </TeacherContextProvider>
+      <ObjectsContextProvider>
+      <Router />
+      </ObjectsContextProvider>
       </BrowserRouter>
-      <GlobalStyle />
+      <GlobalStyle/>
     </ThemeProvider>
   )
 }

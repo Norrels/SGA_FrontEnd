@@ -25,8 +25,6 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   CaretDown,
   CaretUp,
-  DotsThree,
-  DotsThreeOutline,
   Sliders,
   User,
 } from "phosphor-react";
@@ -34,11 +32,12 @@ import { NavLink } from "react-router-dom";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext } from "react";
-import { TeacherContext } from "../../contexts/TeacherContext";
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
+
 
 export default function AdvancedSearch() {
 
-  const { teachers } = useContext(TeacherContext)
+  const { teachers, placesList } = useContext(ObjectsContext)
 
   return (
     <>
@@ -237,7 +236,6 @@ export default function AdvancedSearch() {
                       {teachers.map((teacher) => {
                         return (
                           <span key={teacher.id}>
-                            {" "}
                             <input type="checkbox" /> {teacher.nome}
                           </span>
                         )
@@ -254,22 +252,13 @@ export default function AdvancedSearch() {
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Sala 1
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Sala 2
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Lab 3
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Oficina 1
-                      </span>
+                      {placesList.map((place) => {
+                        return (
+                          <span key={place.id}>
+                            <input type="checkbox" /> {place.nome}
+                          </span>
+                        )
+                      })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
