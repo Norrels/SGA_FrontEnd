@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { API } from "../../lib/axios";
 import { AdminItem } from "./components/AdminItem";
 import { NewAdminModal } from "./components/NewAdminModal";
 import {
@@ -10,7 +11,31 @@ import {
   AdminTitleContainer,
 } from "./style";
 
+export interface AdminProps {
+  id: string;
+  nome: string;
+  email: string;
+  nif: string;
+  tipoCurso: string;
+  senha: string;
+  ativo: string;
+}[]
+
 export function Admin() {
+  
+  const [admin, setAdmin] = useState<AdminProps[]>([]);
+
+  async function fetchAdmin() {
+    const res = await API.get("usuario")
+    
+    console.log(res.data)
+    setAdmin(res.data);
+  }
+
+  useEffect(() => {
+    fetchAdmin();
+  }, []);
+
   return (
     <AdminContainer>
       <AdminContent>
@@ -20,7 +45,7 @@ export function Admin() {
           <AdminButtonContainer>
             <Dialog.Root>
               <Dialog.Trigger>
-              <button>Novo administrador</button>
+                <button>Novo administrador</button>
               </Dialog.Trigger>
               <NewAdminModal />
             </Dialog.Root>
@@ -29,12 +54,9 @@ export function Admin() {
         <input type="text" placeholder="Buscar por Ambiente" />
 
         <AdminList>
-          <AdminItem />
-          <AdminItem />
-          <AdminItem />
-          <AdminItem />
-          <AdminItem />
-          <AdminItem />
+          {admin.map((admin) => (
+            <AdminItem key={admin.id} admin={admin} />
+          ))}
         </AdminList>
       </AdminContent>
     </AdminContainer>
