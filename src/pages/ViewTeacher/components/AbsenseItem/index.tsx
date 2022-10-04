@@ -30,17 +30,22 @@ export function AbsenseItem() {
 
       <AbsenseItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger>
+          <Dialog.Trigger
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              display: "flex",
+            }}
+          >
             <AbsenseItemButton buttonColor="edit">
-              <DotsThree color="#000" size={25} />
+              <DotsThree color="#fff" size={32} />
             </AbsenseItemButton>
           </Dialog.Trigger>
 
           <EditAbsenceTeacherModal />
-
         </Dialog.Root>
         <AbsenseItemButton buttonColor="delete">
-          <Trash color="white" size={25} />
+          <Trash color="white" size={26} />
         </AbsenseItemButton>
       </AbsenseItemButtonContainer>
     </AbsenseItemContainer>

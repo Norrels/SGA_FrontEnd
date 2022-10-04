@@ -51,8 +51,8 @@ export const AbsenseItemIcon = styled.span`
 `;
 
 const BUTTONS = {
-  edit: "blue-200",
-  delete: "blue-400",
+  edit: "blue-300",
+  delete: "blue-500",
 } as const;
 
 interface ButtonProps {
@@ -66,14 +66,17 @@ export const AbsenseItemButtonContainer = styled.div`
 `;
 
 export const AbsenseItemButton = styled.div<ButtonProps>`
-  border: none;
-  border-radius: 8px;
-  padding: 0.2rem;
-  cursor: pointer;
-
-  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+  width: 40px;
+  height: 40px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  border-radius: 8px;
+  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
 `;
