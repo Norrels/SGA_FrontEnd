@@ -1,8 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
 import { Teacher } from "../../../../Contexts/ObjectsContext";
-import { DisableTeacherModal } from "../DisableTeacherModal";
-import { EditTeacherModal, TeacherType } from "../EditTeacherModal";
 import {
   TeacherItemButton,
   TeacherItemButtonContainer,
@@ -16,10 +14,6 @@ interface TeacherItemProps {
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
-
-  function editTeacher(data: TeacherType) {
-    console.log(data)
-  }
 
   return (
     <TeacherItemContainer>
@@ -39,10 +33,6 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
               <DotsThree color="#000" size={25} />
             </TeacherItemButton>
           </Dialog.Trigger>
-          <EditTeacherModal
-            editNewTeacher={editTeacher}
-            teacherItem={teacherItem}
-          />
         </Dialog.Root>
 
         <TeacherItemButton buttonColor="delete">
@@ -56,7 +46,6 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
             >
               <Trash color="white" size={25} />
             </Dialog.Trigger>
-            <NewAbsenceTeacherModal />
           </Dialog.Root>
         </TeacherItemButton>
       </TeacherItemButtonContainer>

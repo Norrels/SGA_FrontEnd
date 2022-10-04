@@ -1,6 +1,8 @@
+import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Star } from "phosphor-react";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
 import { AbsenseItem } from "./components/AbsenseItem";
+import { EditTeacherModal } from "./components/EditTeacherModal";
 import {
   Absense,
   AbsenseList,
@@ -22,7 +24,19 @@ export function ViewTeacher() {
       <TeacherMain>
         <img src={VisualzacaoProfessores} />
         <TeacherMainProfile>
-          <NotePencil size={32} opacity={0.5} />
+          <Dialog.Root>
+            <Dialog.Trigger
+              style={{
+                backgroundColor: "transparent",
+                border: "none",
+                display: "flex",
+              }}
+            >
+              <NotePencil size={32} opacity={0.5} />
+            </Dialog.Trigger>
+
+            {/* <EditTeacherModal /> */}
+          </Dialog.Root>
           <TeacherProfileContent>
             <TeacherProfileLeft>
               <TeacherProfileLeftPhoto>
@@ -92,7 +106,7 @@ export function ViewTeacher() {
         <input type="text" placeholder="Buscar ausência..." />
 
         <AbsenseList>
-            <AbsenseItem/>
+          <AbsenseItem />
         </AbsenseList>
       </Absense>
     </Main>
