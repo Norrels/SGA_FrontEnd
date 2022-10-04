@@ -89,6 +89,7 @@ export const Buttons = styled.div`
 
     border: none;
     box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    opacity: 0.6;
   }
 `;
 
@@ -118,12 +119,11 @@ export const InputContent = styled.div`
       font-size: 1.1rem;
       color: ${(props) => props.theme["gray-700"]};
 
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-
       &:disabled {
         background-color: #efefef;
+        &::placeholder {
+          color: rgba(109, 109, 109, 0.5);
+        }
       }
     }
   }

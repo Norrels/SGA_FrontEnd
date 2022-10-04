@@ -41,7 +41,7 @@ export function EditAbsenceTeacherModal() {
         <InputContainer>
           <Buttons>
             <button
-              disabled={!editable}
+              disabled
               style={
                 inativation == "aus"
                   ? { backgroundColor: "#367FBF", color: "#fff" }
@@ -52,7 +52,7 @@ export function EditAbsenceTeacherModal() {
               Ausencia
             </button>
             <button
-              disabled={!editable}
+              disabled
               style={
                 inativation == "fer"
                   ? { backgroundColor: "#367FBF", color: "#fff" }
