@@ -1,111 +1,107 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "phosphor-react";
+import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
 import {
-  CloseButton,
-  ContainerButtonCreate,
+  Buttons,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
-  InputContentTriple,
-  InputLeft,
+  InputIndividual,
+  ModalHeader,
   Overlay,
-  RightLeft,
 } from "./style";
 
 export function EditAbsenceTeacherModal() {
   const [inativation, setInativation] = useState("aus");
+  const [editable, setEditable] = useState(false);
 
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <CloseButton>
-          <X size={24} />
-        </CloseButton>
-
-        <Dialog.Title>Inativação</Dialog.Title>
-
+        <ModalHeader>
+          <Dialog.Title>Inativação</Dialog.Title>
+          <HeaderButtons>
+            {!editable ? (
+              <NotePencil
+                onClick={() => setEditable(true)}
+                size={50}
+                weight="light"
+              />
+            ) : (
+              <></>
+            )}
+            <Dialog.Close>
+              <X onClick={() => setEditable(false)} size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
         <InputContainer>
-          <InputContentTriple>
-            {inativation == "aus" ? (
-              <div>
-                <button disabled style={{ background: "#25B5E9", color: "white" }}>
-                  Ausência
-                </button>
-              </div>
-            ) : (
-              <div>
-                <button onClick={() => setInativation("aus")}>Ausência</button>
-              </div>
-            )}
-            {inativation == "fer" ? (
-              <div>
-                <button style={{ background: "#25B5E9", color: "white" }}>
-                  Férias
-                </button>
-              </div>
-            ) : (
-              <div>
-                <button onClick={() => setInativation("fer")}>Férias</button>
-              </div>
-            )}
-            {inativation == "dem" ? (
-              <button style={{ background: "#25B5E9", color: "white" }}>
-                Demissão
-              </button>
-            ) : (
-              <div>
-                <button onClick={() => setInativation("dem")}>Demissão</button>
-              </div>
-            )}
-          </InputContentTriple>
-          {inativation == "dem" ? (
-            <></>
+          <Buttons>
+            <button
+              disabled={!editable}
+              style={
+                inativation == "aus"
+                  ? { backgroundColor: "#367FBF", color: "#fff" }
+                  : { backgroundColor: "#FFF" }
+              }
+              onClick={() => setInativation("aus")}
+            >
+              Ausencia
+            </button>
+            <button
+              disabled={!editable}
+              style={
+                inativation == "fer"
+                  ? { backgroundColor: "#367FBF", color: "#fff" }
+                  : { backgroundColor: "#FFF" }
+              }
+              onClick={() => setInativation("fer")}
+            >
+              Férias
+            </button>
+          </Buttons>
+
+          <InputContent>
+            <InputIndividual>
+              <label>Data de início</label>
+              <input
+                type="date"
+                placeholder="dd/MM/yyyy"
+                disabled={!editable}
+              />
+            </InputIndividual>
+            <InputIndividual>
+              <label>Data de fim</label>
+              <input
+                type="date"
+                placeholder="dd/MM/yyyy"
+                disabled={!editable}
+              />
+            </InputIndividual>
+          </InputContent>
+          {inativation == "aus" ? (
+            <InputContent>
+              <label>Descrição</label>
+              <input
+                type="text"
+                placeholder="Digite a descrição"
+                disabled={!editable}
+              />
+            </InputContent>
           ) : (
-            <>
-              <InputContentDupo>
-                <InputLeft>
-                  <label>Data de início</label>
-                  <input type="date" placeholder="dd/MM/yyyy" />
-                </InputLeft>
-                <RightLeft>
-                  <label>Data de fim</label>
-                  <input type="date" placeholder="dd/MM/yyyy" />
-                </RightLeft>
-              </InputContentDupo>
-              <InputContent>
-                {inativation == "fer" ? (
-                  <>
-                  {/* Colocar a opacidade menor, não só disabiltar o botão */}
-                    <label>Descrição</label>
-                    <input
-                      disabled
-                      value=""
-                      type="text"
-                      placeholder="Digite a descrição"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <label>Descrição</label>
-                    <input type="text" placeholder="Digite a descrição" />
-                  </>
-                )}
-              </InputContent>
-            </>
+            <></>
           )}
         </InputContainer>
-        <ContainerButtonCreate>
-          {inativation == "dem" ? (
-            <>
-              <button>Demitir</button>
-            </>
-          ) : (
-            <button>Inativar</button>
-          )}
-        </ContainerButtonCreate>
+        {editable ? (
+          <FinalButton>
+            <button>Salvar</button>
+          </FinalButton>
+        ) : (
+          <></>
+        )}
       </Content>
     </Dialog.Portal>
   );

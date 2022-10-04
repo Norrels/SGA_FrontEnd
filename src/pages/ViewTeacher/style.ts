@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Main = styled.main`
   width: 70rem;
-  margin: 8rem auto;
+  margin: 4rem auto;
 `;
 
 export const TeacherMain = styled.div`
@@ -129,7 +129,7 @@ export const TeacherIndividualStars = styled.div`
 
 export const Absense = styled.div`
   width: 100%;
-  margin: 4rem auto;
+  margin: 2rem auto;
   input {
     width: 100%;
     height: 3.75rem;
