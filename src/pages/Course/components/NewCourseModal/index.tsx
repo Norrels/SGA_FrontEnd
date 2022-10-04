@@ -71,7 +71,7 @@ export default function NewCourseModal() {
 
               <select {...register("tipoCurso")}>
                 <option>FIC</option>
-                <option>Regular</option>
+                <option value="REGULAR">Regular</option>
               </select>
             </NewCourseModalInputs>
 

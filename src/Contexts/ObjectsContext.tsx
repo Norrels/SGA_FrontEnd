@@ -21,6 +21,17 @@ export interface Teacher {
 }
 [];
 
+export interface PlaceProps {
+  id: number;
+  nome: string;
+  capacidade: number;
+  tipoAmbiente: string;
+  cep: string;
+  complemento: string;
+  ativo: boolean;
+}
+[];
+
 
 export interface CourseProps {
   id: string;
@@ -32,8 +43,10 @@ export interface CourseProps {
 interface ObjectsContextType {
   teachers: Teacher[]
   courses: CourseProps[]
+  placesList: PlaceProps[]
   createTeacherAPI: (data: Teacher) => void
   createCourseAPI: (data: CourseProps) => void
+  createPlacesAPI: (data: PlaceProps) => void
 }
 
 
@@ -42,12 +55,15 @@ export const ObjectsContext = createContext({} as ObjectsContextType)
 export function ObjectsContextProvider({ children }: ObjectsContextProviderProps) {
 
   useEffect(() => {
+    fetchPlaces();
     fetchTeachers();
-    fetchCourses()
+    fetchCourses();
+    
   }, []);
 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
+  const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
 
   async function fetchTeachers() {
     const res = await API.get("professor");
@@ -75,9 +91,24 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     setCourses(res.data);
   }
 
+  async function fetchPlaces() {
+    const res = await API.get("ambiente");
+    setPlacesList(res.data);
+  }
+
+  async function createPlacesAPI(data: PlaceProps) {
+    const res = await API.post("ambiente", data);
+    if (res.status == 200) {
+      data.id = res.data[1]
+      setPlacesList([...placesList, data]);
+    }
+  }
+
   return (
     <ObjectsContext.Provider
       value={{
+        createPlacesAPI,
+        placesList,
         teachers,
         createTeacherAPI,
         courses,

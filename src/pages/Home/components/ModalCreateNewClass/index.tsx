@@ -28,8 +28,11 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
 
 
   const courseFiltedByType = courses.filter((course) => {
-    if (course.tipoCurso == name) {
-        return course
+    if (course.tipoCurso.toLowerCase() == name.toLowerCase()){
+      return course
+    } 
+    if(name == 'customizável'){
+      return course
     }
   })
   return (

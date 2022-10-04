@@ -9,21 +9,18 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
-import { useContext, useEffect, useState } from "react";
-import { API } from "../../lib/axios";
+import { useContext } from "react";
 import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
 export function Teacher() {
   const { teachers } = useContext(ObjectsContext)
 
   return (
-   
       <TeacherContainer>
         <TeacherContent>
           <TeacherTitleContainer>
             <h1>Professores</h1>
             <p>Selecione um Professor ou crie um novo!</p>
-
             <TeacherButtonContainer>
               <Dialog.Root>
                 <Dialog.Trigger asChild>
@@ -51,6 +48,5 @@ export function Teacher() {
           </TeacherList>
         </TeacherContent>
       </TeacherContainer>
-   
   );
 }

@@ -9,36 +9,13 @@ import {
 } from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal } from "./components/NewPlaceModal";
-import { useEffect, useState } from "react";
-import { API } from "../../lib/axios";
+import { useContext } from "react";
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
-export interface PlaceInterface {
-  id: number;
-  nome: string;
-  capacidade: number;
-  tipoAmbiente: string;
-  cep: string;
-  complemento: string;
-  ativo: boolean;
-}
-[];
+
 
 export function Places() {
-  const [places, setPlaces] = useState<PlaceInterface[]>([]);
-
-  async function fetchPlaces() {
-    const res = await API.get("ambiente");
-    setPlaces(res.data);
-    console.log(res.data)
-  }
-
-  function addNewPlace(data : PlaceInterface) {
-    setPlaces([...places, data]);
-  }
-
-  useEffect(() => {
-    fetchPlaces();
-  }, []);
+  const { placesList } = useContext(ObjectsContext)
 
   return (
     <PlacesContainer>
@@ -52,7 +29,7 @@ export function Places() {
               <Dialog.Trigger asChild>
                 <button>Novo ambiente</button>
               </Dialog.Trigger>
-              <NewPlaceModal addNewPlace={addNewPlace}  />
+              <NewPlaceModal/>
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
@@ -65,7 +42,7 @@ export function Places() {
         <input type="text" placeholder="Buscar por ambiente " />
 
         <PlacesList>
-          {places.map((place) => (
+          {placesList.map((place) => (
             <Place key={place.id} placeItem={place} />
           ))}
         </PlacesList>

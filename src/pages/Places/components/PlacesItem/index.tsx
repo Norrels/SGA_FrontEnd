@@ -1,7 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
-import React from "react";
-import { PlaceInterface } from "../..";
+import { PlaceProps } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { EditPlaceModal } from "../EditPlaceModal";
 import {
@@ -14,13 +13,13 @@ import {
 } from "./style";
 
 interface PlacesProps {
-  placeItem: PlaceInterface;
+  placeItem: PlaceProps;
 }
 
 export function Place({ placeItem }: PlacesProps) {
-  function editNewPlace(data: PlaceInterface) {}
+  function editNewPlace(data: PlaceProps) {}
 
-  async function handleDisablePlace(data: PlaceInterface) {
+  async function handleDisablePlace(data: PlaceProps) {
     const res = await API.put(`ambiente/inativar/${placeItem.id}`);
 
     if (res.status == 200) {
