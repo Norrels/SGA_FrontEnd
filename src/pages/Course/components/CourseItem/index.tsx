@@ -28,10 +28,10 @@ export type CourseType = z.infer<typeof courseInput>
 export function CourseItem({course} : NewCouserModalProps) {
 
   async function deleteCourseAPI(course : CourseType) {
-      const res = await API.delete(`curso/${course.id}`);
+      const res = await API.delete(`curso/inativar/${course.id}`);
 
       if(res.status == 200) {
-
+        console.log("deu certo")
       }
   }
 
