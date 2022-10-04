@@ -24,7 +24,7 @@ interface ModalCreateNewClassProps {
 }
 
 export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
-  const { courses } = useContext(ObjectsContext)
+  const { courses, placesList } = useContext(ObjectsContext)
 
 
   const courseFiltedByType = courses.filter((course) => {
@@ -154,6 +154,15 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
               <input type="number" placeholder="Digite as horas" />
             </ModalCreateClassContentCollum>
           </ModalCreateClassContentLines>
+
+          <ModalCreateClassContentLine>
+            <label htmlFor="">Ambiente</label>
+            <select placeholder="Digite o código da turma" >
+            {placesList.map((place) => {
+              return <option key={place.id}>{place.nome}</option>;
+            })}  
+            </select>
+          </ModalCreateClassContentLine>
 
           <ModalCreateClassSumarryContent>
             <img src={Resumo} alt="" />

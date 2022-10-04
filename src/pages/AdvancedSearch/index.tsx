@@ -25,8 +25,6 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   CaretDown,
   CaretUp,
-  DotsThree,
-  DotsThreeOutline,
   Sliders,
   User,
 } from "phosphor-react";
@@ -39,7 +37,7 @@ import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
 export default function AdvancedSearch() {
 
-  const { teachers  } = useContext(ObjectsContext)
+  const { teachers, placesList } = useContext(ObjectsContext)
 
   return (
     <>
@@ -254,22 +252,13 @@ export default function AdvancedSearch() {
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Sala 1
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Sala 2
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Lab 3
-                      </span>
-                      <span>
-                        {" "}
-                        <input type="checkbox" /> Oficina 1
-                      </span>
+                      {placesList.map((place) => {
+                        return (
+                          <span key={place.id}>
+                            <input type="checkbox" /> {place.nome}
+                          </span>
+                        )
+                      })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
