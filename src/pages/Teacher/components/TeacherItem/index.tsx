@@ -56,7 +56,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
             >
               <Trash color="white" size={25} />
             </Dialog.Trigger>
-            <DisableTeacherModal />
+            <NewAbsenceTeacherModal />
           </Dialog.Root>
         </TeacherItemButton>
       </TeacherItemButtonContainer>
