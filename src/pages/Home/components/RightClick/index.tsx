@@ -1,5 +1,6 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as Dialog from "@radix-ui/react-dialog";
+import { EditAllClassModal } from "../EditAllClassModal";
 import { EditClassModal } from "../EditClassModal";
 import {
   RightClickContainer,
@@ -17,7 +18,10 @@ export function RightClick() {
           <EditClassModal />
         </RightClickItem>
         <RightClickSeperator />
-        <RightClickItem>Editar aulas</RightClickItem>
+        <RightClickItem as={Dialog.Root}>
+          <Dialog.Trigger>Editar aulas</Dialog.Trigger>
+          <EditAllClassModal />
+        </RightClickItem>
       </RightClickContainer>
     </ContextMenu.Portal>
   );

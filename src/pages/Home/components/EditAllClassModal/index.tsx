@@ -14,7 +14,7 @@ import {
   Overlay,
 } from "./style";
 
-export function EditClassModal() {
+export function EditAllClassModal() {
   return (
     <Dialog.Portal>
       <Overlay />
@@ -24,7 +24,7 @@ export function EditClassModal() {
             <X />
           </CloseButton>
 
-          <Dialog.Title>Editar Aula</Dialog.Title>
+          <Dialog.Title>Editar Aulas</Dialog.Title>
 
           <InputContainer>
             <InputContentDupo>
@@ -33,17 +33,22 @@ export function EditClassModal() {
                 <input type="date" placeholder="" />
               </div>
               <div>
-                <label>Selecione o Ambiente</label>
-                <select placeholder="Selecione o Ambiente">
-                  <option>Selecione o Ambiente</option>
-                </select>
+                <label>Data Final</label>
+                <input type="date" placeholder="" />
               </div>
             </InputContentDupo>
 
             <InputContent>
               <label>Selecione o Professor</label>
               <select placeholder="Selecione o Professor">
-                <option>Selecione o Professor</option>
+                <option >Selecione o Professor</option>
+              </select>
+            </InputContent>
+
+            <InputContent>
+              <label>Selecione o Ambiente</label>
+              <select placeholder="Selecione o Ambiente">
+                <option>Selecione o Ambiente</option>
               </select>
             </InputContent>
 
