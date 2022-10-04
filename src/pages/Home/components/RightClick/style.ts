@@ -13,7 +13,6 @@ export const RightClickContainer = styled(ContextMenu.Content)`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-
 `;
 
 export const RightClickSeperator = styled(ContextMenu.Separator)`
@@ -27,8 +26,26 @@ export const RightClickItem = styled(ContextMenu.Item)`
   padding: 0.2rem 0.5rem;
   transition: background-color, color 0.1s;
 
+  button {
+    border: none;
+    background-color: transparent;
+    transition: background-color, color 0.1s;
+    
+    font-size: 16px;
+    font-weight: bolder;
+    color: rgb(181, 181, 181);
+
+    &:hover {
+      background: ${(props) => props.theme["blue-500"]};
+      color: ${(props) => props.theme["white"]};
+    }
+  }
+
   &:hover {
     background: ${(props) => props.theme["blue-500"]};
-    color: ${(props) => props.theme["white"]};
+    
+    button {
+      color: ${(props) => props.theme["white"]};
+    }
   }
 `;
