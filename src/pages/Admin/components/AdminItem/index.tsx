@@ -6,13 +6,12 @@ import { AdminProps } from "../..";
 import { API } from "../../../../lib/axios";
 import { EditAdminModal } from "../EditAdminModal";
 import {
-  AdminDescription,
-  AdminInfoType,
   AdminItemButton,
   AdminItemButtonContainer,
   AdminItemContainer,
   AdminItemIcon,
   AdminItemInfoContent,
+  AdminItemInfoContentName,
 } from "./style";
 
 interface NewAdminModalProps {
@@ -29,10 +28,8 @@ export const adminInput = z.object({
 export type AdminType = z.infer<typeof adminInput>;
 
 export function AdminItem({ admin }: NewAdminModalProps) {
-
   async function handleDisableAdminAPI(data: AdminType) {
-    const res = await API.put(`desativar/${data.nif}`)
-
+    const res = await API.put(`desativar/${data.nif}`);
   }
 
   return (
@@ -42,25 +39,26 @@ export function AdminItem({ admin }: NewAdminModalProps) {
           <User size={30} />
         </AdminItemIcon>
 
-        <AdminDescription>
+        <AdminItemInfoContentName>
           <h3>{admin.nome}</h3>
-        </AdminDescription>
+          <p>{admin.nif}</p>
+        </AdminItemInfoContentName>
       </AdminItemInfoContent>
 
       <AdminItemButtonContainer>
         <Dialog.Root>
-          <Dialog.Trigger>
+          <Dialog.Trigger style={{ border: "none" }}>
             <AdminItemButton buttonColor="edit">
               <DotsThree color="#000" size={25} />
             </AdminItemButton>
           </Dialog.Trigger>
-          <EditAdminModal 
-            admin={admin}
-            key={admin.id}
-          />
+          <EditAdminModal admin={admin} key={admin.id} />
         </Dialog.Root>
 
-        <AdminItemButton onClick={() => handleDisableAdminAPI(admin)} buttonColor="delete">
+        <AdminItemButton
+          onClick={() => handleDisableAdminAPI(admin)}
+          buttonColor="delete"
+        >
           <Trash color="#fff" size={25} />
         </AdminItemButton>
       </AdminItemButtonContainer>
