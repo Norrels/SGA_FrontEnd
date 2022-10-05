@@ -54,21 +54,6 @@ export function Header() {
             <NavLink to="/professores" title="Professor">
               Professores
             </NavLink>
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild>
-                <CaretDown weight="fill" />
-              </DropdownMenu.Trigger>
-
-              <HeaderNavMenuContent>
-                <HeaderNavMenuArrow>
-                  <CaretUp weight="fill" size={30} />
-                </HeaderNavMenuArrow>
-
-                <HeaderNavMenuItem>
-                  <NavLink to="/ferias-coletiva">Ferias coletiva</NavLink>
-                </HeaderNavMenuItem>
-              </HeaderNavMenuContent>
-            </DropdownMenu.Root>
           </HeaderNavMenu>
           <NavLink to="/cursos" title="Cursos">
             Cursos

@@ -11,6 +11,7 @@ import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
 import { useContext } from "react";
 import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { NewVacation } from "./components/NewVacation";
 
 export function Teacher() {
   const { teachers } = useContext(ObjectsContext)
@@ -34,7 +35,15 @@ export function Teacher() {
                 <Dialog.Trigger asChild>
                   <button>Disponibilidade</button>
                 </Dialog.Trigger>
+
                 <AvaliableModal />
+              </Dialog.Root>
+
+              <Dialog.Root>
+                <Dialog.Trigger asChild>
+                  <button>Férias</button>
+                </Dialog.Trigger>
+                <NewVacation/>
               </Dialog.Root>
             </TeacherButtonContainer>
           </TeacherTitleContainer>
