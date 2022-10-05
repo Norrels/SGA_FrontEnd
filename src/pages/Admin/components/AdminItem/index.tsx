@@ -29,11 +29,12 @@ export type AdminType = z.infer<typeof adminInput>;
 
 export function AdminItem({ admin }: NewAdminModalProps) {
   async function handleDisableAdminAPI(data: AdminType) {
-    const res = await API.put(`desativar/${data.nif}`);
+    const res = await API.put(`usuario/desativar/${data.id}`);
+    console.log(res)
   }
 
   return (
-    <AdminItemContainer>
+    <AdminItemContainer >
       <AdminItemInfoContent>
         <AdminItemIcon>
           <User size={30} />

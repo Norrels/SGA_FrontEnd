@@ -46,7 +46,8 @@ export function EditAdminModal({ admin }: EditAdminModalProps) {
     console.log(admin.nif)
     console.log(data.nif)
 
-    const res = await API.put(`usuario/${admin.nif}`, {
+    const res = await API.put(`usuario/${admin.id}`, {
+        id: admin.id,
         nome: data.nome,
         nif: data.nif,
         email: data.email,
