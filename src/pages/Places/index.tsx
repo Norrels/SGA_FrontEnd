@@ -12,8 +12,6 @@ import { NewPlaceModal } from "./components/NewPlaceModal";
 import { useContext } from "react";
 import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
-
-
 export function Places() {
   const { placesList } = useContext(ObjectsContext)
 
@@ -29,7 +27,7 @@ export function Places() {
               <Dialog.Trigger asChild>
                 <button>Novo ambiente</button>
               </Dialog.Trigger>
-              <NewPlaceModal/>
+              <NewPlaceModal />
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
@@ -43,6 +41,7 @@ export function Places() {
 
         <PlacesList>
           {placesList.map((place) => (
+            place.ativo === true &&
             <Place key={place.id} placeItem={place} />
           ))}
         </PlacesList>

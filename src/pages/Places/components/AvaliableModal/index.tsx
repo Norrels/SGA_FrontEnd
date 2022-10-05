@@ -15,7 +15,6 @@ import {
   Overlay,
   TableScroow,
 } from "./style";
-
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
 
 export function AvaliableModal() {

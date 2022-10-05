@@ -32,23 +32,22 @@ export interface PlaceProps {
 }
 [];
 
-
 export interface CourseProps {
   id: string;
   nome: string;
   tipoCurso: string;
 }[]
 
-
 interface ObjectsContextType {
   teachers: Teacher[]
   courses: CourseProps[]
   placesList: PlaceProps[]
+  deletePlace: (id: number) => void
+  updatePlaces: (data: PlaceProps) => void
   createTeacherAPI: (data: Teacher) => void
   createCourseAPI: (data: CourseProps) => void
   createPlacesAPI: (data: PlaceProps) => void
 }
-
 
 export const ObjectsContext = createContext({} as ObjectsContextType)
 
@@ -104,9 +103,38 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
+  async function updatePlaces(data: PlaceProps) {
+    data.ativo = true
+    const res = await API.put(`/ambiente/${data.id}`, data);
+    
+    if (res.status == 200) {
+      const valorAtualizado = placesList.map((place) => {
+        if(place.id == data.id) {
+          place = data
+        }
+        return place
+      })
+      setPlacesList(valorAtualizado);
+    }
+  }
+
+  
+  async function deletePlace(id: number) {
+    const res = await API.put(`/ambiente/inativar/${id}`);
+  
+    if (res.status == 200) {
+      const valorAtualizado = placesList.filter((place) => {
+        return place.id != id
+      })
+      setPlacesList(valorAtualizado);
+    }
+  }
+
   return (
     <ObjectsContext.Provider
       value={{
+        deletePlace,
+        updatePlaces,
         createPlacesAPI,
         placesList,
         teachers,

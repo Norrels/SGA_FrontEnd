@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
-import { PlaceProps } from "../../../../Contexts/ObjectsContext";
-import { API } from "../../../../lib/axios";
+import { useContext } from "react";
+import { ObjectsContext, PlaceProps } from "../../../../Contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
 import {
   PlacesItemButton,
@@ -17,19 +17,9 @@ interface PlacesProps {
 }
 
 export function Place({ placeItem }: PlacesProps) {
-  function editNewPlace(data: PlaceProps) {}
-
-  async function handleDisablePlace(data: PlaceProps) {
-    const res = await API.put(`ambiente/inativar/${placeItem.id}`);
-
-    if (res.status == 200) {
-      console.log("deu certo");
-    }
-  }
+  const { deletePlace } = useContext(ObjectsContext)
 
   return (
-    <>
-      {placeItem.ativo ? (
         <PlacesItemContainer>
           <PlacesItemInfoContainer>
             <PlacesItemIcon>
@@ -49,24 +39,17 @@ export function Place({ placeItem }: PlacesProps) {
                   <DotsThree size={25} />
                 </PlacesItemButton>
               </Dialog.Trigger>
-              <EditPlaceModal
-                editNewPlace={editNewPlace}
-                placeItem={placeItem}
-              />
+              <EditPlaceModal place={placeItem}  />
             </Dialog.Root>
 
-            <PlacesItemButton /* id={id + ""} */ buttonColor="delete">
+            <PlacesItemButton buttonColor="delete">
               <Trash
                 color="#fff"
                 size={25}
-                onClick={() => handleDisablePlace(placeItem)}
+                onClick={() => deletePlace(placeItem.id)}
               />
             </PlacesItemButton>
           </PlacesItemButtonContainer>
         </PlacesItemContainer>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  )
 }

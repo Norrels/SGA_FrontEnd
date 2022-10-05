@@ -1,10 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { PlaceInterface } from "../..";
-import { API } from "../../../../lib/axios";
+import { ObjectsContext, PlaceProps } from "../../../../Contexts/ObjectsContext";
 import {
   CloseButton,
   ContainerButtonCreate,
@@ -16,20 +15,6 @@ import {
   Overlay,
 } from "./style";
 
-interface Place {
-  id: number;
-  name?: string;
-  capacidade?: number;
-  tipoAmbiente?: string;
-  cep?: string;
-  complemento?: string;
-  click: boolean;
-}
-
-interface EditPlaceModalProps {
-  editNewPlace: (data: PlaceType) => void;
-  placeItem: PlaceInterface;
-}
 
 export const placeInput = z.object({
   id: z.number(),
@@ -43,50 +28,29 @@ export const placeInput = z.object({
 
 export type PlaceType = z.infer<typeof placeInput>;
 
-export function EditPlaceModal({ placeItem, editNewPlace }: EditPlaceModalProps) {
-  const [disabled, setDisabled] = useState(true);
-  const { register, reset, handleSubmit } = useForm<PlaceType>();
+interface EditPlaceModalProps {
+  place: PlaceProps
+}
+
+export function EditPlaceModal({ place }: EditPlaceModalProps) {
+  const { register, handleSubmit } = useForm<PlaceType>();
+  const [editable, setEditable] = useState(true)
+  const { updatePlaces } = useContext(ObjectsContext)
 
   async function handleUpdatePlace(data: PlaceType) {
-    console.log({
-      id: placeItem.id,
-      nome: data.nome,
-      capacidade: data.capacidade,
-      tipoAmbiente: data.tipoAmbiente,
-      cep: data.cep,
-      complemento: data.complemento,
-    });
-
-    const res = await API.put(`ambiente/${placeItem.id}`, {
-      id: placeItem.id,
-      nome: data.nome,
-      capacidade: data.capacidade,
-      tipoAmbiente: data.tipoAmbiente,
-      cep: data.cep,
-      complemento: data.complemento,
-    });
-
-    if (res.status == 200) {
-      editNewPlace(data);
-      console.log("funcionou");
-    }
+    data.id = place.id
+    updatePlaces(data)
   }
 
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
-        {disabled ? (
-          <>
-            <NoteButton>
-              <NotePencil onClick={() => setDisabled(false)} size={32} />
-            </NoteButton>
-          </>
-        ) : (
-          <></>
-        )}
+        <NoteButton>
+          {editable && <NotePencil size={32} onClick={() => setEditable(false)} />}
+        </NoteButton>
         <CloseButton>
-          <X onClick={() => setDisabled(true)} />
+          <X onClick={() => setEditable(true)} />
         </CloseButton>
 
         <Dialog.Title>Editar Ambiente</Dialog.Title>
@@ -94,129 +58,61 @@ export function EditPlaceModal({ placeItem, editNewPlace }: EditPlaceModalProps)
         <form onSubmit={handleSubmit(handleUpdatePlace)}>
           <InputContainer>
             <InputContent>
-              {disabled ? (
-                <>
-                  <label>Nome</label>
-                  <input
-                    type="text"
-                    defaultValue={placeItem.nome}
-                    placeholder="Digite o nome do ambiente"
-                    disabled
-                  />
-                </>
-              ) : (
-                <>
-                  <label>Nome</label>
-                  <input
-                    type="text"
-                    defaultValue={placeItem.nome}
-                    placeholder="Digite o nome do ambiente"
-                    {...register("nome")}
-                  />
-                </>
-              )}
+              <label>Nome</label>
+              <input
+                type="text"
+                defaultValue={place.nome}
+                placeholder="Digite o nome do ambiente"
+                {...register("nome")}
+                readOnly={editable}
+              />
             </InputContent>
-
             <InputContent>
-              {disabled ? (
-                <>
-                  <label>Tipo</label>
-                  <select placeholder="Selecione o Tipo de Ambiente" disabled>
-                    <option>
-                      {placeItem.tipoAmbiente != "" ? placeItem.tipoAmbiente : "Selecione uma Opção"}
-                    </option>
-                    <option>Unidade Movel</option>
-                    <option>Presencial</option>
-                    <option>EAD</option>
-                    <option>Entidade</option>
-                    <option>Empresa</option>
-                  </select>
-                </>
-              ) : (
-                <>
-                  <label>Tipo</label>
-                  <select placeholder="Selecione o Tipo de Ambiente" {...register("tipoAmbiente")}>
-                    <option value={placeItem.tipoAmbiente}>
-                      {placeItem.tipoAmbiente != "" ? placeItem.tipoAmbiente : "Selecione uma Opção"}
-                    </option>
-                    <option value="UNIDADEMOVEL">Unidade Movel</option>
-                    <option value="PRESENCIAL">Presencial</option>
-                    <option value="EAD">EAD</option>
-                    <option value="ENTIDADE">Entidade</option>
-                    <option value="EMPRESA">Empresa</option>
-                  </select>
-                </>
-              )}
+              <label>Tipo</label>
+              <select placeholder="Selecione o Tipo de Ambiente" disabled={editable}  {...register("tipoAmbiente")} defaultValue={place.tipoAmbiente}>
+                <option value="UNIDADEMOVEL">Unidade Movel</option>
+                <option value="PRESENCIAL">Presencial</option>
+                <option value="EAD">EAD</option>
+                <option value="ENTIDADE">Entidade</option>
+                <option value="EMPRESA">Empresa</option>
+              </select>
+
             </InputContent>
 
             <InputContentDupo>
-              {disabled ? (
-                <>
-                  <div>
-                    <label>Capacidade</label>
-                    <input
-                      defaultValue={placeItem.capacidade}
-                      type="text"
-                      placeholder="Digite o nome do ambiente"
-                      disabled
-                    />
-                  </div>
-                  <div>
-                    <label>CEP</label>
-                    <input
-                      defaultValue={placeItem.cep}
-                      type="text"
-                      placeholder="Digite o cep"
-                      disabled
-                    />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label>Capacidade</label>
-                    <input
-                      defaultValue={placeItem.capacidade}
-                      {...register("capacidade")}
-                      type="text"
-                      placeholder="Digite o nome do ambiente"
-                    />
-                  </div>
-                  <div>
-                    <label>CEP</label>
-                    <input
-                      defaultValue={placeItem.cep}
-                      {...register("cep")}
-                      type="text"
-                      placeholder="Digite o cep"
-                    />
-                  </div>
-                </>
-              )}
+              <div>
+                <label>Capacidade</label>
+                <input
+                  defaultValue={place.capacidade}
+                  readOnly={editable}
+                  {...register("capacidade")}
+                  type="text"
+                  placeholder="Digite o nome do ambiente"
+                />
+              </div>
+              <div>
+                <label>CEP</label>
+                <input
+                  readOnly={editable}
+                  type="text"
+                  defaultValue={place.cep}
+                  placeholder="Digite o cep"
+                  {...register("cep")}
+                />
+              </div>
+
+
             </InputContentDupo>
 
             <InputContent>
-              {disabled ? (
-                <>
-                  <label>Complemento</label>
-                  <input
-                    defaultValue={placeItem.complemento}
-                    type="text"
-                    placeholder="Digite o complemento"
-                    disabled
-                  />
-                </>
-              ) : (
-                <>
-                  <label>Complemento</label>
-                  <input
-                    defaultValue={placeItem.complemento}
-                    {...register("complemento")}
-                    type="text"
-                    placeholder="Digite o complemento"
-                  />
-                </>
-              )}
+              <label>Complemento</label>
+              <input
+                defaultValue={place.complemento}
+                readOnly={editable}
+                {...register("complemento")}
+                type="text"
+                placeholder="Digite o complemento"
+              />
             </InputContent>
           </InputContainer>
           <ContainerButtonCreate>
