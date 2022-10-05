@@ -30,7 +30,7 @@ export const RightClickItem = styled(ContextMenu.Item)`
     border: none;
     background-color: transparent;
     transition: background-color, color 0.1s;
-    
+
     font-size: 16px;
     font-weight: bolder;
     color: rgb(181, 181, 181);
@@ -40,10 +40,10 @@ export const RightClickItem = styled(ContextMenu.Item)`
       color: ${(props) => props.theme["white"]};
     }
   }
-
+  
   &:hover {
     background: ${(props) => props.theme["blue-500"]};
-    
+
     button {
       color: ${(props) => props.theme["white"]};
     }
