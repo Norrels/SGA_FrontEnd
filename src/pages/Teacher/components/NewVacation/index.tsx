@@ -3,9 +3,6 @@ import { NotePencil, X } from "phosphor-react";
 import React, { useContext, useState } from "react";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
-  CheckContainer,
-  CheckContent,
-  CheckIndividual,
   Content,
   FinalButton,
   HeaderButtons,
@@ -17,7 +14,168 @@ import {
 } from "./style";
 
 export function NewVacation() {
-  const { teachers } = useContext(ObjectsContext);
+  /* const { teachers } = useContext(ObjectsContext); */
+  const teachers = [
+    {
+      id: "1",
+      nome: "André",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "2",
+      nome: "Antonio",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "3",
+      nome: "Beatriz",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "4",
+      nome: "Bruna",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "5",
+      nome: "Bruno",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "1",
+      nome: "André",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "2",
+      nome: "Antonio",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "3",
+      nome: "Beatriz",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "4",
+      nome: "Bruna",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "5",
+      nome: "Bruno",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "1",
+      nome: "André",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "2",
+      nome: "Antonio",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "3",
+      nome: "Beatriz",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "4",
+      nome: "Bruna",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "5",
+      nome: "Bruno",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "1",
+      nome: "André",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "2",
+      nome: "Antonio",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "3",
+      nome: "Beatriz",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "4",
+      nome: "Bruna",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "5",
+      nome: "Bruno",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "1",
+      nome: "André",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "2",
+      nome: "Antonio",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "3",
+      nome: "Beatriz",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "4",
+      nome: "Bruna",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+    {
+      id: "5",
+      nome: "Bruno",
+      nif: "4342215",
+      cargaSemanal: "40",
+    },
+  ];
+
+  let checkIndividual = [];
+  let checkContent = [];
+  let checkContainer = [];
+
+  let controlador = 0;
+
+  const teachersArray = new Array(teachers.length);
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -44,20 +202,21 @@ export function NewVacation() {
           <InputContent>
             <h1>Professores</h1>
             <hr />
-            <CheckIndividual>
+            {/* <CheckIndividual>
               <input type={"checkbox"} />
               <label>Selecionar Todos</label>
             </CheckIndividual>
-            {
-            teachers.map((teacher) => {
-              if (teachers.length > 0) {
-
+            {teachers.map((teacher) => {
+              if (checkContainer.length < 5) {
+                if (checkContent.length < 5) {
+                  if (checkIndividual.length < 5) {
+                    checkIndividual.push(teacher.nome);
+                    return <h1>teste</h1>;
+                  }
+                }
               }
-              return(
-                <h1>teste</h1>
-              )
             })}
-            {/* <CheckContainer>
+             <CheckContainer>
               <CheckContent>
                 <CheckIndividual>
                   <input type={"checkbox"} />
