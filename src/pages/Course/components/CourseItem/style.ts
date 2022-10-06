@@ -46,8 +46,8 @@ border-radius: 8px;
 background: ${(props) => props.theme["white-300"]};
 `
 
-export const CourseInfoType = styled.div`
-    font-size: 0.800rem;
+export const CourseInfoType = styled.span`
+    
     width: 100px;
     padding: 5px;
     height: 20px;
@@ -61,6 +61,10 @@ export const CourseInfoType = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 0.800rem;
+    text-transform: capitalize;
+  
 `
 
 export const CourseDescription = styled.div``

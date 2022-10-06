@@ -33,17 +33,20 @@ export interface PlaceProps {
 [];
 
 export interface CourseProps {
-  id: string;
+  id: number;
   nome: string;
   tipoCurso: string;
+  ativo: boolean
 }[]
 
 interface ObjectsContextType {
   teachers: Teacher[]
   courses: CourseProps[]
   placesList: PlaceProps[]
+  deleteCourse: (id: number) => void
   deletePlace: (id: number) => void
   updatePlaces: (data: PlaceProps) => void
+  updateCourses: (data: CourseProps) => void
   createTeacherAPI: (data: Teacher) => void
   createCourseAPI: (data: CourseProps) => void
   createPlacesAPI: (data: PlaceProps) => void
@@ -57,12 +60,12 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     fetchPlaces();
     fetchTeachers();
     fetchCourses();
-    
   }, []);
 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
   const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
+
 
   async function fetchTeachers() {
     const res = await API.get("professor");
@@ -130,9 +133,38 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
+  async function updateCourses(data: CourseProps) {
+    const res = await API.put(`/curso/${data.id}`, data);
+    
+    if (res.status == 200) {
+      const valorAtualizado = courses.map((course) => {
+        if(course.id == data.id) {
+          course = data
+        }
+        return course
+      })
+      setCourses(valorAtualizado);
+    }
+  }
+
+  async function deleteCourse(id: number) {
+    const res = await API.put(`/curso/inativar/${id}`);
+  
+    if (res.status == 200) {
+      const valorAtualizado = courses.filter((course) => {
+        return course.id != id
+      })
+      setCourses(valorAtualizado);
+    }
+  }
+
+
+
   return (
     <ObjectsContext.Provider
       value={{
+        deleteCourse,
+        updateCourses,
         deletePlace,
         updatePlaces,
         createPlacesAPI,
