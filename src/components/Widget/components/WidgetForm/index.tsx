@@ -51,7 +51,7 @@ export function WidgetForm() {
       descricao: data.descricao,
       foto: "foto",
       usuario: {
-        nif: "001",
+        id: 1,
       },
       tipoChamado: type,
     });
