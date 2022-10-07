@@ -46,6 +46,17 @@ export const TeacherItemButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
+
+  a {
+    border: none;
+    border-radius: 8px;
+    padding: 0.2rem;
+    cursor: pointer;
+    background-color: ${(props) => props.theme["blue-200"]};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const TeacherItemButton = styled.div<ButtonProps>`

@@ -1,6 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Star } from "phosphor-react";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
+import { ObjectsContext, Teacher } from "../../Contexts/ObjectsContext";
 import { AbsenseItem } from "./components/AbsenseItem";
 import { EditTeacherModal } from "./components/EditTeacherModal";
 import {
@@ -19,7 +22,26 @@ import {
 } from "./style";
 
 export function ViewTeacher() {
-  
+  const [teacher, setTeachers] = useState<Teacher>(
+    {
+      id: 0,
+      ativo: true,
+      cargaSemanal: 1,
+      nome: "",
+      email: "",
+      competencia: []
+    }
+  )
+  const { teachers } = useContext(ObjectsContext)
+  const { teacherId } = useParams()
+
+  useEffect(() => {
+    teachers.filter((teacher) => {
+      if(teacher.id.toString() == teacherId) {
+        setTeachers(teacher)
+      }
+    })
+  }, [])
 
   return (
     <Main>
@@ -37,7 +59,7 @@ export function ViewTeacher() {
               <NotePencil size={32} opacity={0.5} />
             </Dialog.Trigger>
 
-            {/* <EditTeacherModal /> */}
+            <EditTeacherModal teacherItem={teacher} />
           </Dialog.Root>
           <TeacherProfileContent>
             <TeacherProfileLeft>
@@ -45,7 +67,7 @@ export function ViewTeacher() {
                 <span>Em aula</span>
                 <img />
               </TeacherProfileLeftPhoto>
-              <p>Chile</p>
+              <p>{teacher?.nome}</p>
             </TeacherProfileLeft>
             <TeacherProfileSeparator></TeacherProfileSeparator>
             <TeacherProfileSkills>

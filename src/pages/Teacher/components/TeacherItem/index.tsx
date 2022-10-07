@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
+import { NavLink } from "react-router-dom";
 import { ObjectsContext, Teacher } from "../../../../Contexts/ObjectsContext";
 import {
   TeacherItemButton,
@@ -30,17 +31,12 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
       </TeacherItemInfoContainer>
 
       <TeacherItemButtonContainer>
-        <Dialog.Root>
-          <Dialog.Trigger asChild>
-            <TeacherItemButton buttonColor="edit">
-              <DotsThree color="#000" size={25} />
-            </TeacherItemButton>
-          </Dialog.Trigger>
-        </Dialog.Root>
-
+        <NavLink to={`/professor/${teacherItem.id}`}>
+          <DotsThree color="#000" size={25} />
+        </NavLink>
         <TeacherItemButton buttonColor="delete">
           <Trash color="white" size={25}
-          onClick={() => deleteTeacher(teacherItem.id)}/>
+            onClick={() => deleteTeacher(teacherItem.id)} />
         </TeacherItemButton>
       </TeacherItemButtonContainer>
     </TeacherItemContainer>

@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Plus, X } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { z } from "zod";
 import { Rating } from "./components/Rating";
 import { useForm } from "react-hook-form";
@@ -19,8 +19,7 @@ import {
   NoteButton,
   Overlay,
 } from "./style";
-import { API } from "../../../../lib/axios";
-import { Teacher } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext, Teacher } from "../../../../Contexts/ObjectsContext";
 
 export interface IInput {
   id?: number;
@@ -48,41 +47,18 @@ export const teacherInput = z.object({
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface EdiTeacherModalProps {
-  editNewTeacher: (data: TeacherType) => void;
-  teacherItem: TeacherType;
+  teacherItem: Teacher;
 }
 
-export function EditTeacherModal({
-  teacherItem,
-  editNewTeacher,
-}: EdiTeacherModalProps) {
-  const [input, setInput] = useState<IInput[]>([]);
+export function EditTeacherModal({teacherItem} : EdiTeacherModalProps) {
   const [disabled, setDisabled] = useState(true);
   const { register, reset, handleSubmit } = useForm<TeacherType>();
-
-  function onExit() {
-    setInput([]);
-    setDisabled(true);
-  }
+  const { updateTeaches } = useContext(ObjectsContext)
 
   async function handleUpdateTeacher(data: TeacherType) {
-    console.log({
-      id: teacherItem.id,
-      nome: data.nome,
-      email: data.nome + "@gmail.com",
-      cargaSemanal: data.cargaSemanal,
-    });
-
-    const res = await API.put(`professor/${teacherItem.id}`, {
-      id: teacherItem.id,
-      nome: data.nome,
-      email: data.nome + "@gmail.com",
-      cargaSemanal: data.cargaSemanal,
-    });
-
-    if (res.status == 200) {
-      editNewTeacher(data);
-    }
+    //Coloca um input hiden no form
+    data.id = teacherItem.id
+    updateTeaches(data)
   }
 
   return (
@@ -99,7 +75,7 @@ export function EditTeacherModal({
           <></>
         )}
         <CloseButton>
-          <X onClick={() => onExit()} size={24} />
+          <X onClick={() => setDisabled(true)} size={24} />
         </CloseButton>
 
         <Dialog.Title>
@@ -115,24 +91,25 @@ export function EditTeacherModal({
                 type="text"
                 placeholder="digite o nome do professor"
                 {...register("nome")}
-                disabled={disabled}
+               
               />
             </InputContent>
             <InputContentDupo>
               <div>
                 <label>Carga horária Semanal</label>
                 <input
-                  defaultValue={teacherItem.cargaSemanal}
+                 defaultValue={teacherItem.cargaSemanal}
                   type="text"
                   placeholder="digite as horas"
                   {...register("cargaSemanal")}
-                  disabled={disabled}
+                
                 />
               </div>
               <div>
                 <label>Foto</label>
                 <input
-                  disabled={disabled}
+                 
+                  defaultValue={teacherItem.foto}
                   type="file"
                   id="file"
                   accept="image/*"
@@ -140,6 +117,17 @@ export function EditTeacherModal({
                 />
               </div>
             </InputContentDupo>
+
+            <InputContent>
+              <label>Email</label>
+              <input
+                defaultValue={teacherItem.email}
+                type="text"
+                placeholder="digite o nome do professor"
+                {...register("email")}
+                readOnly={disabled}
+              />
+            </InputContent>
 
             <InputContentScroll>
               {/* {disabled

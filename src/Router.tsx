@@ -20,8 +20,10 @@ export function Router() {
       
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/aulas" element={<Home />} />
-        <Route path="/professores" element={<Teacher />} />
-        <Route path="/professor/1" element={<ViewTeacher />} />
+        <Route path="/professores" element={<Teacher />} ></Route>
+        <Route path="/professor" >
+          <Route path=":teacherId" element={<ViewTeacher/>}/>
+        </Route>
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
