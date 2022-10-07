@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { API } from "../../lib/axios";
 import { HolidayItem } from "./components/HolidayItem";
 import { NewHolidayModal } from "./components/NewHolidayModal";
 import {
@@ -10,16 +11,29 @@ import {
   HolidayTitleContainer,
 } from "./style";
 
+export interface HolidayProps {
+  id: string;
+  dataInicio: string;
+  dataFinal: string;
+  nome: string;
+  tipoDeDia: string;
+}[]
+
+
 export function Holiday() {
-  const holidays = [
-    {
-      id: 2,
-      dataInicio: "2022-10-10",
-      dataFinal: "",
-      nome: "Dia das Crianças",
-      tipoDeDia: "FERIADO",
-    },
-  ];
+  const [holiday, setHoliday] = useState<HolidayProps[]>([]);
+
+  useEffect(() => {
+    handleGetHolidays();
+  }, [])
+
+  async function handleGetHolidays() {
+    const resp = await API.get("/dnl");
+
+    if(resp.status == 200) {
+      setHoliday(resp.data);
+    }
+  }
 
   return (
     <HolidayContainer>
@@ -39,15 +53,8 @@ export function Holiday() {
         <input type="text" placeholder="Buscar um dia não letivo" />
 
         <HolidayList>
-          {holidays.map((v) => (
-            <HolidayItem
-              key={v.id}
-              id={v.id}
-              dataFinal={v.dataFinal}
-              dataInicio={v.dataInicio}
-              nome={v.nome}
-              tipoDeDia={v.tipoDeDia}
-            />
+          {holiday.map((data) => (
+            <HolidayItem key={data.id} holiday={data} />
           ))}
         </HolidayList>
       </HolidayContent>
