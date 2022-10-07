@@ -1,6 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AdminProps } from "../..";
