@@ -234,12 +234,13 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       {teachers.map((teacher) => {
-                        return (
+                        if (teacher.ativo = true) {
+                          return (
                           <span key={teacher.id}>
                             <input type="checkbox" /> {teacher.nome}
                           </span>
                         )
-                      })}
+                      }})}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -253,11 +254,13 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       {placesList.map((place) => {
-                        return (
-                          <span key={place.id}>
-                            <input type="checkbox" /> {place.nome}
-                          </span>
-                        )
+                        if (place.ativo = true) {
+                          return (
+                            <span key={place.id}>
+                              <input type="checkbox" /> {place.nome}
+                            </span>
+                          )
+                          }
                       })}
                     </AdvancedFilterItens>
                   </Accordion.Content>

@@ -16,10 +16,10 @@ import {
 } from "./style";
 
 export const coursesInputs = z.object({
-  id: z.string(),
+  id: z.number(),
   nome: z.string(),
   tipoCurso: z.string(),
-  /* unidadeCurricular: z.object({
+  ativo: z.boolean()  /* unidadeCurricular: z.object({
     nome: z.string(),
     horas: z.string(),
   }), */
@@ -40,10 +40,10 @@ export default function NewCourseModal() {
   }
 
   function handleCreateNewCourse(data: CourseType) {
+    data.ativo = true;
     createCourseAPI(data);
     reset();
   }
-
 
   return (
     <Dialog.Portal>

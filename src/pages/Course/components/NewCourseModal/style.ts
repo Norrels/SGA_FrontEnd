@@ -154,7 +154,7 @@ export const NewCourseModalButtonAddNewUnidadeCurricula = styled.button`
 
   p {
     font-weight: 600;
-    font-size: 0.9rem
+    font-size: 0.9rem;
   }
 `;
 

@@ -11,11 +11,11 @@ export function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <BrowserRouter>
-      <ObjectsContextProvider>
-      <Router />
-      </ObjectsContextProvider>
+        <ObjectsContextProvider>
+          <Router />
+        </ObjectsContextProvider>
       </BrowserRouter>
-      <GlobalStyle/>
+      <GlobalStyle />
     </ThemeProvider>
   )
 }

@@ -1,8 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChangeEvent, useContext, useEffect, useState } from "react";
+import { useContext} from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
-import { API } from "../../lib/axios";
 import {
   CourseButtonContainer,
   CourseContainer,
@@ -39,7 +38,9 @@ export function Course() {
 
         <CourseList>
           {courses.map((course) => {
-            return <CourseItem key={courses.indexOf(course)} course={course} />;
+            if(course.ativo) {
+              return <CourseItem key={courses.indexOf(course)} course={course} />;
+            }
           })}
         </CourseList>
       </CourseContent>

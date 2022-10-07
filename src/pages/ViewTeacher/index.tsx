@@ -19,6 +19,8 @@ import {
 } from "./style";
 
 export function ViewTeacher() {
+  
+
   return (
     <Main>
       <TeacherMain>

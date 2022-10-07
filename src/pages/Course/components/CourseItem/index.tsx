@@ -1,8 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
+import { useContext } from "react";
 import { z } from "zod";
-import { CouseProps } from "../..";
-import { API } from "../../../../lib/axios";
+
+import { CourseProps, ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { EditCourseModal } from "../EditCourseModal";
 import {
   CourseInfoType,
@@ -14,11 +15,11 @@ import {
 } from "./style";
 
 interface NewCouserModalProps {
-  course: CouseProps;
+  course: CourseProps;
 }
 
 export const courseInput = z.object({
-  id: z.string(),
+  id: z.number(),
   nome: z.string(),
   tipoCurso: z.string(),
 })
@@ -27,12 +28,10 @@ export type CourseType = z.infer<typeof courseInput>
 
 export function CourseItem({course} : NewCouserModalProps) {
 
-  async function deleteCourseAPI(course : CourseType) {
-      const res = await API.delete(`curso/inativar/${course.id}`);
+  const { deleteCourse } = useContext(ObjectsContext)
 
-      if(res.status == 200) {
-        console.log("deu certo")
-      }
+  async function handleCourse(id : number) {
+     deleteCourse(id)
   }
 
   return (
@@ -46,7 +45,7 @@ export function CourseItem({course} : NewCouserModalProps) {
           <CourseItemInfoContent>
             <h3>{course.nome}</h3>
             <CourseInfoType>
-              {course.tipoCurso}
+              {course.tipoCurso.toLowerCase()}
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>
@@ -69,7 +68,7 @@ export function CourseItem({course} : NewCouserModalProps) {
           />
         </Dialog.Root>
 
-        <CourseItemButton buttonColor="delete" onClick={() => deleteCourseAPI(course)}>
+        <CourseItemButton buttonColor="delete" onClick={() => handleCourse(course.id)}>
           <Trash color="#fff" size={25} />
         </CourseItemButton>
       </CourseItemButtonContainer>

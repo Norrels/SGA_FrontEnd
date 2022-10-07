@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
-import { Teacher } from "../../../../Contexts/ObjectsContext";
+import { useContext } from "react";
+import { ObjectsContext, Teacher } from "../../../../Contexts/ObjectsContext";
 import {
   TeacherItemButton,
   TeacherItemButtonContainer,
@@ -14,6 +15,8 @@ interface TeacherItemProps {
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
+
+  const { deleteTeacher } = useContext(ObjectsContext)
 
   return (
     <TeacherItemContainer>
@@ -36,17 +39,8 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
         </Dialog.Root>
 
         <TeacherItemButton buttonColor="delete">
-          <Dialog.Root>
-            <Dialog.Trigger
-              style={{
-                backgroundColor: "#5AADD1",
-                border: "none",
-                display: "flex",
-              }}
-            >
-              <Trash color="white" size={25} />
-            </Dialog.Trigger>
-          </Dialog.Root>
+          <Trash color="white" size={25}
+          onClick={() => deleteTeacher(teacherItem.id)}/>
         </TeacherItemButton>
       </TeacherItemButtonContainer>
     </TeacherItemContainer>

@@ -1,9 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import React, { useState } from "react";
+import  { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { CouseProps } from "../..";
+import { CourseProps, ObjectsContext } from "../../../../Contexts/ObjectsContext";
+
 import { API } from "../../../../lib/axios";
 import {
   CloseButton,
@@ -20,13 +21,14 @@ import {
 } from "./style";
 
 interface EditCourseModalProps {
-  course: CouseProps;
+  course: CourseProps;
 }
 
 export const courseInput = z.object({
   id: z.number(),
   nome: z.string(),
   tipoCurso: z.string(),
+  ativo: z.boolean()
 });
 
 export type CourseType = z.infer<typeof courseInput>;
@@ -34,23 +36,12 @@ export type CourseType = z.infer<typeof courseInput>;
 export function EditCourseModal({ course }: EditCourseModalProps) {
   const [disabled, setDisabled] = useState(true);
   const { register, reset, handleSubmit } = useForm<CourseType>();
+  const { updateCourses } = useContext(ObjectsContext)
 
-  async function handleUpdatePlace(data: CourseType) {
-    console.log({
-      id: course.id,
-      nome: data.nome,
-      tipoCurso: data.tipoCurso,
-    });
-
-    const res = await API.put(`curso/${course.id}`, {
-      id: course.id,
-      nome: data.nome,
-      tipoCurso: data.tipoCurso,
-    });
-
-    if (res.status == 200) {
-      console.log("funcionou ! ");
-    }
+  async function handleUpdateCourse(data: CourseType) {
+    data.id = course.id
+    updateCourses(data)
+    reset()
   }
 
   return (
@@ -71,7 +62,7 @@ export function EditCourseModal({ course }: EditCourseModalProps) {
         </CloseButton>
 
         <Dialog.Title>Editar curso</Dialog.Title>
-        <form onSubmit={handleSubmit(handleUpdatePlace)}>
+        <form onSubmit={handleSubmit(handleUpdateCourse)}>
           <InputContainer>
             <InputContent>
               {disabled ? (
