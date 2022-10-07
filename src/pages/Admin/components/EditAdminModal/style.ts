@@ -69,71 +69,6 @@ export const InputContainer = styled.div`
   margin-top: 50px;
 `;
 
-export const InputContentScroll = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  margin-top: 40px;
-
-  height: 200px;
-  overflow-y: scroll;
-
-  select,
-  input:not([type="checkbox"]) {
-    /* width: 37.5rem; */
-    height: 5.313rem;
-    padding-left: 1.25rem;
-
-    border: none;
-    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
-  }
-
-  select,
-  input {
-    height: 5.313rem;
-    padding-left: 1.25rem;
-
-    border: none;
-    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
-  }
-
-  label {
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: ${(props) => props.theme["sub-title"]};
-  }
-
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  ::-webkit-scrollbar-thumb:active {
-    background: rgba(0, 0, 0, 0.9);
-  }
-`;
-
 export const InputContent = styled.div`
   margin-top: 30px;
   display: flex;
@@ -184,19 +119,6 @@ export const InputContent = styled.div`
     font-size: 1.25rem;
     color: ${(props) => props.theme["sub-title"]};
   }
-`;
-
-export const ContentSelect = styled.div`
-  width: 60%;
-
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
-
-export const ContainerInputStar = styled.div`
-  display: flex !important;
 `;
 
 export const InputContentDupo = styled.div`
@@ -264,28 +186,6 @@ export const InputContentDupo = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
-  }
-`;
-
-export const ContainerNewCompt = styled.div`
-  width: 100%;
-
-  margin-top: 30px;
-`;
-
-export const NewCompt = styled.div`
-  border: 1px dashed black;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-
-  height: 75px;
-  padding: 5px;
-
-  cursor: pointer;
-
-  div {
-    cursor: pointer;
   }
 `;
 

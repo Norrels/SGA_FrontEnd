@@ -1,6 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
 import React from "react";
+import { z } from "zod";
+import { API } from "../../../../lib/axios";
+import { HolidayProps } from "../../Index";
 import { EditHolidayModal } from "../EditHolidayModal";
 import {
   HolidayDescription,
@@ -12,21 +15,28 @@ import {
   HolidayItemInfoContent,
 } from "./style";
 
-interface Holiday {
-  id: number;
-  dataInicio: string;
-  dataFinal: string;
-  nome: string;
-  tipoDeDia: string;
+interface HolidayItem {
+  holiday: HolidayProps;
 }
 
-export function HolidayItem({
-  id,
-  dataFinal,
-  dataInicio,
-  nome,
-  tipoDeDia,
-}: Holiday) {
+export const holidayInput = z.object({
+  id: z.string(),
+  nome: z.string(),
+  tipoDeDia: z.string(),
+});
+
+export type HolidayType = z.infer<typeof holidayInput>;
+
+export function HolidayItem({ holiday }: HolidayItem) {
+
+  async function handleDeleteHoliday(data: HolidayType){
+    const resp = await API.delete(`dnl/${data.id}`);
+
+    if(resp.status == 200) {
+      console.log("deletou !");
+    }
+  }
+
   return (
     <HolidayItemContainer>
       <HolidayItemInfoContent>
@@ -36,14 +46,14 @@ export function HolidayItem({
 
         <HolidayDescription>
           <HolidayItemInfoContent>
-            <h3>{nome}</h3>
+            <h3>{holiday.nome}</h3>
             <HolidayInfoType>
-              <p>{tipoDeDia}</p>
+              <p>{holiday.tipoDeDia}</p>
             </HolidayInfoType>
           </HolidayItemInfoContent>
           <HolidayItemInfoContent>
             <p>
-              Data: <span>{dataInicio}</span>
+              Data: <span>{holiday.dataInicio}</span>
             </p>
           </HolidayItemInfoContent>
         </HolidayDescription>
@@ -57,16 +67,12 @@ export function HolidayItem({
             </HolidayItemButton>
           </Dialog.Trigger>
           <EditHolidayModal
-            key={id}
-            id={id}
-            dataFinal={dataFinal}
-            dataInicio={dataInicio}
-            nome={nome}
-            tipoDeDia={tipoDeDia}
+            key={holiday.id}
+            holiday={holiday}
           />
         </Dialog.Root>
 
-        <HolidayItemButton buttonColor="delete">
+        <HolidayItemButton onClick={() => handleDeleteHoliday(holiday)} buttonColor="delete">
           <Trash color="#fff" size={25} />
         </HolidayItemButton>
       </HolidayItemButtonContainer>

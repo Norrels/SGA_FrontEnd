@@ -30,39 +30,47 @@ export type AdminType = z.infer<typeof adminInput>;
 export function AdminItem({ admin }: NewAdminModalProps) {
   async function handleDisableAdminAPI(data: AdminType) {
     const res = await API.put(`usuario/desativar/${data.id}`);
-    console.log(res)
+    console.log(res);
   }
 
   return (
-    <AdminItemContainer >
-      <AdminItemInfoContent>
-        <AdminItemIcon>
-          <User size={30} />
-        </AdminItemIcon>
+    <>
+      {admin.ativo ? (
+        <>
+          <AdminItemContainer>
+            <AdminItemInfoContent>
+              <AdminItemIcon>
+                <User size={30} />
+              </AdminItemIcon>
 
-        <AdminItemInfoContentName>
-          <h3>{admin.nome}</h3>
-          <p>{admin.nif}</p>
-        </AdminItemInfoContentName>
-      </AdminItemInfoContent>
+              <AdminItemInfoContentName>
+                <h3>{admin.nome}</h3>
+                <p>{admin.nif}</p>
+              </AdminItemInfoContentName>
+            </AdminItemInfoContent>
 
-      <AdminItemButtonContainer>
-        <Dialog.Root>
-          <Dialog.Trigger style={{ border: "none" }}>
-            <AdminItemButton buttonColor="edit">
-              <DotsThree color="#000" size={25} />
-            </AdminItemButton>
-          </Dialog.Trigger>
-          <EditAdminModal admin={admin} key={admin.id} />
-        </Dialog.Root>
+            <AdminItemButtonContainer>
+              <Dialog.Root>
+                <Dialog.Trigger style={{ border: "none" }}>
+                  <AdminItemButton buttonColor="edit">
+                    <DotsThree color="#000" size={25} />
+                  </AdminItemButton>
+                </Dialog.Trigger>
+                <EditAdminModal admin={admin} key={admin.id} />
+              </Dialog.Root>
 
-        <AdminItemButton
-          onClick={() => handleDisableAdminAPI(admin)}
-          buttonColor="delete"
-        >
-          <Trash color="#fff" size={25} />
-        </AdminItemButton>
-      </AdminItemButtonContainer>
-    </AdminItemContainer>
+              <AdminItemButton
+                onClick={() => handleDisableAdminAPI(admin)}
+                buttonColor="delete"
+              >
+                <Trash color="#fff" size={25} />
+              </AdminItemButton>
+            </AdminItemButtonContainer>
+          </AdminItemContainer>
+        </>
+      ) : (
+        <></>
+      )}
+    </>
   );
 }
