@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const InClassContainer = styled.section`
-  height: 55.375rem;
+  height: 52.375rem;
   padding: 2.375rem 1.2rem 2.375rem 2.375rem;
 
   background: ${(props) => props.theme["white-200"]};

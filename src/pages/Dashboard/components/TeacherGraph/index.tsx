@@ -1,11 +1,92 @@
-import { Lightbulb, Warning } from "phosphor-react";
-import { BarChart } from "./BarChart";
+import { ArrowClockwise, Lightbulb, Warning } from "phosphor-react";
+import { ChangeEvent, useContext } from "react";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { TeacherGraphContainer, TeacherGraphDescription, TeacherGraphLabel, TeacherGraphs, TeacherGraphSelects, TeacherGraphSubtitle, TeacherGraphSubtitles, TeacherGraphSubtitleSpan, TeacherGraphTextContainer } from "./styles";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+} from 'chart.js';
+import { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
 
-
-
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+);
 
 export function TeacherGraph() {
+  let semestreAtual = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho'];
+
+  const [labels, setLabelss] = useState(['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho'])
+  const [title, setTitle] = useState("")
+
+  function handleBackToSemester() {
+    setLabelss(semestreAtual),
+      setTitle("")
+  }
+
+  function handleSelectSemestre(event: ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value === "1") {
+      setLabelss(['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho'])
+      setTitle("")
+      semestreAtual = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho']
+    }
+    if (event.target.value === "2") {
+      setLabelss(['Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'])
+      setTitle("")
+      semestreAtual = ['Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    }
+  }
+
+
+  const datas = [35, 56, 60, 4, 5, 6, 7, 8]
+
+
+  const options = {
+    responsive: true,
+    //Gambiarra Total aqui :D
+    onClick: async (e: any, elements: string | any[]) => {
+      if (elements.length != 0 && labels.length > 4) {
+        setLabelss(["Semana 1", "Semana 2", "Semana 3", "Semana 4"])
+        setTitle(labels[elements[0].index])
+      }
+    },
+    scales: {
+      y: {
+        max: 100,
+        min: 0,
+        ticks: {
+          stepSize: 20,
+        }
+      }
+    }
+  };
+  //Definindo as barras do grafico
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Horas Cadastradas',
+        data: datas.map(dataset => dataset),
+        backgroundColor: '#25B5E9',
+      },
+      {
+        label: 'Horas Feitas',
+        data: datas.map(dataset => dataset),
+        backgroundColor: '#D9D9D9',
+      },
+    ],
+  };
+
+  const { teachers } = useContext(ObjectsContext)
+
   return (
     <TeacherGraphContainer>
       <TeacherGraphTextContainer>
@@ -18,17 +99,28 @@ export function TeacherGraph() {
         </TeacherGraphLabel>
         <TeacherGraphSelects>
           <select>
-            <option>Jessica</option>
+            {
+              teachers.map((teacher) => {
+                return <option key={teacher.id}>{teacher.nome}</option>
+              })
+            }
           </select>
-          <select>
-            <option>Semestral</option>
-            <option>Mensal</option>
+          <select onChange={handleSelectSemestre}>
+            <option value="1">1º Semestre</option>
+            <option value="2">2º Semestre</option>
           </select>
         </TeacherGraphSelects>
       </TeacherGraphTextContainer>
 
       <TeacherGraphs>
-        <BarChart/>
+        <div>
+          {title &&
+            <ArrowClockwise onClick={handleBackToSemester} />
+          }
+          <h4>{title}</h4>
+        </div>
+
+        <Bar data={data} options={options} />
       </TeacherGraphs>
 
 

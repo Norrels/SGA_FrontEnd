@@ -72,6 +72,18 @@ export const TeacherGraphSelects = styled.div`
 export const TeacherGraphs = styled.div`
   height: auto;
   padding: 3rem 0;
+
+  div {
+    position: relative;
+    display: flex;
+
+    padding-left: 0.3rem;
+  }
+
+  h4 {
+    width: 100%;
+    text-align: center
+  }
 `;
 
 
