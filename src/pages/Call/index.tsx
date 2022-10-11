@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import { CallItem } from "./components/CallItem";
 import {
-  CallButtonContainer,
   CallContainer,
   CallContent,
   CallList,
@@ -29,16 +28,30 @@ interface Usuario {
 
 export function Call() {
   const [calls, setCalls] = useState<CallInterface[]>([]);
+  const [callMatches, setCallMatches] = useState<CallInterface[]>([]);
 
   async function fetchCalls() {
     const res = await API.get("chamado");
     setCalls(res.data);
-    console.log(res.data);
+    setCallMatches(res.data);
   }
 
   useEffect(() => {
     fetchCalls();
   }, []);
+
+  const searchCall = (text: String) => {
+    if (!text) {
+      setCallMatches(calls);
+    } else {
+      let matches = calls.filter((calls) => {
+        const regex = new RegExp(`${text}`, "gi");
+        return calls.tipoChamado.match(regex) || calls.descricao.match(regex);
+      });
+
+      setCallMatches(matches);
+    }
+  };
 
   return (
     <CallContainer>
@@ -47,10 +60,13 @@ export function Call() {
           <h1>Chamadas</h1>
           <p>Chamadas realizadas no momento</p>
         </CallTitleContainer>
-        <input type="text" placeholder="Buscar por Chamada" />
-
+        <input
+          type="text"
+          placeholder="Buscar por Chamada"
+          onChange={(e) => searchCall(e.target.value)}
+        />
         <CallList>
-          {calls.map((call) => (
+          {callMatches.map((call) => (
             <CallItem key={call.id} callItem={call} />
           ))}
         </CallList>

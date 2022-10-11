@@ -31,6 +31,7 @@ export function Admin() {
 
     console.log(res.data);
     setAdmin(res.data);
+    setAdminMatches(res.data);
   }
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export function Admin() {
 
   const searchAdmin = (text: String) => {
     if (!text) {
-      setAdminMatches([]);
+      setAdminMatches(admin)
     } else {
       let matches = admin.filter((admin) => {
         const regex = new RegExp(`${text}`, "gi");
@@ -70,11 +71,9 @@ export function Admin() {
           onChange={(e) => searchAdmin(e.target.value)}
         />
         <AdminList>
-          {adminMatches.length == 0
-            ? admin.map((admin) => <AdminItem key={admin.id} admin={admin} />)
-            : adminMatches.map((admin) => (
-                <AdminItem key={admin.id} admin={admin} />
-              ))}
+          {adminMatches.map((admin) => (
+            <AdminItem key={admin.id} admin={admin} />
+          ))}
         </AdminList>
       </AdminContent>
     </AdminContainer>
