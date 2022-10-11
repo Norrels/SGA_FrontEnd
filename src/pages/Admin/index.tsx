@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import { AdminItem } from "./components/AdminItem";
 import { NewAdminModal } from "./components/NewAdminModal";
@@ -19,22 +19,36 @@ export interface AdminProps {
   tipoCurso: string;
   senha: string;
   ativo: string;
-}[]
+}
+[];
 
 export function Admin() {
-  
   const [admin, setAdmin] = useState<AdminProps[]>([]);
+  const [adminMatches, setAdminMatches] = useState<AdminProps[]>([]);
 
   async function fetchAdmin() {
-    const res = await API.get("usuario")
-    
-    console.log(res.data)
+    const res = await API.get("usuario");
+
+    console.log(res.data);
     setAdmin(res.data);
+    setAdminMatches(res.data);
   }
 
   useEffect(() => {
     fetchAdmin();
   }, []);
+
+  const searchAdmin = (text: String) => {
+    if (!text) {
+      setAdminMatches(admin)
+    } else {
+      let matches = admin.filter((admin) => {
+        const regex = new RegExp(`${text}`, "gi");
+        return admin.nome.match(regex) || admin.nif.match(regex);
+      });
+      setAdminMatches(matches);
+    }
+  };
 
   return (
     <AdminContainer>
@@ -51,10 +65,13 @@ export function Admin() {
             </Dialog.Root>
           </AdminButtonContainer>
         </AdminTitleContainer>
-        <input type="text" placeholder="Buscar por Ambiente" />
-
+        <input
+          type="text"
+          placeholder="Buscar por Ambiente"
+          onChange={(e) => searchAdmin(e.target.value)}
+        />
         <AdminList>
-          {admin.map((admin) => (
+          {adminMatches.map((admin) => (
             <AdminItem key={admin.id} admin={admin} />
           ))}
         </AdminList>

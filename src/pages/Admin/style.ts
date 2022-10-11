@@ -35,6 +35,53 @@ export const AdminContent = styled.div`
   }
 `;
 
+export const LabelScroolView = styled.div`
+  overflow-y: scroll;
+  min-height: 200px;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+`;
+
+export const LabelSelectValue = styled.div`
+  height: 3.75rem;
+  padding-left: 1.813rem;
+
+  display: flex;
+  align-items: center;
+
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.4);
+  /* box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1); */
+
+  z-index: 2;
+  cursor: pointer;
+  color: ${(props) => props.theme["black"]};
+  font-weight: 700;
+  font-size: 1rem;
+
+  :hover {
+    background: rgba(255, 255, 255, 0.8);
+  }
+`;
+
 export const AdminButtonContainer = styled.div`
   margin-top: 2rem;
   display: flex;
