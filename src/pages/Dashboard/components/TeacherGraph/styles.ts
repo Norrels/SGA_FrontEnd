@@ -70,7 +70,8 @@ export const TeacherGraphSelects = styled.div`
 `;
 
 export const TeacherGraphs = styled.div`
-  height: 500px;
+  height: auto;
+  padding: 3rem 0;
 `;
 
 

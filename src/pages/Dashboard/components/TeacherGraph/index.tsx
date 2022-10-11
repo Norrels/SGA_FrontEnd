@@ -1,5 +1,9 @@
 import { Lightbulb, Warning } from "phosphor-react";
+import { BarChart } from "./BarChart";
 import { TeacherGraphContainer, TeacherGraphDescription, TeacherGraphLabel, TeacherGraphs, TeacherGraphSelects, TeacherGraphSubtitle, TeacherGraphSubtitles, TeacherGraphSubtitleSpan, TeacherGraphTextContainer } from "./styles";
+
+
+
 
 export function TeacherGraph() {
   return (
@@ -23,7 +27,9 @@ export function TeacherGraph() {
         </TeacherGraphSelects>
       </TeacherGraphTextContainer>
 
-      <TeacherGraphs></TeacherGraphs>
+      <TeacherGraphs>
+        <BarChart/>
+      </TeacherGraphs>
 
 
       <footer>
