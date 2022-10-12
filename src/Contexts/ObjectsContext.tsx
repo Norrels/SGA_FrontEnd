@@ -5,7 +5,7 @@ interface ObjectsContextProviderProps {
   children: ReactNode;
 }
 
-export interface Teacher {
+export interface TeacherProps {
   id: number;
   nome: string;
   cargaSemanal: number;
@@ -40,16 +40,16 @@ export interface CourseProps {
 }[]
 
 interface ObjectsContextType {
-  teachers: Teacher[]
+  teachers: TeacherProps[]
   courses: CourseProps[]
   placesList: PlaceProps[]
   deleteTeacher: (id : number) => void
   deleteCourse: (id: number) => void
   deletePlace: (id: number) => void
-  updateTeaches: (data: Teacher) => void
+  updateTeaches: (data: TeacherProps) => void
   updatePlaces: (data: PlaceProps) => void
   updateCourses: (data: CourseProps) => void
-  createTeacherAPI: (data: Teacher) => void
+  createTeacherAPI: (data: TeacherProps) => void
   createCourseAPI: (data: CourseProps) => void
   createPlacesAPI: (data: PlaceProps) => void
 }
@@ -64,7 +64,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     fetchCourses();
   }, []);
 
-  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [teachers, setTeachers] = useState<TeacherProps[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
   const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
 
@@ -73,7 +73,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     setTeachers(res.data);
   }
 
-  async function createTeacherAPI(data: Teacher) {
+  async function createTeacherAPI(data: TeacherProps) {
     const res = await API.post("/professor", data);
     if (res.status == 200) {
       data.id = res.data[1]
@@ -170,7 +170,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function updateTeaches(data: Teacher) {
+  async function updateTeaches(data: TeacherProps) {
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true
     const res = await API.put(`/professor/${data.id}`, data);

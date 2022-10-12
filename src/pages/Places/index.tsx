@@ -26,11 +26,7 @@ export function Places() {
       setPlaceMatchs(placesList);
     } else {
       const res = await API.get(`/ambiente/buscapalavra/${value}`);
-      console.log(res.data);
-      if (res.data == 0) {
-      } else {
-        setPlaceMatchs(res.data);
-      }
+      setPlaceMatchs(res.data);
     }
   }
 
