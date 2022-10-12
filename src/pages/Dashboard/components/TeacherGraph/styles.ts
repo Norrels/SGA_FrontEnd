@@ -58,19 +58,33 @@ export const TeacherGraphSelects = styled.div`
     color: ${(props) => props.theme["white"]};
     font-weight: 500;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: ${(props) => props.theme["blue-400"]};
 
     :first-child {
       background-color: ${(props) => props.theme["blue-300"]}
     }
 
     :last-child {
-      background-color: ${(props) => props.theme["blue-400"]}
+      background-color: ${(props) => props.theme["blue-500"]}
     }
   }
 `;
 
 export const TeacherGraphs = styled.div`
-  height: 500px;
+  height: auto;
+  padding: 3rem 0;
+
+  div {
+    position: relative;
+    display: flex;
+
+    padding-left: 0.3rem;
+  }
+
+  h4 {
+    width: 100%;
+    text-align: center
+  }
 `;
 
 
