@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { z } from "zod";
 
 import { CourseProps, ObjectsContext } from "../../../../Contexts/ObjectsContext";
@@ -27,11 +27,16 @@ export const courseInput = z.object({
 export type CourseType = z.infer<typeof courseInput>
 
 export function CourseItem({course} : NewCouserModalProps) {
-
   const { deleteCourse } = useContext(ObjectsContext)
 
   async function handleCourse(id : number) {
      deleteCourse(id)
+  }
+
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
   }
 
   return (
@@ -57,7 +62,7 @@ export function CourseItem({course} : NewCouserModalProps) {
       </CourseItemInfoContent>
 
       <CourseItemButtonContainer>
-        <Dialog.Root>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger>
             <CourseItemButton buttonColor="edit">
               <DotsThree color="#fff" size={25} />
@@ -65,6 +70,7 @@ export function CourseItem({course} : NewCouserModalProps) {
           </Dialog.Trigger>
           <EditCourseModal
             course={course}
+            closeModal={closeModal}
           />
         </Dialog.Root>
 

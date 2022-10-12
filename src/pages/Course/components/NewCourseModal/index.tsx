@@ -27,10 +27,16 @@ export const coursesInputs = z.object({
 
 export type CourseType = z.infer<typeof coursesInputs>;
 
-export default function NewCourseModal() {
-  const { register, handleSubmit, reset } = useForm<CourseType>();
+interface NewCourseModalProps {
+  closeModal: () => void
+}
+
+export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
+  const { register, handleSubmit, reset, formState: { isSubmitted }, } = useForm<CourseType>();
   const [curricularUnit, setCurricularUnit] = useState(["1"]);
   const { createCourseAPI } = useContext(ObjectsContext)
+
+
 
   function handleAddNewCurricarUnit() {
     //Gambiara para arrumar o erro de key - Provisorio
@@ -39,43 +45,45 @@ export default function NewCourseModal() {
     setCurricularUnit([...curricularUnit, key]);
   }
 
+
   function handleCreateNewCourse(data: CourseType) {
     data.ativo = true;
     createCourseAPI(data);
     reset();
+    closeModal();
   }
 
   return (
     <Dialog.Portal>
       <Overlay />
-        <Content>
-          <CloseButton>
-            <X size={24} />
-          </CloseButton>
+      <Content>
+        <CloseButton>
+          <X size={24} />
+        </CloseButton>
 
-          <Dialog.Title>Novo curso</Dialog.Title>
+        <Dialog.Title>Novo curso</Dialog.Title>
 
-          <form onSubmit={handleSubmit(handleCreateNewCourse)}>
-            <NewCourseModalInputs>
-              <label>Nome</label>
-              <input
-                type="text"
-                placeholder="digite seu nome"
-                required
-                {...register("nome")}
-              />
-            </NewCourseModalInputs>
+        <form onSubmit={handleSubmit(handleCreateNewCourse)}>
+          <NewCourseModalInputs>
+            <label>Nome</label>
+            <input
+              type="text"
+              placeholder="digite seu nome"
+              required
+              {...register("nome")}
+            />
+          </NewCourseModalInputs>
 
-            <NewCourseModalInputs>
-              <label>Tipo</label>
+          <NewCourseModalInputs>
+            <label>Tipo</label>
 
-              <select {...register("tipoCurso")}>
-                <option>FIC</option>
-                <option value="REGULAR">Regular</option>
-              </select>
-            </NewCourseModalInputs>
+            <select {...register("tipoCurso")}>
+              <option>FIC</option>
+              <option value="REGULAR">Regular</option>
+            </select>
+          </NewCourseModalInputs>
 
-           {/*  {curricularUnit.map((unit) => {
+          {/*  {curricularUnit.map((unit) => {
               return (
                 <NewCourseModalUnidadeCurricularContainer
                   key={curricularUnit.indexOf(unit)}
@@ -103,22 +111,22 @@ export default function NewCourseModal() {
               );
             })} */}
 
-            <NewCourseModalButtonAddNewUnidadeCurricula
-              onClick={handleAddNewCurricarUnit}
-              type="button"
-            >
-              <Plus size={20} />
-              <br />
-              <p>Adicionar Unidade Curricular</p>
-            </NewCourseModalButtonAddNewUnidadeCurricula>
+          <NewCourseModalButtonAddNewUnidadeCurricula
+            onClick={handleAddNewCurricarUnit}
+            type="button"
+          >
+            <Plus size={20} />
+            <br />
+            <p>Adicionar Unidade Curricular</p>
+          </NewCourseModalButtonAddNewUnidadeCurricula>
 
-            <div>
-              <NewCouseModalCreateButton type="submit">
-                Criar
-              </NewCouseModalCreateButton>
-            </div>
-          </form>
-        </Content>
+          <div>
+            <NewCouseModalCreateButton type="submit">
+              Criar
+            </NewCouseModalCreateButton>
+          </div>
+        </form>
+      </Content>
     </Dialog.Portal>
   );
 }

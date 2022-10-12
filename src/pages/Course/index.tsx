@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useContext} from "react";
+import { useContext, useState} from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
 import {
@@ -13,7 +13,12 @@ import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
 
 export function Course() {
+  const [open, setOpen] = useState(false);
   const { courses } = useContext(ObjectsContext)
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   return (
     <CourseContainer>
@@ -22,11 +27,11 @@ export function Course() {
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
           <CourseButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
                 <button>Novo Curso</button>
               </Dialog.Trigger>
-              <NewCourseModal/>
+              <NewCourseModal closeModal={closeModal}/>
             </Dialog.Root>
           </CourseButtonContainer>
         </CourseTitleContainer>

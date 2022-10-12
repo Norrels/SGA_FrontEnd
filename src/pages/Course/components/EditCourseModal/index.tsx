@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import  { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CourseProps, ObjectsContext } from "../../../../Contexts/ObjectsContext";
@@ -22,6 +22,7 @@ import {
 
 interface EditCourseModalProps {
   course: CourseProps;
+  closeModal: () => void
 }
 
 export const courseInput = z.object({
@@ -33,15 +34,18 @@ export const courseInput = z.object({
 
 export type CourseType = z.infer<typeof courseInput>;
 
-export function EditCourseModal({ course }: EditCourseModalProps) {
+export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
   const [disabled, setDisabled] = useState(true);
   const { register, reset, handleSubmit } = useForm<CourseType>();
   const { updateCourses } = useContext(ObjectsContext)
 
   async function handleUpdateCourse(data: CourseType) {
+    //Colocar isso com input hiden no modal
     data.id = course.id
+    data.ativo = true
     updateCourses(data)
     reset()
+    closeModal()
   }
 
   return (
@@ -100,9 +104,8 @@ export function EditCourseModal({ course }: EditCourseModalProps) {
                         ? course.tipoCurso
                         : "Selecione uma Opção"}
                     </option>
-                    <option value="CAI">CAI</option>
+                    <option value="REGULAR">Regular</option>
                     <option value="FIC">FIC</option>
-                    <option value="CT">CT</option>
                   </select>
                 </>
               ) : (
@@ -119,9 +122,9 @@ export function EditCourseModal({ course }: EditCourseModalProps) {
                         ? course.tipoCurso
                         : "Selecione uma Opção"}
                     </option>
-                    <option value="CAI">CAI</option>
+                    <option value="REGULAR">Regular</option>
                     <option value="FIC">FIC</option>
-                    <option value="CT">CT</option>
+                   
                   </select>
                 </>
               )}
