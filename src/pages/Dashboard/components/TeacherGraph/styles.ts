@@ -58,13 +58,14 @@ export const TeacherGraphSelects = styled.div`
     color: ${(props) => props.theme["white"]};
     font-weight: 500;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: ${(props) => props.theme["blue-400"]};
 
     :first-child {
       background-color: ${(props) => props.theme["blue-300"]}
     }
 
     :last-child {
-      background-color: ${(props) => props.theme["blue-400"]}
+      background-color: ${(props) => props.theme["blue-500"]}
     }
   }
 `;

@@ -22,6 +22,7 @@ ChartJS.register(
 );
 
 export function TeacherGraph() {
+  const today = new Date();
   let semestreAtual = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho'];
 
   const [labels, setLabelss] = useState(['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Março', 'Junho'])
@@ -94,7 +95,7 @@ export function TeacherGraph() {
           <h3>Professores</h3>
           <p>
             Carga horária do professores, com base
-            <br /> nas aulas cadastradas no sistema
+            nas aulas cadastradas no sistema
           </p>
         </TeacherGraphLabel>
         <TeacherGraphSelects>
@@ -105,10 +106,18 @@ export function TeacherGraph() {
               })
             }
           </select>
+
           <select onChange={handleSelectSemestre}>
             <option value="1">1º Semestre</option>
             <option value="2">2º Semestre</option>
           </select>
+
+          <select>
+            <option value="1">{today.getFullYear()}</option>
+
+          </select>
+
+
         </TeacherGraphSelects>
       </TeacherGraphTextContainer>
 
