@@ -9,12 +9,27 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
-import { useContext } from "react";
-import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { useContext, useState } from "react";
+import { ObjectsContext, TeacherProps } from "../../Contexts/ObjectsContext";
 import { NewVacation } from "./components/NewVacation";
+import { API } from "../../lib/axios";
 
 export function Teacher() {
-  const { teachers } = useContext(ObjectsContext)
+  const { teachers } = useContext(ObjectsContext);
+  const [teachersMatch, setTeachersMatch] = useState<TeacherProps[]>([]);
+
+  if(teachers.length > 0 && teachersMatch.length == 0) {
+    setTeachersMatch(teachers);
+  }
+
+  async function searchTeacher(value: String) {
+    if (value == "") {
+      setTeachersMatch(teachers);
+    } else {
+      const res = await API.get(`/professor/buscapalavra/${value}`);
+      setTeachersMatch(res.data);
+    }
+  }
 
   return (
     <TeacherContainer>
@@ -48,10 +63,10 @@ export function Teacher() {
           </TeacherButtonContainer>
         </TeacherTitleContainer>
 
-        <input type="text" placeholder="Buscar por professor" />
+        <input type="text" placeholder="Buscar por professor" onChange={(v) => searchTeacher(v.target.value)} />
 
         <TeacherList>
-          {teachers.map((teacher) => {
+          {teachersMatch.map((teacher) => {
             if (teacher.ativo) {
               return <TeacherItem key={teacher.id} teacherItem={teacher}/>
             }

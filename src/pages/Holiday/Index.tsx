@@ -17,23 +17,42 @@ export interface HolidayProps {
   dataFinal: string;
   nome: string;
   tipoDeDia: string;
-}[]
-
+}
+[];
 
 export function Holiday() {
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
+  const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
 
   useEffect(() => {
     handleGetHolidays();
-  }, [])
+  }, []);
 
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");
 
-    if(resp.status == 200) {
+    if (resp.status == 200) {
+      setHolidayMatches(resp.data);
       setHoliday(resp.data);
     }
   }
+
+  const searchHoliday = (text: String) => {
+    if (!text) {
+      setHolidayMatches(holiday);
+    } else {
+      let matches = holiday.filter((holiday) => {
+        const regex = new RegExp(`${text}`, "gi");
+        return (
+          holiday.nome.match(regex) ||
+          holiday.dataInicio.match(regex) ||
+          holiday.dataFinal.match(regex) ||
+          holiday.tipoDeDia.match(regex)
+        );
+      });
+      setHolidayMatches(matches);
+    }
+  };
 
   return (
     <HolidayContainer>
@@ -50,10 +69,10 @@ export function Holiday() {
             </Dialog.Root>
           </HolidayButtonContainer>
         </HolidayTitleContainer>
-        <input type="text" placeholder="Buscar um dia não letivo" />
+        <input type="text" onChange={(v) => searchHoliday(v.target.value)} placeholder="Buscar um dia não letivo" />
 
         <HolidayList>
-          {holiday.map((data) => (
+          {holidayMatch.map((data) => (
             <HolidayItem key={data.id} holiday={data} />
           ))}
         </HolidayList>

@@ -9,11 +9,26 @@ import {
 } from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal } from "./components/NewPlaceModal";
-import { useContext } from "react";
-import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { useContext, useEffect, useState } from "react";
+import { ObjectsContext, PlaceProps } from "../../Contexts/ObjectsContext";
+import { API } from "../../lib/axios";
 
 export function Places() {
-  const { placesList } = useContext(ObjectsContext)
+  const { placesList } = useContext(ObjectsContext);
+  const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
+
+  if (placesList.length > 0 && placeMatchs.length == 0) {
+    setPlaceMatchs(placesList);
+  }
+
+  async function searchPlace(value: String) {
+    if (value == "") {
+      setPlaceMatchs(placesList);
+    } else {
+      const res = await API.get(`/ambiente/buscapalavra/${value}`);
+      setPlaceMatchs(res.data);
+    }
+  }
 
   return (
     <PlacesContainer>
@@ -37,13 +52,17 @@ export function Places() {
             </Dialog.Root>
           </PlacesButtonContainer>
         </PlacesTitleContainer>
-        <input type="text" placeholder="Buscar por ambiente " />
+        <input
+          type="text"
+          onChange={(e) => searchPlace(e.target.value)}
+          placeholder="Buscar por ambiente "
+        />
 
         <PlacesList>
-          {placesList.map((place) => (
-            place.ativo === true &&
-            <Place key={place.id} placeItem={place} />
-          ))}
+          {placeMatchs.map(
+            (place) =>
+              place.ativo === true && <Place key={place.id} placeItem={place} />
+          )}
         </PlacesList>
       </PlacesContent>
     </PlacesContainer>
