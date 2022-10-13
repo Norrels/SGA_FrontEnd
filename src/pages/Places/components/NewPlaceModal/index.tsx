@@ -19,10 +19,6 @@ import {
   Overlay,
 } from "./style";
 
-interface NewPlaceModalProps {
-  addNewPlace: (data: NewPlaceType) => void;
-}
-
 const newPlaceModalInput = z.object({
   id: z.number(),
   nome: z.string(),
@@ -35,16 +31,23 @@ const newPlaceModalInput = z.object({
 
 export type NewPlaceType = z.infer<typeof newPlaceModalInput>
 
-export function NewPlaceModal() {
+interface NewPlaceModalProps {
+  closeModal: () => void
+}
+
+export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
+
   const { register, handleSubmit, reset } = useForm<NewPlaceType>()
 
   const { createPlacesAPI } = useContext(ObjectsContext)
 
-  function handleCreateNewPlace(data: NewPlaceType) {
+  async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true
     createPlacesAPI(data)
     reset()
+    closeModal()
   }
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -76,7 +79,7 @@ export function NewPlaceModal() {
             <InputContentDupo>
               <div>
                 <label>Capacidade</label>
-                <input type="text" placeholder="Digite o nome do ambiente" {...register("capacidade")}/>
+                <input type="text" placeholder="Digite o nome do ambiente" {...register("capacidade")} />
               </div>
               <div>
                 <label>CEP</label>

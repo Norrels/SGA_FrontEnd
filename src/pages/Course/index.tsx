@@ -13,6 +13,7 @@ import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Course() {
+<<<<<<< HEAD
   const [open, setOpen] = useState(false);
   const { courses } = useContext(ObjectsContext);
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
@@ -29,6 +30,10 @@ export function Course() {
       setCourseMatchs(res.data);
     }
   }
+=======
+  const { courses } = useContext(ObjectsContext)
+  const [open, setOpen] = useState(false);
+>>>>>>> 0b5e39f034e7aa927aef6ed26a431b7680614fbe
 
   function closeModal() {
     setOpen(false);

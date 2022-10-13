@@ -4,8 +4,6 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { CourseProps, ObjectsContext } from "../../../../Contexts/ObjectsContext";
-
-import { API } from "../../../../lib/axios";
 import {
   CloseButton,
   ContainerButtonCreate,
