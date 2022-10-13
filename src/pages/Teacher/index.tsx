@@ -9,7 +9,7 @@ import {
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ObjectsContext, TeacherProps } from "../../Contexts/ObjectsContext";
 import { NewVacation } from "./components/NewVacation";
 import { API } from "../../lib/axios";
@@ -23,12 +23,20 @@ export function Teacher() {
     setOpen(false);
   }
 
-  if(teachers.length > 0 && teachersMatch.length == 0) {
-    setTeachersMatch(teachers);
+  useEffect(() => {
+    handleGetTeachers();
+  }, [teachers]);
+
+  async function handleGetTeachers() {
+    const resp = await API.get("/professor");
+
+    if (resp.status == 200) {
+      setTeachersMatch(resp.data);
+    }
   }
 
   async function searchTeacher(value: String) {
-    if (value == "") {
+    if (!value) {
       setTeachersMatch(teachers);
     } else {
       const res = await API.get(`/professor/buscapalavra/${value}`);
