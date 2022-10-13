@@ -3,7 +3,7 @@ import { NotePencil, Star } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
-import { ObjectsContext, Teacher } from "../../Contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../Contexts/ObjectsContext";
 import { AbsenseItem } from "./components/AbsenseItem";
 import { EditTeacherModal } from "./components/EditTeacherModal";
 import {
@@ -22,7 +22,7 @@ import {
 } from "./style";
 
 export function ViewTeacher() {
-  const [teacher, setTeachers] = useState<Teacher>(
+  const [teacher, setTeachers] = useState<TeacherProps>(
     {
       id: 0,
       ativo: true,
@@ -34,6 +34,7 @@ export function ViewTeacher() {
   )
   const { teachers } = useContext(ObjectsContext)
   const { teacherId } = useParams()
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     teachers.filter((teacher) => {

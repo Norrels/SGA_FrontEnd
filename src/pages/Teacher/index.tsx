@@ -17,6 +17,11 @@ import { API } from "../../lib/axios";
 export function Teacher() {
   const { teachers } = useContext(ObjectsContext);
   const [teachersMatch, setTeachersMatch] = useState<TeacherProps[]>([]);
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   if(teachers.length > 0 && teachersMatch.length == 0) {
     setTeachersMatch(teachers);
@@ -38,12 +43,12 @@ export function Teacher() {
           <h1>Professores</h1>
           <p>Selecione um Professor ou crie um novo!</p>
           <TeacherButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
                 <button>Novo professor</button>
               </Dialog.Trigger>
 
-              <NewTeacherModal />
+              <NewTeacherModal closeModal={closeModal} />
             </Dialog.Root>
 
             <Dialog.Root>

@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import { ObjectsContext, Teacher } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../../../Contexts/ObjectsContext";
 import {
   TeacherItemButton,
   TeacherItemButtonContainer,
@@ -12,7 +12,7 @@ import {
 } from "./style";
 
 interface TeacherItemProps {
-  teacherItem: Teacher;
+  teacherItem: TeacherProps;
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {

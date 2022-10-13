@@ -14,7 +14,7 @@ import { ObjectsContext, PlaceProps } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Places() {
-  const [places, setPlaces] = useState<PlaceProps[]>([]);
+  const { placesList } = useContext(ObjectsContext)
   const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
   const [open, setOpen] = useState(false);
 
@@ -24,20 +24,19 @@ export function Places() {
 
   useEffect(() => {
     handleGetPlaces();
-  }, []);
+  }, [placesList]);
 
   async function handleGetPlaces() {
     const resp = await API.get("/ambiente");
 
     if (resp.status == 200) {
-      setPlaces(resp.data);
       setPlaceMatchs(resp.data);
     }
   }
 
   async function searchPlace(value: String) {
     if (!value) {
-      setPlaceMatchs(places);
+      setPlaceMatchs(placesList);
     } else {
       const res = await API.get(`/ambiente/buscapalavra/${value}`);
       setPlaceMatchs(res.data);

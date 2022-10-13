@@ -39,7 +39,11 @@ export const teacherInput = z.object({
 
 export type TeacherType = z.infer<typeof teacherInput>;
 
-export default function NewTeacherModal() {
+interface NewTeacherModalProps {
+  closeModal: () => void
+}
+
+export default function NewTeacherModal({ closeModal} : NewTeacherModalProps ) {
   //Pegando os métodos do UseForm
   const { register, reset, handleSubmit } = useForm<TeacherType>();
   //Gambiara ? :D
@@ -52,6 +56,7 @@ export default function NewTeacherModal() {
     data.foto = baseImage
     createTeacherAPI(data);
     reset();
+    closeModal();
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {

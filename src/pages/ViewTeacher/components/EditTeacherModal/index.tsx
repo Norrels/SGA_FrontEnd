@@ -19,7 +19,7 @@ import {
   NoteButton,
   Overlay,
 } from "./style";
-import { ObjectsContext, Teacher } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../../../Contexts/ObjectsContext";
 
 export interface IInput {
   id?: number;
@@ -47,7 +47,7 @@ export const teacherInput = z.object({
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface EdiTeacherModalProps {
-  teacherItem: Teacher;
+  teacherItem: TeacherProps;
 }
 
 export function EditTeacherModal({teacherItem} : EdiTeacherModalProps) {
