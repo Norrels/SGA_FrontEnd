@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
 import {
@@ -13,25 +13,33 @@ import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Course() {
-  const [open, setOpen] = useState(false);
   const { courses } = useContext(ObjectsContext);
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
+  const [open, setOpen] = useState(false);
+  
+  function closeModal() {
+    setOpen(false);
+  }
 
-  if (courses.length > 0 && courseMatchs.length == 0) {
-    setCourseMatchs(courses);
+  useEffect(() => {
+    handleGetCourse();
+  }, [courses]);
+
+  async function handleGetCourse() {
+    const resp = await API.get("/curso");
+
+    if (resp.status == 200) {
+      setCourseMatchs(resp.data);
+    }
   }
 
   async function searchCourse(value: String) {
-    if (value == "") {
+    if (!value) {
       setCourseMatchs(courses);
     } else {
       const res = await API.get(`/curso/buscapalavra/${value}`);
       setCourseMatchs(res.data);
     }
-  }
-
-  function closeModal() {
-    setOpen(false);
   }
 
   return (
@@ -58,9 +66,7 @@ export function Course() {
         <CourseList>
           {courseMatchs.map((course) => {
             if (course.ativo) {
-              return (
-                <CourseItem key={course.id} course={course} />
-              );
+              return <CourseItem key={course.id} course={course} />;
             }
           })}
         </CourseList>
