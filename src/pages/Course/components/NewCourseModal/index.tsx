@@ -4,7 +4,6 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
-import { API } from "../../../../lib/axios";
 import {
   CloseButton,
   Content,
@@ -44,7 +43,6 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     const key = number.toString() + "1";
     setCurricularUnit([...curricularUnit, key]);
   }
-
 
   function handleCreateNewCourse(data: CourseType) {
     data.ativo = true;
@@ -121,8 +119,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
           </NewCourseModalButtonAddNewUnidadeCurricula>
 
           <div>
-            <NewCouseModalCreateButton type="submit">
-              Criar
+            <NewCouseModalCreateButton type="submit" disabled={isSubmitted}>
+              Criar 
             </NewCouseModalCreateButton>
           </div>
         </form>

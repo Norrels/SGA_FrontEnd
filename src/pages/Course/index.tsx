@@ -13,8 +13,8 @@ import { ObjectsContext } from "../../Contexts/ObjectsContext";
 
 
 export function Course() {
-  const [open, setOpen] = useState(false);
   const { courses } = useContext(ObjectsContext)
+  const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);

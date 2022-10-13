@@ -16,6 +16,11 @@ import { API } from "../../lib/axios";
 export function Places() {
   const { placesList } = useContext(ObjectsContext);
   const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   if (placesList.length > 0 && placeMatchs.length == 0) {
     setPlaceMatchs(placesList);
@@ -38,11 +43,11 @@ export function Places() {
           <p>Selecione um Ambiente ou crie um novo!</p>
 
           <PlacesButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
                 <button>Novo ambiente</button>
               </Dialog.Trigger>
-              <NewPlaceModal />
+              <NewPlaceModal closeModal={closeModal} />
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
@@ -59,7 +64,7 @@ export function Places() {
         />
 
         <PlacesList>
-          {placeMatchs.map(
+          {placesList.map(
             (place) =>
               place.ativo === true && <Place key={place.id} placeItem={place} />
           )}

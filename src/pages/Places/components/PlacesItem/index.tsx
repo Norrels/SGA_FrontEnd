@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ObjectsContext, PlaceProps } from "../../../../Contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
 import {
@@ -18,6 +18,11 @@ interface PlacesProps {
 
 export function Place({ placeItem }: PlacesProps) {
   const { deletePlace } = useContext(ObjectsContext)
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   return (
         <PlacesItemContainer>
@@ -33,13 +38,13 @@ export function Place({ placeItem }: PlacesProps) {
           </PlacesItemInfoContainer>
 
           <PlacesItemButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger style={{ border: "none" }}>
                 <PlacesItemButton buttonColor="edit">
                   <DotsThree size={25} />
                 </PlacesItemButton>
               </Dialog.Trigger>
-              <EditPlaceModal place={placeItem}  />
+              <EditPlaceModal closeModal={closeModal} place={placeItem}  />
             </Dialog.Root>
 
             <PlacesItemButton buttonColor="delete">

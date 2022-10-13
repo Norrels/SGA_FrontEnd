@@ -30,9 +30,10 @@ export type PlaceType = z.infer<typeof placeInput>;
 
 interface EditPlaceModalProps {
   place: PlaceProps
+  closeModal: () => void
 }
 
-export function EditPlaceModal({ place }: EditPlaceModalProps) {
+export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
   const { register, handleSubmit } = useForm<PlaceType>();
   const [editable, setEditable] = useState(true)
   const { updatePlaces } = useContext(ObjectsContext)
@@ -40,6 +41,7 @@ export function EditPlaceModal({ place }: EditPlaceModalProps) {
   async function handleUpdatePlace(data: PlaceType) {
     data.id = place.id
     updatePlaces(data)
+    closeModal()
   }
 
   return (
@@ -70,7 +72,7 @@ export function EditPlaceModal({ place }: EditPlaceModalProps) {
             <InputContent>
               <label>Tipo</label>
               <select placeholder="Selecione o Tipo de Ambiente" disabled={editable}  {...register("tipoAmbiente")} defaultValue={place.tipoAmbiente}>
-                <option value="UNIDADEMOVEL">Unidade Movel</option>
+                <option value="UNIDADE_MOVEL">Unidade Movel</option>
                 <option value="PRESENCIAL">Presencial</option>
                 <option value="EAD">EAD</option>
                 <option value="ENTIDADE">Entidade</option>
