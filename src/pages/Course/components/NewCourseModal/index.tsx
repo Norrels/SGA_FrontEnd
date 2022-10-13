@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
@@ -35,7 +35,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   const [curricularUnit, setCurricularUnit] = useState(["1"]);
   const { createCourseAPI } = useContext(ObjectsContext)
 
-
+  useEffect(() => {
+    closeModal();
+  }, [])
 
   function handleAddNewCurricarUnit() {
     //Gambiara para arrumar o erro de key - Provisorio
@@ -119,7 +121,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
           </NewCourseModalButtonAddNewUnidadeCurricula>
 
           <div>
-            <NewCouseModalCreateButton type="submit" disabled={isSubmitted}>
+            <NewCouseModalCreateButton type="submit">
               Criar 
             </NewCouseModalCreateButton>
           </div>

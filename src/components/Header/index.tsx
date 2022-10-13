@@ -15,9 +15,15 @@ import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { EditUserModal } from "./components/EditUserModal";
+import { useState } from "react";
 
 export function Header() {
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   return (
     <HeaderContainer>
