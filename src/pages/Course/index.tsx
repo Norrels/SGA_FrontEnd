@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useContext, useState} from "react";
+import { useContext, useState } from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
 import {
@@ -9,12 +9,26 @@ import {
   CourseList,
   CourseTitleContainer,
 } from "./style";
-import { ObjectsContext } from "../../Contexts/ObjectsContext";
-
+import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
+import { API } from "../../lib/axios";
 
 export function Course() {
-  const { courses } = useContext(ObjectsContext)
   const [open, setOpen] = useState(false);
+  const { courses } = useContext(ObjectsContext);
+  const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
+
+  if (courses.length > 0 && courseMatchs.length == 0) {
+    setCourseMatchs(courses);
+  }
+
+  async function searchCourse(value: String) {
+    if (value == "") {
+      setCourseMatchs(courses);
+    } else {
+      const res = await API.get(`/curso/buscapalavra/${value}`);
+      setCourseMatchs(res.data);
+    }
+  }
 
   function closeModal() {
     setOpen(false);
@@ -31,20 +45,22 @@ export function Course() {
               <Dialog.Trigger asChild>
                 <button>Novo Curso</button>
               </Dialog.Trigger>
-              <NewCourseModal closeModal={closeModal}/>
+              <NewCourseModal closeModal={closeModal} />
             </Dialog.Root>
           </CourseButtonContainer>
         </CourseTitleContainer>
         <input
           type="text"
           placeholder="Buscar por curso"
-          /*        onChange={handleSearch} */
+          onChange={(e) => searchCourse(e.target.value)}
         />
 
         <CourseList>
-          {courses.map((course) => {
-            if(course.ativo) {
-              return <CourseItem key={courses.indexOf(course)} course={course} />;
+          {courseMatchs.map((course) => {
+            if (course.ativo) {
+              return (
+                <CourseItem key={course.id} course={course} />
+              );
             }
           })}
         </CourseList>
