@@ -7,9 +7,11 @@ import {
   Overlay,
 } from "./style";
 
+interface EditUserModal {
+  closeModal: () => void
+}
 
-
-export function EditUserModal() {
+export function EditUserModal({closeModal} : EditUserModal) {
   return (
     <Dialog.Portal>
       <Overlay />
@@ -45,8 +47,8 @@ export function EditUserModal() {
             <label>Repita a Senha</label>
             <input type="password" placeholder="Repita a senha" />
           </article>
-
-          <button type="submit">Editar</button>
+          {/* Método provisorio */}
+          <button type="submit" onClick={() => closeModal()}>Editar</button>
         </form>
       </Content>
     </Dialog.Portal>

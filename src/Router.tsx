@@ -27,7 +27,6 @@ export function Router() {
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
-       
         <Route path="/dias-nao-letivos" element={<Holiday />} />
       </Route>
 

@@ -82,11 +82,11 @@ export function Header() {
                 <CaretUp weight="fill" size={30} />
               </HeaderNavMenuArrow>
 
-              <HeaderNavMenuItem as={Dialog.Root}>
+              <HeaderNavMenuItem as={Dialog.Root} open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
                   <HeaderEditUserButton>Editar Perfil</HeaderEditUserButton>
                 </Dialog.Trigger>
-                <EditUserModal />
+                <EditUserModal closeModal={closeModal}/>
               </HeaderNavMenuItem>
               <HeaderNavMenuItem>
                 <HeaderEditUserButton
