@@ -28,7 +28,8 @@ export const teacherInput = z.object({
   foto: z.string(),
   ativo: z.boolean(),
   email: z.string(),
-  competencia: z.object({
+  competencia: z
+    .object({
       id: z.number(),
       unidadeCurricular: z.string(),
       nivelHabilidade: z.string(),
@@ -40,23 +41,53 @@ export const teacherInput = z.object({
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface NewTeacherModalProps {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
-export default function NewTeacherModal({ closeModal} : NewTeacherModalProps ) {
+interface StarProps {
+  idCompetencia: number;
+  nota: number;
+}[]
+
+export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
+  const [input, setInput] = useState([1]);
+
+  const [star, setStar] = useState<StarProps[]>([]);
+
   //Pegando os métodos do UseForm
-  const { register, reset, handleSubmit } = useForm<TeacherType>();
+  const { register, setValue, reset, handleSubmit } = useForm<TeacherType>();
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
   //Pwgando os professores do context
-  const { createTeacherAPI } = useContext(ObjectsContext)
+  const { createTeacherAPI } = useContext(ObjectsContext);
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
-    data.foto = baseImage
-    createTeacherAPI(data);
+    data.foto = baseImage;
+
+    console.log(data);
+    console.log(star)
+
+
+    /* createTeacherAPI(data);
     reset();
-    closeModal();
+    closeModal(); */
+  }
+
+  function handleGetValue(value: number, id: number) {
+    console.log(value, " +++ ", id);
+
+    setStar([...star, { idCompetencia: id, nota: value }]);
+
+    /* 
+
+    procurar a competencia no array de competencia
+
+    star.filter((id) => {
+      if( == id.idCompetencia) {
+
+      }
+    }) */
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -131,22 +162,29 @@ export default function NewTeacherModal({ closeModal} : NewTeacherModalProps ) {
               </div>
             </InputContentDupo>
             <InputContentScroll>
-              {/* {input.map((v) => {
-              return (
+              {input.map((v) => (
                 <ContainerInputStar>
                   <ContentSelect>
                     <label>Competência</label>
-                    <select>
+                    <h1>{v}</h1>
+                    <select {...register(`competencia.${v}`)}>
                       <option>Selecione uma Unidade Curricular</option>
-                      <option>Java</option>
+                      <option value="JAVA">Java</option>
+                      <option value="C#">C#</option>
                     </select>
                   </ContentSelect>
-                  <Rating />
+                  <Rating
+                    {...register(`competencia.${v}.nivel`)}
+                    handleGetValue={handleGetValue}
+                    id={v}
+                  />
                 </ContainerInputStar>
-              );
-            })} */}
+              ))}
             </InputContentScroll>
             <ContainerNewCompt
+              onClick={(e) => {
+                setInput([...input, 1 + input.length]);
+              }}
             >
               <NewCompt>
                 <div>

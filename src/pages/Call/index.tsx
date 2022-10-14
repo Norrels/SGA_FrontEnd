@@ -46,7 +46,7 @@ export function Call() {
     } else {
       let matches = calls.filter((calls) => {
         const regex = new RegExp(`${text}`, "gi");
-        return calls.tipoChamado.match(regex) || calls.descricao.match(regex);
+        return calls.tipoChamado.match(regex);
       });
 
       setCallMatches(matches);
