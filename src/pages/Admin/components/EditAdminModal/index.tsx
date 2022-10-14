@@ -17,28 +17,30 @@ import {
 } from "./style";
 
 interface EditAdminModalProps {
-    admin: AdminProps;
+  admin: AdminProps;
+  closeModal: () => void
 }
 
 export const adminInput = z.object({
-    id: z.number(),
-    nome: z.string(),
-    nif: z.string(),
-    email: z.string(),
-    ativo: z.string(),
-    senha: z.string()
+  id: z.number(),
+  nome: z.string(),
+  nif: z.string(),
+  email: z.string(),
+  ativo: z.string(),
+  senha: z.string()
 })
 
 export type AdminType = z.infer<typeof adminInput>
 
-export function EditAdminModal({ admin }: EditAdminModalProps) {
+export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
   const [disabled, setDisabled] = useState(true);
 
   const { handleSubmit, register, reset } = useForm<AdminType>();
 
   function handleUpdateAdmin(data: AdminType) {
     handleUpdateAdminAPI(data)
-    reset();  
+    reset();
+    closeModal();
   }
 
   async function handleUpdateAdminAPI(data: AdminType) {
@@ -47,13 +49,13 @@ export function EditAdminModal({ admin }: EditAdminModalProps) {
     console.log(data.nif)
 
     const res = await API.put(`usuario/${admin.id}`, {
-        id: admin.id,
-        nome: data.nome,
-        nif: data.nif,
-        email: data.email,
-        tipoUsuario: "ADMINISTRADOR",
-        ativo: data.ativo,
-        senha: admin.email.slice(0, admin.email.search("@"))
+      id: admin.id,
+      nome: data.nome,
+      nif: data.nif,
+      email: data.email,
+      tipoUsuario: "ADMINISTRADOR",
+      ativo: data.ativo,
+      senha: admin.email.slice(0, admin.email.search("@"))
     })
 
     console.log(res)

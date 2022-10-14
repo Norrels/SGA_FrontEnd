@@ -15,7 +15,7 @@ import {
 } from "./style";
 
 interface NewAdminModalProps {
-  admin: AdminProps;
+  closeModal: () => void
 }
 
 export const adminInput = z.object({
@@ -28,12 +28,13 @@ export const adminInput = z.object({
 
 export type AdminType = z.infer<typeof adminInput>;
 
-export function NewAdminModal() {
+export function NewAdminModal({closeModal} : NewAdminModalProps) {
   const { register, handleSubmit, reset } = useForm<AdminType>();
 
   function handleCreateAdmin(data: AdminType) {
     handleCreateAdminAPI(data);
     reset();
+    closeModal();
   }
 
   async function handleCreateAdminAPI(admin: AdminType) {

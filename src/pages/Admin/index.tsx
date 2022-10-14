@@ -25,6 +25,12 @@ export interface AdminProps {
 export function Admin() {
   const [admin, setAdmin] = useState<AdminProps[]>([]);
   const [adminMatches, setAdminMatches] = useState<AdminProps[]>([]);
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
+  
 
   async function fetchAdmin() {
     const res = await API.get("usuario");
@@ -57,11 +63,11 @@ export function Admin() {
           <h1>Administradores</h1>
           <p>Chamadas realizadas no momento</p>
           <AdminButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger>
-                <button>Novo administrador</button>
+                Novo administrador
               </Dialog.Trigger>
-              <NewAdminModal />
+              <NewAdminModal closeModal={closeModal}/>
             </Dialog.Root>
           </AdminButtonContainer>
         </AdminTitleContainer>

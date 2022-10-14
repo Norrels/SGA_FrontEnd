@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash, User } from "phosphor-react";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { AdminProps } from "../..";
 import { API } from "../../../../lib/axios";
@@ -16,6 +16,7 @@ import {
 
 interface NewAdminModalProps {
   admin: AdminProps;
+  
 }
 
 export const adminInput = z.object({
@@ -28,6 +29,13 @@ export const adminInput = z.object({
 export type AdminType = z.infer<typeof adminInput>;
 
 export function AdminItem({ admin }: NewAdminModalProps) {
+
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
+
   async function handleDisableAdminAPI(data: AdminType) {
     const res = await API.put(`usuario/desativar/${data.id}`);
     console.log(res);
@@ -50,13 +58,13 @@ export function AdminItem({ admin }: NewAdminModalProps) {
             </AdminItemInfoContent>
 
             <AdminItemButtonContainer>
-              <Dialog.Root>
+              <Dialog.Root open={open} onOpenChange={setOpen} >
                 <Dialog.Trigger style={{ border: "none" }}>
-                  <AdminItemButton buttonColor="edit">
+                  
                     <DotsThree color="#000" size={25} />
-                  </AdminItemButton>
+                 
                 </Dialog.Trigger>
-                <EditAdminModal admin={admin} key={admin.id} />
+                <EditAdminModal closeModal={closeModal} admin={admin} key={admin.id} />
               </Dialog.Root>
 
               <AdminItemButton
