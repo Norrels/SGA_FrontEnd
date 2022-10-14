@@ -1,16 +1,19 @@
 import { Star } from "phosphor-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ContainerStar,
   ContainerStarFill,
   ContainerStarNotFill,
 } from "./style";
 
-export function Rating({}) {
+export function Rating({ handleGetValue, id }: any) {
   const [rating, setRating] = useState(1);
 
+  useEffect(() => {
+    handleGetValue(rating, id);
+  }, [rating])
+
   const setValueRating = (e: React.ChangeEvent<any>) => {
-    console.log(e.target.getAttribute("a-key"));
     var value = e.target.getAttribute("a-key");
     setRating(value);
   };
