@@ -1,9 +1,14 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
-import { ObjectsContext, PlaceProps } from "../../../../Contexts/ObjectsContext";
+import {
+  ObjectsContext,
+  PlaceProps,
+} from "../../../../Contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
 import {
+  ItemInfoContentHeader,
+  PlaceInfoType,
   PlacesItemButton,
   PlacesItemButtonContainer,
   PlacesItemContainer,
@@ -17,7 +22,7 @@ interface PlacesProps {
 }
 
 export function Place({ placeItem }: PlacesProps) {
-  const { deletePlace } = useContext(ObjectsContext)
+  const { deletePlace } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -25,36 +30,50 @@ export function Place({ placeItem }: PlacesProps) {
   }
 
   return (
-        <PlacesItemContainer>
-          <PlacesItemInfoContainer>
-            <PlacesItemIcon>
-              <ChalkboardTeacher size={30} />
-            </PlacesItemIcon>
+    <PlacesItemContainer>
+      <PlacesItemInfoContainer>
+        <PlacesItemIcon>
+          <ChalkboardTeacher size={32} />
+        </PlacesItemIcon>
 
-            <PlacesItemInfoContent>
-              <h3>{placeItem.nome}</h3>
-              <p>Capacidade: {placeItem.capacidade}</p>
-            </PlacesItemInfoContent>
-          </PlacesItemInfoContainer>
+        <PlacesItemInfoContent>
+          <ItemInfoContentHeader>
+            <h3>{placeItem.nome}</h3>
+            <PlaceInfoType>
+              {placeItem.tipoAmbiente.toLowerCase() === 'unidade_movel' ? 'Unidade Móvel' : placeItem.tipoAmbiente.toLowerCase()}
+            </PlaceInfoType>
+          </ItemInfoContentHeader>
 
-          <PlacesItemButtonContainer>
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger style={{ border: "none" }}>
-                <PlacesItemButton buttonColor="edit">
-                  <DotsThree size={25} />
-                </PlacesItemButton>
-              </Dialog.Trigger>
-              <EditPlaceModal closeModal={closeModal} place={placeItem}  />
-            </Dialog.Root>
+          <p>
+            Quantidade de pessoas: <span>{placeItem.capacidade}</span>
+          </p>
+        </PlacesItemInfoContent>
+      </PlacesItemInfoContainer>
 
-            <PlacesItemButton buttonColor="delete">
-              <Trash
-                color="#fff"
-                size={25}
-                onClick={() => deletePlace(placeItem.id)}
-              />
+      <PlacesItemButtonContainer>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              display: "flex",
+            }}
+          >
+            <PlacesItemButton buttonColor="edit">
+              <DotsThree color="#fff" size={32} />
             </PlacesItemButton>
-          </PlacesItemButtonContainer>
-        </PlacesItemContainer>
-  )
+          </Dialog.Trigger>
+          <EditPlaceModal closeModal={closeModal} place={placeItem} />
+        </Dialog.Root>
+
+        <PlacesItemButton buttonColor="delete">
+          <Trash
+            color="#fff"
+            size={26}
+            onClick={() => deletePlace(placeItem.id)}
+          />
+        </PlacesItemButton>
+      </PlacesItemButtonContainer>
+    </PlacesItemContainer>
+  );
 }

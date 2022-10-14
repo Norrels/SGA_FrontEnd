@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
-import { AbsenseInfoType } from "../../style";
+import { AbsenseInfoType } from "../../components/AbsenseItem/style";
 import { EditAbsenceTeacherModal } from "../EditAbsenceTeacherModal";
 
 import {

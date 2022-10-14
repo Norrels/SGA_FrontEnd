@@ -20,6 +20,18 @@ const swipeRight = keyframes`
   } 
 `;
 
+const runRightFirst = keyframes`
+  100% {
+     transform: translateX(-5%)
+  }
+`;
+
+const runRightLast = keyframes`
+  100% {
+     transform: translateX(120%)
+  }
+`;
+
 export const LoginHeaderContainer = styled.header`
   width: 100%;
   display: flex;
@@ -149,7 +161,7 @@ export const LoginFormContent = styled.div`
       background-size: 200% 200%;
       transition-duration: 1s;
       opacity: 0;
-      animation: ${swipeRight} 1s 1.2s ease-in-out forwards;
+      animation: ${swipeRight} 1s 2.1s ease-in-out forwards;
 
       &:hover {
         background-position: 100% 50%;
@@ -192,19 +204,41 @@ export const LoginFormContent = styled.div`
   }
 `;
 
-export const LoginLittleDivider = styled.span`
-  width: 5.813rem;
-  height: 5px;
+export const LoginLittleDivider = styled.div`
+  width: 100%;
+  height: 10px;
   margin-bottom: 1.563rem;
 
-  border-radius: 8px;
+  border-radius: 10px;
 
-  display: block;
-  background: linear-gradient(
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+`;
+
+export const LittleDividerContent = styled.div `
+    height: 100%;
+    margin: 0 10px;
+
+    background: linear-gradient(
     90deg,
     #0f62ab -1.73%,
     #0031b0 -1.72%,
     #25b5e9 90.1%
   );
-  animation: ${swipeRight} 1.5s ease-in-out forwards;
+  border-radius: 10px;
+
+  &:first-child {
+    width: 25%;
+    transform: translateX(-110%);
+    animation: ${runRightFirst} 1.2s 2s ease-out forwards;
+  }
+
+  &:last-child {
+    width: 75%;
+    transform: translateX(-150%);
+    animation: ${runRightLast} 2s cubic-bezier(.98,0,.03,1) forwards;
+  }
 `;

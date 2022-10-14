@@ -157,20 +157,3 @@ export const AbsenseList = styled.div`
   margin-top: 2rem;
   margin-bottom: 3rem;
 `;
-
-export const AbsenseInfoType = styled.div`
-    font-size: 0.800rem;
-    width: 100px;
-    padding: 5px;
-    height: 20px;
-
-    background: ${(props) => props.theme["blue-300"]};
-    text-align: center;
-    border-radius: 1rem;
-    font-weight: bold;
-    color: ${(props) => props.theme["white"]};
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
