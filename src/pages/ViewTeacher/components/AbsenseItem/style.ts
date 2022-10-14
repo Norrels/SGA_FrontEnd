@@ -5,26 +5,33 @@ export const AbsenseItemContainer = styled.article`
   padding: 2rem;
   margin-bottom: 1rem;
 
-  border-radius: 8px;
-  background: ${(props) => props.theme["white"]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  border-radius: 8px;
+  background: ${(props) => props.theme["white"]};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const AbsenseItemInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
+`;
 
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 8px;
-  }
+export const AbsenseItemIcon = styled.span`
+  width: 3.125rem;
+  height: 3.125rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: ${(props) => props.theme["white-300"]};
 `;
 
 export const AbsenseItemInfoContent = styled.span`
@@ -39,15 +46,23 @@ export const AbsenseItemInfoContent = styled.span`
   }
 `;
 
-export const AbsenseItemIcon = styled.span`
-  width: 3.125rem;
-  height: 3.125rem;
+export const AbsenseInfoType = styled.div`
+  width: 100px;
+  height: 20px;
+  padding: 5px;
+  
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
 
-  background: ${(props) => props.theme["white-300"]};
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: ${(props) => props.theme["white"]};
+
+  border-radius: 1rem;
+  background: ${(props) => props.theme["blue-300"]};
 `;
 
 const BUTTONS = {
@@ -74,9 +89,15 @@ export const AbsenseItemButton = styled.div<ButtonProps>`
   justify-content: center;
 
   border: none;
-  outline: none;
-  cursor: pointer;
-
   border-radius: 8px;
+  outline: none;
+  
+  cursor: pointer;
   background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+
+  transition-duration: 0.5s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;

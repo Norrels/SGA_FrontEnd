@@ -45,18 +45,26 @@ export const PlacesTitleContainer = styled.section`
   flex-direction: column;
 
   h1 {
+    width: 100%;
     margin: 0.5rem;
 
     font-size: 2.813rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]};
-   
+    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    text-align: center;
   }
 
   p {
+    width: 100%;
     font-size: 1.125rem;
     font-weight: 800;
     color: ${(props) => props.theme["sub-title"]};
+
+    text-align: center;
   }
 `;
 
@@ -67,21 +75,35 @@ export const PlacesButtonContainer = styled.div`
   gap: 2rem;
 
   button {
-    width: 12.75rem;
+    width: 12.5rem;
     height: 3.75rem;
 
     border: none;
     border-radius: 8px;
-    background-color: ${(props) => props.theme["blue-500"]};
-   
+    
+
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
     font-weight: bold;
-   
+
+    transition-duration: 0.3s;
+
+    &:first-child {
+      background: linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);
+    }
+
+    &:last-child {
+      background: linear-gradient(180deg, #5AADD1 0%, #367FBF 100%);
+    }
+
+    &:hover {
+      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
   }
 `;
 
 export const PlacesList = styled.section`
   margin-top: 2rem;
   margin-bottom: 3rem;
-`
+`;

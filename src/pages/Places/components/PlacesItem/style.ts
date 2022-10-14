@@ -5,42 +5,83 @@ export const PlacesItemContainer = styled.article`
   padding: 2rem;
   margin-bottom: 1rem;
 
-  border-radius: 8px;
-  background: ${(props) => props.theme["white"]};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-`;
 
-export const PlacesItemIcon = styled.span`
-  width: 3.125rem;
-  height: 3.125rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 8px;
-
-  background: ${(props) => props.theme["white-300"]};
+  background: ${(props) => props.theme["white"]};
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 `;
 
 export const PlacesItemInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
+
+  img {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 8px;
+  }
+`;
+
+export const PlacesItemIcon = styled.span`
+  width: 3.125rem;
+  height: 3.125rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: ${(props) => props.theme["white-300"]};
 `;
 
 export const PlacesItemInfoContent = styled.span`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  p {
+    span {
+      font-weight: bold;
+    }
+  }
+`;
+
+export const ItemInfoContentHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const PlaceInfoType = styled.div`
+  width: 110px;
+  height: 20px;
+  padding: 5px;
+  margin-left: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.8rem;
+  text-align: center;
+  font-weight: bold;
+  text-transform: capitalize;
+  color: ${(props) => props.theme["white"]};
+
+  border-radius: 1rem;
+  background: ${(props) => props.theme["blue-300"]};
 `;
 
 const BUTTONS = {
-  edit: "blue-200",
-  delete: "blue-400",
+  edit: "blue-300",
+  delete: "blue-500",
 } as const;
 
 interface ButtonProps {
@@ -54,25 +95,23 @@ export const PlacesItemButtonContainer = styled.div`
 `;
 
 export const PlacesItemButton = styled.div<ButtonProps>`
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   border: none;
   border-radius: 8px;
-  padding: 0.2rem;
+  outline: none;
 
   background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+  cursor: pointer;
+  
+  transition-duration: 0.5s;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  button {
-    border: none;
-  border-radius: 8px;
-  padding: 0.2rem;
-
-  background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  &:hover {
+    transform: scale(1.05);
   }
 `;

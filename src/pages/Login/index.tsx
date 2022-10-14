@@ -8,6 +8,7 @@ import {
   LoginFormContainer,
   LoginFormContent,
   LoginLittleDivider,
+  LittleDividerContent,
 } from "./style";
 
 export function Login() {
@@ -32,7 +33,10 @@ export function Login() {
       <LoginFormContainer>
         <LoginFormContent>
           <form>
-            <LoginLittleDivider />
+            <LoginLittleDivider>
+              <LittleDividerContent />
+              <LittleDividerContent />
+            </LoginLittleDivider>
             <h1>
               Gerencie e controle os <br /> espaços da escola
             </h1>
