@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import Resumo from "../../../../assets/Resumo.svg";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
@@ -21,11 +22,13 @@ import {
 
 interface ModalCreateNewClassProps {
   name: string;
+  closeModal(): void
 }
 
-export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
-  const { courses, placesList } = useContext(ObjectsContext)
+export function ModalCreateNewClass({ name, closeModal }: ModalCreateNewClassProps) {
 
+  const { courses, placesList } = useContext(ObjectsContext)
+  const { register, handleSubmit, reset } = useForm()
 
   const courseFiltedByType = courses.filter((course) => {
     if (course.tipoCurso.toLowerCase() == name.toLowerCase()){
@@ -35,6 +38,12 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
       return course
     }
   })
+
+  async function handleCreateNewPlace() {
+    reset()
+    closeModal()
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -44,7 +53,7 @@ export function ModalCreateNewClass({ name }: ModalCreateNewClassProps) {
         </CloseButton>
 
         <Dialog.Title>Aula {name}</Dialog.Title>
-        <ModalCreateClassContent>
+        <ModalCreateClassContent onSubmit={handleSubmit(handleCreateNewPlace)}>
           <ModalCreateClassContentLine>
             <label htmlFor="">Curso</label>
             <select name="" id="">

@@ -17,6 +17,7 @@ export function Home() {
   const today = new Date();
   //Dia de referencia
   const [referenceDay, setReferenceDay] = useState(today);
+  const [open, setOpen] = useState(false);
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
@@ -40,6 +41,10 @@ export function Home() {
     setReferenceDay(dayChoiced)
   }
 
+  function closeModal() {
+    setOpen(false);
+  }
+
   return (
     <HomeContainer>
       <HomeContent>
@@ -48,27 +53,27 @@ export function Home() {
           <p>Selecione um tipo de curso e crie uma nova aula</p>
           <HomeButtonContainer>
             <HomeButtonCreate buttonsColor={1}>
-              <Dialog.Root>
+              <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
                   <button>Regular</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass name="Regular" />
+                <ModalCreateNewClass closeModal={closeModal} name="Regular" />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={2}>
-              <Dialog.Root>
+              <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
                   <button>FIC</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass name="FIC" />
+                <ModalCreateNewClass closeModal={closeModal} name="FIC" />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={3}>
-              <Dialog.Root>
+              <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
                   <button>Customizavel</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass name="customizável" />
+                <ModalCreateNewClass closeModal={closeModal} name="customizável" />
               </Dialog.Root>
             </HomeButtonCreate>
           </HomeButtonContainer>

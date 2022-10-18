@@ -14,16 +14,12 @@ import {
 import * as ContextMenu from "@radix-ui/react-context-menu";
 
 import {
-  addDays,
-  eachDayOfInterval,
   format,
-  nextDay,
-  startOfWeek,
 } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { RightClick } from "../RightClick";
-import { ChangeEvent, useState } from "react";
-import { previousDay } from "date-fns/esm";
+import { useState } from "react";
+
 
 interface CalenderProps {
  days: Date[];
@@ -32,6 +28,8 @@ interface CalenderProps {
 
 
 export function Calender({days, today} : CalenderProps) {
+
+  const [open, setOpen] = useState(false);
 
   return (
     <HomeCalenderContainer>
