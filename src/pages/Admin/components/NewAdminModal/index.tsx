@@ -35,6 +35,7 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
     handleCreateAdminAPI(data);
     reset();
     closeModal();
+    window.location.reload();
   }
 
   async function handleCreateAdminAPI(admin: AdminType) {
@@ -47,11 +48,11 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
       ativo: true
     });
 
-    console.log(res);
-    console.log(admin);
+    // console.log(res);
+    // console.log(admin);
 
     if (res.status == 200) {
-      console.log("deu certo");
+      // console.log("deu certo");
     }
   }
 

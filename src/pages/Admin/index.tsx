@@ -31,7 +31,6 @@ export function Admin() {
     setOpen(false);
   }
   
-
   async function fetchAdmin() {
     const res = await API.get("usuario");
 
@@ -73,7 +72,7 @@ export function Admin() {
         </AdminTitleContainer>
         <input
           type="text"
-          placeholder="Buscar por Ambiente"
+          placeholder="Buscar por Administrador"
           onChange={(e) => searchAdmin(e.target.value)}
         />
         <AdminList>
