@@ -14,9 +14,12 @@ export interface TeacherProps {
   email: string;
   competencia: {
     id: number;
-    unidadeCurricular: string;
-    nivelHabilidade: string;
     nivel: number;
+    unidadeCurricular: {
+      id: number;
+      nome: string;
+      horas: string;
+    }
   }[];
 }
 [];
