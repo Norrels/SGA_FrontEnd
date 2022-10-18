@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
-import React from "react";
+import React, { useState } from "react";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import { HolidayProps } from "../../Index";
@@ -28,6 +28,11 @@ export const holidayInput = z.object({
 export type HolidayType = z.infer<typeof holidayInput>;
 
 export function HolidayItem({ holiday }: HolidayItem) {
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   async function handleDeleteHoliday(data: HolidayType){
     const resp = await API.delete(`dnl/${data.id}`);
@@ -60,13 +65,14 @@ export function HolidayItem({ holiday }: HolidayItem) {
       </HolidayItemInfoContent>
 
       <HolidayItemButtonContainer>
-        <Dialog.Root>
-          <Dialog.Trigger style={{ border: "none" }}>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger style={{ border: "none" }} asChild>
             <HolidayItemButton buttonColor="edit">
               <DotsThree color="#000" size={25} />
-            </HolidayItemButton>
+            </HolidayItemButton >
           </Dialog.Trigger>
           <EditHolidayModal
+          closeModal={closeModal}
             key={holiday.id}
             holiday={holiday}
           />

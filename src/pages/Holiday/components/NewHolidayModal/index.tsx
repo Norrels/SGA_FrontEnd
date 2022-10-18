@@ -21,14 +21,19 @@ export const holidayInput = z.object({
   tipoDeDia: z.string(),
 });
 
+interface holidayProps {
+  closeModal(): void
+}
+
 export type HolidayType = z.infer<typeof holidayInput>;
 
-export function NewHolidayModal() {
+export function NewHolidayModal({closeModal} : holidayProps) {
   const { register, handleSubmit, reset } = useForm<HolidayType>();
 
   function handleCreateHoliday(data: HolidayType) {
     handleCreateHolidayAPI(data);
     reset;
+    closeModal()
   }
 
   async function handleCreateHolidayAPI(data: HolidayType) {

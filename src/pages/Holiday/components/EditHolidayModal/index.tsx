@@ -19,6 +19,7 @@ import {
 
 interface EditAdminModalProps {
   holiday: HolidayProps;
+  closeModal: () => void
 }
 
 export const holidayInput = z.object({
@@ -31,7 +32,7 @@ export const holidayInput = z.object({
 
 export type HolidayType = z.infer<typeof holidayInput>;
 
-export function EditHolidayModal({ holiday }: EditAdminModalProps) {
+export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   const [disabled, setDisabled] = useState(true);
 
   // const [datat, setDatat] = useState(format(new Date(holiday.dataInicio), "dd-MM-yyyy"))
@@ -41,6 +42,7 @@ export function EditHolidayModal({ holiday }: EditAdminModalProps) {
   function handleUpdateAdmin(data: HolidayType) {
     handleUpdateAdminAPI(data);
     reset();
+    closeModal();
   }
 
   async function handleUpdateAdminAPI(data: HolidayType) {

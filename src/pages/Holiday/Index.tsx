@@ -24,6 +24,12 @@ export function Holiday() {
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
   const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
 
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
+
   useEffect(() => {
     handleGetHolidays();
   }, []);
@@ -61,11 +67,11 @@ export function Holiday() {
           <h1>Dias não letivos</h1>
           <p>Selecione um dia não letivo ou crie um novo!</p>
           <HolidayButtonContainer>
-            <Dialog.Root>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
                 <button>Novo dia</button>
               </Dialog.Trigger>
-              <NewHolidayModal />
+              <NewHolidayModal closeModal={closeModal}/>
             </Dialog.Root>
           </HolidayButtonContainer>
         </HolidayTitleContainer>
