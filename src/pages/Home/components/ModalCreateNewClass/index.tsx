@@ -27,7 +27,7 @@ interface ModalCreateNewClassProps {
 
 export function ModalCreateNewClass({ name, closeModal }: ModalCreateNewClassProps) {
 
-  const { courses, placesList } = useContext(ObjectsContext)
+  const { courses, placesList, curricularUnit } = useContext(ObjectsContext)
   const { register, handleSubmit, reset } = useForm()
 
   const courseFiltedByType = courses.filter((course) => {
@@ -69,7 +69,11 @@ export function ModalCreateNewClass({ name, closeModal }: ModalCreateNewClassPro
           <ModalCreateClassContentLine>
             <label htmlFor="">Unidade Curricular</label>
             <select name="" id="">
-              <option value="">Selecione unidade curricular</option>
+              {curricularUnit.map((unidade) => {
+                return (
+                  <option key={unidade.id} value="">{unidade.nome}</option>
+                )
+              })}
             </select>
           </ModalCreateClassContentLine>
 
@@ -82,7 +86,10 @@ export function ModalCreateNewClass({ name, closeModal }: ModalCreateNewClassPro
             <ModalCreateClassContentCollum>
               <label htmlFor="">Periodo</label>
               <select name="" id="">
-                <option value="">Selecione um periodo</option>
+                <option value="MANHA">Manhã</option>
+                <option value="TARDE">Tarde</option>
+                <option value="NOITE">Noite</option>
+                <option value="">Dia todo</option>
               </select>
             </ModalCreateClassContentCollum>
             <ModalCreateClassContentCollum>

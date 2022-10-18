@@ -42,10 +42,17 @@ export interface CourseProps {
   ativo: boolean
 }[]
 
+interface CurricularUnit {
+  id: number;
+  nome: string;
+  horas: string;
+}
+
 interface ObjectsContextType {
   teachers: TeacherProps[]
   courses: CourseProps[]
   placesList: PlaceProps[]
+  curricularUnit: CurricularUnit[]
   deleteTeacher: (id : number) => void
   deleteCourse: (id: number) => void
   deletePlace: (id: number) => void
@@ -65,11 +72,13 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     fetchPlaces();
     fetchTeachers();
     fetchCourses();
+    fetchCurricularUnits();
   }, []);
 
   const [teachers, setTeachers] = useState<TeacherProps[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
   const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
+  const [curricularUnit, setCurricularUnit] = useState<CurricularUnit[]>([]);
 
   async function fetchTeachers() {
     const res = await API.get("professor");
@@ -108,6 +117,11 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   async function fetchPlaces() {
     const res = await API.get("ambiente");
     setPlacesList(res.data);
+  }
+
+  async function fetchCurricularUnits() {
+    const res = await API.get("unidade");
+    setCurricularUnit(res.data);
   }
 
   async function deletePlace(id: number) {
@@ -201,8 +215,9 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
         createPlacesAPI,
         placesList,
         teachers,
-        createTeacherAPI,
+        curricularUnit,
         courses,
+        createTeacherAPI,
         createCourseAPI
       }}
     >
