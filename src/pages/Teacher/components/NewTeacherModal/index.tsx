@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import { startOfWeek } from "date-fns";
 import { Plus, X } from "phosphor-react";
-import { ChangeEvent, useContext, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
@@ -31,8 +32,16 @@ export const teacherInput = z.object({
   competencia: z
     .object({
       id: z.number(),
-      unidadeCurricular: z.string(),
-      nivelHabilidade: z.string(),
+      professor: z.object({
+        id: z.number(),
+        nome: z.string(),
+        
+      }),
+      unidadeCurricular: z.object({
+        id: z.number(),
+        nome: z.string(),
+        horas: z.string(),
+      }),
       nivel: z.number(),
     })
     .array(),
@@ -47,47 +56,66 @@ interface NewTeacherModalProps {
 interface StarProps {
   idCompetencia: number;
   nota: number;
-}[]
+}
+[];
+
+interface UnidadeCurricularProps {
+  id: number;
+  nome: string;
+  horas: string;
+}
+[];
 
 export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   const [input, setInput] = useState([1]);
-
   const [star, setStar] = useState<StarProps[]>([]);
-
+  const [unidadeCurricular, setUnidadeCurricular] = useState<
+    UnidadeCurricularProps[]
+  >([]);
   //Pegando os métodos do UseForm
   const { register, setValue, reset, handleSubmit } = useForm<TeacherType>();
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
   //Pwgando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
-
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
     data.foto = baseImage;
-
+    data.competencia.shift();
+    star.filter((value) => {
+      data.competencia.map((valueMap) => {
+        if (value.idCompetencia == Number(valueMap.id)) {
+          valueMap.nivel = value.nota;
+        }
+        unidadeCurricular.map((unit) => {
+          if(unit.nome == valueMap.unidadeCurricular.nome) {
+            valueMap.unidadeCurricular.id = unit.id;
+            valueMap.unidadeCurricular.horas = unit.horas;
+          }
+        });
+      });
+    });
+    // console.log(unidadeCurricular)
     console.log(data);
-    console.log(star)
-
-
-    /* createTeacherAPI(data);
+    // console.log(star);
+    createTeacherAPI(data);
     reset();
-    closeModal(); */
+    closeModal();
   }
 
-  function handleGetValue(value: number, id: number) {
-    console.log(value, " +++ ", id);
+  useEffect(() => {
+    handleGetUnidadeCurricular();
+  }, []);
 
-    setStar([...star, { idCompetencia: id, nota: value }]);
+  async function handleGetUnidadeCurricular() {
+    const response = await API.get("/unidade");
+    if (response.status == 200) {
+      setUnidadeCurricular(response.data);
+    }
+  }
 
-    /* 
-
-    procurar a competencia no array de competencia
-
-    star.filter((id) => {
-      if( == id.idCompetencia) {
-
-      }
-    }) */
+  function handleGetValue(notaEscolhida: number, idCompetencia: number) {
+    setStar([...star, { idCompetencia: idCompetencia, nota: notaEscolhida }]);
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -163,14 +191,23 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
             </InputContentDupo>
             <InputContentScroll>
               {input.map((v) => (
-                <ContainerInputStar>
+                <ContainerInputStar key={v}>
                   <ContentSelect>
                     <label>Competência</label>
-                    <h1>{v}</h1>
-                    <select {...register(`competencia.${v}`)}>
-                      <option>Selecione uma Unidade Curricular</option>
-                      <option value="JAVA">Java</option>
-                      <option value="C#">C#</option>
+                    <input
+                      {...register(`competencia.${v}.id`)}
+                      type="hidden"
+                      value={v}
+                    />
+                    <select
+                      key={v}
+                      {...register(`competencia.${v}.unidadeCurricular.nome`)}
+                    >
+                      {unidadeCurricular.map((value) => (
+                        <option key={value.id} value={value.nome}>
+                          {value.nome}
+                        </option>
+                      ))}
                     </select>
                   </ContentSelect>
                   <Rating
