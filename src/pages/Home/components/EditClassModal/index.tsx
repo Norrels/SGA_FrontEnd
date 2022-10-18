@@ -1,9 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { Plus, X } from "phosphor-react";
-import { useContext } from "react";
+import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 
 import {
   CloseButton,
@@ -15,12 +12,23 @@ import {
   Overlay,
 } from "./style";
 
-export function EditClassModal() {
+interface ModalCreateNewClassProps {
+  closeModal(): void
+}
+
+export function EditClassModal({  closeModal }: ModalCreateNewClassProps) {
+  const { register, handleSubmit, reset } = useForm()
+
+  async function handleCreateNewPlace() {
+    reset()
+    closeModal()
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <form>
+        <form onSubmit={handleSubmit(handleCreateNewPlace)}>
           <CloseButton>
             <X />
           </CloseButton>
@@ -50,7 +58,7 @@ export function EditClassModal() {
 
           </InputContainer>
           <ContainerButtonCreate>
-            <button>Editar</button>
+            <button type="submit" >Editar</button>
           </ContainerButtonCreate>
         </form>
       </Content>

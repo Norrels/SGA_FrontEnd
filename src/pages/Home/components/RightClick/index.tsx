@@ -11,11 +11,23 @@ import {
 
 export function RightClick() {
   const [open, setOpen] = useState(false);
+  const [openClasses, setOpenClasses] = useState(false);
 
   function close() {
     setTimeout(() => {
       setOpen(true);
     }, 5)
+  }
+
+  function closeAulas() {
+    setTimeout(() => {
+      setOpenClasses(true);
+    }, 5)
+  }
+
+  function closeModal() {
+    setOpen(false);
+    setOpenClasses(false);
   }
 
   return (
@@ -26,18 +38,18 @@ export function RightClick() {
           Editar aula
           </RightClickItem>
           <RightClickSeperator />
-          <RightClickItem onClick={close}>
+          <RightClickItem onClick={closeAulas}>
            Editar aulas
           </RightClickItem>
         </RightClickContainer>
       </ContextMenu.Portal>
 
       <Dialog.Root open={open} onOpenChange={setOpen}>
-        <EditClassModal />
+        <EditClassModal closeModal={closeModal} />
       </Dialog.Root>
 
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <EditAllClassModal/>
+      <Dialog.Root open={openClasses} onOpenChange={setOpenClasses}>
+        <EditAllClassModal closeModal={closeModal}/>
       </Dialog.Root>
     </>
 
