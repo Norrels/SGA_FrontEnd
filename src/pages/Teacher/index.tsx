@@ -1,4 +1,4 @@
-import { TeacherItem } from "./TeacherItem";
+import { TeacherItem } from "./components/TeacherItem";
 import {
   TeacherContainer,
   TeacherContent,

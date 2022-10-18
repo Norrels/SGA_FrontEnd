@@ -38,7 +38,8 @@ export function AdminItem({ admin }: NewAdminModalProps) {
 
   async function handleDisableAdminAPI(data: AdminType) {
     const res = await API.put(`usuario/desativar/${data.id}`);
-    console.log(res);
+    // console.log(res);
+    window.location.reload();
   }
 
   return (
