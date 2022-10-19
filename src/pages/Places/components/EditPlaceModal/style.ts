@@ -1,5 +1,25 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
@@ -9,6 +29,7 @@ export const Overlay = styled(Dialog.Overlay)`
   inset: 0;
 
   background: rgba(0, 0, 0, 0.4);
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(Dialog.Content)`
@@ -28,6 +49,9 @@ export const Content = styled(Dialog.Content)`
   background: ${(props) => props.theme["white"]};
   transform: translate(-50%, -50%);
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
 `;
 
 export const ModalHeader = styled.div`
@@ -51,6 +75,8 @@ export const ModalHeader = styled.div`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+
+    animation: ${fadeIn} ease-in-out forwards;
   }
 `;
 
@@ -128,6 +154,13 @@ export const InputContent = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
+
+    transition-duration: 1s;
+
+    &:checked {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-10px);
+    }
   }
 
   input {

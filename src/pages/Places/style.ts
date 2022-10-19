@@ -1,10 +1,67 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px)
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  } 
+`;
+
+const load = keyframes`
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+`;
+
+export const Load = styled.div`
+  width: 270px;
+  height: 270px;
+  margin: 240px auto 0 auto;
+
+  position: absolute;
+
+  z-index: 1;
+
+  img {
+    width: 100%;
+  }
+
+  opacity: 0;
+  transform: scale(0.5);
+  animation: ${load} 2s ease-in-out forwards;
+`;
 
 export const PlacesContainer = styled.main`
   width: 100%;
 
   display: flex;
   justify-content: center;
+
+  
 `;
 
 export const PlacesContent = styled.div`
@@ -14,6 +71,9 @@ export const PlacesContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 2.1s ease-in-out forwards;
 
   input {
     height: 3.75rem;
@@ -33,6 +93,9 @@ export const PlacesContent = styled.div`
       font-weight: 500;
       color: ${(props) => props.theme["sub-title"]};
     }
+
+    opacity: 0;
+    animation: ${swipeRight} 1s 2.5s ease-in-out forwards;
   }
 `;
 
@@ -66,6 +129,9 @@ export const PlacesTitleContainer = styled.section`
 
     text-align: center;
   }
+
+  opacity: 0;
+  animation: ${swipeRight} 1s 2.3s ease-in-out forwards;
 `;
 
 export const PlacesButtonContainer = styled.div`
@@ -80,7 +146,6 @@ export const PlacesButtonContainer = styled.div`
 
     border: none;
     border-radius: 8px;
-    
 
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
@@ -89,11 +154,11 @@ export const PlacesButtonContainer = styled.div`
     transition-duration: 0.3s;
 
     &:first-child {
-      background: linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);
+      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
     }
 
     &:last-child {
-      background: linear-gradient(180deg, #5AADD1 0%, #367FBF 100%);
+      background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
     }
 
     &:hover {
