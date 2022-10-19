@@ -23,29 +23,34 @@ const newPlaceModalInput = z.object({
   id: z.number(),
   nome: z.string(),
   capacidade: z.number(),
-  tipoAmbiente: z.enum(["UNIDADE_MOVEL", "PRESENCIAL", "EAD", "ENTIDADE", "EMPRESA"]),
+  tipoAmbiente: z.enum([
+    "UNIDADE_MOVEL",
+    "PRESENCIAL",
+    "REMOTO",
+    "ENTIDADE",
+    "EMPRESA",
+  ]),
   cep: z.string(),
   complemento: z.string(),
   ativo: z.boolean(),
-})
+});
 
-export type NewPlaceType = z.infer<typeof newPlaceModalInput>
+export type NewPlaceType = z.infer<typeof newPlaceModalInput>;
 
 interface NewPlaceModalProps {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
+  const { register, handleSubmit, reset } = useForm<NewPlaceType>();
 
-  const { register, handleSubmit, reset } = useForm<NewPlaceType>()
-
-  const { createPlacesAPI } = useContext(ObjectsContext)
+  const { createPlacesAPI } = useContext(ObjectsContext);
 
   async function handleCreateNewPlace(data: NewPlaceType) {
-    data.ativo = true
-    createPlacesAPI(data)
-    reset()
-    closeModal()
+    data.ativo = true;
+    createPlacesAPI(data);
+    reset();
+    closeModal();
   }
 
   return (
@@ -62,34 +67,53 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
           <InputContainer>
             <InputContent>
               <label>Nome</label>
-              <input type="text" placeholder="Digite o nome do ambiente" {...register("nome")} />
+              <input
+                type="text"
+                placeholder="Digite o nome do ambiente"
+                {...register("nome")}
+              />
             </InputContent>
 
-            <InputContent>
+            <InputContent>  
               <label>Tipo</label>
-              <select placeholder="Selecione o Tipo de Ambiente" {...register("tipoAmbiente")}>
-                <option value='UNIDADE_MOVEL'>Unidade Movel</option>
-                <option value='PRESENCIAL'>Presencial</option>
-                <option>EAD</option>
-                <option value='ENTIDADE'>Entidade</option>
-                <option value='EMPRESA'>Empresa</option>
+              <select
+                placeholder="Selecione o Tipo de Ambiente"
+                {...register("tipoAmbiente")}
+              >
+                <option value="UNIDADE_MOVEL">Unidade Movel</option>
+                <option value="PRESENCIAL">Presencial</option>
+                <option value="REMOTO">Remoto</option>
+                <option value="ENTIDADE">Entidade</option>
+                <option value="EMPRESA">Empresa</option>
               </select>
             </InputContent>
 
             <InputContentDupo>
               <div>
                 <label>Capacidade</label>
-                <input type="text" placeholder="Digite o nome do ambiente" {...register("capacidade")} />
+                <input
+                  type="text"
+                  placeholder="Digite o nome do ambiente"
+                  {...register("capacidade")}
+                />
               </div>
               <div>
                 <label>CEP</label>
-                <input type="text" placeholder="Digite o cep" {...register("cep")} />
+                <input
+                  type="text"
+                  placeholder="Digite o cep"
+                  {...register("cep")}
+                />
               </div>
             </InputContentDupo>
 
             <InputContent>
               <label>Complemento</label>
-              <input type="text" placeholder="Digite o complemento" {...register("complemento")} />
+              <input
+                type="text"
+                placeholder="Digite o complemento"
+                {...register("complemento")}
+              />
             </InputContent>
           </InputContainer>
           <ContainerButtonCreate>
