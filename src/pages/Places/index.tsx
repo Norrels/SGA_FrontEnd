@@ -1,12 +1,14 @@
 import { Place } from "./components/PlacesItem";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
+  Load,
   PlacesButtonContainer,
   PlacesContainer,
   PlacesContent,
   PlacesList,
   PlacesTitleContainer,
 } from "./style";
+import Engrenagem from "../../assets/engrenagem.svg";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
@@ -17,6 +19,8 @@ export function Places() {
   const { placesList } = useContext(ObjectsContext)
   const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
   const [open, setOpen] = useState(false);
+
+  let animationDelay = 2.5;
 
   function closeModal() {
     setOpen(false);
@@ -35,6 +39,7 @@ export function Places() {
   }
 
   async function searchPlace(value: String) {
+    animationDelay = 2;
     if (!value) {
       setPlaceMatchs(placesList);
     } else {
@@ -45,6 +50,9 @@ export function Places() {
 
   return (
     <PlacesContainer>
+      <Load>
+        <img src={Engrenagem}/>
+      </Load>
       <PlacesContent>
         <PlacesTitleContainer>
           <h1>Ambientes</h1>
@@ -74,7 +82,7 @@ export function Places() {
         <PlacesList>
           {placeMatchs.map(
             (place) =>
-              place.ativo === true && <Place key={place.id} placeItem={place} />
+              place.ativo === true && <Place key={place.id} placeItem={place} placeAnimationDelay={animationDelay+=0.2} />
           )}
         </PlacesList>
       </PlacesContent>

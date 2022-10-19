@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
+import styled, { keyframes } from "styled-components";
 import {
   ObjectsContext,
   PlaceProps,
@@ -19,18 +20,25 @@ import {
 
 interface PlacesProps {
   placeItem: PlaceProps;
+  placeAnimationDelay: number;
 }
 
-export function Place({ placeItem }: PlacesProps) {
+export function Place({ placeItem, placeAnimationDelay }: PlacesProps) {
   const { deletePlace } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
+
+  
 
   function closeModal() {
     setOpen(false);
   }
 
   return (
-    <PlacesItemContainer>
+    <PlacesItemContainer
+      style={{
+        animationDelay: `${placeAnimationDelay}s `,
+      }}
+    >
       <PlacesItemInfoContainer>
         <PlacesItemIcon>
           <ChalkboardTeacher size={32} />
@@ -40,7 +48,9 @@ export function Place({ placeItem }: PlacesProps) {
           <ItemInfoContentHeader>
             <h3>{placeItem.nome}</h3>
             <PlaceInfoType>
-              {placeItem?.tipoAmbiente?.toLowerCase() === 'unidade_movel' ? 'Unidade Móvel' : placeItem?.tipoAmbiente?.toLowerCase()}
+              {placeItem?.tipoAmbiente?.toLowerCase() === "unidade_movel"
+                ? "Unidade Móvel"
+                : placeItem?.tipoAmbiente?.toLowerCase()}
             </PlaceInfoType>
           </ItemInfoContentHeader>
 

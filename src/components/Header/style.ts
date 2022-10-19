@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const HeaderContainer = styled.header`
   width: 100%;
@@ -7,6 +16,8 @@ export const HeaderContainer = styled.header`
 
   display: flex;
   justify-content: center;
+
+  animation: ${fadeIn} 1.5s ease-in-out forwards;
 `;
 
 export const HeaderContent = styled.div`

@@ -1,21 +1,18 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
-import { useContext } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
-  CloseButton,
-  ContainerButtonCreate,
-  ContainerInputStar,
-  ContainerNewCompt,
   Content,
-  ContentSelect,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
-  InputContentScroll,
-  NewCompt,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
@@ -31,6 +28,7 @@ const newPlaceModalInput = z.object({
     "EMPRESA",
   ]),
   cep: z.string(),
+  // endereco: z.string(),
   complemento: z.string(),
   ativo: z.boolean(),
 });
@@ -43,8 +41,13 @@ interface NewPlaceModalProps {
 
 export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
   const { register, handleSubmit, reset } = useForm<NewPlaceType>();
-
   const { createPlacesAPI } = useContext(ObjectsContext);
+  const [tipoAmbiente, setTipoAmbiente] = useState("");
+
+  function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
+    console.log(event.target.value);
+    setTipoAmbiente(event.target.value);
+  }
 
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
@@ -57,68 +60,124 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     <Dialog.Portal>
       <Overlay />
       <Content>
+        <ModalHeader>
+          <Dialog.Title>Novo ambiente</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
         <form onSubmit={handleSubmit(handleCreateNewPlace)}>
-          <CloseButton>
-            <X />
-          </CloseButton>
-
-          <Dialog.Title>Novo Ambiente</Dialog.Title>
-
-          <InputContainer>
-            <InputContent>
-              <label>Nome</label>
-              <input
-                type="text"
-                placeholder="Digite o nome do ambiente"
-                {...register("nome")}
-              />
-            </InputContent>
-
-            <InputContent>  
-              <label>Tipo</label>
-              <select
-                placeholder="Selecione o Tipo de Ambiente"
-                {...register("tipoAmbiente")}
-              >
-                <option value="UNIDADE_MOVEL">Unidade Movel</option>
-                <option value="PRESENCIAL">Presencial</option>
-                <option value="REMOTO">Remoto</option>
-                <option value="ENTIDADE">Entidade</option>
-                <option value="EMPRESA">Empresa</option>
-              </select>
-            </InputContent>
-
-            <InputContentDupo>
-              <div>
-                <label>Capacidade</label>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Nome</label>
                 <input
                   type="text"
                   placeholder="Digite o nome do ambiente"
-                  {...register("capacidade")}
+                  {...register("nome")}
                 />
-              </div>
-              <div>
-                <label>CEP</label>
+              </InputContent>
+              <InputContent>
+                <label>Tipo</label>
+                <select
+                  placeholder="Selecione o tipo do ambiente"
+                  {...register("tipoAmbiente")}
+                  onChange={handleSelectTipoAmbiente}
+                >
+                  <option selected disabled>
+                    Selecione o tipo do ambiente
+                  </option>
+                  <option value="UNIDADE_MOVEL">Unidade Movel</option>
+                  <option value="PRESENCIAL">Presencial</option>
+                  <option value="REMOTO">Remoto</option>
+                  <option value="ENTIDADE">Entidade</option>
+                  <option value="EMPRESA">Empresa</option>
+                </select>
+              </InputContent>
+              <InputContent>
+                <InputIndividual>
+                  <label
+                    style={
+                      tipoAmbiente === "REMOTO" || tipoAmbiente === ""
+                        ? { opacity: "30%" }
+                        : { opacity: "100%" }
+                    }
+                  >
+                    Capacidade
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Digite a capacidade"
+                    {...register("capacidade")}
+                    disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
+                  />
+                </InputIndividual>
+                <InputIndividual>
+                  <label
+                    style={
+                      tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
+                        ? { opacity: "100%" }
+                        : { opacity: "30%" }
+                    }
+                  >
+                    CEP
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Digite o cep"
+                    {...register("cep")}
+                    disabled={
+                      tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
+                    }
+                  />
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <label
+                  style={
+                    tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
+                      ? { opacity: "100%" }
+                      : { opacity: "30%" }
+                  }
+                >
+                  Endereço
+                </label>
                 <input
                   type="text"
-                  placeholder="Digite o cep"
-                  {...register("cep")}
+                  placeholder="Digite o endereço"
+                  /* {...register("endereco")} */
+                  disabled={
+                    tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
+                  }
                 />
-              </div>
-            </InputContentDupo>
+              </InputContent>
+              <InputContent>
+                <label
+                  style={
+                    tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
+                      ? { opacity: "100%" }
+                      : { opacity: "30%" }
+                  }
+                >
+                  Complemento
+                </label>
+                <input
+                  type="text"
+                  placeholder="Digite o complemento"
+                  {...register("complemento")}
+                  disabled={
+                    tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
+                  }
+                />
+              </InputContent>
 
-            <InputContent>
-              <label>Complemento</label>
-              <input
-                type="text"
-                placeholder="Digite o complemento"
-                {...register("complemento")}
-              />
-            </InputContent>
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button>Criar</button>
-          </ContainerButtonCreate>
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
         </form>
       </Content>
     </Dialog.Portal>
