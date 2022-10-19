@@ -1,5 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
+import { AbsenseProps } from "../..";
 import { AbsenseInfoType } from "../../components/AbsenseItem/style";
 import { EditAbsenceTeacherModal } from "../EditAbsenceTeacherModal";
 
@@ -12,7 +13,14 @@ import {
   AbsenseItemInfoContent,
 } from "./style";
 
-export function AbsenseItem() {
+interface AbsenseItemProps {
+ absenceList: AbsenseProps
+}
+
+
+
+export function AbsenseItem({absenceList} : AbsenseItemProps) {
+
   return (
     <AbsenseItemContainer>
       <AbsenseItemInfoContainer>
@@ -21,10 +29,8 @@ export function AbsenseItem() {
         </AbsenseItemIcon>
 
         <AbsenseItemInfoContent>
-          <AbsenseInfoType>Ausência</AbsenseInfoType>
-          <p>
-            Data: <span>07/09/2022 - 09/09/2022</span>
-          </p>
+          <AbsenseInfoType>{absenceList.tipo}</AbsenseInfoType>
+          <p> Data: <span>07/09/2022 - 09/09/2022</span></p>
         </AbsenseItemInfoContent>
       </AbsenseItemInfoContainer>
 

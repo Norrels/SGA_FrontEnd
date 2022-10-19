@@ -12,11 +12,17 @@ import {
 import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
+
+
+
+
 export function Course() {
   const { courses } = useContext(ObjectsContext);
+ 
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
+
+  //Variaveis é métodos criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
-  
   function closeModal() {
     setOpen(false);
   }
@@ -41,6 +47,8 @@ export function Course() {
       setCourseMatchs(res.data);
     }
   }
+
+
 
   return (
     <CourseContainer>

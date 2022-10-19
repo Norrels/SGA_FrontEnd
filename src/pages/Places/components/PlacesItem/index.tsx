@@ -40,7 +40,7 @@ export function Place({ placeItem }: PlacesProps) {
           <ItemInfoContentHeader>
             <h3>{placeItem.nome}</h3>
             <PlaceInfoType>
-              {placeItem.tipoAmbiente.toLowerCase() === 'unidade_movel' ? 'Unidade Móvel' : placeItem.tipoAmbiente.toLowerCase()}
+              {placeItem?.tipoAmbiente?.toLowerCase() === 'unidade_movel' ? 'Unidade Móvel' : placeItem?.tipoAmbiente?.toLowerCase()}
             </PlaceInfoType>
           </ItemInfoContentHeader>
 

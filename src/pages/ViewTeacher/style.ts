@@ -88,13 +88,23 @@ export const TeacherProfileSkills = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 300px;
+  overflow-y: auto;
 
   h3 {
     font-weight: 800;
     font-size: 20px;
     margin-bottom: 1rem;
-
     color: ${(props) => props.theme["gray-700"]};
+  }
+
+  p{
+    width: 40%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
   }
 `;
 

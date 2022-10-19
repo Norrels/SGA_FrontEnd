@@ -30,6 +30,7 @@ export interface PlaceProps {
   capacidade: number;
   tipoAmbiente: string;
   cep: string;
+  /* endereco: string; */
   complemento: string;
   ativo: boolean;
 }
@@ -40,6 +41,13 @@ export interface CourseProps {
   nome: string;
   tipoCurso: string;
   ativo: boolean
+  unidadeCurricular: 
+    {
+      id: number;
+      nome: string;
+      horas: number
+    }[]
+  
 }[]
 
 interface CurricularUnit {
