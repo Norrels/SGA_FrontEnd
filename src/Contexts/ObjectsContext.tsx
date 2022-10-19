@@ -30,6 +30,7 @@ export interface PlaceProps {
   capacidade: number;
   tipoAmbiente: string;
   cep: string;
+  /* endereco: string; */
   complemento: string;
   ativo: boolean;
 }
