@@ -68,7 +68,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
             <label>Nome</label>
             <input
               type="text"
-              placeholder="digite seu nome"
+              placeholder="Digite seu nome"
               required
               {...register("nome")}
             />
@@ -83,7 +83,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
             </select>
           </NewCourseModalInputs>
 
-          {/*  {curricularUnit.map((unit) => {
+           {curricularUnit.map((unit) => {
               return (
                 <NewCourseModalUnidadeCurricularContainer
                   key={curricularUnit.indexOf(unit)}
@@ -91,7 +91,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <div>
                     <label>Unidade Curricular</label>
                     <select
-                      {...register("unidadeCurricular.nome")} required
+                      required
                     >
                       <option>Selecione uma Unidade Curricular</option>
                       <option>Projetos 160h</option>
@@ -104,12 +104,12 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                       type="text"
                       placeholder="Digite as horas"
                       required
-                      {...register("unidadeCurricular.horas")}
+                     
                     />
                   </div>
                 </NewCourseModalUnidadeCurricularContainer>
               );
-            })} */}
+            })} 
 
           <NewCourseModalButtonAddNewUnidadeCurricula
             onClick={handleAddNewCurricarUnit}

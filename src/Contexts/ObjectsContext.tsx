@@ -40,6 +40,13 @@ export interface CourseProps {
   nome: string;
   tipoCurso: string;
   ativo: boolean
+  unidadeCurricular: 
+    {
+      id: number;
+      nome: string;
+      horas: number
+    }[]
+  
 }[]
 
 interface CurricularUnit {
