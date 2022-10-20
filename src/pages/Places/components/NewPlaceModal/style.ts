@@ -83,10 +83,11 @@ export const HeaderButtons = styled.div`
     background: none;
     border: none;
     margin-left: 20px;
-  }
+    transition-duration: 0.3s;
 
-  svg {
-    cursor: pointer;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 `;
 
@@ -157,11 +158,6 @@ export const InputContent = styled.div`
 
     // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
     &:focus {
-      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
-      transform: translateY(-5px);
-    }
-
-    &:hover {
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
     }
