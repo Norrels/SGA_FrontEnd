@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { boolean, number, z } from "zod";
 import Resumo from "../../../../assets/Resumo.svg";
@@ -39,29 +39,7 @@ export const aulaInput = z.object({
   ambiente: z.object({
     id: z.number(),
   }),
-  semana: z.object({
-    segunda: z.object({
-      value: z.string(),
-    }),
-    terca: z.object({
-      value: z.string(),
-    }),
-    quarta: z.object({
-      value: z.string(),
-    }),
-    quinta: z.object({
-      value: z.string(),
-    }),
-    sexta: z.object({
-      value: z.string(),
-    }),
-    sabado: z.object({
-      value: z.string(),
-    }),
-    domingo: z.object({
-      value: z.string(),
-    }),
-  }),
+  semana: z.boolean().array(),
 });
 
 export type AulaType = z.infer<typeof aulaInput>;
@@ -71,12 +49,6 @@ interface ModalCreateNewClassProps {
   closeModal(): void;
 }
 
-interface SemanaProps {
-  id: number;
-  ativo: string;
-}
-[];
-
 export function ModalCreateNewClass({
   name,
   closeModal,
@@ -84,11 +56,63 @@ export function ModalCreateNewClass({
   const { courses, placesList, curricularUnit, teachers } =
     useContext(ObjectsContext);
   const { register, handleSubmit, reset } = useForm<AulaType>();
-
+  const [values, setValues] = useState<string[]>([]);
+  const [semanas, setSemanas] = useState<boolean[]>([false]);
   // função que dispara API
   async function handleCreateAulaAPI(aula: AulaType) {
-    console.log(aula);
+    
+
+    values.sort();
+    console.log(values.sort());
+    semanas.pop();
+    values.map((value) => {
+      switch (Number(value)) {
+        case 1:
+          setSemanas([...semanas, true]);
+          console.log(semanas)
+          break;
+        case 2:
+          setSemanas([...semanas, true]);
+          console.log(semanas)
+          break;
+        case 3:
+          setSemanas([...semanas, true]);
+          console.log(semanas)
+          break;
+        case 4:
+          setSemanas([...semanas, true]);
+          break;
+        case 5:
+          setSemanas([...semanas, true]);
+          break;
+        case 6:
+          setSemanas([...semanas, true]);
+          break;
+        case 7:
+          setSemanas([...semanas, true]);
+          break;
+        default:
+          setSemanas([...semanas, false]);
+          break;
+      }
+
+      console.log(semanas);
+    });
     // const res = await API.post(`aula`, aula);
+  }
+
+  useEffect(() => {
+    console.log(semanas);
+  }, [semanas]);
+
+  function hadleValueChange(event: any) {
+    const index = values.indexOf(event);
+    console.log(index);
+    if (index === -1) {
+      setValues([...values, event]);
+    } else {
+      setValues(values.filter((val) => val !== event));
+    }
   }
 
   const courseFiltedByType = courses.filter((course) => {
@@ -170,9 +194,7 @@ export function ModalCreateNewClass({
           <ModalCreateClassDays>
             <span>
               <label>Dom</label>
-              <HomeCheckBox
-                {...register("semana.domingo.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("1")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -180,9 +202,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Seg</label>
-              <HomeCheckBox
-                {...register("semana.segunda.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("2")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -190,9 +210,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Ter</label>
-              <HomeCheckBox
-                {...register("semana.terca.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("3")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -200,9 +218,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Qua</label>
-              <HomeCheckBox
-                {...register("semana.quarta.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("4")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -210,9 +226,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Qui</label>
-              <HomeCheckBox
-                {...register("semana.quinta.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("5")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -220,9 +234,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Sex</label>
-              <HomeCheckBox
-                {...register("semana.sexta.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("6")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -230,9 +242,7 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Sab</label>
-              <HomeCheckBox
-                {...register("semana.sabado.value")}
-              >
+              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("7")}>
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
