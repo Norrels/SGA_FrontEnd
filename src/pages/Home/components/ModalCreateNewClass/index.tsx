@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { boolean, number, z } from "zod";
 import Resumo from "../../../../assets/Resumo.svg";
@@ -61,7 +61,7 @@ export const aulaInput = z.object({
     domingo: z.object({
       value: z.string(),
     }),
-  })
+  }),
 });
 
 export type AulaType = z.infer<typeof aulaInput>;
@@ -85,8 +85,7 @@ export function ModalCreateNewClass({
     useContext(ObjectsContext);
   const { register, handleSubmit, reset } = useForm<AulaType>();
 
-  const [semanaDays, setSemanaDays] = useState<SemanaProps[]>([]);
-
+  // função que dispara API
   async function handleCreateAulaAPI(aula: AulaType) {
     console.log(aula);
     // const res = await API.post(`aula`, aula);
@@ -171,7 +170,9 @@ export function ModalCreateNewClass({
           <ModalCreateClassDays>
             <span>
               <label>Dom</label>
-              <HomeCheckBox {...register("semana.domingo.value")}>
+              <HomeCheckBox
+                {...register("semana.domingo.value")}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -179,7 +180,9 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Seg</label>
-              <HomeCheckBox {...register("semana.segunda.value")}>
+              <HomeCheckBox
+                {...register("semana.segunda.value")}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -187,40 +190,50 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Ter</label>
-              <HomeCheckBox {...register("semana.terca.value")}>
-                <HomeCheckBoxIndicator >
+              <HomeCheckBox
+                {...register("semana.terca.value")}
+              >
+                <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
             <span>
               <label>Qua</label>
-              <HomeCheckBox {...register("semana.quarta.value")}>
-                <HomeCheckBoxIndicator >
+              <HomeCheckBox
+                {...register("semana.quarta.value")}
+              >
+                <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
             <span>
               <label>Qui</label>
-              <HomeCheckBox {...register("semana.quinta.value")}>
-                <HomeCheckBoxIndicator  >
+              <HomeCheckBox
+                {...register("semana.quinta.value")}
+              >
+                <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
             <span>
               <label>Sex</label>
-              <HomeCheckBox {...register("semana.sexta.value")}>
-                <HomeCheckBoxIndicator >
+              <HomeCheckBox
+                {...register("semana.sexta.value")}
+              >
+                <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
             </span>
             <span>
               <label>Sab</label>
-              <HomeCheckBox {...register("semana.sabado.value")}>
-                <HomeCheckBoxIndicator >
+              <HomeCheckBox
+                {...register("semana.sabado.value")}
+              >
+                <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
               </HomeCheckBox>
