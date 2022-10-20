@@ -1,19 +1,17 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
 import {
-  AdvancedTableContent,
-  AvaliableModalContainer,
-  AvaliableModalContent,
-  AvaliableModalDivider,
-  AvaliableModalOptionsContainer,
-  AvaliableModalOptionsContent,
-  CloseButton,
   Content,
-  HomeCheckBox,
-  HomeCheckBoxIndicator,
-  ModalCreateClassDays,
+  ContentContainer,
+  ContentScroll,
+  FinalButton,
+  HeaderButtons,
+  InputContainer,
+  InputContent,
+  InputIndividual,
+  InputSeparator,
+  ModalHeader,
   Overlay,
-  TableScroow,
 } from "./style";
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
 
@@ -22,187 +20,69 @@ export function AvaliableModal() {
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <CloseButton>
-          <X size={24} />
-        </CloseButton>
+        <ModalHeader>
+          <Dialog.Title>Disponibilidade de ambiente</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form /* onSubmit={handleSubmit(handleCreateNewPlace)} */>
+          <ContentScroll>
+            <ContentContainer>
+              <InputContainer>
+                <InputContent>
+                  <InputIndividual>
+                    <label>Ambiente</label>
+                    <select
+                      placeholder="Selecione o ambiente"
+                      /* {...register("tipoAmbiente")} */
+                    >
+                      <option selected disabled>
+                        Selecione o ambiente
+                      </option>
+                    </select>
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label>Periodo</label>
+                    <select
+                      placeholder="Selecione o periodo"
+                      /* {...register("tipoAmbiente")} */
+                    >
+                      <option selected disabled>
+                        Selecione o periodo
+                      </option>
+                      <option value="MANHA">Manhã</option>
+                      <option value="TARDE">Tarde</option>
+                      <option value="NOITE">Noite</option>
+                      <option value="INTEGRAL">Integral</option>
+                    </select>
+                  </InputIndividual>
+                </InputContent>
+                <InputSeparator>
+                  <hr />
+                  <p>Selecione o intervalo de datas e os dias da semana</p>
+                  <hr />
+                </InputSeparator>
+                <InputContent>
+                  <InputIndividual>
+                    <label>Data de Inicio</label>
+                    <input type="date" placeholder="dd/MM/yyyy" />
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label>Data Final</label>
+                    <input type="date" placeholder="dd/MM/yyyy" />
+                  </InputIndividual>
+                </InputContent>
+              </InputContainer>
 
-        <Dialog.Title>Disponibilidade</Dialog.Title>
-
-        <AvaliableModalContainer>
-          <AvaliableModalOptionsContainer>
-            <img src={DisponibilidadePerson} alt="" />
-
-            <AvaliableModalContent>
-              <AvaliableModalOptionsContent>
-                <span>
-                  <p>Ambientes</p>
-                  <select name="" id="">
-                    <option value="">Selecione o ambiente</option>
-                  </select>
-                </span>
-
-                <span>
-                  <p>Periodo</p>
-                  <select name="" id="">
-                    <option value="">Selecione o periodo</option>
-                  </select>
-                </span>
-              </AvaliableModalOptionsContent>
-
-              <AvaliableModalDivider>
-                Selecione o intervalo de datas
-              </AvaliableModalDivider>
-
-              <AvaliableModalOptionsContent>
-                <span>
-                  <p>Data de início</p>
-                  <input type="date" />
-                </span>
-
-                <span>
-                  <p>Data final</p>
-                  <input type="date" />
-                </span>
-              </AvaliableModalOptionsContent>
-            </AvaliableModalContent>
-          </AvaliableModalOptionsContainer>
-
-          <ModalCreateClassDays>
-            <span>
-              <label>Dom</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Seg</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Ter</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Qua</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Qui</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Sex</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-            <span>
-              <label>Sab</label>
-              <HomeCheckBox>
-                <HomeCheckBoxIndicator>
-                  <Check size={20} weight="bold" />
-                </HomeCheckBoxIndicator>
-              </HomeCheckBox>
-            </span>
-          </ModalCreateClassDays>
-
-          <sup>Verifique a disponibilidade do ambiente...</sup>
-
-          <AdvancedTableContent>
-            <TableScroow>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Curso</th>
-                    <th>Professor</th>
-                    <th>Peiodo</th>
-                    <th>Data</th>
-                    <th>Ver Mais</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                  <tr>
-                    <td>AI900</td>
-                    <td>Bruno</td>
-                    <td>Tarde</td>
-                    <td>10/09/2022</td>
-                    <td>...</td>
-                  </tr>
-                </tbody>
-              </table>
-            </TableScroow>
-          </AdvancedTableContent>
-          <button type="submit">Buscar</button>
-        </AvaliableModalContainer>
+              <FinalButton>
+                <button>Buscar</button>
+              </FinalButton>
+            </ContentContainer>
+          </ContentScroll>
+        </form>
         <Dialog.Description />
       </Content>
     </Dialog.Portal>

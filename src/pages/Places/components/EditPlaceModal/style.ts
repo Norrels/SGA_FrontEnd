@@ -33,7 +33,7 @@ export const Overlay = styled(Dialog.Overlay)`
 `;
 
 export const Content = styled(Dialog.Content)`
-  width: 750px;
+  width: 46.875rem;
   padding: 3.75rem 2.344rem 3.75rem 0;
 
   display: flex;
@@ -85,10 +85,11 @@ export const HeaderButtons = styled.div`
     background: none;
     border: none;
     margin-left: 20px;
-  }
+    transition-duration: 0.3s;
 
-  svg {
-    cursor: pointer;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 `;
 
@@ -254,5 +255,7 @@ export const FinalButton = styled.div`
     color: ${(props) => props.theme["white"]};
     font-size: 1.25rem;
     font-weight: bold;
+
+    transition-duration: 1s;
   }
 `;
