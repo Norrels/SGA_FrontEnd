@@ -18,10 +18,12 @@ export const coursesInputs = z.object({
   id: z.number(),
   nome: z.string(),
   tipoCurso: z.string(),
-  ativo: z.boolean()  /* unidadeCurricular: z.object({
+  ativo: z.boolean(),
+  unidadeCurricular: z.object({
+    id: z.number(),
     nome: z.string(),
-    horas: z.string(),
-  }), */
+    horas: z.number(),
+  }).array()
 });
 
 export type CourseType = z.infer<typeof coursesInputs>;
@@ -47,6 +49,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   }
 
   function handleCreateNewCourse(data: CourseType) {
+    console.log()
     data.ativo = true;
     createCourseAPI(data);
     reset();
@@ -70,51 +73,45 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               type="text"
               placeholder="Digite seu nome"
               required
-              {...register("nome")}
-            />
+              {...register("nome")} />
           </NewCourseModalInputs>
 
           <NewCourseModalInputs>
             <label>Tipo</label>
-
             <select {...register("tipoCurso")}>
               <option>FIC</option>
               <option value="REGULAR">Regular</option>
             </select>
           </NewCourseModalInputs>
 
-           {curricularUnit.map((unit) => {
-              return (
-                <NewCourseModalUnidadeCurricularContainer
-                  key={curricularUnit.indexOf(unit)}
-                >
-                  <div>
-                    <label>Unidade Curricular</label>
-                    <select
-                      required
-                    >
-                      <option>Selecione uma Unidade Curricular</option>
-                      <option>Projetos 160h</option>
-                    </select>
-                  </div>
+          {curricularUnit.map((unit) => {
+            return (
+              <NewCourseModalUnidadeCurricularContainer
 
-                  <div>
-                    <label>Horas</label>
-                    <input
-                      type="text"
-                      placeholder="Digite as horas"
-                      required
-                     
-                    />
-                  </div>
-                </NewCourseModalUnidadeCurricularContainer>
-              );
-            })} 
+                key={curricularUnit.indexOf(unit)}>
+                <div>
+                  <label>Unidade Curricular</label>
+                  <select required {...register(`unidadeCurricular.${curricularUnit.indexOf(unit)}.nome`)}>
+                    <option value="REGULAR">Selecione uma Unidade Curricular</option>
+                    <option>Projetos 160h</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label>Horas</label>
+                  <input
+                    {...register(`unidadeCurricular.${curricularUnit.indexOf(unit)}.horas`)}
+                    type="text"
+                    placeholder="Digite as horas"
+                    required />
+                </div>
+              </NewCourseModalUnidadeCurricularContainer>
+            );
+          })}
 
           <NewCourseModalButtonAddNewUnidadeCurricula
             onClick={handleAddNewCurricarUnit}
-            type="button"
-          >
+            type="button">
             <Plus size={20} />
             <br />
             <p>Adicionar Unidade Curricular</p>
@@ -122,7 +119,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
           <div>
             <NewCouseModalCreateButton type="submit">
-              Criar 
+              Criar
             </NewCouseModalCreateButton>
           </div>
         </form>

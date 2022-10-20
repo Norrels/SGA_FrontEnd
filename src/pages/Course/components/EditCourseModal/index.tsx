@@ -55,15 +55,12 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
     <Dialog.Portal>
       <Overlay />
       <Content>
-
         <NoteButton>
           <NotePencil onClick={() => setDisabled(false)} size={32} />
         </NoteButton>
-
         <CloseButton>
           <X onClick={() => setDisabled(true)} />
         </CloseButton>
-
         <Dialog.Title>Editar curso</Dialog.Title>
         <form onSubmit={handleSubmit(handleUpdateCourse)}>
           <input type="hidden" value={course.id} {...register("id")} />
@@ -74,55 +71,30 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                 type="text"
                 defaultValue={course.nome}
                 placeholder="Digite o nome do curso"
-                disabled={!disabled}
+                disabled={disabled}
               />
             </InputContent>
 
             <InputContent>
               <label>Tipo</label>
-              <select placeholder="Selecione o Tipo do Curso" disabled>
-                <option value={course.tipoCurso != "" ? course.tipoCurso : ""}>
-                  {course.tipoCurso != ""
-                    ? course.tipoCurso
-                    : "Selecione uma Opção"}
-                </option>
+              <select placeholder="Selecione o Tipo do Curso" defaultValue={course.tipoCurso} disabled={disabled} {...register("tipoCurso")}>
                 <option value="REGULAR">Regular</option>
                 <option value="FIC">FIC</option>
               </select>
-
-              <>
-                <label>Tipo</label>
-                <select
-                  placeholder="Selecione o Tipo de Curso"
-                  {...register("tipoCurso")}
-                >
-                  <option
-                    value={course.tipoCurso != "" ? course.tipoCurso : ""}
-                  >
-                    {course.tipoCurso != ""
-                      ? course.tipoCurso
-                      : "Selecione uma Opção"}
-                  </option>
-                  <option value="REGULAR">Regular</option>
-                  <option value="FIC">FIC</option>
-
-                </select>
-              </>
-
               <InputContentScroll>
+
                 {course.unidadeCurricular.map((curso) => {
                   return (
-                    <ContainerInputStar>
+                    <ContainerInputStar key={curso.id}>
                       <div>
                         <label>Unidade Curricular</label>
                         <select defaultValue={curso.nome}>
                           {
                             course.unidadeCurricular.map((curso) => {
                               return (
-                               <option>{curso.nome}</option>
+                                <option key={curso.id}>{curso.nome}</option>
                               );
                             })
-                             
                           }
                         </select>
                       </div>
@@ -139,7 +111,6 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                     </ContainerInputStar>
                   )
                 })}
-
 
               </InputContentScroll>
             </InputContent>
