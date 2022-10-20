@@ -17,8 +17,6 @@ interface AbsenseItemProps {
  absenceList: AbsenseProps
 }
 
-
-
 export function AbsenseItem({absenceList} : AbsenseItemProps) {
 
   return (
