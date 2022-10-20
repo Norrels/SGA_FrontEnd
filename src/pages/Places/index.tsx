@@ -19,8 +19,13 @@ export function Places() {
   const { placesList } = useContext(ObjectsContext)
   const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
   const [open, setOpen] = useState(false);
+  const [animation, setAnimation] = useState(true);
 
   let animationDelay = 2.5;
+
+  if (!animation) {
+    animationDelay = 0;
+  }
 
   function closeModal() {
     setOpen(false);
@@ -39,7 +44,7 @@ export function Places() {
   }
 
   async function searchPlace(value: String) {
-    animationDelay = 2;
+    setAnimation(false);
     if (!value) {
       setPlaceMatchs(placesList);
     } else {
@@ -76,13 +81,13 @@ export function Places() {
         <input
           type="text"
           onChange={(e) => searchPlace(e.target.value)}
-          placeholder="Buscar por ambiente "
+          placeholder="Buscar por ambiente"
         />
 
         <PlacesList>
           {placeMatchs.map(
             (place) =>
-              place.ativo === true && <Place key={place.id} placeItem={place} placeAnimationDelay={animationDelay+=0.2} />
+              place.ativo === true && <Place key={place.id} placeItem={place} placeAnimationDelay={animationDelay+=0.2}  />
           )}
         </PlacesList>
       </PlacesContent>

@@ -58,11 +58,12 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
           </Dialog.Title>
           <HeaderButtons>
             {!editable ? (
-              <NotePencil
-                onClick={() => setEditable(true)}
-                size={50}
-                weight="light"
-              />
+              <button onClick={() => setEditable(true)}>
+                <NotePencil
+                  size={50}
+                  weight="light"
+                />
+              </button>
             ) : (
               <></>
             )}
