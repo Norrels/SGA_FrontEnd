@@ -32,6 +32,7 @@ export interface AbsenseProps {
 
 export function ViewTeacher() {
   const { teacherId } = useParams()
+  const [inClass, setInClass] = useState<Boolean>()
   const [teacher, setTeachers] = useState<TeacherProps>(
     {
       id: 0,
@@ -54,8 +55,10 @@ export function ViewTeacher() {
 
   async function fetchUser() {
     const response = await API.get(`/ausencia/professor/${teacherId}`)
+    console.log(response.data)
     setTeachers(response.data[0])
     setAbsenseList(response.data[1])
+    setInClass(true)
   }
 
   useEffect(() => {
@@ -81,9 +84,9 @@ export function ViewTeacher() {
             <EditTeacherModal teacherItem={teacher} />
           </Dialog.Root>
           <TeacherProfileContent>
-            <TeacherProfileLeft>
-              <TeacherProfileLeftPhoto>
-                <span>Em aula</span>
+            <TeacherProfileLeft disponibilidade={inClass ? "emAula" : "livre"}>
+              <TeacherProfileLeftPhoto >
+                <span>{inClass ? "Em aula" : "Livre"}</span>
                 <img />
               </TeacherProfileLeftPhoto>
               <p>{teacher?.nome}</p>
@@ -101,7 +104,7 @@ export function ViewTeacher() {
                         <Star size={35} weight="fill" color={competencia.nivel > 2 ? " #25B5E9" : "#E8E8E8"} />
                         <Star size={35} weight="fill" color={competencia.nivel > 3 ? " #25B5E9" : "#E8E8E8"} />
                         <Star size={35} weight="fill" color={competencia.nivel > 4 ? " #25B5E9" : "#E8E8E8"} />
-                        <Star size={35} weight="fill" color={competencia.nivel == 5  ? " #25B5E9" : "#E8E8E8"} />
+                        <Star size={35} weight="fill" color={competencia.nivel == 5 ? " #25B5E9" : "#E8E8E8"} />
                       </TeacherIndividualStars>
                     </TeacherSkillsIndividual>
                   )

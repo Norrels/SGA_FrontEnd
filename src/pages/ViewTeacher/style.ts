@@ -36,7 +36,16 @@ export const TeacherProfileContent = styled.div`
   justify-content: space-between;
 `;
 
-export const TeacherProfileLeft = styled.div`
+const DISPONIBILIDADE = {
+  emAula: 'blue-300',
+  livre: 'blue-500'
+} as const
+
+interface DisponibilidadeProps {
+  disponibilidade: keyof typeof DISPONIBILIDADE
+}
+
+export const TeacherProfileLeft = styled.div<DisponibilidadeProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,9 +56,19 @@ export const TeacherProfileLeft = styled.div`
     font-weight: 800;
     font-size: 30px;
     text-align: center;
-    color: ${(props) => props.theme["blue-300"]};
+    color: ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
+  }
+
+  span {
+    background-color: ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]}
+  }
+
+  img {
+    border: 5px solid ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
   }
 `;
+
+
 
 export const TeacherProfileLeftPhoto = styled.div`
   display: flex;
@@ -58,7 +77,6 @@ export const TeacherProfileLeftPhoto = styled.div`
 
   span {
     color: ${(props) => props.theme["white"]};
-    background-color: ${(props) => props.theme["blue-300"]};
     font-weight: 700;
     padding: 0.1rem 1.3rem 0.2rem 1.3rem;
     border-radius: 30px;
@@ -69,7 +87,6 @@ export const TeacherProfileLeftPhoto = styled.div`
     width: 9.375rem;
     height: 9.375rem;
     display: block;
-    border: 5px solid #25b5e9;
     filter: drop-shadow(0px 4px 4px rgba(37, 181, 233, 0.25));
     border-radius: 100px;
   }
