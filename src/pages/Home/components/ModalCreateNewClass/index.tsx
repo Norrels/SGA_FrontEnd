@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { boolean, number, z } from "zod";
 import Resumo from "../../../../assets/Resumo.svg";
+import { EditUserModal } from "../../../../components/Header/components/EditUserModal";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
@@ -28,7 +29,7 @@ export const aulaInput = z.object({
   cargaDiaria: z.string(),
   diaSemana: z.boolean().array(),
   curso: z.object({
-    id: z.string(),
+    id: z.number(),
   }),
   unidadeCurricular: z.object({
     id: z.number(),
@@ -57,57 +58,57 @@ export function ModalCreateNewClass({
     useContext(ObjectsContext);
   const { register, handleSubmit, reset } = useForm<AulaType>();
   const [values, setValues] = useState<string[]>([]);
-  const [semanas, setSemanas] = useState<boolean[]>([false]);
+
+  const [semanas, setSemanas] = useState<boolean[]>([]);
   // função que dispara API
   async function handleCreateAulaAPI(aula: AulaType) {
-    
-
     values.sort();
-    console.log(values.sort());
-    semanas.pop();
-    values.map((value) => {
-      switch (Number(value)) {
-        case 1:
-          setSemanas([...semanas, true]);
-          console.log(semanas)
-          break;
-        case 2:
-          setSemanas([...semanas, true]);
-          console.log(semanas)
-          break;
-        case 3:
-          setSemanas([...semanas, true]);
-          console.log(semanas)
-          break;
-        case 4:
-          setSemanas([...semanas, true]);
-          break;
-        case 5:
-          setSemanas([...semanas, true]);
-          break;
-        case 6:
-          setSemanas([...semanas, true]);
-          break;
-        case 7:
-          setSemanas([...semanas, true]);
-          break;
-        default:
-          setSemanas([...semanas, false]);
-          break;
+    for (var i = 1; i < 8; i++) {
+      if (values.filter((val) => val === `${i}`).length == 0) {
+        setSemanas((semanas) => [...semanas, false]);
+      } else {
+        setSemanas((semanas) => [...semanas, true]);
       }
+    }
 
-      console.log(semanas);
+    console.log(aula.unidadeCurricular.id);
+
+    const unidadeCurricular = curricularUnit.filter(
+      (value) => value.id == aula.unidadeCurricular.id
+    );
+    const teacherMap = teachers.filter(
+      (value) => value.id == aula.professor.id
+    );
+    const localMap = placesList.filter((value) => value.id == aula.ambiente.id);
+    const courseMap = courses.filter((value) => {
+      value.id == aula.curso.id;
     });
-    // const res = await API.post(`aula`, aula);
+
+    const res = await API.post("aula", {
+      curso: courseMap,
+      unidadeCurricular: unidadeCurricular,
+      codTurma: aula.codTurma,
+      periodo: aula.periodo,
+      dataInicio: aula.dataInicio,
+      ambiente: localMap,
+      professor: teacherMap,
+      cargaDiaria: 4,
+      diaSemana: semanas,
+    });
+
+    setSemanas((semanas) => []);
+    console.log(res);
+
+    if (res.status === 200) {
+    }
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     console.log(semanas);
-  }, [semanas]);
+  }, [semanas]); */
 
   function hadleValueChange(event: any) {
     const index = values.indexOf(event);
-    console.log(index);
     if (index === -1) {
       setValues([...values, event]);
     } else {
