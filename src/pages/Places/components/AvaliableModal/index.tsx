@@ -1,13 +1,15 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import {
+  ArrowCounterClockwise,
   Check,
   Confetti,
-  DotsThree,
   DotsThreeOutline,
+  MagnifyingGlass,
   X,
 } from "phosphor-react";
 import {
   AvailableContainer,
+  ButtonIndividual,
   CheckboxIndicator,
   CheckboxRoot,
   CheckIndividual,
@@ -26,10 +28,7 @@ import {
   ModalHeader,
   Overlay,
   TableContainer,
-  TableHeader,
-  TableHeaderContent,
   TableRow,
-  TableScroll,
 } from "./style";
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
 import { useState } from "react";
@@ -45,13 +44,22 @@ export function AvaliableModal() {
         <ModalHeader>
           <Dialog.Title>Disponibilidade</Dialog.Title>
           <HeaderButtons>
-            <Dialog.Close>
+            <ButtonIndividual title="Busque o professor disponível">
+              <MagnifyingGlass size={40} weight="light" />
+              <p>Buscar</p>
+            </ButtonIndividual>
+            <ButtonIndividual title="Limpe os campos do formulário">
+              <ArrowCounterClockwise size={40} weight="light" />
+              <p>Limpar</p>
+            </ButtonIndividual>
+            <Dialog.Close title="Feche a modal">
               <X onClick={() => setSearched(true)} size={50} weight="light" />
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
         {/* <form onSubmit={handleSubmit()}> */}
         <ContentScroll>
+          <div id="up" style={{ display: "none" }}></div>
           <ContentContainer>
             <Main>
               <img src={DisponibilidadePerson} />
@@ -61,9 +69,10 @@ export function AvaliableModal() {
                     <label>Ambiente</label>
                     <select
                       placeholder="Selecione o ambiente"
+                      defaultValue="default"
                       /* {...register("tipoAmbiente")} */
                     >
-                      <option selected disabled>
+                      <option value="default" disabled>
                         Selecione o ambiente
                       </option>
                     </select>
@@ -72,9 +81,10 @@ export function AvaliableModal() {
                     <label>Periodo</label>
                     <select
                       placeholder="Selecione o periodo"
+                      defaultValue="default"
                       /* {...register("tipoAmbiente")} */
                     >
-                      <option selected disabled>
+                      <option value="default" disabled>
                         Selecione o periodo
                       </option>
                       <option value="MANHA">Manhã</option>
@@ -100,67 +110,64 @@ export function AvaliableModal() {
                   </InputIndividual>
                 </InputContent>
                 <ChecksContent>
-                  <CheckIndividual>
+                  <CheckIndividual title="Domingo">
                     <label>Dom</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Segunda-feira">
                     <label>Seg</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Terça-feira">
                     <label>Ter</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Quarta-feira">
                     <label>Qua</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Quinta-feira">
                     <label>Qui</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Sexta-feira">
                     <label>Sex</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
-                  <CheckIndividual>
+                  <CheckIndividual title="Sábado">
                     <label>Sab</label>
                     <CheckboxRoot>
                       <CheckboxIndicator>
-                        <Check size={40} />
+                        <Check size={40} weight="bold" color="#fff" />
                       </CheckboxIndicator>
                     </CheckboxRoot>
                   </CheckIndividual>
                 </ChecksContent>
               </InputContainer>
-              {/* <FinalButton>
-                <button>Buscar</button>
-              </FinalButton> */}
             </Main>
             {aulas.length !== 0 ? (
               <InfoBusca>
@@ -176,71 +183,67 @@ export function AvaliableModal() {
 
             {searched && aulas.length !== 0 ? (
               <TableContainer>
-                <TableHeader>
-                  <TableHeaderContent>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <p>Ver mais</p>
-                  </TableHeaderContent>
-                </TableHeader>
-                <TableScroll>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                </TableScroll>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <p>Ver mais</p>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
+                <TableRow>
+                  <p>Curso</p>
+                  <p>Professor</p>
+                  <p>Periodo</p>
+                  <p>Data</p>
+                  <button>
+                    <DotsThreeOutline size={32} />
+                  </button>
+                </TableRow>
               </TableContainer>
             ) : (
               <></>
@@ -260,6 +263,7 @@ export function AvaliableModal() {
             <FinalButton>
               <button onClick={() => setSearched(true)}>Buscar</button>
             </FinalButton>
+            <div id="down" style={{ display: "none" }}></div>
           </ContentContainer>
         </ContentScroll>
         {/* </form> */}
