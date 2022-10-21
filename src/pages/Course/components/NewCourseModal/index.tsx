@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { API } from "../../../../lib/axios";
 import {
   CloseButton,
   Content,
@@ -33,8 +34,12 @@ interface NewCourseModalProps {
 }
 
 export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
-  const { register, handleSubmit, reset, formState: { isSubmitted }, } = useForm<CourseType>();
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm<CourseType>();
   const [curricularUnit, setCurricularUnit] = useState(["1"]);
+  const [unidadeCurricular, setUnidadeCurricular] = useState([{
+    nome: "",
+    horas: 0
+  }])
   const { createCourseAPI } = useContext(ObjectsContext)
 
   useEffect(() => {
@@ -48,12 +53,22 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     setCurricularUnit([...curricularUnit, key]);
   }
 
+ 
+  async function fetchTeachersInClass(data: CourseType) {
+    const res = await API.post("unidade", data.unidadeCurricular );
+    setUnidadeCurricular(res.data);
+  }
+  
+
   function handleCreateNewCourse(data: CourseType) {
-    console.log()
-    data.ativo = true;
-    createCourseAPI(data);
-    reset();
-    closeModal();
+    console.log(data.unidadeCurricular[0]);
+    fetchTeachersInClass(data)
+    
+    // console.log()
+    // data.ativo = true;
+    // createCourseAPI(data);
+    // reset();
+    // closeModal();
   }
 
   return (
@@ -63,9 +78,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
         <CloseButton>
           <X size={24} />
         </CloseButton>
-
         <Dialog.Title>Novo curso</Dialog.Title>
-
         <form onSubmit={handleSubmit(handleCreateNewCourse)}>
           <NewCourseModalInputs>
             <label>Nome</label>
@@ -74,8 +87,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               placeholder="Digite seu nome"
               required
               {...register("nome")} />
+              <p>Oi</p>
           </NewCourseModalInputs>
-
+      
           <NewCourseModalInputs>
             <label>Tipo</label>
             <select {...register("tipoCurso")}>
@@ -83,7 +97,6 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               <option value="REGULAR">Regular</option>
             </select>
           </NewCourseModalInputs>
-
           {curricularUnit.map((unit) => {
             return (
               <NewCourseModalUnidadeCurricularContainer
@@ -101,7 +114,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <label>Horas</label>
                   <input
                     {...register(`unidadeCurricular.${curricularUnit.indexOf(unit)}.horas`)}
-                    type="text"
+                    type="number"
                     placeholder="Digite as horas"
                     required />
                 </div>
