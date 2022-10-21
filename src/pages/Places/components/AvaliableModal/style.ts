@@ -35,7 +35,7 @@ export const Overlay = styled(Dialog.Overlay)`
 
 export const Content = styled(Dialog.Content)`
   width: 66.25rem;
-  padding: 3.75rem 2.344rem 3.75rem 0;
+  padding: 3.75rem 2.344rem 1.25rem 0;
 
   display: flex;
   flex-direction: column;
@@ -80,15 +80,47 @@ export const ModalHeader = styled.div`
 `;
 
 export const HeaderButtons = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 1rem;
   button {
     background: none;
     border: none;
-    margin-left: 20px;
     transition-duration: 0.3s;
 
     &:hover {
       color: ${(props) => props.theme["blue-300"]};
     }
+
+    svg {
+      transition-duration: 0.3s;
+      &:hover {
+        color: ${(props) => props.theme["blue-300"]};
+      }
+    }
+  }
+`;
+
+export const ButtonIndividual = styled.div`
+  margin: 0 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  transition-duration: 0.3s;
+
+  p {
+    text-align: center;
+    font-size: 12px;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: ${(props) => props.theme["blue-300"]};
   }
 `;
 
@@ -180,6 +212,17 @@ export const InputIndividual = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
+
+    transition-duration: 0.2s;
+
+    &:focus {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-10px);
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -232,10 +275,18 @@ export const CheckboxRoot = styled(Checkbox.Root)`
   align-items: center;
   justify-content: center;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  &:hover {
+    cursor: pointer;
+  }
+  &[data-state="checked"] {
+    background-color: ${(props) => props.theme["blue-300"]};
+  }
 `;
 
 export const CheckboxIndicator = styled(Checkbox.Indicator)`
-  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const InfoBusca = styled.div`
@@ -244,7 +295,7 @@ export const InfoBusca = styled.div`
     text-align: left;
     font-style: italic;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 18px;
     color: rgba(0, 0, 0, 0.5);
   }
 `;
@@ -255,72 +306,17 @@ export const TableContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-export const TableHeader = styled.div`
-  width: 100%;
-  padding: 0 1.6rem 0 0;
-`;
-
-export const TableHeaderContent = styled.div`
-  width: 100%;
-  margin: 0 1.25rem 0 0;
-  padding: 1.25rem;
-
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-
-  background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
-  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 8px 8px 0px 0px;
-
-  p {
-    text-align: center;
-    font-weight: 600;
-    font-size: 20px;
-    color: ${(props) => props.theme["white"]};
-  }
-`;
-
-export const TableScroll = styled.div`
-  width: 100%;
-  max-height: 16.25rem;
-  padding: 0 1.25rem 0 0;
-
-  overflow-y: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 
   gap: 1.25rem;
-
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.1);
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.2);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
-  }
-  ::-webkit-scrollbar-thumb:active {
-    background: rgba(0, 0, 0, 0.9);
-  }
 `;
 
 export const TableRow = styled.div`
   width: 100%;
-  padding: 1.25rem;
+  padding: 1rem;
 
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  align-items: center;
 
   background: #fff;
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
@@ -344,11 +340,18 @@ export const TableRow = styled.div`
   }
 
   &:first-child {
-    margin-top: 1rem;
-  }
+    padding: 1.5rem;
 
-  &:last-child {
-    margin-bottom: 1.25rem;
+    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+    border-radius: 8px 8px 0px 0px;
+
+    p {
+      text-align: center;
+      font-weight: 600;
+      font-size: 20px;
+      color: ${(props) => props.theme["white"]};
+    }
   }
 `;
 
