@@ -3,6 +3,7 @@ import { DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { ObjectsContext, TeacherProps } from "../../../../Contexts/ObjectsContext";
+import UserPicture from "../../../../assets/User.png"
 import {
   TeacherItemButton,
   TeacherItemButtonContainer,
@@ -22,7 +23,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
   return (
     <TeacherItemContainer>
       <TeacherItemInfoContainer>
-        <img alt="" src={teacherItem.foto} />
+        <img alt="" src={UserPicture} />
 
         <TeacherItemInfoContent>
           <h3>{teacherItem.nome}</h3>

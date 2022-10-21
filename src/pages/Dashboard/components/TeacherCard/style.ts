@@ -1,6 +1,15 @@
 import styled from "styled-components";
 
-export const TeacherCardContainer = styled.article`
+const DISPONIBILIDADE = {
+  emAula: 'blue-300',
+  livre: 'blue-500'
+} as const
+
+interface DisponibilidadeProps {
+  disponibilidade: keyof typeof DISPONIBILIDADE
+}
+
+export const TeacherCardContainer = styled.article<DisponibilidadeProps>`
   width: 100%;
 
   display: flex;
@@ -19,7 +28,7 @@ export const TeacherCardContainer = styled.article`
   span {
     font-size: 14px;
     font-weight: bold;
-    color: ${(props) => props.theme["blue-400"]};
+    color: ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
   }
 `;
 

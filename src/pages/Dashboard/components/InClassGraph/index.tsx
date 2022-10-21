@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { TeacherProps } from "../../../../Contexts/ObjectsContext";
+import { PlaceProps, TeacherProps } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { TeacherCard } from "../TeacherCard";
 import { InClassContainer, InclassTeacherCards } from "./style";
 
 export interface InclassTeacherProps {
   professor: TeacherProps,
-  ambientes: string,
+  ambiente: PlaceProps,
   emAula: boolean,
 }
 
@@ -29,7 +29,7 @@ export function InClassGraph() {
             {
               teacherInClass.map((teacher) => {
                 return(
-                  <TeacherCard key={teacher.professor.id} ambientes={teacher.ambientes} emAula={teacher.emAula} professor={teacher.professor} />
+                  <TeacherCard key={teacher.professor.id} ambiente={teacher.ambiente} emAula={teacher.emAula} professor={teacher.professor} />
                 )
               })
             }
