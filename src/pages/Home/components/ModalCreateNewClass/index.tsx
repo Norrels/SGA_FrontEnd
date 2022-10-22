@@ -73,16 +73,18 @@ export function ModalCreateNewClass({
 
     console.log(aula.unidadeCurricular.id);
 
-    const unidadeCurricular = curricularUnit.filter(
+    const unidadeCurricular = Object.assign({}, curricularUnit.filter(
       (value) => value.id == aula.unidadeCurricular.id
-    );
-    const teacherMap = teachers.filter(
+    ));
+
+    console.log(unidadeCurricular)
+    const teacherMap = Object.assign({}, teachers.filter(
       (value) => value.id == aula.professor.id
-    );
-    const localMap = placesList.filter((value) => value.id == aula.ambiente.id);
-    const courseMap = courses.filter((value) => {
+    ));
+    const localMap = Object.assign({}, placesList.filter((value) => value.id == aula.ambiente.id));
+    const courseMap = Object.assign({}, courses.filter((value) => {
       value.id == aula.curso.id;
-    });
+    }));
 
     const res = await API.post("aula", {
       curso: courseMap,
@@ -102,10 +104,6 @@ export function ModalCreateNewClass({
     if (res.status === 200) {
     }
   }
-
-  /* useEffect(() => {
-    console.log(semanas);
-  }, [semanas]); */
 
   function hadleValueChange(event: any) {
     const index = values.indexOf(event);
