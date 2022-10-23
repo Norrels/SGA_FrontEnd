@@ -114,6 +114,7 @@ export const NewCourseModalInputs = styled.article`
     font-weight: 800;
     font-size: 1rem;
     color: ${(props) => props.theme["gray-700"]};
+    
   }
 `;
 
