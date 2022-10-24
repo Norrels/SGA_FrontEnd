@@ -1,7 +1,10 @@
+//To DO
+//Usar o user Memo para dinumir a redezição desse componente
+
 import * as Dialog from "@radix-ui/react-dialog";
-import { Plus, X } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Plus, Trash, X } from "phosphor-react";
+import { useContext } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
@@ -15,6 +18,7 @@ import {
   Overlay,
 } from "./style";
 
+//Varivel de validação
 export const coursesInputs = z.object({
   id: z.number().optional(),
   nome: z
@@ -31,45 +35,60 @@ export const coursesInputs = z.object({
         .max(20, { message: "O nome não deve ter mais de 20 caracteres" })
         .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
       horas: z
-        .number()
-        .positive()
+        .number({ invalid_type_error: "" })
+        .positive({ message: "A hora deve ser maior que 6" })
         .gte(6, { message: "A hora deve ser maior que 6" }),
     })
     .array(),
 });
 
+//Transformando a variavel de validação em uma interface
 export type CourseType = z.infer<typeof coursesInputs>;
 
+//Método utilizado para fecha a modal após o submit
 interface NewCourseModalProps {
   closeModal: () => void;
 }
 
 export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
+
   const {
+    //Variavel para pega o valor dos input
     register,
+    //Metodo que é acionado ao fazer o submit do forms
     handleSubmit,
+    //Metodo para limpar os campos do formulario
     reset,
+    control,
+    //Variavel utilizada para acessar os erros do formulario
     formState: { errors },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
+    defaultValues: {
+      unidadeCurricular: [{ nome: "", horas: 0 }],
+    },
   });
-  const [curricularUnit, setCurricularUnit] = useState(["1"]);
+
+  //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
 
-  function handleAddNewCurricarUnit() {
-    //Gambiara para arrumar o erro de key - Provisorio
-    const number = curricularUnit.length;
-    const key = number.toString() + "1";
-    setCurricularUnit([...curricularUnit, key]);
-  }
+  //Variavel para criar a logica de adicionar uma nova unidade curricular  
+  const { fields, append, remove } = useFieldArray({
+    name: "unidadeCurricular",
+    control,
+    rules: {
+      required: "O curso deve ter pelo menos uma unidade curricular",
+    },
+  });
 
+  //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
-    console.log(data);
     data.nome =
       data.nome.charAt(0).toUpperCase() + data.nome.slice(1).toLowerCase();
-      data.unidadeCurricular = data.unidadeCurricular.map((unidade, index) => {
+    data.unidadeCurricular = data.unidadeCurricular.map((unidade) => {
       unidade.nome =
-        unidade.nome.charAt(0).toUpperCase() + unidade.nome.slice(1).toLowerCase();
+        unidade.nome.charAt(0).toUpperCase() +
+        unidade.nome.slice(1).toLowerCase();
       return unidade;
     });
     createCourseAPI(data);
@@ -93,41 +112,39 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               type="text"
               placeholder="Digite seu nome"
               required
-              {...register("nome")}
+              {...register("nome", { required: true })}
             />
             {errors.nome && <p>{errors.nome.message}</p>}
           </NewCourseModalInputs>
 
           <NewCourseModalInputs>
             <label>Tipo</label>
-            <select {...register("tipoCurso")}>
+            <select {...register("tipoCurso", { required: true })}>
               <option>FIC</option>
               <option value="REGULAR">Regular</option>
             </select>
           </NewCourseModalInputs>
 
-          {curricularUnit.map((unit) => {
+          {fields.map((field, index) => {
             return (
-              <NewCourseModalUnidadeCurricularContainer
-                key={curricularUnit.indexOf(unit)}
-              >
+              <NewCourseModalUnidadeCurricularContainer key={index}>
                 <div>
                   <label>Unidade Curricular</label>
                   <input
                     required
-                    {...register(
-                      `unidadeCurricular.${curricularUnit.indexOf(unit)}.nome`
-                    )}
+                    {...register(`unidadeCurricular.${index}.nome`, {
+                      required: true,
+                    })}
                   ></input>
                 </div>
 
                 <div>
                   <label>Horas</label>
                   <input
-                    {...register(
-                      `unidadeCurricular.${curricularUnit.indexOf(unit)}.horas`,
-                      { valueAsNumber: true }
-                    )}
+                    {...register(`unidadeCurricular.${index}.horas`, {
+                      valueAsNumber: true,
+                      required: true,
+                    })}
                     type="number"
                     placeholder="Digite as horas"
                     required
@@ -135,25 +152,38 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                 </div>
 
                 {errors.unidadeCurricular && (
-                  <p>{errors.unidadeCurricular.message}</p>
+                  <>
+                    <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
+                    <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
+                  </>
                 )}
+
+                {
+                  index !== 0 && <Trash onClick={() => remove(index)}></Trash>
+                }
+
+                
               </NewCourseModalUnidadeCurricularContainer>
             );
           })}
 
           <NewCourseModalButtonAddNewUnidadeCurricula
-            onClick={handleAddNewCurricarUnit}
+            onClick={() => {
+              append({
+                nome: "",
+                horas: 6,
+              });
+            }}
             type="button"
           >
             <Plus size={20} />
-            <br />
+
             <p>Adicionar Unidade Curricular</p>
           </NewCourseModalButtonAddNewUnidadeCurricula>
 
           <div>
             <NewCouseModalCreateButton
               type="submit"
-              onClick={() => console.log(errors)}
             >
               Criar
             </NewCouseModalCreateButton>

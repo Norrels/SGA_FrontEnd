@@ -78,6 +78,7 @@ export const Content = styled(Dialog.Content)`
     }
   }
 `;
+
 export const CloseButton = styled(Dialog.Close)`
   position: absolute;
   background: transparent;
