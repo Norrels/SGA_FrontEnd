@@ -68,7 +68,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
               <></>
             )}
             <Dialog.Close>
-              <X onClick={() => setEditable(false)} size={50} weight="light" />
+              <X size={50} weight="light" />
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>

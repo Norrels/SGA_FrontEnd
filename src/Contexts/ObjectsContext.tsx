@@ -37,13 +37,13 @@ export interface PlaceProps {
 [];
 
 export interface CourseProps {
-  id?: number;
+  id: number;
   nome: string;
   tipoCurso: string;
   ativo?: boolean
   unidadeCurricular: 
     {
-      id?: number;
+      id?: number | null;
       nome: string;
       horas: number
     }[]

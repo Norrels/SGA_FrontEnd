@@ -50,7 +50,7 @@ export function CourseItem({course} : NewCouserModalProps) {
           <CourseItemInfoContent>
             <h3>{course.nome}</h3>
             <CourseInfoType>
-              {course.tipoCurso.toLowerCase()}
+              {course.tipoCurso?.toLowerCase()}
             </CourseInfoType>
           </CourseItemInfoContent>
           <CourseItemInfoContent>

@@ -20,7 +20,7 @@ import {
 
 //Varivel de validação
 export const coursesInputs = z.object({
-  id: z.number().optional(),
+  id: z.number(),
   nome: z
     .string()
     .max(20, { message: "O nome não deve ter mais de 20 caracteres" })
@@ -29,7 +29,7 @@ export const coursesInputs = z.object({
   ativo: z.boolean().optional(),
   unidadeCurricular: z
     .object({
-      id: z.number().optional(),
+      id: z.number().optional().nullable(),
       nome: z
         .string()
         .max(20, { message: "O nome não deve ter mais de 20 caracteres" })
@@ -51,7 +51,6 @@ interface NewCourseModalProps {
 }
 
 export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
-
   const {
     //Variavel para pega o valor dos input
     register,
@@ -106,6 +105,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
         <Dialog.Title>Novo curso</Dialog.Title>
 
         <form onSubmit={handleSubmit(handleCreateNewCourse)}>
+          <input type="hidden" value={0} {...register("id", {valueAsNumber: true})} />
           <NewCourseModalInputs>
             <label>Nome</label>
             <input
@@ -161,12 +161,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                 {
                   index !== 0 && <Trash onClick={() => remove(index)}></Trash>
                 }
-
-                
               </NewCourseModalUnidadeCurricularContainer>
             );
           })}
-
           <NewCourseModalButtonAddNewUnidadeCurricula
             onClick={() => {
               append({
@@ -177,10 +174,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
             type="button"
           >
             <Plus size={20} />
-
             <p>Adicionar Unidade Curricular</p>
           </NewCourseModalButtonAddNewUnidadeCurricula>
-
           <div>
             <NewCouseModalCreateButton
               type="submit"

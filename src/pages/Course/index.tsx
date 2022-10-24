@@ -17,7 +17,7 @@ export function Course() {
 
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
 
-  //Variaveis é métodos criado para fecha a modal do radix
+  //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
   function closeModal() {
     setOpen(false);
