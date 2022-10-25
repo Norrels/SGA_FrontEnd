@@ -1,4 +1,41 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px)
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  } 
+`;
+
+const load = keyframes`
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+`;
 
 export const CourseContainer = styled.main`
   width: 100%;
@@ -32,34 +69,17 @@ export const CourseContent = styled.div`
       font-weight: 500;
       color: ${(props) => props.theme["sub-title"]};
     }
-  }
-`;
 
-export const CourseButtonContainer = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-
-  button {
-    width: 12.75rem;
-    height: 3.75rem;
-
-    border-radius: 8px;
-    border: none;
-    background: linear-gradient(180deg, #25B5E9 0%, #5AADD1 100%);
-
-    color: ${(props) => props.theme["white"]};
-    font-size: 1.125rem;
-    font-weight: bold;
+    opacity: 0;
+    animation: ${swipeRight} 1s 2.5s ease-in-out forwards;
   }
 `;
 
 export const CourseTitleContainer = styled.div`
   margin-top: 2rem;
 
+  display: flex;
   justify-content: center;
-  text-align: center;
   align-items: center;
   flex-direction: column;
 
@@ -69,22 +89,51 @@ export const CourseTitleContainer = styled.div`
 
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(
-      90deg,
-      #0f62ab 38.16%,
-      #0031b0 38.16%,
-      #25b5e9 64.48%
-    );
+    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+
+    text-align: center;
   }
 
   p {
+    width: 100%;
     font-size: 1.125rem;
-
     font-weight: 800;
     color: ${(props) => props.theme["sub-title"]};
+
+    text-align: center;
+  }
+
+  opacity: 0;
+  animation: ${swipeRight} 1s 2.3s ease-in-out forwards;
+`;
+
+export const CourseButtonContainer = styled.div`
+  margin-top: 2rem;
+
+  display: flex;
+  gap: 2rem;
+
+  button {
+    width: 12.5rem;
+    height: 3.75rem;
+
+    border: none;
+    border-radius: 8px;
+
+    background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+    color: ${(props) => props.theme["white"]};
+    font-size: 1.125rem;
+    font-weight: bold;
+
+    transition-duration: 0.3s;
+
+    &:hover {
+      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
   }
 `;
 

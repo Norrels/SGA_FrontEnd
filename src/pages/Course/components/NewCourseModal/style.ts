@@ -1,5 +1,25 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
@@ -7,26 +27,45 @@ export const Overlay = styled(Dialog.Overlay)`
 
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+
+  background: rgba(0, 0, 0, 0.4);
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(Dialog.Content)`
+  width: 750px;
+  padding: 3.75rem 2.344rem 3.75rem 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
   //Hackerzinho para centralizar
   position: fixed;
   top: 50%;
   left: 50%;
 
-  border-radius: 6px;
-  padding: 3rem 2rem 2rem 4rem;
+  border-radius: 20px;
   background: ${(props) => props.theme["white"]};
-
-  width: 46.875rem;
   transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
+`;
+
+export const ModalHeader = styled.div`
+  width: 100%;
+  padding: 0 2.344rem 0 4.688rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
   h2 {
-    font-size: 2.5rem;
     font-weight: 800;
-    width: fit-content;
+    font-size: 40px;
     background: linear-gradient(
       90deg,
       #0f62ab -2.99%,
@@ -37,138 +76,229 @@ export const Content = styled(Dialog.Content)`
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+`;
 
-  form {
-    width: 100%;
-    height: 40rem;
-    padding-right: 2.4rem;
-    padding-left: 0.5rem;
-    margin-top: 2rem;
+export const HeaderButtons = styled.div`
+  button {
+    background: none;
+    border: none;
+    margin-left: 20px;
+    transition-duration: 0.3s;
 
-    display: flex;
-    overflow: auto;
-
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.1);
-    }
-    ::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      background: rgba(0, 0, 0, 0.2);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 0, 0, 0.4);
-    }
-    ::-webkit-scrollbar-thumb:active {
-      background: rgba(0, 0, 0, 0.9);
-    }
-
-    label {
-      font-weight: 800;
-      font-size: 1rem;
-      color: ${(props) => props.theme["gray-700"]};
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
     }
   }
 `;
 
-export const CloseButton = styled(Dialog.Close)`
-  position: absolute;
-  background: transparent;
-  border: 0;
-  top: 2.5rem;
-  right: 4.5rem;
-  line-height: 0;
-  cursor: pointer;
-  color: ${(props) => props.theme["black"]};
-
-  svg {
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-export const NewCourseModalInputs = styled.article`
+export const InputScroll = styled.div`
   width: 100%;
+  max-height: 600px;
+  padding: 0 2.344rem 1rem 4.688rem;
 
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+`;
+
+export const InputContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+`;
+
+export const InputContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  &:nth-child(3) {
+    flex-direction: row;
+  }
+
   flex-direction: column;
   gap: 0.625rem;
 
+  label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
   input,
   select {
-    width: 37.5rem;
     height: 5.313rem;
-    padding-left: 1.25rem;
+    padding: 1.25rem;
 
     border: none;
-    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 
     font-weight: 800;
-    font-size: 1rem;
+    font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
-    
+
+    transition-duration: 0.15s;
+
+    // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
+    &:focus {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+    }
   }
-`;
 
-export const NewCourseModalUnidadeCurricularContainer = styled.article`
-  width: 100%;
-  display: grid;
-  grid-template-columns: 68% 28%;
-  gap: 1rem;
+  input {
+    &:read-only {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
 
-  div {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-
-    select,
-    input {
-      width: 100%;
-      height: 5.313rem;
-      padding-left: 1.25rem;
-
-      border: none;
-      box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-
-      font-weight: 800;
-      font-size: 1rem;
-      color: ${(props) => props.theme["gray-700"]};
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
+  }
+  select {
+    &:disabled {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      opacity: 1;
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
     }
   }
 `;
 
-export const NewCourseModalButtonAddNewUnidadeCurricula = styled.button`
-  padding: 0.8rem;
-  background: transparent;
+export const InputIndividual = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 0.625rem;
 
-  border: 2px dashed ${(props) => props.theme["black"]};
-  border-radius: 8px;
+  &:first-child {
+    width: 21.25rem;
+  }
 
-  p {
-    font-weight: 600;
-    font-size: 0.9rem;
+  &:nth-child(2) {
+    width: 12.5rem;
+  }
+
+  &:last-child {
+    align-items: center;
+    justify-content: center;
+  }
+
+  label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input {
+    height: 5.313rem;
+    padding: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input {
+    &:read-only {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
+  }
+  select {
+    &:disabled {
+      background-color: #e2e2e2;
+      color: rgba(109, 109, 109, 0.5);
+      opacity: 1;
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+  }
+
+  svg {
+    margin-top: 2.188rem;
+    transition-duration: 0.2s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+      cursor: pointer;
+    }
   }
 `;
 
-export const NewCouseModalCreateButton = styled.button`
+export const ButtonNewUnidadeCurricular = styled.button`
   width: 100%;
+  padding: 0.625rem;
 
-  height: 3.2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.625rem;
+
+  outline: none;
+  background: transparent;
+
   border: none;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='gray' stroke-width='4' stroke-dasharray='15 ' stroke-dashoffset='48' stroke-linecap='square'/%3e%3c/svg%3e");
   border-radius: 8px;
-  background: ${(props) => props.theme["blue-500"]};
 
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: ${(props) => props.theme["white"]};
+  p {
+    font-weight: 700;
+    font-size: 18px;
+    color: ${(props) => props.theme["gray-500"]};
+  }
+`;
+
+export const FinalButton = styled.div`
+  width: 100%;
+  button {
+    width: 100%;
+    height: 4.688rem;
+
+    border: none;
+    border-radius: 10px;
+    background-color: ${(props) => props.theme["blue-500"]};
+
+    color: ${(props) => props.theme["white"]};
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
 `;

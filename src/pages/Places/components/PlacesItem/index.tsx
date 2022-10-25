@@ -73,7 +73,7 @@ export function Place({ placeItem, placeAnimationDelay }: PlacesProps) {
               <DotsThree color="#fff" size={32} />
             </PlacesItemButton>
           </Dialog.Trigger>
-          <EditPlaceModal closeModal={closeModal} place={placeItem} />
+          <EditPlaceModal place={placeItem} closeModal={closeModal}  />
         </Dialog.Root>
 
         <PlacesItemButton buttonColor="delete">

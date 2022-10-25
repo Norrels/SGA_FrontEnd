@@ -60,8 +60,6 @@ export const PlacesContainer = styled.main`
 
   display: flex;
   justify-content: center;
-
-  
 `;
 
 export const PlacesContent = styled.div`
