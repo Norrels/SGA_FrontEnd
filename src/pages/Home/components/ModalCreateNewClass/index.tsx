@@ -1,10 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { boolean, number, z } from "zod";
+import {  z } from "zod";
 import Resumo from "../../../../assets/Resumo.svg";
-import { EditUserModal } from "../../../../components/Header/components/EditUserModal";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
@@ -28,9 +27,6 @@ export const aulaInput = z.object({
   dataInicio: z.date(),
   cargaDiaria: z.string(),
   diaSemana: z.boolean().array(),
-  curso: z.object({
-    id: z.number(),
-  }),
   unidadeCurricular: z.object({
     id: z.number(),
   }),
@@ -38,6 +34,9 @@ export const aulaInput = z.object({
     id: z.number(),
   }),
   ambiente: z.object({
+    id: z.number(),
+  }),
+  curso: z.object({
     id: z.number(),
   }),
   semana: z.boolean().array(),
@@ -59,49 +58,105 @@ export function ModalCreateNewClass({
   const { register, handleSubmit, reset } = useForm<AulaType>();
   const [values, setValues] = useState<string[]>([]);
 
-  const [semanas, setSemanas] = useState<boolean[]>([]);
-  // função que dispara API
   async function handleCreateAulaAPI(aula: AulaType) {
-    values.sort();
+    const semanas: boolean[] = [];
+
     for (var i = 1; i < 8; i++) {
       if (values.filter((val) => val === `${i}`).length == 0) {
-        setSemanas((semanas) => [...semanas, false]);
+        semanas.push(false);
       } else {
-        setSemanas((semanas) => [...semanas, true]);
+        semanas.push(true);
       }
     }
 
-    console.log(aula.unidadeCurricular.id);
-
-    const unidadeCurricular = Object.assign({}, curricularUnit.filter(
+    console.log(semanas);
+    const unidadeCurricular = curricularUnit.filter(
       (value) => value.id == aula.unidadeCurricular.id
-    ));
-
-    console.log(unidadeCurricular)
-    const teacherMap = Object.assign({}, teachers.filter(
+    );
+    const teacherMap = teachers.filter(
       (value) => value.id == aula.professor.id
-    ));
-    const localMap = Object.assign({}, placesList.filter((value) => value.id == aula.ambiente.id));
-    const courseMap = Object.assign({}, courses.filter((value) => {
-      value.id == aula.curso.id;
-    }));
+    );
+    const courseMap = courses.filter((value) => value.id == aula.curso.id);
+    const localMap = placesList.filter((value) => value.id == aula.ambiente.id);
 
-    const res = await API.post("aula", {
-      curso: courseMap,
-      unidadeCurricular: unidadeCurricular,
+    console.log({
+      curso: {
+        id: courseMap[0]?.id,
+        ativo: courseMap[0]?.ativo,
+        nome: courseMap[0]?.nome,
+        tipoCurso: courseMap[0]?.tipoCurso,
+        unidadeCurricular: courseMap[0]?.unidadeCurricular,
+      },
+      unidadeCurricular: {
+        id: unidadeCurricular[0]?.id,
+        nome: unidadeCurricular[0]?.nome,
+        horas: unidadeCurricular[0]?.horas,
+      },
       codTurma: aula.codTurma,
       periodo: aula.periodo,
       dataInicio: aula.dataInicio,
-      ambiente: localMap,
-      professor: teacherMap,
-      cargaDiaria: 4,
+      ambiente: {
+        id: localMap[0]?.id,
+        nome: localMap[0]?.nome,
+        capacidade: localMap[0]?.capacidade,
+        tipoAmbiente: localMap[0]?.tipoAmbiente,
+        cep: localMap[0]?.cep,
+        complemento: localMap[0]?.complemento,
+        ativo: localMap[0]?.ativo,
+      },
+      professor: {
+        id: teacherMap[0]?.id,
+        nome: teacherMap[0]?.nome,
+        cargaSemanal: teacherMap[0]?.cargaSemanal,
+        ativo: teacherMap[0]?.ativo,
+        foto: teacherMap[0]?.foto,
+        email: teacherMap[0]?.email,
+        competencia: teacherMap[0]?.competencia,
+      },
+      cargaDiaria: aula.cargaDiaria,
       diaSemana: semanas,
     });
 
-    setSemanas((semanas) => []);
+    const res = await API.post("aula", {
+      curso: {
+        id: courseMap[0]?.id,
+        ativo: courseMap[0]?.ativo,
+        nome: courseMap[0]?.nome,
+        tipoCurso: courseMap[0]?.tipoCurso,
+        unidadeCurricular: courseMap[0]?.unidadeCurricular,
+      },
+      unidadeCurricular: {
+        id: unidadeCurricular[0]?.id,
+        nome: unidadeCurricular[0]?.nome,
+        horas: unidadeCurricular[0]?.horas,
+      },
+      codTurma: aula.codTurma,
+      periodo: aula.periodo,
+      dataInicio: aula.dataInicio,
+      ambiente: {
+        id: localMap[0]?.id,
+        nome: localMap[0]?.nome,
+        capacidade: localMap[0]?.capacidade,
+        tipoAmbiente: localMap[0]?.tipoAmbiente,
+        cep: localMap[0]?.cep,
+        complemento: localMap[0]?.complemento,
+        ativo: localMap[0]?.ativo,
+      },
+      professor: {
+        id: teacherMap[0]?.id,
+        nome: teacherMap[0]?.nome,
+        cargaSemanal: teacherMap[0]?.cargaSemanal,
+        ativo: teacherMap[0]?.ativo,
+        foto: teacherMap[0]?.foto,
+        email: teacherMap[0]?.email,
+        competencia: teacherMap[0]?.competencia,
+      },
+      cargaDiaria: aula.cargaDiaria,
+      diaSemana: semanas,
+    });
     console.log(res);
-
     if (res.status === 200) {
+      console.log("criou as aulas com sucesso!");
     }
   }
 
@@ -124,6 +179,7 @@ export function ModalCreateNewClass({
   });
 
   async function handleCreateNewAula(data: AulaType) {
+    // handleArray();
     handleCreateAulaAPI(data);
     reset();
     closeModal();
