@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { startOfWeek } from "date-fns";
 import { Plus, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
@@ -22,20 +22,26 @@ import {
   Overlay,
 } from "./style";
 
+// Object Professor com Zod
 export const teacherInput = z.object({
   id: z.number(),
-  nome: z.string(),
-  cargaSemanal: z.number(),
+  nome: z
+    .string()
+    .max(36, { message: "O nome não deve ter mais de 20 caracteres" })
+    .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
+  cargaSemanal: z.number().gte(6, { message: "A hora deve ser maior que 15" }),
   foto: z.string(),
   ativo: z.boolean(),
-  email: z.string(),
+  email: z
+    .string()
+    .max(36, { message: "O Email não deve ter mais de 20 caracteres" })
+    .min(3, { message: "O Email deve ser maior que 3 caracteres" }),
   competencia: z
     .object({
       id: z.number(),
       professor: z.object({
         id: z.number(),
         nome: z.string(),
-        
       }),
       unidadeCurricular: z.object({
         id: z.number(),
@@ -53,12 +59,14 @@ interface NewTeacherModalProps {
   closeModal: () => void;
 }
 
+// Gambiarra para Recurar id e nota da Competencia =)
 interface StarProps {
   idCompetencia: number;
   nota: number;
 }
 [];
 
+// Interface para as Unidades Curriculares
 interface UnidadeCurricularProps {
   id: number;
   nome: string;
@@ -73,7 +81,12 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     UnidadeCurricularProps[]
   >([]);
   //Pegando os métodos do UseForm
-  const { register, setValue, reset, handleSubmit } = useForm<TeacherType>();
+  const {
+    register,
+    formState: { errors },
+    reset,
+    handleSubmit,
+  } = useForm<TeacherType>();
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
   //Pwgando os professores do context
@@ -84,20 +97,21 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     data.competencia.shift();
     star.filter((value) => {
       data.competencia.map((valueMap) => {
+        // adicionando as notas na competencia
         if (value.idCompetencia == Number(valueMap.id)) {
           valueMap.nivel = value.nota;
         }
+        // mapeando as unidades curriculares
         unidadeCurricular.map((unit) => {
-          if(unit.nome == valueMap.unidadeCurricular.nome) {
+          // verificando pelo nome da unidade e setando
+          if (unit.nome == valueMap.unidadeCurricular.nome) {
             valueMap.unidadeCurricular.id = unit.id;
             valueMap.unidadeCurricular.horas = unit.horas;
           }
         });
       });
     });
-    // console.log(unidadeCurricular)
     console.log(data);
-    // console.log(star);
     createTeacherAPI(data);
     reset();
     closeModal();
@@ -156,16 +170,20 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
               <input
                 type="text"
                 placeholder="digite o nome do professor"
-                {...register("nome")}
+                required
+                {...register("nome", { required: true })}
               />
+              {errors.nome && <p>{errors.nome.message}</p>}
             </InputContent>
             <InputContent>
               <label>Email</label>
               <input
                 type="email"
                 placeholder="digite o email do professor"
-                {...register("email")}
+                required
+                {...register("email", { required: true })}
               />
+              {errors.email && <p>{errors.email.message}</p>}
             </InputContent>
             <InputContentDupo>
               <div>
@@ -173,8 +191,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 <input
                   type="text"
                   placeholder="digite as horas"
-                  {...register("cargaSemanal")}
+                  required
+                  {...register("cargaSemanal", { required: true })}
                 />
+                {errors.cargaSemanal && <p>{errors.cargaSemanal.message}</p>}
               </div>
               <div>
                 <label>Foto</label>
@@ -185,6 +205,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   accept="image/*"
                   placeholder="envie uma foto do professor"
                   onChange={uploadImage}
+                  // required
                   // {...register("foto")}
                 />
               </div>
@@ -195,7 +216,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   <ContentSelect>
                     <label>Competência</label>
                     <input
-                      {...register(`competencia.${v}.id`)}
+                      {...register(`competencia.${v}.id`, { required: true })}
                       type="hidden"
                       value={v}
                     />
