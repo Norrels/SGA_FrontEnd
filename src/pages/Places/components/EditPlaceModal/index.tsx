@@ -54,7 +54,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
       <Content onCloseAutoFocus={() => setEditable(false)}>
         <ModalHeader>
           <Dialog.Title>
-            {!editable ? "Ambiente" : "Editar Ambiente"}
+            {!editable ? "Ambiente" : "Editar ambiente"}
           </Dialog.Title>
           <HeaderButtons>
             {!editable ? (

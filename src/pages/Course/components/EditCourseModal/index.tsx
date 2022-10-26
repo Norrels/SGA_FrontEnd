@@ -9,14 +9,15 @@ import {
   ObjectsContext,
 } from "../../../../Contexts/ObjectsContext";
 import {
-  CloseButton,
-  ContainerButtonCreate,
+  ButtonNewUnidadeCurricular,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentScroll,
-  NewCourseModalButtonAddNewUnidadeCurricular,
-  NoteButton,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 import { coursesInputs } from "../NewCourseModal";
@@ -29,7 +30,7 @@ interface EditCourseModalProps {
 export type CourseType = z.infer<typeof coursesInputs>;
 
 export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
-  const [disabled, setDisabled] = useState(true);
+  const [editable, setEditable] = useState(false);
   const {
     register,
     handleSubmit,
@@ -39,7 +40,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
     defaultValues: {
-      unidadeCurricular: course.unidadeCurricular
+      unidadeCurricular: course.unidadeCurricular,
     },
   });
 
@@ -61,6 +62,127 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
 
   return (
     <Dialog.Portal>
+      <Overlay />
+      <Content onCloseAutoFocus={() => setEditable(false)}>
+        <ModalHeader>
+          <Dialog.Title>{!editable ? "Curso" : "Editar curso"}</Dialog.Title>
+          <HeaderButtons>
+            {!editable ? (
+              <button onClick={() => setEditable(true)}>
+                <NotePencil size={50} weight="light" />
+              </button>
+            ) : (
+              <></>
+            )}
+            <Dialog.Close>
+              <X size={50} weight="light" onClick={() => reset()} />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+
+        <form onSubmit={handleSubmit(handleUpdateCourse)}>
+          <input
+            type="hidden"
+            value={0}
+            {...register("id", { valueAsNumber: true })}
+          />
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Nome</label>
+                <input
+                  type="text"
+                  placeholder="Digite seu nome"
+                  required
+                  defaultValue={course.nome}
+                  {...register("nome", { required: true })}
+                  readOnly={!editable}
+                />
+                {errors.nome && <p>{errors.nome.message}</p>}
+              </InputContent>
+              <InputContent>
+                <label>Tipo</label>
+                <select
+                  defaultValue={course.tipoCurso}
+                  {...register("tipoCurso", { required: true })}
+                >
+                  <option value="" selected disabled>
+                    Selecione o tipo do ambiente
+                  </option>
+                  <option value="FIC">FIC</option>
+                  <option value="REGULAR">Regular</option>
+                </select>
+                {errors.tipoCurso && <p>* Selecione um valor válido...</p>}
+              </InputContent>
+              {fields.map((field, index) => {
+                return (
+                  <InputContent key={index}>
+                    <InputIndividual>
+                      <label>Unidade Curricular</label>
+                      <input
+                        type="text"
+                        placeholder="Digite a unidade curricular"
+                        required
+                        {...register(`unidadeCurricular.${index}.id`, {
+                          value:
+                            course.unidadeCurricular[index]?.id == undefined
+                              ? null
+                              : course.unidadeCurricular[index].id,
+                        })}
+                        readOnly={!editable}
+                      />
+                      {errors.unidadeCurricular && (
+                        <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
+                      )}
+                    </InputIndividual>
+                    <InputIndividual>
+                      <label>Horas</label>
+                      <input
+                        type="number"
+                        placeholder="Digite as horas"
+                        required
+                        {...register(`unidadeCurricular.${index}.horas`, {
+                          valueAsNumber: true,
+                          required: true,
+                        })}
+                        readOnly={!editable}
+                      />
+                      {errors.unidadeCurricular && (
+                        <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
+                      )}
+                    </InputIndividual>
+                    {index !== 0 ? (
+                      <Trash
+                        size={40}
+                        weight="light"
+                        onClick={() => remove(index)}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </InputContent>
+                );
+              })}
+              <ButtonNewUnidadeCurricular
+                onClick={() => {
+                  append({
+                    nome: "",
+                    horas: 6,
+                  });
+                }}
+                type="button"
+              >
+                <Plus size={32} />
+                <p>Adicionar unidade curricular</p>
+              </ButtonNewUnidadeCurricular>
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
+        </form>
+      </Content>
+      {/* <Dialog.Portal>
       <Overlay />
       <Content onCloseAutoFocus={() => setDisabled(true)}>
         <NoteButton onClick={() => setDisabled(false)}>
@@ -168,6 +290,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
           </InputContainer>
         </form>
       </Content>
+    </Dialog.Portal> */}
     </Dialog.Portal>
   );
 }

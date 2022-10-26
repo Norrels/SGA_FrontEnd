@@ -126,14 +126,19 @@ export const InputContainer = styled.div`
 
 export const InputContent = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
+  flex-direction: column;
+  gap: 0.625rem;
 
-  &:nth-child(3) {
+  &:not(:nth-child(1), :nth-child(2)) {
     flex-direction: row;
   }
 
-  flex-direction: column;
-  gap: 0.625rem;
+  &:nth-child(3) {
+    input[type="number"] {
+      width: 15rem;
+    }
+  }
 
   label {
     font-weight: 800;
@@ -187,6 +192,17 @@ export const InputContent = styled.div`
       }
     }
   }
+  svg {
+    margin-top: 3.7rem;
+    transition-duration: 0.2s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+      cursor: pointer;
+    }
+  }
+  p {
+    color: #8D0000;
+  }
 `;
 
 export const InputIndividual = styled.div`
@@ -196,16 +212,11 @@ export const InputIndividual = styled.div`
   gap: 0.625rem;
 
   &:first-child {
-    width: 21.25rem;
+    width: 21.25rem !important;
   }
 
   &:nth-child(2) {
-    width: 12.5rem;
-  }
-
-  &:last-child {
-    align-items: center;
-    justify-content: center;
+    width: 11.875rem;
   }
 
   label {
@@ -252,13 +263,8 @@ export const InputIndividual = styled.div`
     }
   }
 
-  svg {
-    margin-top: 2.188rem;
-    transition-duration: 0.2s;
-    &:hover {
-      color: ${(props) => props.theme["blue-300"]};
-      cursor: pointer;
-    }
+  p {
+    color: ${(props) => props.theme["blue-300"]};
   }
 `;
 

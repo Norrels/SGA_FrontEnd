@@ -1,97 +1,103 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
   height: 100w;
+
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.75);
+
+  background: rgba(0, 0, 0, 0.4);
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(Dialog.Content)`
+  width: 750px;
+  padding: 3.75rem 2.344rem 3.75rem 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+
   //Hackerzinho para centralizar
-  z-index: 1000;
   position: fixed;
   top: 50%;
   left: 50%;
-  border-radius: 6px;
-  padding: 3.75rem 5.688rem;
+
+  border-radius: 20px;
   background: ${(props) => props.theme["white"]};
-  width: 750px;
   transform: translate(-50%, -50%);
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
+`;
+
+export const ModalHeader = styled.div`
+  width: 100%;
+  padding: 0 2.344rem 0 4.688rem;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
   h2 {
-    font-size: 2.5rem;
     font-weight: 800;
-    color: ${(props) => props.theme["blue-500"]};
-  }
-
-  form {
-    height: 40rem;
-    overflow-y: auto;
-  }
-`;
-
-export const CloseButton = styled(Dialog.Close)`
-  position: absolute;
-  background: transparent;
-  border: 0;
-  top: 2.5rem;
-  right: 2rem;
-  line-height: 0;
-  cursor: pointer;
-  color: ${(props) => props.theme["black"]};
-  svg {
-    width: 40px;
-    height: 40px;
+    font-size: 40px;
+    background: linear-gradient(
+      90deg,
+      #0f62ab -2.99%,
+      #0031b0 -2.98%,
+      #25b5e9 99.8%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 `;
 
-export const NoteButton = styled.div`
-  position: absolute;
-  background: transparent;
-  border: 0;
-  top: 2.5rem;
-  right: 6rem;
-  line-height: 0;
-  cursor: pointer;
-  color: ${(props) => props.theme["black"]};
-  svg {
-    width: 40px;
-    height: 40px;
-  }
-`;
-
-export const InputContainer = styled.div`
-  margin-top: 50px;
-`;
-
-export const InputContentScroll = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 40px;
-  height: 200px;
-
-
-  input:not([type="hidden"]) {
-    /* width: 37.5rem; */
-    height: 5.313rem;
-    padding-left: 1.25rem;
+export const HeaderButtons = styled.div`
+  button {
+    background: none;
     border: none;
-    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
-  }
+    margin-left: 20px;
+    transition-duration: 0.3s;
 
-  label {
-    font-weight: 800;
-    font-size: 1.25rem;
-    color: ${(props) => props.theme["sub-title"]};
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
+`;
+
+export const InputScroll = styled.div`
+  width: 100%;
+  max-height: 600px;
+  padding: 0 2.344rem 1rem 4.688rem;
+
+  overflow-y: scroll;
+
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -112,76 +118,214 @@ export const InputContentScroll = styled.div`
   }
 `;
 
-const DISABLED = {
-  disabled: {
-    display: 'none',
-    cor: 'background',
-    color: 'gray-600'
-  },
-  on: {
-    display: 'block',
-    cor: 'white',
-    color: 'gray-700'
-  },
-} as const
-
-interface DisabledProps {
-  disabled: keyof typeof DISABLED
-}
-
-export const InputContent = styled.div<DisabledProps>`
-  margin-top: 30px;
+export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 2.5rem;
+`;
 
+const DISABLED = {
+  disabled: {
+    display: "none",
+    cor: "background",
+    color: "gray-600",
+  },
+  on: {
+    display: "block",
+    cor: "white",
+    color: "gray-700",
+  },
+} as const;
 
-  select,
-  input:not([type="hidden"]) {
-    /* width: 37.5rem; */
-    height: 5.313rem;
-    padding-left: 1.25rem;
-    border: none;
-    box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    font-weight: 800;
-    font-size: 1.1rem;
-    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
-    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
-    background-color:  ${(props) => props.theme[DISABLED[props.disabled].cor]};
+interface DisabledProps {
+  disabled: keyof typeof DISABLED;
+}
+
+export const InputContent = styled.div`
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 0.625rem;
+
+  &:not(:nth-child(1), :nth-child(2)) {
+    flex-direction: row;
   }
 
+  &:nth-child(3) {
+    input[type="number"] {
+      width: 15rem;
+    }
+  }
 
   label {
     font-weight: 800;
     font-size: 1.25rem;
-    color: ${(props) => props.theme["sub-title"]};
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input,
+  select {
+    height: 5.313rem;
+    padding: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+
+    transition-duration: 0.15s;
+
+    // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
+    &:focus {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
+    }
+  }
+
+  input {
+    &:read-only {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
+  }
+  select {
+    &:disabled {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      opacity: 1;
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+  }
+  svg {
+    margin-top: 3.7rem;
+    transition-duration: 0.2s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+      cursor: pointer;
+    }
+  }
+  p {
+    color: #8d0000;
   }
 `;
 
-export const ContainerButtonCreate = styled.div`
-  margin-top: 30px;
+export const InputIndividual = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 0.625rem;
+
+  &:first-child {
+    width: 21.25rem !important;
+  }
+
+  &:nth-child(2) {
+    width: 11.875rem;
+  }
+
+  label {
+    font-weight: 800;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input {
+    height: 5.313rem;
+    padding: 1.25rem;
+
+    border: none;
+    box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input {
+    &:read-only {
+      background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
+  }
+  select {
+    &:disabled {
+      background-color: #e2e2e2;
+      color: rgba(109, 109, 109, 0.5);
+      opacity: 1;
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+  }
+
+  p {
+    color: ${(props) => props.theme["blue-300"]};
+  }
+`;
+
+export const ButtonNewUnidadeCurricular = styled.button`
+  width: 100%;
+  padding: 0.625rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 0.625rem;
+
+  outline: none;
+  background: transparent;
+
+  border: none;
+  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='gray' stroke-width='4' stroke-dasharray='15 ' stroke-dashoffset='48' stroke-linecap='square'/%3e%3c/svg%3e");
+  border-radius: 8px;
+
+  p {
+    font-weight: 700;
+    font-size: 18px;
+    color: ${(props) => props.theme["gray-500"]};
+  }
+`;
+
+export const FinalButton = styled.div`
+  width: 100%;
   button {
     width: 100%;
-    height: 3.75rem;
+    height: 4.688rem;
+
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: ${(props) => props.theme["blue-500"]};
+
     color: ${(props) => props.theme["white"]};
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     font-weight: bold;
   }
 `;
 
-export const NewCourseModalButtonAddNewUnidadeCurricular = styled.button`
-  padding: 0.8rem;
-  background: transparent;
-
-  border: 2px dashed ${(props) => props.theme["black"]};
-  border-radius: 8px;
-
-  p {
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-`;
+/* color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]}; */
