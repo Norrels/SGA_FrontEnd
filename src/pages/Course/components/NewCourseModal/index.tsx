@@ -26,21 +26,21 @@ export const coursesInputs = z.object({
   id: z.number(),
   nome: z
     .string()
-    .max(20, { message: "O nome não deve ter mais de 20 caracteres" })
-    .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
-  tipoCurso: z.string(),
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipoCurso: z.enum(["FIC", "REGULAR"]),
   ativo: z.boolean().optional(),
   unidadeCurricular: z
     .object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(20, { message: "O nome não deve ter mais de 20 caracteres" })
-        .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
+        .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+        .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
         .number({ invalid_type_error: "" })
-        .positive({ message: "A hora deve ser maior que 6" })
-        .gte(6, { message: "A hora deve ser maior que 6" }),
+        .positive({ message: "* Deve ser maior que 6" })
+        .gte(6, { message: "* Deve ser maior que 6" }),
     })
     .array(),
 });
@@ -82,6 +82,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
       required: "O curso deve ter pelo menos uma unidade curricular",
     },
   });
+
+  console.log(errors);
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
@@ -132,12 +134,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               <InputContent>
                 <label>Tipo</label>
                 <select {...register("tipoCurso", { required: true })}>
-                  <option selected disabled>
+                  <option value="" selected disabled>
                     Selecione o tipo do ambiente
                   </option>
                   <option value="FIC">FIC</option>
                   <option value="REGULAR">Regular</option>
                 </select>
+                {errors.tipoCurso && <p>* Selecione um valor válido...</p>}
               </InputContent>
               {fields.map((field, index) => {
                 return (
@@ -152,6 +155,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         placeholder="Digite a unidade curricular"
                         required
                       />
+                      {errors.unidadeCurricular && (
+                        <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
+                      )}
                     </InputIndividual>
                     <InputIndividual>
                       <label>Horas</label>
@@ -164,14 +170,19 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         placeholder="Digite as horas"
                         required
                       />
+                      {errors.unidadeCurricular && (
+                        <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
+                      )}
                     </InputIndividual>
-                    <InputIndividual>
+                    {index !== 0 ? (
                       <Trash
                         size={40}
                         weight="light"
                         onClick={() => remove(index)}
                       />
-                    </InputIndividual>
+                    ) : (
+                      <></>
+                    )}
                   </InputContent>
                 );
               })}
@@ -197,3 +208,5 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     </Dialog.Portal>
   );
 }
+
+// 25/10/2022 - Adicionar focus ao dar erro nos inputs...
