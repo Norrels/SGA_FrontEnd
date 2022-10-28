@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
@@ -23,10 +24,18 @@ interface EditAdminModalProps {
 
 export const adminInput = z.object({
   id: z.number(),
-  nome: z.string(),
-  nif: z.string(),
-  email: z.string(),
-  ativo: z.string(),
+  nome: z
+    .string()
+    .min(3, { message: "*** O Nome deve ser maior que 3 caracteres... " })
+    .max(36, { message: "*** O Nome deve ser menor que 36 caracteres... " }),
+  nif: z
+    .string()
+    .min(4, { message: "*** O NIF deve ser maior que 4 caracteres... " })
+    .max(8, { message: "*** O NIF deve ser menor que 8 caracteres... " }),
+  email: z
+    .string()
+    .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
+    .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
   senha: z.string(),
 });
 
@@ -35,7 +44,14 @@ export type AdminType = z.infer<typeof adminInput>;
 export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
   const [disabled, setDisabled] = useState(true);
 
-  const { handleSubmit, register, reset } = useForm<AdminType>();
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<AdminType>({
+    resolver: zodResolver(adminInput),
+  });
 
   function handleUpdateAdmin(data: AdminType) {
     handleUpdateAdminAPI(data);
@@ -54,8 +70,8 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
       ativo: "true",
       senha: admin.email.slice(0, admin.email.search("@")),
     });
-  
-    if(res.status == 200) {
+
+    if (res.status == 200) {
       window.location.reload();
     }
   }
@@ -91,6 +107,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                       placeholder="Digite o nome do curso"
                       disabled
                     />
+                    {errors.nome && <p>{errors.nome.message}</p>}
                   </div>
                   <div>
                     <label>NIF</label>
@@ -100,6 +117,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                       placeholder="Digite o NIF"
                       disabled
                     />
+                    {errors.nif && <p>{errors.nif.message}</p>}
                   </div>
                 </>
               ) : (
@@ -112,6 +130,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                       defaultValue={admin.nome}
                       placeholder="Digite o nome do curso"
                     />
+                    {errors.nome && <p>{errors.nome.message}</p>}
                   </div>
                   <div>
                     <label>NIF</label>
@@ -121,6 +140,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                       defaultValue={admin.nif}
                       placeholder="Digite o NIF"
                     />
+                    {errors.nif && <p>{errors.nif.message}</p>}
                   </div>
                 </>
               )}
@@ -134,6 +154,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                     defaultValue={admin.email}
                     disabled
                   />
+                  {errors.email && <p>{errors.email.message}</p>}
                 </>
               ) : (
                 <>
@@ -143,6 +164,7 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
                     placeholder="Digite o Email"
                     defaultValue={admin.email}
                   />
+                  {errors.email && <p>{errors.email.message}</p>}
                 </>
               )}
             </InputContent>

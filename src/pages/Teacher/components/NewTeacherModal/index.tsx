@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { startOfWeek } from "date-fns";
 import { Plus, X } from "phosphor-react";
@@ -22,20 +23,24 @@ import {
   Overlay,
 } from "./style";
 
-// Object Professor com Zod
+// Object Professor com Zod .max(36, { message: "O Email não deve ter mais de 20 caracteres" })
+// .min(3, { message: "O Email deve ser maior que 3 caracteres" }),
+
+/* 
+    
+.max(36, { message: "O nome não deve ter mais de 20 caracteres" })
+    .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
+    
+    */
 export const teacherInput = z.object({
   id: z.number(),
   nome: z
     .string()
-    .max(36, { message: "O nome não deve ter mais de 20 caracteres" })
-    .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
-  cargaSemanal: z.number().gte(6, { message: "A hora deve ser maior que 15" }),
+    .min(3, { message: "O nome não deve ser menor que 3 carecteres" }),
+  cargaSemanal: z.number(),
   foto: z.string(),
   ativo: z.boolean(),
-  email: z
-    .string()
-    .max(36, { message: "O Email não deve ter mais de 20 caracteres" })
-    .min(3, { message: "O Email deve ser maior que 3 caracteres" }),
+  email: z.string(),
   competencia: z
     .object({
       id: z.number(),
@@ -82,16 +87,25 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   >([]);
   //Pegando os métodos do UseForm
   const {
-    register,
     formState: { errors },
+    register,
     reset,
+    watch,
     handleSubmit,
-  } = useForm<TeacherType>();
+  } = useForm<TeacherType>({
+    resolver: zodResolver(teacherInput),
+  });
+
+  console.log(watch());
+  console.log(errors);
+
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
   //Pwgando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
   function handleCreateNewTeacher(data: TeacherType) {
+    console.log(data);
+
     data.ativo = true;
     data.foto = baseImage;
     data.competencia.shift();
@@ -171,9 +185,9 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 type="text"
                 placeholder="digite o nome do professor"
                 required
-                {...register("nome", { required: true })}
+                {...register("nome")}
               />
-              {errors.nome && <p>{errors.nome.message}</p>}
+              
             </InputContent>
             <InputContent>
               <label>Email</label>
@@ -181,9 +195,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 type="email"
                 placeholder="digite o email do professor"
                 required
-                {...register("email", { required: true })}
+                {...register("email")}
               />
-              {errors.email && <p>{errors.email.message}</p>}
             </InputContent>
             <InputContentDupo>
               <div>
@@ -192,9 +205,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   type="text"
                   placeholder="digite as horas"
                   required
-                  {...register("cargaSemanal", { required: true })}
+                  {...register("cargaSemanal")}
                 />
-                {errors.cargaSemanal && <p>{errors.cargaSemanal.message}</p>}
               </div>
               <div>
                 <label>Foto</label>
@@ -216,7 +228,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   <ContentSelect>
                     <label>Competência</label>
                     <input
-                      {...register(`competencia.${v}.id`, { required: true })}
+                      {...register(`competencia.${v}.id`)}
                       type="hidden"
                       value={v}
                     />
