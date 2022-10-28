@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
@@ -15,21 +16,39 @@ import {
 } from "./style";
 
 interface NewAdminModalProps {
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 export const adminInput = z.object({
   id: z.number(),
-  nome: z.string(),
-  nif: z.string(),
-  email: z.string(),
-  senha: z.string()
+  nome: z
+    .string()
+    .min(3, { message: "*** O Nome deve ser maior que 3 caracteres... " })
+    .max(36, { message: "*** O Nome deve ser menor que 36 caracteres... " }),
+  nif: z
+    .string()
+    .min(4, { message: "*** O NIF deve ser maior que 4 caracteres... " })
+    .max(8, { message: "*** O NIF deve ser menor que 8 caracteres... " }),
+  email: z
+    .string()
+    .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
+    .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
+  senha: z.string(),
 });
 
 export type AdminType = z.infer<typeof adminInput>;
 
-export function NewAdminModal({closeModal} : NewAdminModalProps) {
-  const { register, handleSubmit, reset } = useForm<AdminType>();
+export function NewAdminModal({ closeModal }: NewAdminModalProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<AdminType>({
+    resolver: zodResolver(adminInput),
+  });
+
+  console.log(errors);
 
   function handleCreateAdmin(data: AdminType) {
     handleCreateAdminAPI(data);
@@ -45,7 +64,7 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
       email: admin.email,
       senha: admin.email.slice(0, admin.email.search("@")),
       tipoUsuario: "ADMINISTRADOR",
-      ativo: true
+      ativo: true,
     });
 
     // console.log(res);
@@ -76,6 +95,7 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
                   {...register("nome")}
                   placeholder="Digite o nome"
                 />
+                {errors.nome && <p>{errors.nome.message}</p>}
               </div>
               <div>
                 <label>NIF</label>
@@ -84,6 +104,7 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
                   {...register("nif")}
                   placeholder="Digite o NIF"
                 />
+                {errors.nif && <p>{errors.nif.message}</p>}
               </div>
             </InputContentDupo>
 
@@ -94,6 +115,7 @@ export function NewAdminModal({closeModal} : NewAdminModalProps) {
                 {...register("email")}
                 placeholder="Digite o Email"
               />
+              {errors.email && <p>{errors.email.message}</p>}
             </InputContent>
           </InputContainer>
           <ContainerButtonCreate>
