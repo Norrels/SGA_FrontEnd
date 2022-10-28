@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { startOfWeek } from "date-fns";
-import { Plus, X } from "phosphor-react";
+import { Plus, Star, Trash, Upload, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -9,17 +9,18 @@ import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { Rating } from "./components/Rating";
 import {
-  CloseButton,
-  ContainerButtonCreate,
-  ContainerInputStar,
-  ContainerNewCompt,
+  ButtonNewCompetencia,
   Content,
-  ContentSelect,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
-  InputContentScroll,
-  NewCompt,
+  InputFile,
+  InputFileContent,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
+  NivelStars,
   Overlay,
 } from "./style";
 
@@ -170,106 +171,151 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   return (
     <Dialog.Portal>
       <Overlay />
-      <form onSubmit={handleSubmit(handleCreateNewTeacher)}>
-        <Content>
-          <CloseButton>
-            <X size={24} />
-          </CloseButton>
-
-          <Dialog.Title>Novo Professor</Dialog.Title>
-
-          <InputContainer>
-            <InputContent>
-              <label>Nome</label>
-              <input
-                type="text"
-                placeholder="digite o nome do professor"
-                required
-                {...register("nome")}
-              />
-              
-            </InputContent>
-            <InputContent>
-              <label>Email</label>
-              <input
-                type="email"
-                placeholder="digite o email do professor"
-                required
-                {...register("email")}
-              />
-            </InputContent>
-            <InputContentDupo>
-              <div>
-                <label>Carga horária Semanal</label>
+      <Content>
+        <ModalHeader>
+          <Dialog.Title>Novo professor</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form onSubmit={handleSubmit(handleCreateNewTeacher)}>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Nome</label>
                 <input
                   type="text"
-                  placeholder="digite as horas"
+                  placeholder="Digite o nome do professor"
                   required
-                  {...register("cargaSemanal")}
+                  {...register("nome")}
                 />
-              </div>
-              <div>
-                <label>Foto</label>
+                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Email</label>
                 <input
-                  type="file"
-                  id="file"
-                  multiple={false}
-                  accept="image/*"
-                  placeholder="envie uma foto do professor"
-                  onChange={uploadImage}
-                  // required
-                  // {...register("foto")}
+                  type="email"
+                  placeholder="Digite o email do professor"
+                  required
+                  {...register("email")}
                 />
-              </div>
-            </InputContentDupo>
-            <InputContentScroll>
-              {input.map((v) => (
-                <ContainerInputStar key={v}>
-                  <ContentSelect>
-                    <label>Competência</label>
-                    <input
-                      {...register(`competencia.${v}.id`)}
-                      type="hidden"
-                      value={v}
-                    />
-                    <select
-                      key={v}
-                      {...register(`competencia.${v}.unidadeCurricular.nome`)}
-                    >
-                      {unidadeCurricular.map((value) => (
-                        <option key={value.id} value={value.nome}>
-                          {value.nome}
-                        </option>
-                      ))}
-                    </select>
-                  </ContentSelect>
-                  <Rating
-                    {...register(`competencia.${v}.nivel`)}
-                    handleGetValue={handleGetValue}
-                    id={v}
+                {/* {errors.email && <p>{errors.email.message}</p>} */}
+              </InputContent>
+              <InputContent>
+                <InputIndividual>
+                  <label>Carga horária semanal</label>
+                  <input
+                    type="number"
+                    placeholder="Digite as horas"
+                    required
+                    {...register("cargaSemanal")}
                   />
-                </ContainerInputStar>
-              ))}
-            </InputContentScroll>
-            <ContainerNewCompt
-              onClick={(e) => {
-                setInput([...input, 1 + input.length]);
-              }}
-            >
-              <NewCompt>
-                <div>
-                  <Plus size={32} />
-                  <br />
-                  <span>Adicionar Competência</span>
-                </div>
-              </NewCompt>
-            </ContainerNewCompt>
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button>Criar</button>
-          </ContainerButtonCreate>
-        </Content>
-      </form>
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Foto</label>
+                  <InputFile>
+                    <InputFileContent>
+                      <span>Nome do arquivo...</span>
+                      <div>
+                        <Upload size={40} weight="light" />
+                      </div>
+                    </InputFileContent>
+                    <input
+                      type="file"
+                      id="file"
+                      multiple={false}
+                      accept="image/*"
+                      onChange={uploadImage}
+                      // required
+                      // {...register("foto")}
+                    />
+                  </InputFile>
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <InputIndividual>
+                  <label>Competência</label>
+                  <select>
+                    <option value="" selected disabled>
+                      Selecione uma unidade curricular
+                    </option>
+                    {unidadeCurricular.map((value) => (
+                      <option key={value.id} value={value.nome}>
+                        {value.nome}
+                      </option>
+                    ))}
+                  </select>
+                </InputIndividual>
+                <InputIndividual>
+                  <header>
+                    <label>Nível</label>
+                    {/* quando fizer a logica descomentar codigo abaixo :D */}
+                    {/* {index !== 0 ? <Trash size={24} /> : <></>} */}
+                  </header>
+                  <NivelStars>
+                    <Star size={37} weight="fill" />
+                    <Star size={37} weight="fill" />
+                    <Star size={37} weight="fill" />
+                    <Star size={37} weight="fill" />
+                    <Star size={37} weight="fill" />
+                  </NivelStars>
+                </InputIndividual>
+              </InputContent>
+              <ButtonNewCompetencia onClick={() => {}} type="button">
+                <Plus size={32} />
+                <p>Adicionar competência</p>
+              </ButtonNewCompetencia>
+              {/* <InputContentScroll>
+                {input.map((v) => (
+                  <ContainerInputStar key={v}>
+                    <ContentSelect>
+                      <label>Competência</label>
+                      <input
+                        {...register(`competencia.${v}.id`)}
+                        type="hidden"
+                        value={v}
+                      />
+                      <select
+                        key={v}
+                        {...register(`competencia.${v}.unidadeCurricular.nome`)}
+                      >
+                        {unidadeCurricular.map((value) => (
+                          <option key={value.id} value={value.nome}>
+                            {value.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </ContentSelect>
+                    <Rating
+                      {...register(`competencia.${v}.nivel`)}
+                      handleGetValue={handleGetValue}
+                      id={v}
+                    />
+                  </ContainerInputStar>
+                ))}
+              </InputContentScroll> */}
+              {/* <ContainerNewCompt
+                onClick={(e) => {
+                  setInput([...input, 1 + input.length]);
+                }}
+              >
+                <NewCompt>
+                  <div>
+                    <Plus size={32} />
+                    <br />
+                    <span>Adicionar Competência</span>
+                  </div>
+                </NewCompt>
+              </ContainerNewCompt> */}
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
+        </form>
+      </Content>
     </Dialog.Portal>
   );
 }

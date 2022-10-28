@@ -201,7 +201,7 @@ export const InputContent = styled.div`
     }
   }
   p {
-    color: #8D0000;
+    color: #8d0000;
   }
 `;
 

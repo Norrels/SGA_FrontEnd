@@ -9,17 +9,6 @@ const fadeIn = keyframes`
   } 
 `;
 
-const swipeRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px)
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  } 
-`;
-
 export const PlacesItemContainer = styled.article`
   width: 100%;
   padding: 2rem;

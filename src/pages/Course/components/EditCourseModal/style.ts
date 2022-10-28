@@ -151,9 +151,9 @@ export const InputContent = styled.div<DisabledProps>`
     flex-direction: row;
   }
 
-  &:nth-child(3) {
+  &:not(:has(svg)) {
     input[type="number"] {
-      width: 15rem;
+      width: 15rem !important;
     }
   }
 

@@ -148,7 +148,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index !== 0 ? (
+                    {index >= course.unidadeCurricular.length ? (
                       <Trash
                         size={40}
                         weight="light"

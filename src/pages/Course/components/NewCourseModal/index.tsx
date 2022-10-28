@@ -146,29 +146,32 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                 return (
                   <InputContent key={index}>
                     <InputIndividual>
+                      {/* aparecer a label apenas no primeiro componente, validar com o time */}
+                      {/* {index == 0 ? <label>Unidade Curricular</label> : <></>} */}
                       <label>Unidade Curricular</label>
                       <input
-                        {...register(`unidadeCurricular.${index}.nome`, {
-                          required: true,
-                        })}
                         type="text"
                         placeholder="Digite a unidade curricular"
                         required
+                        {...register(`unidadeCurricular.${index}.nome`, {
+                          required: true,
+                        })}
                       />
                       {errors.unidadeCurricular && (
                         <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
                       )}
                     </InputIndividual>
                     <InputIndividual>
-                      <label>Horas</label>
+                    {/* {index == 0 ? <label>Horas</label> : <></>} */}
+                    <label>Horas</label>
                       <input
+                        type="number"
+                        placeholder="Digite as horas"
+                        required
                         {...register(`unidadeCurricular.${index}.horas`, {
                           valueAsNumber: true,
                           required: true,
                         })}
-                        type="number"
-                        placeholder="Digite as horas"
-                        required
                       />
                       {errors.unidadeCurricular && (
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
