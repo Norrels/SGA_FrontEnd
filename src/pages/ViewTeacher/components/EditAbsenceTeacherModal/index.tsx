@@ -20,16 +20,14 @@ export function EditAbsenceTeacherModal() {
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => setEditable(false)}>
         <ModalHeader>
           <Dialog.Title>Inativação</Dialog.Title>
           <HeaderButtons>
             {!editable ? (
-              <NotePencil
-                onClick={() => setEditable(true)}
-                size={50}
-                weight="light"
-              />
+              <button onClick={() => setEditable(true)}>
+                <NotePencil size={50} weight="light" />
+              </button>
             ) : (
               <></>
             )}
@@ -70,7 +68,7 @@ export function EditAbsenceTeacherModal() {
               <input
                 type="date"
                 placeholder="dd/MM/yyyy"
-                disabled={!editable}
+                readOnly={!editable}
               />
             </InputIndividual>
             <InputIndividual>
@@ -78,7 +76,7 @@ export function EditAbsenceTeacherModal() {
               <input
                 type="date"
                 placeholder="dd/MM/yyyy"
-                disabled={!editable}
+                readOnly={!editable}
               />
             </InputIndividual>
           </InputContent>
@@ -88,7 +86,7 @@ export function EditAbsenceTeacherModal() {
               <input
                 type="text"
                 placeholder="Digite a descrição"
-                disabled={!editable}
+                readOnly={!editable}
               />
             </InputContent>
           ) : (

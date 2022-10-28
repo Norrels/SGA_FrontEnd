@@ -95,9 +95,10 @@ export const AbsenseItemButton = styled.div<ButtonProps>`
   cursor: pointer;
   background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
 
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 
   &:hover {
-    transform: scale(1.05);
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
   }
 `;

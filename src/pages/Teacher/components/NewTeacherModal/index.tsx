@@ -267,48 +267,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 <Plus size={32} />
                 <p>Adicionar competência</p>
               </ButtonNewCompetencia>
-              {/* <InputContentScroll>
-                {input.map((v) => (
-                  <ContainerInputStar key={v}>
-                    <ContentSelect>
-                      <label>Competência</label>
-                      <input
-                        {...register(`competencia.${v}.id`)}
-                        type="hidden"
-                        value={v}
-                      />
-                      <select
-                        key={v}
-                        {...register(`competencia.${v}.unidadeCurricular.nome`)}
-                      >
-                        {unidadeCurricular.map((value) => (
-                          <option key={value.id} value={value.nome}>
-                            {value.nome}
-                          </option>
-                        ))}
-                      </select>
-                    </ContentSelect>
-                    <Rating
-                      {...register(`competencia.${v}.nivel`)}
-                      handleGetValue={handleGetValue}
-                      id={v}
-                    />
-                  </ContainerInputStar>
-                ))}
-              </InputContentScroll> */}
-              {/* <ContainerNewCompt
-                onClick={(e) => {
-                  setInput([...input, 1 + input.length]);
-                }}
-              >
-                <NewCompt>
-                  <div>
-                    <Plus size={32} />
-                    <br />
-                    <span>Adicionar Competência</span>
-                  </div>
-                </NewCompt>
-              </ContainerNewCompt> */}
               <FinalButton>
                 <button>Criar</button>
               </FinalButton>
