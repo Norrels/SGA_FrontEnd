@@ -88,7 +88,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
           />
           <InputScroll>
             <InputContainer>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label>Nome</label>
                 <input
                   type="text"
@@ -100,15 +100,12 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
-              <InputContent>
+              <InputContent disabled={!editable ? "disabled" : "on"}>
                 <label>Tipo</label>
                 <select
                   defaultValue={course.tipoCurso}
                   {...register("tipoCurso", { required: true })}
                 >
-                  <option value="" selected disabled>
-                    Selecione o tipo do ambiente
-                  </option>
                   <option value="FIC">FIC</option>
                   <option value="REGULAR">Regular</option>
                 </select>
@@ -116,7 +113,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
               </InputContent>
               {fields.map((field, index) => {
                 return (
-                  <InputContent key={index}>
+                  <InputContent key={index} disabled={"on"}>
                     <InputIndividual>
                       <label>Unidade Curricular</label>
                       <input
@@ -160,24 +157,38 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                     ) : (
                       <></>
                     )}
+                    <input
+                      type="hidden"
+                      value={course.id}
+                      {...register("id", { valueAsNumber: true })}
+                    />
                   </InputContent>
                 );
               })}
-              <ButtonNewUnidadeCurricular
-                onClick={() => {
-                  append({
-                    nome: "",
-                    horas: 6,
-                  });
-                }}
-                type="button"
-              >
-                <Plus size={32} />
-                <p>Adicionar unidade curricular</p>
-              </ButtonNewUnidadeCurricular>
-              <FinalButton>
-                <button>Criar</button>
-              </FinalButton>
+              {editable ? (
+                <ButtonNewUnidadeCurricular
+                  onClick={() => {
+                    append({
+                      nome: "",
+                      horas: 6,
+                    });
+                  }}
+                  type="button"
+                >
+                  <Plus size={32} />
+                  <p>Adicionar unidade curricular</p>
+                </ButtonNewUnidadeCurricular>
+              ) : (
+                <></>
+              )}
+
+              {editable ? (
+                <FinalButton>
+                  <button>Editar</button>
+                </FinalButton>
+              ) : (
+                <></>
+              )}
             </InputContainer>
           </InputScroll>
         </form>

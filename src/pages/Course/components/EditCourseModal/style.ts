@@ -141,7 +141,7 @@ interface DisabledProps {
   disabled: keyof typeof DISABLED;
 }
 
-export const InputContent = styled.div`
+export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: left;
   flex-direction: column;
@@ -179,13 +179,13 @@ export const InputContent = styled.div`
     transition-duration: 0.15s;
 
     // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
-    &:focus {
+    &:focus:not(:read-only) {
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
     }
   }
 
-  input {
+  input:not([type="hidden"]) {
     &:read-only {
       background-color: #efefef;
       color: rgba(109, 109, 109, 0.5);
@@ -199,16 +199,18 @@ export const InputContent = styled.div`
       background-color: ${(props) => props.theme["white"]};
     }
   }
+
   select {
-    &:disabled {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
+    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
+
+    &:focus {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
     }
   }
+
   svg {
     margin-top: 3.7rem;
     transition-duration: 0.2s;
@@ -217,6 +219,7 @@ export const InputContent = styled.div`
       cursor: pointer;
     }
   }
+
   p {
     color: #8d0000;
   }
@@ -253,9 +256,7 @@ export const InputIndividual = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
-  }
 
-  input {
     &:read-only {
       background-color: #efefef;
       color: rgba(109, 109, 109, 0.5);
@@ -267,16 +268,6 @@ export const InputIndividual = styled.div`
     &:disabled {
       opacity: 30%;
       background-color: ${(props) => props.theme["white"]};
-    }
-  }
-  select {
-    &:disabled {
-      background-color: #e2e2e2;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
     }
   }
 
