@@ -1,7 +1,6 @@
 import { Place } from "./components/PlacesItem";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
-  Load,
   PlacesButtonContainer,
   PlacesContainer,
   PlacesContent,
@@ -21,11 +20,11 @@ export function Places() {
   const [open, setOpen] = useState(false);
   const [animation, setAnimation] = useState(true);
 
-  let animationDelay = 2.5;
+  /* let animationDelay = 1;
 
   if (!animation) {
     animationDelay = 0;
-  }
+  } */
 
   function closeModal() {
     setOpen(false);
@@ -55,9 +54,6 @@ export function Places() {
 
   return (
     <PlacesContainer>
-      <Load>
-        <img src={Engrenagem}/>
-      </Load>
       <PlacesContent>
         <PlacesTitleContainer>
           <h1>Ambientes</h1>
@@ -87,7 +83,7 @@ export function Places() {
         <PlacesList>
           {placeMatchs.map(
             (place) =>
-              place.ativo === true && <Place key={place.id} placeItem={place} placeAnimationDelay={animationDelay+=0.2}  />
+              place.ativo === true && <Place key={place.id} placeItem={place} /* placeAnimationDelay={animationDelay+=0.2} */  />
           )}
         </PlacesList>
       </PlacesContent>

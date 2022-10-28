@@ -35,7 +35,7 @@ export const PlacesItemContainer = styled.article`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
   opacity: 0;
-  animation: ${swipeRight} 1s ease-in-out forwards;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
 export const PlacesItemInfoContainer = styled.div`

@@ -9,34 +9,6 @@ const fadeIn = keyframes`
   } 
 `;
 
-const swipeRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px)
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  } 
-`;
-
-const load = keyframes`
-  20% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-
-  80% {
-    opacity: 1;
-    transform: scale(1) rotate(360deg);
-  }
-
-  100% {
-    transform: scale(0) rotate(360deg);
-    opacity: 0;
-  }
-`;
-
 export const CourseContainer = styled.main`
   width: 100%;
   display: flex;
@@ -71,7 +43,7 @@ export const CourseContent = styled.div`
     }
 
     opacity: 0;
-    animation: ${swipeRight} 1s 2.5s ease-in-out forwards;
+    animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
   }
 `;
 
@@ -82,6 +54,9 @@ export const CourseTitleContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 
   h1 {
     width: 100%;
@@ -105,9 +80,6 @@ export const CourseTitleContainer = styled.div`
 
     text-align: center;
   }
-
-  opacity: 0;
-  animation: ${swipeRight} 1s 2.3s ease-in-out forwards;
 `;
 
 export const CourseButtonContainer = styled.div`
@@ -140,4 +112,7 @@ export const CourseButtonContainer = styled.div`
 export const CourseList = styled.section`
   margin-top: 2rem;
   margin-bottom: 3rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
 `;

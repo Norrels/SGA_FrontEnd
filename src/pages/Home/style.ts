@@ -1,4 +1,39 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const load = keyframes`
+  20% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+
+  80% {
+    opacity: 1;
+    transform: scale(1) rotate(360deg);
+  }
+
+  100% {
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+`;
+
+export const Load = styled.div`
+  width: 270px;
+  height: 270px;
+  margin: 240px auto 0 auto;
+
+  position: absolute;
+
+  z-index: 1;
+
+  img {
+    width: 100%;
+  }
+
+  opacity: 0;
+  transform: scale(0.5);
+  animation: ${load} 2s ease-in-out forwards;
+`;
 
 
 export const HomeContainer = styled.main`

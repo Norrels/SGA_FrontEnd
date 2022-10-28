@@ -9,52 +9,6 @@ const fadeIn = keyframes`
   } 
 `;
 
-const swipeRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px)
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  } 
-`;
-
-const load = keyframes`
-  20% {
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
-  }
-
-  80% {
-    opacity: 1;
-    transform: scale(1) rotate(360deg);
-  }
-
-  100% {
-    transform: scale(0) rotate(360deg);
-    opacity: 0;
-  }
-`;
-
-export const Load = styled.div`
-  width: 270px;
-  height: 270px;
-  margin: 240px auto 0 auto;
-
-  position: absolute;
-
-  z-index: 1;
-
-  img {
-    width: 100%;
-  }
-
-  opacity: 0;
-  transform: scale(0.5);
-  animation: ${load} 2s ease-in-out forwards;
-`;
-
 export const PlacesContainer = styled.main`
   width: 100%;
 
@@ -69,9 +23,6 @@ export const PlacesContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  opacity: 0;
-  animation: ${fadeIn} 1s 2.1s ease-in-out forwards;
 
   input {
     height: 3.75rem;
@@ -93,7 +44,7 @@ export const PlacesContent = styled.div`
     }
 
     opacity: 0;
-    animation: ${swipeRight} 1s 2.5s ease-in-out forwards;
+    animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
   }
 `;
 
@@ -104,6 +55,9 @@ export const PlacesTitleContainer = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 
   h1 {
     width: 100%;
@@ -127,9 +81,6 @@ export const PlacesTitleContainer = styled.section`
 
     text-align: center;
   }
-
-  opacity: 0;
-  animation: ${swipeRight} 1s 2.3s ease-in-out forwards;
 `;
 
 export const PlacesButtonContainer = styled.div`
@@ -169,4 +120,7 @@ export const PlacesButtonContainer = styled.div`
 export const PlacesList = styled.section`
   margin-top: 2rem;
   margin-bottom: 3rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
 `;
