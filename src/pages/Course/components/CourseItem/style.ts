@@ -9,17 +9,6 @@ const fadeIn = keyframes`
   } 
 `;
 
-const swipeRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-50px)
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0)
-  } 
-`;
-
 export const CourseItemContainer = styled.article`
   width: 100%;
   padding: 2rem;
@@ -35,7 +24,7 @@ export const CourseItemContainer = styled.article`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
   opacity: 0;
-  animation: ${swipeRight} 1s ease-in-out forwards;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
 export const CourseItemInfoContainer = styled.div`

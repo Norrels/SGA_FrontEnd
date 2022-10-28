@@ -8,9 +8,11 @@ import {
   HomeContainer,
   HomeContent,
   HomeTitleContainer,
+  Load,
 } from "./style";
 import { addDays, eachDayOfInterval, nextDay, previousDay, startOfWeek } from "date-fns";
 import { useState } from "react";
+import Engrenagem from "../../assets/engrenagem.svg";
 
 
 export function Home() {
@@ -47,6 +49,9 @@ export function Home() {
 
   return (
     <HomeContainer>
+      {/* <Load>
+        <img src={Engrenagem}/>
+      </Load> */}
       <HomeContent>
         <HomeTitleContainer>
           <h1>Bem Vindo</h1>

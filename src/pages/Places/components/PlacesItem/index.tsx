@@ -20,14 +20,12 @@ import {
 
 interface PlacesProps {
   placeItem: PlaceProps;
-  placeAnimationDelay: number;
+  /* placeAnimationDelay: number; */
 }
 
-export function Place({ placeItem, placeAnimationDelay }: PlacesProps) {
+export function Place({ placeItem, /* placeAnimationDelay */ }: PlacesProps) {
   const { deletePlace } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
-
-  
 
   function closeModal() {
     setOpen(false);
@@ -35,9 +33,9 @@ export function Place({ placeItem, placeAnimationDelay }: PlacesProps) {
 
   return (
     <PlacesItemContainer
-      style={{
+      /* style={{
         animationDelay: `${placeAnimationDelay}s `,
-      }}
+      }} */
     >
       <PlacesItemInfoContainer>
         <PlacesItemIcon>
