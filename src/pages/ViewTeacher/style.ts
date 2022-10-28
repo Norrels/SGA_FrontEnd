@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const Main = styled.main`
   width: 70rem;
@@ -12,6 +21,9 @@ export const TeacherMain = styled.div`
   flex-direction: row;
   align-items: top;
   justify-content: space-between;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
 export const TeacherMainProfile = styled.div`
@@ -37,12 +49,12 @@ export const TeacherProfileContent = styled.div`
 `;
 
 const DISPONIBILIDADE = {
-  emAula: 'blue-300',
-  livre: 'blue-500'
-} as const
+  emAula: "blue-300",
+  livre: "blue-500",
+} as const;
 
 interface DisponibilidadeProps {
-  disponibilidade: keyof typeof DISPONIBILIDADE
+  disponibilidade: keyof typeof DISPONIBILIDADE;
 }
 
 export const TeacherProfileLeft = styled.div<DisponibilidadeProps>`
@@ -60,15 +72,15 @@ export const TeacherProfileLeft = styled.div<DisponibilidadeProps>`
   }
 
   span {
-    background-color: ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]}
+    background-color: ${(props) =>
+      props.theme[DISPONIBILIDADE[props.disponibilidade]]};
   }
 
   img {
-    border: 5px solid ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
+    border: 5px solid
+      ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
   }
 `;
-
-
 
 export const TeacherProfileLeftPhoto = styled.div`
   display: flex;
@@ -115,7 +127,7 @@ export const TeacherProfileSkills = styled.div`
     color: ${(props) => props.theme["gray-700"]};
   }
 
-  p{
+  p {
     width: 40%;
     display: inline-block;
     white-space: nowrap;
@@ -176,6 +188,9 @@ export const Absense = styled.div`
       font-weight: 500;
       color: ${(props) => props.theme["sub-title"]};
     }
+
+    opacity: 0;
+    animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
   }
 `;
 
@@ -183,4 +198,7 @@ export const AbsenseList = styled.div`
   width: 70rem;
   margin-top: 2rem;
   margin-bottom: 3rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
 `;

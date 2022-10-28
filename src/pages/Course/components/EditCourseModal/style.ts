@@ -193,22 +193,12 @@ export const InputContent = styled.div<DisabledProps>`
         color: rgba(109, 109, 109, 0.5);
       }
     }
-
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
-    }
   }
 
   select {
     color: ${(props) => props.theme[DISABLED[props.disabled].color]};
     pointer-events: ${(props) => [DISABLED[props.disabled].display]};
     background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
-
-    &:focus {
-      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
-      transform: translateY(-5px);
-    }
   }
 
   svg {
@@ -265,9 +255,9 @@ export const InputIndividual = styled.div`
       }
     }
 
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
+    &:focus:not(:read-only) {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
     }
   }
 
@@ -316,7 +306,3 @@ export const FinalButton = styled.div`
     font-weight: bold;
   }
 `;
-
-/* color: ${(props) => props.theme[DISABLED[props.disabled].color]};
-    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
-    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]}; */

@@ -1,5 +1,25 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
@@ -9,6 +29,7 @@ export const Overlay = styled(Dialog.Overlay)`
   inset: 0;
 
   background: rgba(0, 0, 0, 0.4);
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(Dialog.Content)`
@@ -28,6 +49,9 @@ export const Content = styled(Dialog.Content)`
   background: ${(props) => props.theme["white"]};
   transform: translate(-50%, -50%);
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
 `;
 
 export const ModalHeader = styled.div`
@@ -58,6 +82,12 @@ export const HeaderButtons = styled.div`
     background: none;
     border: none;
     margin-left: 20px;
+
+    transition-duration: 0.3s;
+
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 
   svg {
@@ -119,11 +149,19 @@ export const InputContent = styled.div`
       font-size: 1.1rem;
       color: ${(props) => props.theme["gray-700"]};
 
-      &:disabled {
+      transition-duration: 0.15s;
+
+      &:read-only {
         background-color: #efefef;
+        color: rgba(109, 109, 109, 0.5);
         &::placeholder {
           color: rgba(109, 109, 109, 0.5);
         }
+      }
+
+      &:focus:not(:read-only) {
+        box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+        transform: translateY(-5px);
       }
     }
   }
@@ -154,9 +192,19 @@ export const InputIndividual = styled.div`
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
 
-    &:disabled {
-      color: rgba(109, 109, 109, 0.5);
+    transition-duration: 0.15s;
+
+    &:read-only {
       background-color: #efefef;
+      color: rgba(109, 109, 109, 0.5);
+      &::placeholder {
+        color: rgba(109, 109, 109, 0.5);
+      }
+    }
+    
+    &:focus:not(:read-only) {
+      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
     }
   }
 `;
