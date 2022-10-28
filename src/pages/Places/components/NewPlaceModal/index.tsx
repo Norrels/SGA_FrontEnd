@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, X } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
@@ -40,12 +41,11 @@ interface NewPlaceModalProps {
 }
 
 export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
-  const { register, handleSubmit, reset } = useForm<NewPlaceType>();
+  const { register, handleSubmit, reset, formState: { errors }, setValue, watch } = useForm<NewPlaceType>({resolver: zodResolver(newPlaceModalInput)});
   const { createPlacesAPI } = useContext(ObjectsContext);
   const [tipoAmbiente, setTipoAmbiente] = useState("");
 
   function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
-    console.log(event.target.value);
     setTipoAmbiente(event.target.value);
   }
 
@@ -56,6 +56,13 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     closeModal();
   }
 
+  function switched(unidade: string){
+
+    setValue("capacidade", 0, {shouldValidate: true})
+  }
+
+  console.log(errors)
+  console.log(watch())
   return (
     <Dialog.Portal>
       <Overlay />
@@ -78,6 +85,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   placeholder="Digite o nome do ambiente"
                   {...register("nome")}
                 />
+                {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
               <InputContent>
                 <label>Tipo</label>
@@ -85,8 +93,9 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   placeholder="Selecione o tipo do ambiente"
                   {...register("tipoAmbiente")}
                   onChange={handleSelectTipoAmbiente}
+                  defaultValue=""
                 >
-                  <option selected disabled>
+                  <option value="" disabled>
                     Selecione o tipo do ambiente
                   </option>
                   <option value="UNIDADE_MOVEL">Unidade Movel</option>
@@ -108,9 +117,9 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     Capacidade
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Digite a capacidade"
-                    {...register("capacidade")}
+                    {...register("capacidade", {value: 0})}
                     disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
                   />
                 </InputIndividual>
@@ -167,6 +176,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   type="text"
                   placeholder="Digite o complemento"
                   {...register("complemento")}
+                  
                   disabled={
                     tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
                   }
@@ -174,7 +184,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
               </InputContent>
 
               <FinalButton>
-                <button>Criar</button>
+                <button onClick={() => switched}>Criar</button>
               </FinalButton>
             </InputContainer>
           </InputScroll>
