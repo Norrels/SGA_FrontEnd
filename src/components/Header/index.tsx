@@ -14,7 +14,7 @@ import {
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
-import { EditUserModal } from "./components/EditUserModal";
+import { EditUserModal } from "./components/EditProfileModal";
 import { useState } from "react";
 
 export function Header() {
@@ -90,7 +90,7 @@ export function Header() {
                 </HeaderNavMenuArrow>
 
                 <HeaderNavMenuItem onClick={closeAulas}>
-                  <HeaderEditUserButton>Editar Perfil</HeaderEditUserButton>
+                  <HeaderEditUserButton>Seu perfil</HeaderEditUserButton>
 
                 </HeaderNavMenuItem>
                 <HeaderNavMenuItem>
