@@ -126,19 +126,14 @@ export const InputContainer = styled.div`
 
 export const InputContent = styled.div`
   display: flex;
-  justify-content: left;
-  flex-direction: column;
-  gap: 0.625rem;
+  justify-content: space-between;
 
-  &:not(:nth-child(1), :nth-child(2)) {
+  &:nth-child(2) {
     flex-direction: row;
   }
 
-  &:nth-child(3) {
-    input[type="number"] {
-      width: 15rem;
-    }
-  }
+  flex-direction: column;
+  gap: 0.625rem;
 
   label {
     font-weight: 800;
@@ -146,8 +141,7 @@ export const InputContent = styled.div`
     color: ${(props) => props.theme["gray-700"]};
   }
 
-  input,
-  select {
+  input {
     height: 5.313rem;
     padding: 1.25rem;
 
@@ -166,9 +160,7 @@ export const InputContent = styled.div`
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
     }
-  }
 
-  input {
     &:read-only {
       background-color: #efefef;
       color: rgba(109, 109, 109, 0.5);
@@ -182,42 +174,14 @@ export const InputContent = styled.div`
       background-color: ${(props) => props.theme["white"]};
     }
   }
-  select {
-    &:disabled {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
-  }
-  svg {
-    margin-top: 3.7rem;
-    transition-duration: 0.2s;
-    &:hover {
-      color: ${(props) => props.theme["blue-300"]};
-      cursor: pointer;
-    }
-  }
-  p {
-    color: #8d0000;
-  }
 `;
 
 export const InputIndividual = styled.div`
+  width: 280px;
   display: flex;
   flex-direction: column;
   align-items: left;
   gap: 0.625rem;
-
-  &:first-child {
-    width: 21.25rem !important;
-  }
-
-  &:nth-child(2) {
-    width: 11.875rem;
-  }
 
   label {
     font-weight: 800;
@@ -251,45 +215,6 @@ export const InputIndividual = styled.div`
       opacity: 30%;
       background-color: ${(props) => props.theme["white"]};
     }
-  }
-  select {
-    &:disabled {
-      background-color: #e2e2e2;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
-  }
-
-  p {
-    color: ${(props) => props.theme["blue-300"]};
-  }
-`;
-
-export const ButtonNewUnidadeCurricular = styled.button`
-  width: 100%;
-  padding: 0.625rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  gap: 0.625rem;
-
-  outline: none;
-  background: transparent;
-
-  border: none;
-  background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='8' ry='8' stroke='gray' stroke-width='4' stroke-dasharray='15 ' stroke-dashoffset='48' stroke-linecap='square'/%3e%3c/svg%3e");
-  border-radius: 8px;
-
-  p {
-    font-weight: 700;
-    font-size: 18px;
-    color: ${(props) => props.theme["gray-500"]};
   }
 `;
 

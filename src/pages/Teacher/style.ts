@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const TeacherContainer = styled.main`
   width: 100%;
@@ -33,6 +42,9 @@ export const TeacherContent = styled.div`
       font-weight: 500;
       color: ${(props) => props.theme["sub-title"]};
     }
+
+    opacity: 0;
+    animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
   }
 `;
 
@@ -44,22 +56,30 @@ export const TeacherTitleContainer = styled.section`
   align-items: center;
   flex-direction: column;
 
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
+
   h1 {
+    width: 100%;
     margin: 0.5rem;
 
     font-size: 2.813rem;
     font-weight: 800;
-    
-    background: linear-gradient(90deg, #0F62AB 38.16%, #0031B0 38.16%, #25B5E9 64.48%);
+    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+
+    text-align: center;
   }
 
   p {
+    width: 100%;
     font-size: 1.125rem;
     font-weight: 800;
     color: ${(props) => props.theme["sub-title"]};
+
+    text-align: center;
   }
 `;
 
@@ -70,20 +90,41 @@ export const TeacherButtonContainer = styled.div`
   gap: 2rem;
 
   button {
-    width: 12.75rem;
+    width: 12.5rem;
     height: 3.75rem;
 
     border: none;
     border-radius: 8px;
-    background-color: ${(props) => props.theme["blue-500"]};
 
     color: ${(props) => props.theme["white"]};
     font-size: 1.125rem;
     font-weight: bold;
+
+    transition-duration: 0.3s;
+
+    &:first-child {
+      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+    }
+
+    &:nth-child(2) {
+      background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    }
+
+    &:last-child {
+      background: linear-gradient(180deg, #367FBF 0%, #0031B0 100%);
+    }
+
+    &:hover {
+      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
   }
 `;
 
 export const TeacherList = styled.section`
   margin-top: 2rem;
   margin-bottom: 3rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
 `;

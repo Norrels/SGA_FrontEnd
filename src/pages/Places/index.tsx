@@ -7,7 +7,6 @@ import {
   PlacesList,
   PlacesTitleContainer,
 } from "./style";
-import Engrenagem from "../../assets/engrenagem.svg";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
@@ -76,8 +75,8 @@ export function Places() {
         </PlacesTitleContainer>
         <input
           type="text"
-          onChange={(e) => searchPlace(e.target.value)}
           placeholder="Buscar por ambiente"
+          onChange={(e) => searchPlace(e.target.value)}
         />
 
         <PlacesList>

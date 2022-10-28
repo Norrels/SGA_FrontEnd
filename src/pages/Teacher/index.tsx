@@ -55,7 +55,6 @@ export function Teacher() {
               <Dialog.Trigger asChild>
                 <button>Novo professor</button>
               </Dialog.Trigger>
-
               <NewTeacherModal closeModal={closeModal} />
             </Dialog.Root>
 
@@ -63,7 +62,6 @@ export function Teacher() {
               <Dialog.Trigger asChild>
                 <button>Disponibilidade</button>
               </Dialog.Trigger>
-
               <AvaliableModal />
             </Dialog.Root>
 
@@ -76,12 +74,16 @@ export function Teacher() {
           </TeacherButtonContainer>
         </TeacherTitleContainer>
 
-        <input type="text" placeholder="Buscar por professor" onChange={(v) => searchTeacher(v.target.value)} />
+        <input
+          type="text"
+          placeholder="Buscar por professor"
+          onChange={(v) => searchTeacher(v.target.value)}
+        />
 
         <TeacherList>
           {teachersMatch.map((teacher) => {
             if (teacher.ativo) {
-              return <TeacherItem key={teacher.id} teacherItem={teacher}/>
+              return <TeacherItem key={teacher.id} teacherItem={teacher} />;
             }
           })}
         </TeacherList>
