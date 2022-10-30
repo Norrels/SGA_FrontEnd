@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { z } from "zod";
 
 import {
@@ -34,6 +34,19 @@ export type CourseType = z.infer<typeof courseInput>;
 export function CourseItem({ course }: NewCouserModalProps) {
   const { deleteCourse } = useContext(ObjectsContext);
 
+  useEffect(() => {
+  }, [course]);
+
+  const cargaHoraria = course.unidadeCurricular.reduce(
+    (acc, unidades) => {
+      acc.total += unidades.horas;
+      return acc;
+    },
+    {
+      total: 0,
+    }
+  );
+
   async function handleCourse(id: number) {
     deleteCourse(id);
   }
@@ -58,8 +71,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
           </ItemInfoContentHeader>
 
           <p>
-            Carga horária:{" "}
-            <span>{/* {course.unidadeCurricular.horas} */}h</span>
+            Carga horária: <span>{cargaHoraria.total + "h"}</span>
           </p>
         </CourseItemInfoContent>
       </CourseItemInfoContainer>

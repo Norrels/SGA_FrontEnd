@@ -128,7 +128,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const { createPlacesAPI } = useContext(ObjectsContext);
@@ -156,8 +155,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     reset();
     closeModal();
   }
-
-  console.log(cep);
 
   async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
     const ceps = e.target.value.replace(/_/g, "").replace("-", "");

@@ -26,7 +26,7 @@ export const coursesInputs = z.object({
   id: z.number(),
   nome: z
     .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .max(30, { message: "* O nome não deve ter mais de 30 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipoCurso: z.enum(["FIC", "REGULAR"]),
   ativo: z.boolean().optional(),
@@ -35,7 +35,7 @@ export const coursesInputs = z.object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+        .max(30, { message: "* O nome não deve ter mais de 30 caracteres..." })
         .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
         .number({ invalid_type_error: "" })
@@ -82,8 +82,6 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
       required: "O curso deve ter pelo menos uma unidade curricular",
     },
   });
-
-  console.log(errors);
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
@@ -133,8 +131,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               </InputContent>
               <InputContent>
                 <label>Tipo</label>
-                <select {...register("tipoCurso", { required: true })}>
-                  <option value="" selected disabled>
+                <select {...register("tipoCurso", { required: true })} defaultValue={""}>
+                  <option value="" disabled>
                     Selecione o tipo do ambiente
                   </option>
                   <option value="FIC">FIC</option>

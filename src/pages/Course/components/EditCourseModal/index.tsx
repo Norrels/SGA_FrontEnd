@@ -67,12 +67,10 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
         <ModalHeader>
           <Dialog.Title>{!editable ? "Curso" : "Editar curso"}</Dialog.Title>
           <HeaderButtons>
-            {!editable ? (
+            {!editable && (
               <button onClick={() => setEditable(true)}>
                 <NotePencil size={50} weight="light" />
               </button>
-            ) : (
-              <></>
             )}
             <Dialog.Close>
               <X size={50} weight="light" onClick={() => reset()} />
@@ -83,7 +81,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
         <form onSubmit={handleSubmit(handleUpdateCourse)}>
           <input
             type="hidden"
-            value={0}
+            value={course.id}
             {...register("id", { valueAsNumber: true })}
           />
           <InputScroll>
@@ -120,12 +118,8 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         type="text"
                         placeholder="Digite a unidade curricular"
                         required
-                        {...register(`unidadeCurricular.${index}.id`, {
-                          value:
-                            course.unidadeCurricular[index]?.id == undefined
-                              ? null
-                              : course.unidadeCurricular[index].id,
-                        })}
+                        defaultValue={course.unidadeCurricular[index]?.nome}
+                        {...register(`unidadeCurricular.${index}.nome`)}
                         readOnly={!editable}
                       />
                       {errors.unidadeCurricular && (
@@ -148,19 +142,18 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index >= course.unidadeCurricular.length ? (
+                    {index >= course.unidadeCurricular.length && 
                       <Trash
                         size={40}
                         weight="light"
                         onClick={() => remove(index)}
                       />
-                    ) : (
-                      <></>
-                    )}
+                    }
                     <input
                       type="hidden"
-                      value={course.id}
-                      {...register("id", { valueAsNumber: true })}
+                      {...register(`unidadeCurricular.${index}.id`, {
+                        value: course.unidadeCurricular[index]?.id == undefined ? null : course.unidadeCurricular[index].id,
+                      })}
                     />
                   </InputContent>
                 );
