@@ -111,7 +111,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
               </InputContent>
               {fields.map((field, index) => {
                 return (
-                  <InputContent key={index} disabled={"on"}>
+                  <InputContent key={field.id} disabled={"on"}>
                     <InputIndividual>
                       <label>Unidade Curricular</label>
                       <input
