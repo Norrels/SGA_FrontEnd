@@ -142,7 +142,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               </InputContent>
               {fields.map((field, index) => {
                 return (
-                  <InputContent key={index}>
+                  <InputContent key={field.id}>
                     <InputIndividual>
                       {/* aparecer a label apenas no primeiro componente, validar com o time */}
                       {/* {index == 0 ? <label>Unidade Curricular</label> : <></>} */}

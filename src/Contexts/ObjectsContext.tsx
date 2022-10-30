@@ -7,19 +7,17 @@ interface ObjectsContextProviderProps {
 }
 
 export interface TeacherProps {
-  id: number;
+  id?: number;
   nome: string;
   cargaSemanal: number;
-  ativo: boolean;
+  ativo?: boolean;
   foto?: string;
   email: string;
   competencia: {
-    id: number;
     nivel: number;
     unidadeCurricular: {
       id: number;
       nome: string;
-      horas: number;
     }
   }[];
 }
@@ -101,6 +99,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   }
 
   async function createPlacesAPI(data: NewPlaceType) {
+    
     const res = await API.post("ambiente", data);
     if (res.status == 200) {
       data.id = res.data[1]
