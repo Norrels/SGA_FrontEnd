@@ -4,9 +4,9 @@ import { useContext, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import {
   ObjectsContext,
-  PlaceProps,
 } from "../../../../Contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
+import { NewPlaceType } from "../NewPlaceModal";
 import {
   ItemInfoContentHeader,
   PlaceInfoType,
@@ -19,11 +19,11 @@ import {
 } from "./style";
 
 interface PlacesProps {
-  placeItem: PlaceProps;
+  placeItem: NewPlaceType;
   /* placeAnimationDelay: number; */
 }
 
-export function Place({ placeItem, /* placeAnimationDelay */ }: PlacesProps) {
+export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
   const { deletePlace } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
 
@@ -33,7 +33,7 @@ export function Place({ placeItem, /* placeAnimationDelay */ }: PlacesProps) {
 
   return (
     <PlacesItemContainer
-      /* style={{
+    /* style={{
         animationDelay: `${placeAnimationDelay}s `,
       }} */
     >
@@ -51,10 +51,11 @@ export function Place({ placeItem, /* placeAnimationDelay */ }: PlacesProps) {
                 : placeItem?.tipoAmbiente?.toLowerCase()}
             </PlaceInfoType>
           </ItemInfoContentHeader>
-
-          <p>
-            Quantidade de pessoas: <span>{placeItem.capacidade}</span>
-          </p>
+          {placeItem.tipoAmbiente !== "REMOTO" && (
+            <p>
+              Quantidade de pessoas: <span>{placeItem.capacidade}</span>
+            </p>
+          )}
         </PlacesItemInfoContent>
       </PlacesItemInfoContainer>
 
@@ -71,14 +72,14 @@ export function Place({ placeItem, /* placeAnimationDelay */ }: PlacesProps) {
               <DotsThree color="#fff" size={32} />
             </PlacesItemButton>
           </Dialog.Trigger>
-          <EditPlaceModal place={placeItem} closeModal={closeModal}  />
+          <EditPlaceModal place={placeItem} closeModal={closeModal} />
         </Dialog.Root>
 
         <PlacesItemButton buttonColor="delete">
           <Trash
             color="#fff"
             size={26}
-            onClick={() => deletePlace(placeItem.id)}
+            onClick={() => deletePlace(placeItem.id!)}
           />
         </PlacesItemButton>
       </PlacesItemButtonContainer>

@@ -8,14 +8,14 @@ import {
   PlacesTitleContainer,
 } from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
-import { NewPlaceModal } from "./components/NewPlaceModal";
+import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
-import { ObjectsContext, PlaceProps } from "../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Places() {
   const { placesList } = useContext(ObjectsContext)
-  const [placeMatchs, setPlaceMatchs] = useState<PlaceProps[]>([]);
+  const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [animation, setAnimation] = useState(true);
 

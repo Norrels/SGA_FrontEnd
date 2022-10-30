@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { API } from "../lib/axios";
+import { NewPlaceType } from "../pages/Places/components/NewPlaceModal";
 
 interface ObjectsContextProviderProps {
   children: ReactNode;
@@ -59,17 +60,17 @@ interface CurricularUnit {
 interface ObjectsContextType {
   teachers: TeacherProps[]
   courses: CourseProps[]
-  placesList: PlaceProps[]
+  placesList: NewPlaceType[]
   curricularUnit: CurricularUnit[]
   deleteTeacher: (id : number) => void
   deleteCourse: (id: number) => void
   deletePlace: (id: number) => void
   updateTeaches: (data: TeacherProps) => void
-  updatePlaces: (data: PlaceProps) => void
+  updatePlaces: (data: NewPlaceType) => void
   updateCourses: (data: CourseProps) => void
   createTeacherAPI: (data: TeacherProps) => void
   createCourseAPI: (data: CourseProps) => void
-  createPlacesAPI: (data: PlaceProps) => void
+  createPlacesAPI: (data: NewPlaceType) => void
 }
 
 export const ObjectsContext = createContext({} as ObjectsContextType)
@@ -85,7 +86,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
 
   const [teachers, setTeachers] = useState<TeacherProps[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
-  const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
+  const [placesList, setPlacesList] = useState<NewPlaceType[]>([]);
   const [curricularUnit, setCurricularUnit] = useState<CurricularUnit[]>([]);
 
   async function fetchTeachers() {
@@ -109,7 +110,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function createPlacesAPI(data: PlaceProps) {
+  async function createPlacesAPI(data: NewPlaceType) {
     const res = await API.post("ambiente", data);
     if (res.status == 200) {
       data.id = res.data[1]
@@ -179,7 +180,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function updatePlaces(data: PlaceProps) {
+  async function updatePlaces(data: NewPlaceType) {
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true
     const res = await API.put(`/ambiente/${data.id}`, data);

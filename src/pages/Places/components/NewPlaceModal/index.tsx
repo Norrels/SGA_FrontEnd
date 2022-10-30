@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Plus, X } from "phosphor-react";
+import { X } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import InputMask from "react-input-mask";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import {
@@ -17,52 +18,157 @@ import {
   Overlay,
 } from "./style";
 
-const newPlaceModalInput = z.object({
-  id: z.number(),
-  nome: z.string(),
-  capacidade: z.number(),
-  tipoAmbiente: z.enum([
-    "UNIDADE_MOVEL",
-    "PRESENCIAL",
-    "REMOTO",
-    "ENTIDADE",
-    "EMPRESA",
-  ]),
-  cep: z.string(),
-  // endereco: z.string(),
-  complemento: z.string(),
-  ativo: z.boolean(),
+const presencialValidation = z.object({
+  id: z.number().optional(),
+  tipoAmbiente: z.literal("PRESENCIAL"),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe um valor" })
+    .min(3, { message: "* Deve ser maior que 1 caracter" }),
+  ativo: z.boolean().optional(),
+  cep: z.string().optional(),
+  endereco: z.string().optional(),
+  complemento: z.string().optional(),
 });
 
-export type NewPlaceType = z.infer<typeof newPlaceModalInput>;
+const unidadeMovelValidation = z.object({
+  id: z.number().optional(),
+  tipoAmbiente: z.literal("UNIDADE_MOVEL"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe um valor" })
+    .min(3, { message: "* Deve ser maior que 1 caracter" }),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  ativo: z.boolean().optional(),
+  cep: z.string(),
+  endereco: z.string(),
+  complemento: z.string().optional(),
+});
+
+const empresalValidation = z.object({
+  id: z.number().optional(),
+  tipoAmbiente: z.literal("EMPRESA"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe um valor" })
+    .min(1, { message: "* Deve ser maior que 1 caracter" }),
+  complemento: z.string().optional(),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  cep: z
+    .string()
+    .max(10, { message: "* O CEP deve ter 8 caracteres..." })
+    .min(3, { message: "* O CEP deve ter 8 caracteres......" }),
+  endereco: z
+    .string({ required_error: "* Digite um CEP ou informe um endeço" })
+    .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O endereço deve ser maior que 3 caracteres..." }),
+  ativo: z.boolean().optional(),
+});
+
+const entidadelValidation = z.object({
+  id: z.number().optional(),
+  tipoAmbiente: z.literal("ENTIDADE"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe um valor" })
+    .min(1, { message: "* Deve ser maior que 1 caracter" }),
+  complemento: z.string().optional(),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  cep: z
+    .string()
+    .max(10, { message: "* O CEP deve ter 8 caracteres..." })
+    .min(3, { message: "* O CEP deve ter 8 caracteres......" }),
+  endereco: z
+    .string({ required_error: "* Digite um CEP ou informe um endeço" })
+    .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O endereço deve ser maior que 3 caracteres..." }),
+  ativo: z.boolean().optional(),
+});
+
+const remotoValidation = z.object({
+  id: z.number().optional(),
+  tipoAmbiente: z.literal("REMOTO"),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  ativo: z.boolean().optional(),
+  cep: z.string().optional(),
+  endereco: z.string().optional(),
+  complemento: z.string().optional(),
+  capacidade: z.number().optional(),
+});
+
+const allValidation = z.discriminatedUnion("tipoAmbiente", [
+  presencialValidation,
+  unidadeMovelValidation,
+  entidadelValidation,
+  empresalValidation,
+  remotoValidation,
+]);
+
+export type NewPlaceType = z.infer<typeof allValidation>;
 
 interface NewPlaceModalProps {
   closeModal: () => void;
 }
 
 export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
-  const { register, handleSubmit, reset, formState: { errors }, setValue, watch } = useForm<NewPlaceType>({resolver: zodResolver(newPlaceModalInput)});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { errors },
+  } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const { createPlacesAPI } = useContext(ObjectsContext);
   const [tipoAmbiente, setTipoAmbiente] = useState("");
+  const [adress, setAdress] = useState("");
 
   function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
+    if (tipoAmbiente == "" || tipoAmbiente != event.target.value) {
+      reset({ capacidade: undefined, complemento: "", cep: "", endereco: "" }, {
+        keepDirty: false,
+        keepValues: false
+      });
+    }
     setTipoAmbiente(event.target.value);
   }
 
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
+    setAdress("");
     createPlacesAPI(data);
     reset();
     closeModal();
   }
 
-  function switched(unidade: string){
+  async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
+    const ceps = e.target.value.replace(/_/g, "").replace("-", "");
 
-    setValue("capacidade", 0, {shouldValidate: true})
+    if (ceps.toString().length >= 8) {
+      await fetch(`https://viacep.com.br/ws/${ceps}/json/`).then((response) => {
+        response.json().then((data) => {
+          if (!adress) {
+            setValue("endereco", data.logradouro);
+          }
+          setAdress(data.logradouro);
+        });
+      });
+    }
+    setValue("endereco", adress);
   }
 
-  console.log(errors)
-  console.log(watch())
+  console.log(errors);
   return (
     <Dialog.Portal>
       <Overlay />
@@ -104,6 +210,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   <option value="ENTIDADE">Entidade</option>
                   <option value="EMPRESA">Empresa</option>
                 </select>
+                {errors.tipoAmbiente && <p>* Selecione um valor</p>}
               </InputContent>
               <InputContent>
                 <InputIndividual>
@@ -119,9 +226,10 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   <input
                     type="number"
                     placeholder="Digite a capacidade"
-                    {...register("capacidade", {value: 0})}
+                    {...register("capacidade", { valueAsNumber: true })}
                     disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
                   />
+                  {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
                 <InputIndividual>
                   <label
@@ -133,14 +241,17 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   >
                     CEP
                   </label>
-                  <input
+                  <InputMask
+                    mask="99999-999"
                     type="text"
-                    placeholder="Digite o cep"
+                    placeholder="Digite um CEP"
                     {...register("cep")}
+                    onChange={fetchCep}
                     disabled={
                       tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
                     }
                   />
+                  {errors.cep && <p>{errors.cep.message}</p>}
                 </InputIndividual>
               </InputContent>
               <InputContent>
@@ -156,11 +267,14 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                 <input
                   type="text"
                   placeholder="Digite o endereço"
-                  /* {...register("endereco")} */
+                  value={adress}
+                  {...register("endereco")}
+                  onChange={(event) => setAdress(event.target.value)}
                   disabled={
                     tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
                   }
                 />
+                {errors.endereco && <p>{errors.endereco.message}</p>}
               </InputContent>
               <InputContent>
                 <label
@@ -176,7 +290,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   type="text"
                   placeholder="Digite o complemento"
                   {...register("complemento")}
-                  
                   disabled={
                     tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
                   }
@@ -184,7 +297,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
               </InputContent>
 
               <FinalButton>
-                <button onClick={() => switched}>Criar</button>
+                <button>Criar</button>
               </FinalButton>
             </InputContainer>
           </InputScroll>

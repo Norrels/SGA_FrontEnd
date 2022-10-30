@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
   ObjectsContext,
-  PlaceProps,
 } from "../../../../Contexts/ObjectsContext";
+import { NewPlaceType } from "../NewPlaceModal";
 import {
   Content,
   FinalButton,
@@ -19,31 +19,19 @@ import {
   Overlay,
 } from "./style";
 
-export const placeInput = z.object({
-  id: z.number(),
-  nome: z.string(),
-  capacidade: z.number(),
-  tipoAmbiente: z.string(),
-  cep: z.string(),
-  // endereco: z.string(),
-  complemento: z.string(),
-  ativo: z.boolean(),
-});
-
-export type PlaceType = z.infer<typeof placeInput>;
 
 interface EditPlaceModalProps {
-  place: PlaceProps;
+  place: NewPlaceType;
   closeModal: () => void;
 }
 
 export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
-  const { register, handleSubmit } = useForm<PlaceType>();
+  const { register, handleSubmit } = useForm<NewPlaceType>();
   const [editable, setEditable] = useState(false);
   const { updatePlaces } = useContext(ObjectsContext);
 
-  async function handleUpdatePlace(data: PlaceType) {
-    data.id = place.id;
+  async function handleUpdatePlace(data: NewPlaceType) {
+    data.id = place.id
     updatePlaces(data);
     closeModal();
   }
@@ -91,7 +79,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   placeholder="Selecione o tipo do ambiente"
                   defaultValue={place.tipoAmbiente}
                   {...register("tipoAmbiente")}
-                  disabled={!editable}
+                  disabled
                 >
                   <option value="UNIDADE_MOVEL">Unidade Movel</option>
                   <option value="PRESENCIAL">Presencial</option>
@@ -114,7 +102,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   <input
                     type="text"
                     placeholder="Digite a capacidade"
-                    defaultValue={place.capacidade}
+                    defaultValue={place?.capacidade}
                     {...register("capacidade")}
                     readOnly={place.tipoAmbiente !== "REMOTO" && !editable}
                     disabled={place.tipoAmbiente === "REMOTO"}

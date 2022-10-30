@@ -187,6 +187,10 @@ export const InputContent = styled.div`
       }
     }
   }
+
+  p {
+    color: #8d0000;
+  }
 `;
 
 export const InputIndividual = styled.div`

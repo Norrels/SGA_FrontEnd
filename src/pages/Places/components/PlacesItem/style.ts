@@ -58,6 +58,10 @@ export const PlacesItemInfoContent = styled.span`
   flex-direction: column;
   justify-content: space-between;
 
+  :has(:not(p)) {
+    justify-content: center;
+  }
+
   p {
     span {
       font-weight: bold;
