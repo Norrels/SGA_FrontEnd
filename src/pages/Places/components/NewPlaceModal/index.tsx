@@ -45,8 +45,8 @@ const unidadeMovelValidation = z.object({
     .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
   ativo: z.boolean().optional(),
-  cep: z.string(),
-  endereco: z.string(),
+  cep: z.string().optional(),
+  endereco: z.string().optional(),
   complemento: z.string().optional(),
 });
 
@@ -108,7 +108,7 @@ const remotoValidation = z.object({
   capacidade: z.number().optional(),
 });
 
-const allValidation = z.discriminatedUnion("tipoAmbiente", [
+export const allValidation = z.discriminatedUnion("tipoAmbiente", [
   presencialValidation,
   unidadeMovelValidation,
   entidadelValidation,
@@ -128,18 +128,23 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const { createPlacesAPI } = useContext(ObjectsContext);
   const [tipoAmbiente, setTipoAmbiente] = useState("");
   const [adress, setAdress] = useState("");
+  const [cep, setCep] = useState("");
 
   function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
     if (tipoAmbiente == "" || tipoAmbiente != event.target.value) {
-      reset({ capacidade: undefined, complemento: "", cep: "", endereco: "" }, {
-        keepDirty: false,
-        keepValues: false
-      });
+      reset(
+        { capacidade: undefined, complemento: "", cep: "", endereco: "" },
+        {
+          keepDirty: false,
+          keepValues: false,
+        }
+      );
     }
     setTipoAmbiente(event.target.value);
   }
@@ -152,10 +157,12 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     closeModal();
   }
 
+  console.log(cep);
+
   async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
     const ceps = e.target.value.replace(/_/g, "").replace("-", "");
-
-    if (ceps.toString().length >= 8) {
+    setCep(ceps);
+    if (ceps.length >= 8) {
       await fetch(`https://viacep.com.br/ws/${ceps}/json/`).then((response) => {
         response.json().then((data) => {
           if (!adress) {
@@ -168,7 +175,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setValue("endereco", adress);
   }
 
-  console.log(errors);
   return (
     <Dialog.Portal>
       <Overlay />
@@ -270,9 +276,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   value={adress}
                   {...register("endereco")}
                   onChange={(event) => setAdress(event.target.value)}
-                  disabled={
-                    tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
-                  }
+                  disabled={cep.length < 7}
                 />
                 {errors.endereco && <p>{errors.endereco.message}</p>}
               </InputContent>

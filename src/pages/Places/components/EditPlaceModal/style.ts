@@ -32,6 +32,7 @@ export const Overlay = styled(Dialog.Overlay)`
   animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
+
 export const Content = styled(Dialog.Content)`
   width: 46.875rem;
   padding: 3.75rem 2.344rem 3.75rem 0;
@@ -126,7 +127,24 @@ export const InputContainer = styled.div`
   gap: 2.5rem;
 `;
 
-export const InputContent = styled.div`
+const DISABLED = {
+  disabled: {
+    display: "none",
+    cor: "background",
+    color: "gray-600",
+  },
+  on: {
+    display: "block",
+    cor: "white",
+    color: "gray-700",
+  },
+} as const;
+
+interface DisabledProps {
+  disabled: keyof typeof DISABLED;
+}
+
+export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: space-between;
 
@@ -154,7 +172,9 @@ export const InputContent = styled.div`
 
     font-weight: 800;
     font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
+    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
 
     transition-duration: 1s;
 

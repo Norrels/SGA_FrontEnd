@@ -1,12 +1,10 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-import {
-  ObjectsContext,
-} from "../../../../Contexts/ObjectsContext";
-import { NewPlaceType } from "../NewPlaceModal";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { allValidation, NewPlaceType } from "../NewPlaceModal";
 import {
   Content,
   FinalButton,
@@ -19,23 +17,27 @@ import {
   Overlay,
 } from "./style";
 
-
 interface EditPlaceModalProps {
   place: NewPlaceType;
   closeModal: () => void;
 }
 
 export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
-  const { register, handleSubmit } = useForm<NewPlaceType>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const [editable, setEditable] = useState(false);
   const { updatePlaces } = useContext(ObjectsContext);
 
   async function handleUpdatePlace(data: NewPlaceType) {
-    data.id = place.id
+    data.id = place.id;
     updatePlaces(data);
     closeModal();
   }
-
+ 
+ 
   return (
     <Dialog.Portal>
       <Overlay />
@@ -45,15 +47,10 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
             {!editable ? "Ambiente" : "Editar ambiente"}
           </Dialog.Title>
           <HeaderButtons>
-            {!editable ? (
+            {!editable && (
               <button onClick={() => setEditable(true)}>
-                <NotePencil
-                  size={50}
-                  weight="light"
-                />
+                <NotePencil size={50} weight="light" />
               </button>
-            ) : (
-              <></>
             )}
             <Dialog.Close>
               <X size={50} weight="light" />
@@ -63,7 +60,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
         <form onSubmit={handleSubmit(handleUpdatePlace)}>
           <InputScroll>
             <InputContainer>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label>Nome</label>
                 <input
                   type="text"
@@ -72,14 +69,14 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   {...register("nome")}
                   readOnly={!editable}
                 />
+                {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
-              <InputContent>
+              <InputContent disabled={"disabled"}>
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do ambiente"
                   defaultValue={place.tipoAmbiente}
                   {...register("tipoAmbiente")}
-                  disabled
                 >
                   <option value="UNIDADE_MOVEL">Unidade Movel</option>
                   <option value="PRESENCIAL">Presencial</option>
@@ -88,7 +85,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   <option value="EMPRESA">Empresa</option>
                 </select>
               </InputContent>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <InputIndividual>
                   <label
                     style={
@@ -103,10 +100,11 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     type="text"
                     placeholder="Digite a capacidade"
                     defaultValue={place?.capacidade}
-                    {...register("capacidade")}
+                    {...register("capacidade", { valueAsNumber: true })}
                     readOnly={place.tipoAmbiente !== "REMOTO" && !editable}
                     disabled={place.tipoAmbiente === "REMOTO"}
                   />
+                  {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
                 <InputIndividual>
                   <label
@@ -134,9 +132,10 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                       place.tipoAmbiente !== "ENTIDADE"
                     }
                   />
+                  {errors.cep && <p>{errors.cep.message}</p>}
                 </InputIndividual>
               </InputContent>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label
                   style={
                     place.tipoAmbiente === "EMPRESA" ||
@@ -150,8 +149,8 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                 <input
                   type="text"
                   placeholder="Digite o endereço"
-                  /* defaultValue={place?.endereco} */
-                  /* {...register("endereco")} */
+                  defaultValue={place?.endereco}
+                  {...register("endereco")}
                   readOnly={
                     (place.tipoAmbiente === "EMPRESA" ||
                       place.tipoAmbiente === "ENTIDADE") &&
@@ -162,8 +161,9 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     place.tipoAmbiente !== "ENTIDADE"
                   }
                 />
+                {errors.endereco && <p>{errors.endereco.message}</p>}
               </InputContent>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label
                   style={
                     place.tipoAmbiente === "EMPRESA" ||
@@ -189,13 +189,12 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     place.tipoAmbiente !== "ENTIDADE"
                   }
                 />
+                {errors.complemento && <p>{errors.complemento.message}</p>}
               </InputContent>
-              {editable ? (
+              {editable && (
                 <FinalButton>
                   <button>Salvar</button>
                 </FinalButton>
-              ) : (
-                <></>
               )}
             </InputContainer>
           </InputScroll>
