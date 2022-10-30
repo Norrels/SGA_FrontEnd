@@ -7,7 +7,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
-import { Rating } from "./components/Rating";
+
 import {
   ButtonNewCompetencia,
   Content,
@@ -24,37 +24,26 @@ import {
   Overlay,
 } from "./style";
 
-// Object Professor com Zod .max(36, { message: "O Email não deve ter mais de 20 caracteres" })
-// .min(3, { message: "O Email deve ser maior que 3 caracteres" }),
 
-/* 
-    
-.max(36, { message: "O nome não deve ter mais de 20 caracteres" })
-    .min(3, { message: "O nome deve ser maior que 3 caracteres" }),
-    
-    */
 export const teacherInput = z.object({
   id: z.number(),
   nome: z
     .string()
     .min(3, { message: "O nome não deve ser menor que 3 carecteres" }),
   cargaSemanal: z.number(),
-  foto: z.string(),
+  foto: z.string().optional(),
   ativo: z.boolean(),
   email: z.string(),
   competencia: z
     .object({
       id: z.number(),
-      professor: z.object({
-        id: z.number(),
-        nome: z.string(),
-      }),
+      nivel: z.number(),
       unidadeCurricular: z.object({
         id: z.number(),
         nome: z.string(),
-        horas: z.string(),
+        horas: z.number()
       }),
-      nivel: z.number(),
+     
     })
     .array(),
 });
@@ -65,27 +54,14 @@ interface NewTeacherModalProps {
   closeModal: () => void;
 }
 
-// Gambiarra para Recurar id e nota da Competencia =)
-interface StarProps {
-  idCompetencia: number;
-  nota: number;
-}
-[];
-
-// Interface para as Unidades Curriculares
-interface UnidadeCurricularProps {
+interface CurricularUnit {
   id: number;
   nome: string;
   horas: string;
 }
-[];
 
 export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
-  const [input, setInput] = useState([1]);
-  const [star, setStar] = useState<StarProps[]>([]);
-  const [unidadeCurricular, setUnidadeCurricular] = useState<
-    UnidadeCurricularProps[]
-  >([]);
+  const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>([])
   //Pegando os métodos do UseForm
   const {
     formState: { errors },
@@ -106,27 +82,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   const { createTeacherAPI } = useContext(ObjectsContext);
   function handleCreateNewTeacher(data: TeacherType) {
     console.log(data);
-
     data.ativo = true;
     data.foto = baseImage;
-    data.competencia.shift();
-    star.filter((value) => {
-      data.competencia.map((valueMap) => {
-        // adicionando as notas na competencia
-        if (value.idCompetencia == Number(valueMap.id)) {
-          valueMap.nivel = value.nota;
-        }
-        // mapeando as unidades curriculares
-        unidadeCurricular.map((unit) => {
-          // verificando pelo nome da unidade e setando
-          if (unit.nome == valueMap.unidadeCurricular.nome) {
-            valueMap.unidadeCurricular.id = unit.id;
-            valueMap.unidadeCurricular.horas = unit.horas;
-          }
-        });
-      });
-    });
-    console.log(data);
     createTeacherAPI(data);
     reset();
     closeModal();
@@ -141,10 +98,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     if (response.status == 200) {
       setUnidadeCurricular(response.data);
     }
-  }
-
-  function handleGetValue(notaEscolhida: number, idCompetencia: number) {
-    setStar([...star, { idCompetencia: idCompetencia, nota: notaEscolhida }]);
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -237,8 +190,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
               <InputContent>
                 <InputIndividual>
                   <label>Competência</label>
-                  <select>
-                    <option value="" selected disabled>
+                  <select defaultValue={""}>
+                    <option value="" disabled>
                       Selecione uma unidade curricular
                     </option>
                     {unidadeCurricular.map((value) => (
