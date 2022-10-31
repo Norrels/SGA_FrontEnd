@@ -6,6 +6,7 @@ import {
   PlacesContent,
   PlacesList,
   PlacesTitleContainer,
+  Toggle,
 } from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
@@ -14,7 +15,7 @@ import { ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Places() {
-  const { placesList } = useContext(ObjectsContext)
+  const { placesList } = useContext(ObjectsContext);
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [animation, setAnimation] = useState(true);
@@ -78,11 +79,21 @@ export function Places() {
           placeholder="Buscar por ambiente"
           onChange={(e) => searchPlace(e.target.value)}
         />
-
+        <Toggle>
+          <label>Desativados</label>
+          <input type="checkbox" />
+        </Toggle>
         <PlacesList>
           {placeMatchs.map(
             (place) =>
-              place.ativo === true && <Place key={place.id} placeItem={place} /* placeAnimationDelay={animationDelay+=0.2} */  />
+              place.ativo === true && (
+                <Place
+                  key={place.id}
+                  placeItem={
+                    place
+                  } /* placeAnimationDelay={animationDelay+=0.2} */
+                />
+              )
           )}
         </PlacesList>
       </PlacesContent>
