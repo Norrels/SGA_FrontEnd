@@ -1,19 +1,16 @@
 import {
-  ButtonNewCompetencia,
-  InputContent,
-  InputIndividual,
   NivelStars,
 } from "../../style";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Plus, Star, Trash } from "phosphor-react";
+import { Star } from "phosphor-react";
 
 interface SkillsSectionProps {
   index: number;
 }
 
-export function SkillsSection({ index }: SkillsSectionProps) {
-  const { register, setValue, watch } = useFormContext();
+export function StarsSection({ index }: SkillsSectionProps) {
+  const { register, setValue } = useFormContext();
 
   const [nivel, setNivel] = useState(1);
 

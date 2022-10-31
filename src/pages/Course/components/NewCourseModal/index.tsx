@@ -175,17 +175,15 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index !== 0 ? (
+                    {index !== 0 && (
                       <Trash
                         size={40}
                         weight="light"
                         onClick={() => remove(index)}
                       />
-                    ) : (
-                      <></>
                     )}
                   </InputContent>
-                );
+                )
               })}
               <ButtonNewUnidadeCurricular
                 onClick={() => {

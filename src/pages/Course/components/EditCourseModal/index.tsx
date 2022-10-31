@@ -158,7 +158,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   </InputContent>
                 );
               })}
-              {editable ? (
+              {editable && (
                 <ButtonNewUnidadeCurricular
                   onClick={() => {
                     append({
@@ -171,130 +171,17 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   <Plus size={32} />
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
-              ) : (
-                <></>
               )}
 
-              {editable ? (
+              {editable && (
                 <FinalButton>
                   <button>Editar</button>
                 </FinalButton>
-              ) : (
-                <></>
               )}
             </InputContainer>
           </InputScroll>
         </form>
       </Content>
-      {/* <Dialog.Portal>
-      <Overlay />
-      <Content onCloseAutoFocus={() => setDisabled(true)}>
-        <NoteButton onClick={() => setDisabled(false)}>
-          <NotePencil size={32} />
-        </NoteButton>
-        <CloseButton>
-          <X onClick={() => reset()} />
-        </CloseButton>
-        <Dialog.Title>Editar curso</Dialog.Title>
-
-        <form onSubmit={handleSubmit(handleUpdateCourse)}>
-          <input
-            type="hidden"
-            value={course.id}
-            {...register("id", { valueAsNumber: true })}
-          />
-          <InputContainer>
-            <InputContent disabled={disabled ? "disabled" : "on"}>
-              <label>Nome</label>
-              <input
-                type="text"
-                defaultValue={course.nome}
-                placeholder="Digite o nome do curso"
-                {...register("nome")}
-              />
-              {errors.nome && <p>{errors.nome.message}</p>}
-            </InputContent>
-
-            <InputContent disabled={disabled ? "disabled" : "on"}>
-              <label>Tipo</label>
-              <select
-                placeholder="Selecione o Tipo do Curso"
-                defaultValue={course.tipoCurso}
-                {...register("tipoCurso")}
-              >
-                <option value="REGULAR">Regular</option>
-                <option value="FIC">FIC</option>
-              </select>
-
-              {fields.map((field, index) => {
-                return (
-                  <InputContentScroll key={index}>
-                    <div>
-                    <Trash onClick={() => remove(index)}></Trash>
-                    {index !== 0 && (
-                      <Trash onClick={() => remove(index)}></Trash>
-                    )}
-                      <input
-                        type="hidden"
-                        {...register(`unidadeCurricular.${index}.id`, {
-                          value: course.unidadeCurricular[index]?.id == undefined ? null : course.unidadeCurricular[index].id,
-                        })}
-                      />
-                      <label onClick={() => console.log(course.unidadeCurricular[index]?.id)}>Unidade Curricular</label>
-                      <input
-                        required
-                        {...register(`unidadeCurricular.${index}.nome`, {
-                          required: true,
-                        })}
-                      ></input>
-                    </div>
-
-                    <div>
-                      <label>Horas</label>
-                      <input
-                        {...register(`unidadeCurricular.${index}.horas`, {
-                          valueAsNumber: true,
-                          required: true,
-                        })}
-                        type="number"
-                        placeholder="Digite as horas"
-                        required
-                      />
-                    </div>
-                  
-
-                    {errors.unidadeCurricular && (
-                      <>
-                        <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
-                        <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
-                      </>
-                    )}
-
-                   
-                  </InputContentScroll>
-                );
-              })}
-
-              <NewCourseModalButtonAddNewUnidadeCurricular
-                onClick={() => {
-                  append({
-                    nome: "",
-                    horas: 6,
-                  });
-                }}
-                type="button"
-              >
-                <Plus size={20} />
-                <p>Adicionar Unidade Curricular</p>
-              </NewCourseModalButtonAddNewUnidadeCurricular>
-            </InputContent>
-            <ContainerButtonCreate>
-              <button>Editar</button>
-            </ContainerButtonCreate>
-          </InputContainer>
-        </form>
-      </Content>
-    </Dialog.Portal> */}
     </Dialog.Portal>
   );
 }

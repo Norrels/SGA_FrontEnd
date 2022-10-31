@@ -6,12 +6,11 @@ import {
   useFieldArray,
   useForm,
   FormProvider,
-  useWatch,
 } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
-import { SkillsSection } from "./components/SkillsSection";
+import { StarsSection } from "./components/StarsSection";
 
 import {
   ButtonNewCompetencia,
@@ -25,7 +24,6 @@ import {
   InputIndividual,
   InputScroll,
   ModalHeader,
-  NivelStars,
   Overlay,
 } from "./style";
 
@@ -264,7 +262,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                         )}
                       </header>
                       <FormProvider {...newTeacherForm}>
-                        <SkillsSection index={index} />
+                        <StarsSection index={index} />
                       </FormProvider>
                     </InputIndividual>
                   </InputContent>
