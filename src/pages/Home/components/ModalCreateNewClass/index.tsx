@@ -53,7 +53,7 @@ export function ModalCreateNewClass({
   name,
   closeModal,
 }: ModalCreateNewClassProps) {
-  const { courses, placesList, curricularUnit, teachers } =
+  const { courses, placesList, teachers } =
     useContext(ObjectsContext);
   const { register, handleSubmit, reset } = useForm<AulaType>();
   const [values, setValues] = useState<string[]>([]);
@@ -70,52 +70,16 @@ export function ModalCreateNewClass({
     }
 
     console.log(semanas);
-    const unidadeCurricular = curricularUnit.filter(
-      (value) => value.id == aula.unidadeCurricular.id
-    );
+    // const unidadeCurricular = curricularUnit.filter(
+    //   (value) => value.id == aula.unidadeCurricular.id
+    // );
     const teacherMap = teachers.filter(
       (value) => value.id == aula.professor.id
     );
     const courseMap = courses.filter((value) => value.id == aula.curso.id);
     const localMap = placesList.filter((value) => value.id == aula.ambiente.id);
 
-    console.log({
-      curso: {
-        id: courseMap[0]?.id,
-        ativo: courseMap[0]?.ativo,
-        nome: courseMap[0]?.nome,
-        tipoCurso: courseMap[0]?.tipoCurso,
-        unidadeCurricular: courseMap[0]?.unidadeCurricular,
-      },
-      unidadeCurricular: {
-        id: unidadeCurricular[0]?.id,
-        nome: unidadeCurricular[0]?.nome,
-        horas: unidadeCurricular[0]?.horas,
-      },
-      codTurma: aula.codTurma,
-      periodo: aula.periodo,
-      dataInicio: aula.dataInicio,
-      ambiente: {
-        id: localMap[0]?.id,
-        nome: localMap[0]?.nome,
-        capacidade: localMap[0]?.capacidade,
-        tipoAmbiente: localMap[0]?.tipoAmbiente,
-        cep: localMap[0]?.cep,
-        complemento: localMap[0]?.complemento,
-        ativo: localMap[0]?.ativo,
-      },
-      professor: {
-        id: teacherMap[0]?.id,
-        nome: teacherMap[0]?.nome,
-        cargaSemanal: teacherMap[0]?.cargaSemanal,
-        ativo: teacherMap[0]?.ativo,
-        foto: teacherMap[0]?.foto,
-        email: teacherMap[0]?.email,
-        competencia: teacherMap[0]?.competencia,
-      },
-      cargaDiaria: aula.cargaDiaria,
-      diaSemana: semanas,
-    });
+ 
 
     const res = await API.post("aula", {
       curso: {
@@ -124,11 +88,6 @@ export function ModalCreateNewClass({
         nome: courseMap[0]?.nome,
         tipoCurso: courseMap[0]?.tipoCurso,
         unidadeCurricular: courseMap[0]?.unidadeCurricular,
-      },
-      unidadeCurricular: {
-        id: unidadeCurricular[0]?.id,
-        nome: unidadeCurricular[0]?.nome,
-        horas: unidadeCurricular[0]?.horas,
       },
       codTurma: aula.codTurma,
       periodo: aula.periodo,
@@ -210,7 +169,7 @@ export function ModalCreateNewClass({
 
           <ModalCreateClassContentLine>
             <label htmlFor="">Unidade Curricular</label>
-            <select {...register("unidadeCurricular.id")} name="" id="">
+            {/* <select {...register("unidadeCurricular.id")} name="" id="">
               {curricularUnit.map((unidade) => {
                 return (
                   <option key={unidade.id} value={unidade.id}>
@@ -218,7 +177,7 @@ export function ModalCreateNewClass({
                   </option>
                 );
               })}
-            </select>
+            </select> */}
           </ModalCreateClassContentLine>
 
           <ModalCreateClassContentLine>

@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X } from "phosphor-react";
+import { Watch, X } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
@@ -60,11 +60,12 @@ const empresalValidation = z.object({
   nome: z
     .string()
     .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+    .min(8, { message: "* O nome deve ser maior que 3 caracteres..." }),
   cep: z
     .string()
     .max(10, { message: "* O CEP deve ter 8 caracteres..." })
-    .min(3, { message: "* O CEP deve ter 8 caracteres......" }),
+    .min(8, { message: "* O CEP deve ter 8 caracteres......" })
+    .length(8),
   endereco: z
     .string({ required_error: "* Digite um CEP ou informe um endeço" })
     .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
@@ -86,7 +87,8 @@ const entidadelValidation = z.object({
   cep: z
     .string()
     .max(10, { message: "* O CEP deve ter 8 caracteres..." })
-    .min(3, { message: "* O CEP deve ter 8 caracteres......" }),
+    .min(8, { message: "* O CEP deve ter 8 caracteres......" })
+    .length(8),
   endereco: z
     .string({ required_error: "* Digite um CEP ou informe um endeço" })
     .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
@@ -128,6 +130,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const { createPlacesAPI } = useContext(ObjectsContext);
@@ -148,9 +151,13 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setTipoAmbiente(event.target.value);
   }
 
+  console.log(watch());
+  console.log(errors);
+
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
-    setTipoAmbiente("")
+    setCep("");
+    setTipoAmbiente("");
     setAdress("");
     createPlacesAPI(data);
     reset();
@@ -158,17 +165,21 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
   }
 
   async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
-    const ceps = e.target.value.replace(/_/g, "").replace("-", "");
-    setCep(ceps);
-    if (ceps.length >= 8) {
-      await fetch(`https://viacep.com.br/ws/${ceps}/json/`).then((response) => {
-        response.json().then((data) => {
-          if (!adress) {
-            setValue("endereco", data.logradouro);
+    const cepRaw = e.target.value.replace(/_/g, "").replace("-", "");
+    setCep(cepRaw);
+    if (cepRaw.length >= 8) {
+      await fetch(`https://viacep.com.br/ws/${cepRaw}/json/`).then(
+        (response) => {
+          if (response.status >= 200 && response.status < 299) {
+            response.json().then((data) => {
+              if (!adress && data.logradouro !== undefined) {
+                setValue("endereco", data.logradouro);
+                setAdress(data.logradouro);
+              }
+            });
           }
-          setAdress(data.logradouro);
-        });
-      });
+        }
+      );
     }
     setValue("endereco", adress);
   }
@@ -261,7 +272,10 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     mask="99999-999"
                     type="text"
                     placeholder="Digite um CEP"
-                    {...register("cep")}
+                    {...register("cep", {
+                      setValueAs: (v) =>
+                        (v = v.replace(/_/g, "").replace("-", "").trim()),
+                    })}
                     onChange={fetchCep}
                     disabled={
                       tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
