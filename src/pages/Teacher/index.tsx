@@ -5,6 +5,7 @@ import {
   TeacherTitleContainer,
   TeacherButtonContainer,
   TeacherList,
+  Toggle,
 } from "./style";
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
@@ -79,7 +80,10 @@ export function Teacher() {
           placeholder="Buscar por professor"
           onChange={(v) => searchTeacher(v.target.value)}
         />
-
+        <Toggle>
+          <label>Desativados</label>
+          <input type="checkbox" />
+        </Toggle>
         <TeacherList>
           {teachersMatch.map((teacher) => {
             if (teacher.ativo) {

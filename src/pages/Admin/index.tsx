@@ -9,6 +9,7 @@ import {
   AdminContent,
   AdminList,
   AdminTitleContainer,
+  Toggle,
 } from "./style";
 
 export interface AdminProps {
@@ -30,7 +31,7 @@ export function Admin() {
   function closeModal() {
     setOpen(false);
   }
-  
+
   async function fetchAdmin() {
     const res = await API.get("usuario");
 
@@ -45,7 +46,7 @@ export function Admin() {
 
   const searchAdmin = (text: String) => {
     if (!text) {
-      setAdminMatches(admin)
+      setAdminMatches(admin);
     } else {
       let matches = admin.filter((admin) => {
         const regex = new RegExp(`${text}`, "gi");
@@ -63,10 +64,8 @@ export function Admin() {
           <p>Chamadas realizadas no momento</p>
           <AdminButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger>
-                Novo administrador
-              </Dialog.Trigger>
-              <NewAdminModal closeModal={closeModal}/>
+              <Dialog.Trigger>Novo administrador</Dialog.Trigger>
+              <NewAdminModal closeModal={closeModal} />
             </Dialog.Root>
           </AdminButtonContainer>
         </AdminTitleContainer>
@@ -75,6 +74,10 @@ export function Admin() {
           placeholder="Buscar por Administrador"
           onChange={(e) => searchAdmin(e.target.value)}
         />
+        <Toggle>
+          <label>Desativados</label>
+          <input type="checkbox" />
+        </Toggle>
         <AdminList>
           {adminMatches.map((admin) => (
             <AdminItem key={admin.id} admin={admin} />

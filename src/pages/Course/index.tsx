@@ -8,6 +8,7 @@ import {
   CourseContent,
   CourseList,
   CourseTitleContainer,
+  Toggle,
 } from "./style";
 import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
@@ -64,7 +65,10 @@ export function Course() {
           placeholder="Buscar por curso"
           onChange={(e) => searchCourse(e.target.value)}
         />
-
+        <Toggle>
+          <label>Desativados</label>
+          <input type="checkbox" />
+        </Toggle>
         <CourseList>
           {courseMatchs.map((course) => {
             if (course.ativo) {
