@@ -8,6 +8,7 @@ import {
   AdvancedFilterItens,
   AdvancedFilterLabel,
   AdvancedFilterTotal,
+  AdvancedSearchAutocomplete,
   AdvancedSearchInput,
   AdvancedTableContent,
   AdvancedTitleContainer,
@@ -22,22 +23,95 @@ import {
 } from "./style";
 import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import {
-  CaretDown,
-  CaretUp,
-  Sliders,
-  User,
-} from "phosphor-react";
+import { CaretDown, CaretUp, Sliders, User } from "phosphor-react";
 import { NavLink } from "react-router-dom";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { API } from "../../lib/axios";
+import { z } from "zod";
 
+export const aulaInput = z.object({
+  codTurma: z.string(),
+  periodo: z.string(),
+  data: z.string(),
+  cargaDiaria: z.string(),
+  diaSemana: z.boolean().array(),
+  unidadeCurricular: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  professor: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  ambiente: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  curso: z.object({
+    id: z.number(),
+  }),
+  semana: z.boolean().array(),
+});
+
+export interface CourseProps {
+  id: number;
+  nome: string;
+  tipoCurso: string;
+  ativo?: boolean;
+  unidadeCurricular: {
+    id?: number | null;
+    nome: string;
+    horas: number;
+  }[];
+}
+[];
+
+export type AulaTypeSuper = z.infer<typeof aulaInput>;
 
 export default function AdvancedSearch() {
+  const [aula, setAula] = useState<AulaTypeSuper[]>([]);
+  const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
 
-  const { teachers, placesList } = useContext(ObjectsContext)
+  const [courseMatch, setCourseMatch] = useState<CourseProps[]>([]);
+  const { teachers, placesList, courses } = useContext(ObjectsContext);
+
+  const searchCourse = (text: String) => {
+    if (!text) {
+      setCourseMatch([]);
+    } else {
+      let matches = courses.filter((course) => {
+        const regex = new RegExp(`${text}`, "gi");
+        return course.nome.match(regex);
+      });
+      setCourseMatch(matches);
+    }
+  };
+
+  async function handleGet() {
+    const res = await API.get("aula");
+
+    console.log(res.data);
+    if (res.data.length > 0) {
+      setAula(res.data);
+    }
+  }
+
+  useEffect(() => {
+    handleGet();
+    searchClass("");
+  }, []);
+
+  async function searchClass(value: String) {
+    if (!value) {
+      setClassMatch(aula);
+    } else {
+      const res = await API.get(`/aula/filtro/${value}`);
+      setClassMatch(res.data);
+    }
+  }
 
   return (
     <>
@@ -117,9 +191,19 @@ export default function AdvancedSearch() {
           </AdvancedTitleContainer>
 
           <AdvancedSearchInput>
-            <input type="text" placeholder="Burcar por aula " />
+            <input
+              onChange={(e) => searchCourse(e.target.value)}
+              type="text"
+              placeholder="Burcar por aula "
+            />
             <button>Buscar</button>
           </AdvancedSearchInput>
+          {courseMatch &&
+            courseMatch.map((course) => (
+              <AdvancedSearchAutocomplete>
+                {course.nome}
+              </AdvancedSearchAutocomplete>
+            ))}
 
           <AdvancedFilterLabel>
             <Sliders color="#0031B0" size={25} />
@@ -234,13 +318,14 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       {teachers.map((teacher) => {
-                        if (teacher.ativo = true) {
+                        if ((teacher.ativo = true)) {
                           return (
-                          <span key={teacher.id}>
-                            <input type="checkbox" /> {teacher.nome}
-                          </span>
-                        )
-                      }})}
+                            <span key={teacher.id}>
+                              <input type="checkbox" /> {teacher.nome}
+                            </span>
+                          );
+                        }
+                      })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -254,20 +339,20 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       {placesList.map((place) => {
-                        if (place.ativo = true) {
+                        if ((place.ativo = true)) {
                           return (
                             <span key={place.id}>
                               <input type="checkbox" /> {place.nome}
                             </span>
-                          )
-                          }
+                          );
+                        }
                       })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
               </AdvancedFilterContainer>
             </aside>
-            <AdvancedSeachTable />
+            <AdvancedSeachTable classItem={classMatch} />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
             <p>1.055 resultados encontrados</p>

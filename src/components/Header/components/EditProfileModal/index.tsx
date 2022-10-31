@@ -1,6 +1,10 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useRouteError } from "react-router-dom";
+import { z } from "zod";
+import { API } from "../../../../lib/axios";
 import {
   Content,
   FinalButton,
@@ -13,13 +17,39 @@ import {
   Overlay,
 } from "./style";
 
+export const userInput = z.object({
+  id: z.number(),
+  nif: z.string(),
+  nome: z.string(),
+  email: z.string(),
+  senha: z.string(),
+})
+
 interface EditUserModal {
   closeModal: () => void;
 }
 
+export type UserType = z.infer<typeof userInput>;
+
 export function EditUserModal({ closeModal }: EditUserModal) {
   const [editable, setEditable] = useState(false);
 
+  const {register, handleSubmit, reset} = useForm<UserType>();  
+
+  function handleUpdateUser(data: UserType) {
+    handleUpdateUserAPI(data);
+    reset();
+    closeModal();
+  }
+
+  async function handleUpdateUserAPI(data: UserType) {
+    const res = await API.put('', {});
+
+    if(res.status == 200) {
+
+    }
+  }
+  
   return (
     <Dialog.Portal>
       <Overlay />
@@ -41,7 +71,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form /* onSubmit={handleSubmit(handleUpdateUser)} */>
+        <form onSubmit={handleSubmit(handleUpdateUser)}>
           <InputScroll>
             <InputContainer>
               <InputContent>
@@ -49,7 +79,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                 <input
                   type="text"
                   placeholder="Digite o nome"
-                  /* {...register("nome")} */
+                  {...register("nome")}
                   readOnly={!editable}
                 />
                 {/* {errors.nome && <p>{errors.nome.message}</p>} */}
@@ -60,7 +90,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   <input
                     type="text"
                     placeholder="Digite nif"
-                    /* {...register("nif", { value: 0 })} */
+                    {...register("nif")}
                     readOnly={!editable}
                   />
                 </InputIndividual>
@@ -69,7 +99,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   <input
                     type="text"
                     placeholder="Digite o email"
-                    /* {...register("email")} */
+                    {...register("email")}
                     readOnly={!editable}
                   />
                 </InputIndividual>
@@ -80,7 +110,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   <input
                     type="password"
                     placeholder="Digite a senha"
-                    /* {...register("senha")} */
+                    {...register("senha")}
                   />
                 </InputContent>
               ) : (
