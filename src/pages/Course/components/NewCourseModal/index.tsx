@@ -83,16 +83,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     },
   });
 
+  function firstLetterUppercase(value: string) {
+    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return value;
+  }
+
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
-    data.nome =
-      data.nome.charAt(0).toUpperCase() + data.nome.slice(1).toLowerCase();
-    data.unidadeCurricular = data.unidadeCurricular.map((unidade) => {
-      unidade.nome =
-        unidade.nome.charAt(0).toUpperCase() +
-        unidade.nome.slice(1).toLowerCase();
-      return unidade;
-    });
     createCourseAPI(data);
     reset();
     closeModal();
@@ -125,13 +122,19 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   type="text"
                   placeholder="Digite seu nome"
                   required
-                  {...register("nome", { required: true })}
+                  {...register("nome", {
+                    required: true,
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
               <InputContent>
                 <label>Tipo</label>
-                <select {...register("tipoCurso", { required: true })} defaultValue={""}>
+                <select
+                  {...register("tipoCurso", { required: true })}
+                  defaultValue={""}
+                >
                   <option value="" disabled>
                     Selecione o tipo do ambiente
                   </option>
@@ -153,6 +156,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         required
                         {...register(`unidadeCurricular.${index}.nome`, {
                           required: true,
+                          setValueAs: (v) => firstLetterUppercase(v),
                         })}
                       />
                       {errors.unidadeCurricular && (
@@ -160,8 +164,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                       )}
                     </InputIndividual>
                     <InputIndividual>
-                    {/* {index == 0 ? <label>Horas</label> : <></>} */}
-                    <label>Horas</label>
+                      {/* {index == 0 ? <label>Horas</label> : <></>} */}
+                      <label>Horas</label>
                       <input
                         type="number"
                         placeholder="Digite as horas"
@@ -183,7 +187,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                       />
                     )}
                   </InputContent>
-                )
+                );
               })}
               <ButtonNewUnidadeCurricular
                 onClick={() => {

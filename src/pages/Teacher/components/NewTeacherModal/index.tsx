@@ -118,7 +118,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
-    console.log(data);
     data.foto = baseImage;
     createTeacherAPI(data);
     reset();
@@ -146,12 +145,17 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     });
   }
 
-  function isValidOption(id: number, index: number) {
+  function isValidOption(id: number) {
     const options = watch("competencia").map((value) => value.unidadeCurricular.id) 
     if(options.find(ids => ids == id)) {
       return true
     }
     return false;
+  }
+
+  function firstLetterUppercase(value: string) {
+    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return value
   }
   
   return (
@@ -175,7 +179,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   type="text"
                   placeholder="Digite o nome do professor"
                   required
-                  {...register("nome")}
+                  {...register("nome", {setValueAs: v => firstLetterUppercase(v)})}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -185,7 +189,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   type="email"
                   placeholder="Digite o email do professor"
                   required
-                  {...register("email")}
+                  {...register("email", {setValueAs: v => firstLetterUppercase(v)})}
                 />
                 {errors.email && <p>{errors.email.message}</p>}
               </InputContent>
@@ -242,11 +246,11 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                             <option
                               key={value.id}
                               value={value.id}
-                              disabled={isValidOption(value.id, index)}
+                              disabled={isValidOption(value.id)}
                             >
                               {value.nome}
                             </option>
-                          );
+                          )
                         })}
                       </select>
 
@@ -277,7 +281,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                       nome: "",
                       id: 0
                     },
-                  });
+                  })
                 }}
                 type="button"
               >

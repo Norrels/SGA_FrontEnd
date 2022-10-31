@@ -150,6 +150,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
 
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
+    setTipoAmbiente("")
     setAdress("");
     createPlacesAPI(data);
     reset();
@@ -172,6 +173,11 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setValue("endereco", adress);
   }
 
+  function firstLetterUppercase(value: string) {
+    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return value;
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -192,7 +198,10 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                 <input
                   type="text"
                   placeholder="Digite o nome do ambiente"
-                  {...register("nome")}
+                  {...register("nome", {
+                    required: true,
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -229,7 +238,11 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   <input
                     type="number"
                     placeholder="Digite a capacidade"
-                    {...register("capacidade", { valueAsNumber: true })}
+                    {...register("capacidade", {
+                      valueAsNumber: true,
+                      required: true,
+                      setValueAs: (v) => firstLetterUppercase(v),
+                    })}
                     disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
                   />
                   {errors.capacidade && <p>{errors.capacidade.message}</p>}

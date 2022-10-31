@@ -54,6 +54,11 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
 
   const { updateCourses } = useContext(ObjectsContext);
 
+  function firstLetterUppercase(value: string) {
+    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return value;
+  }
+
   async function handleUpdateCourse(data: CourseType) {
     data.ativo = true;
     updateCourses(data);
@@ -93,7 +98,10 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   placeholder="Digite seu nome"
                   required
                   defaultValue={course.nome}
-                  {...register("nome", { required: true })}
+                  {...register("nome", {
+                    required: true,
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
                   readOnly={!editable}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
@@ -119,7 +127,10 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         placeholder="Digite a unidade curricular"
                         required
                         defaultValue={course.unidadeCurricular[index]?.nome}
-                        {...register(`unidadeCurricular.${index}.nome`)}
+                        {...register(`unidadeCurricular.${index}.nome`, {
+                          required: true,
+                          setValueAs: (v) => firstLetterUppercase(v),
+                        })}
                         readOnly={!editable}
                       />
                       {errors.unidadeCurricular && (
@@ -142,17 +153,20 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index >= course.unidadeCurricular.length && 
+                    {index >= course.unidadeCurricular.length && (
                       <Trash
                         size={40}
                         weight="light"
                         onClick={() => remove(index)}
                       />
-                    }
+                    )}
                     <input
                       type="hidden"
                       {...register(`unidadeCurricular.${index}.id`, {
-                        value: course.unidadeCurricular[index]?.id == undefined ? null : course.unidadeCurricular[index].id,
+                        value:
+                          course.unidadeCurricular[index]?.id == undefined
+                            ? null
+                            : course.unidadeCurricular[index].id,
                       })}
                     />
                   </InputContent>
