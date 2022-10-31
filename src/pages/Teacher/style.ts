@@ -111,13 +111,76 @@ export const TeacherButtonContainer = styled.div`
     }
 
     &:last-child {
-      background: linear-gradient(180deg, #367FBF 0%, #0031B0 100%);
+      background: linear-gradient(180deg, #367fbf 0%, #0031b0 100%);
     }
 
     &:hover {
       box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
       transform: translateY(-5px);
     }
+  }
+`;
+
+export const Toggle = styled.div`
+  width: 100%;
+  margin: 20px 0;
+  /* padding: 0 10px; */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+
+  gap: 10px;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
+
+  label {
+    font-weight: 700;
+    font-size: 1rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  input {
+    width: 50px;
+    height: 25px;
+    margin: 0;
+
+    position: relative;
+
+    appearance: none;
+    background-color: ${(props) => props.theme["gray-400"]};
+    border-radius: 50px;
+    box-shadow: inset 0px 0px 16px 1px rgba(0, 0, 0, 0.24);
+
+    cursor: pointer;
+    transition-duration: 0.6s;
+
+    &:checked {
+      background-color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+
+  input:before {
+    content: "";
+    width: 25px;
+    height: 25px;
+
+    background-color: ${(props) => props.theme["white"]};
+    border-radius: 50px;
+    box-shadow: 0px 4px 8px 1px rgba(0, 0, 0, 0.25);
+    transform: scale(1.1);
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    transition-duration: 0.3s;
+  }
+
+  input:checked:before {
+    left: 25px;
   }
 `;
 
