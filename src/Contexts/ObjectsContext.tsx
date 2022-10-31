@@ -17,7 +17,7 @@ export interface TeacherProps {
     nivel: number;
     unidadeCurricular: {
       id: number;
-      nome: string;
+      nome?: string;
     }
   }[];
 }

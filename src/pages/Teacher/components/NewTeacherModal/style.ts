@@ -252,7 +252,7 @@ export const InputIndividual = styled.div`
   }
 
   p {
-    color: ${(props) => props.theme["blue-300"]};
+    color: #8d0000;
   }
 `;
 

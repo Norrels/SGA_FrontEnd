@@ -1,9 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
-import { startOfWeek } from "date-fns";
-import { Plus, Star, Trash, Upload, X } from "phosphor-react";
+import { Plus, Trash, Upload, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useFieldArray, useForm, FormProvider } from "react-hook-form";
+import {
+  useFieldArray,
+  useForm,
+  FormProvider,
+  useWatch,
+} from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
@@ -36,13 +40,13 @@ export const teacherInput = z.object({
     .lte(40, { message: "* Não deve passar de 40 horas" }),
   foto: z.string().optional(),
   ativo: z.boolean().optional(),
-  email: z.string().email(),
+  email: z.string().email({message: "* Informe um email válido"}),
   competencia: z
     .object({
       nivel: z.number(),
       unidadeCurricular: z.object({
-        id: z.number(),
-        nome: z.string(),
+        id: z.number().positive({message: "* Selecione uma UC"}),
+        nome: z.string().optional(),
       }),
     })
     .array(),
@@ -100,6 +104,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     formState: { errors },
   } = newTeacherForm;
 
+
   const { fields, append, remove } = useFieldArray({
     name: "competencia",
     control,
@@ -107,9 +112,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
       required: "O curso deve ter pelo menos uma unidade curricular",
     },
   });
-
-  console.log(watch());
-  console.log(errors);
 
   //Gambiara ? :D
   const [baseImage, setBaseImage] = useState("");
@@ -146,6 +148,14 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     });
   }
 
+  function isValidOption(id: number, index: number) {
+    const options = watch("competencia").map((value) => value.unidadeCurricular.id) 
+    if(options.find(ids => ids == id)) {
+      return true
+    }
+    return false;
+  }
+  
   return (
     <Dialog.Portal>
       <Overlay />
@@ -219,18 +229,22 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   <InputContent key={field.id}>
                     <InputIndividual>
                       <label>Competência</label>
-                      <select defaultValue={""}>
-                        <option value="" disabled>
+                      <select
+                        defaultValue={0}
+                        {...register(
+                          `competencia.${index}.unidadeCurricular.id`,
+                          { valueAsNumber: true }
+                        )}
+                      >
+                        <option value={0} disabled>
                           Selecione uma unidade curricular
                         </option>
-                        {unidadeCurricular.map((value) => {
+                        {unidadeCurricular.map((value, index) => {
                           return (
                             <option
                               key={value.id}
-                              {...register(
-                                `competencia.${index}.unidadeCurricular.id`,
-                                { setValueAs: (v) => (v = value.id) }
-                              )}
+                              value={value.id}
+                              disabled={isValidOption(value.id, index)}
                             >
                               {value.nome}
                             </option>
@@ -239,7 +253,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                       </select>
 
                       {errors.competencia && (
-                        <p>Selecione uma unidade curricular</p>
+                        <p>{errors.competencia[index]?.unidadeCurricular?.id?.message}</p>
                       )}
                     </InputIndividual>
                     <InputIndividual>
@@ -250,7 +264,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                         )}
                       </header>
                       <FormProvider {...newTeacherForm}>
-                        <SkillsSection index={index}/>
+                        <SkillsSection index={index} />
                       </FormProvider>
                     </InputIndividual>
                   </InputContent>
@@ -263,7 +277,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     nivel: 1,
                     unidadeCurricular: {
                       nome: "",
-                      id: 0,
+                      id: 0
                     },
                   });
                 }}

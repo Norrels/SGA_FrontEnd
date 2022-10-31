@@ -22,7 +22,6 @@ export function SkillsSection({ index }: SkillsSectionProps) {
     setValue(`competencia.${index}.nivel`, nivel);
   }, [nivel]);
 
-  console.log(nivel);
   return (
     <>
       <NivelStars>
