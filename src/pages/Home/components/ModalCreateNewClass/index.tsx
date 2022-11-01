@@ -1,10 +1,13 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Check, X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import {  z } from "zod";
+import { z } from "zod";
 import Resumo from "../../../../assets/Resumo.svg";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import {
+  CourseProps,
+  ObjectsContext,
+} from "../../../../Contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
   CloseButton,
@@ -39,7 +42,6 @@ export const aulaInput = z.object({
   curso: z.object({
     id: z.number(),
   }),
-  semana: z.boolean().array(),
 });
 
 export type AulaType = z.infer<typeof aulaInput>;
@@ -53,101 +55,49 @@ export function ModalCreateNewClass({
   name,
   closeModal,
 }: ModalCreateNewClassProps) {
-  const { courses, placesList, teachers } =
-    useContext(ObjectsContext);
-  const { register, handleSubmit, reset } = useForm<AulaType>();
-  const [values, setValues] = useState<string[]>([]);
+  //Pegando os valores do context
+  //Quando o back fazer o metedo, isso daqui vai fica só com cursos
+  const { courses, placesList, teachers } = useContext(ObjectsContext);
 
-  async function handleCreateAulaAPI(aula: AulaType) {
-    const semanas: boolean[] = [];
+  const { register, handleSubmit, reset, watch, setValue } = useForm<AulaType>({
+    defaultValues: {
+      diaSemana: [false],
+    },
+  });
 
-    for (var i = 1; i < 8; i++) {
-      if (values.filter((val) => val === `${i}`).length == 0) {
-        semanas.push(false);
-      } else {
-        semanas.push(true);
-      }
-    }
+  const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
 
-    console.log(semanas);
-    // const unidadeCurricular = curricularUnit.filter(
-    //   (value) => value.id == aula.unidadeCurricular.id
-    // );
-    const teacherMap = teachers.filter(
-      (value) => value.id == aula.professor.id
-    );
-    const courseMap = courses.filter((value) => value.id == aula.curso.id);
-    const localMap = placesList.filter((value) => value.id == aula.ambiente.id);
-
- 
-
-    const res = await API.post("aula", {
-      curso: {
-        id: courseMap[0]?.id,
-        ativo: courseMap[0]?.ativo,
-        nome: courseMap[0]?.nome,
-        tipoCurso: courseMap[0]?.tipoCurso,
-        unidadeCurricular: courseMap[0]?.unidadeCurricular,
-      },
-      codTurma: aula.codTurma,
-      periodo: aula.periodo,
-      dataInicio: aula.dataInicio,
-      ambiente: {
-        id: localMap[0]?.id,
-        nome: localMap[0]?.nome,
-        capacidade: localMap[0]?.capacidade,
-        tipoAmbiente: localMap[0]?.tipoAmbiente,
-        cep: localMap[0]?.cep,
-        complemento: localMap[0]?.complemento,
-        ativo: localMap[0]?.ativo,
-      },
-      professor: {
-        id: teacherMap[0]?.id,
-        nome: teacherMap[0]?.nome,
-        cargaSemanal: teacherMap[0]?.cargaSemanal,
-        ativo: teacherMap[0]?.ativo,
-        foto: teacherMap[0]?.foto,
-        email: teacherMap[0]?.email,
-        competencia: teacherMap[0]?.competencia,
-      },
-      cargaDiaria: aula.cargaDiaria,
-      diaSemana: semanas,
-    });
-    console.log(res);
-    if (res.status === 200) {
-      console.log("criou as aulas com sucesso!");
-    }
-  }
-
-  function hadleValueChange(event: any) {
-    const index = values.indexOf(event);
-    if (index === -1) {
-      setValues([...values, event]);
-    } else {
-      setValues(values.filter((val) => val !== event));
-    }
-  }
-
+  //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
     if (course.tipoCurso.toLowerCase() == name.toLowerCase()) {
       return course;
     }
-    if (name == "customizável") {
+    if (name == "Customizável") {
       return course;
     }
   });
 
+  //Aqui eu exibo as unidades curriculares do curso que a pessoa selecionou
+  function onChangeCourse(event: ChangeEvent<HTMLSelectElement>) {
+    const course = courses.find(
+      (course) => course.id.toString() == event.target.value
+    );
+    setSelectedCourse(course);
+  }
+
   async function handleCreateNewAula(data: AulaType) {
-    // handleArray();
-    handleCreateAulaAPI(data);
-    reset();
-    closeModal();
+    const res = await API.post("aula", data);
+   
+      console.log(res);
+      reset();
+      closeModal();
+    
   }
 
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => reset()}>
         <CloseButton>
           <X size={35} />
         </CloseButton>
@@ -156,7 +106,12 @@ export function ModalCreateNewClass({
         <ModalCreateClassContent onSubmit={handleSubmit(handleCreateNewAula)}>
           <ModalCreateClassContentLine>
             <label htmlFor="">Curso</label>
-            <select {...register("curso.id")} name="" id="">
+            <select
+              {...register("curso.id")}
+              onChange={onChangeCourse}
+              defaultValue=""
+            >
+              <option value={""}>Selecione um curso</option>
               {courseFiltedByType.map((course) => {
                 return (
                   <option key={course.id} value={course.id}>
@@ -169,15 +124,20 @@ export function ModalCreateNewClass({
 
           <ModalCreateClassContentLine>
             <label htmlFor="">Unidade Curricular</label>
-            {/* <select {...register("unidadeCurricular.id")} name="" id="">
-              {curricularUnit.map((unidade) => {
+            <select
+              {...register("unidadeCurricular.id")}
+              defaultValue=""
+              disabled={selectedCourse == undefined}
+            >
+              <option value={""}>Selecione uma unidade</option>
+              {selectedCourse?.unidadeCurricular.map((unidade) => {
                 return (
-                  <option key={unidade.id} value={unidade.id}>
+                  <option key={unidade.id} value={unidade.id?.toString()}>
                     {unidade.nome}
                   </option>
                 );
               })}
-            </select> */}
+            </select>
           </ModalCreateClassContentLine>
 
           <ModalCreateClassContentLine>
@@ -208,7 +168,13 @@ export function ModalCreateNewClass({
           <ModalCreateClassDays>
             <span>
               <label>Dom</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("1")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${0}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${0}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -216,7 +182,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Seg</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("2")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${1}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${1}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -224,7 +196,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Ter</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("3")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${2}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${2}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -232,7 +210,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Qua</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("4")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${3}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${3}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -240,7 +224,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Qui</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("5")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${4}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${4}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -248,7 +238,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Sex</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("6")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${5}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${5}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -256,7 +252,13 @@ export function ModalCreateNewClass({
             </span>
             <span>
               <label>Sab</label>
-              <HomeCheckBox onCheckedChange={(e) => hadleValueChange("7")}>
+              <HomeCheckBox
+                {...register(`diaSemana.${6}`, { value: false })}
+                onCheckedChange={(checked) => {
+                  console.log(checked);
+                  setValue(`diaSemana.${6}`, checked ? true : false);
+                }}
+              >
                 <HomeCheckBoxIndicator>
                   <Check size={20} weight="bold" color="#fff" />
                 </HomeCheckBoxIndicator>
@@ -310,13 +312,14 @@ export function ModalCreateNewClass({
             <div>
               <h3>Resumo</h3>
               <p>
-                Data inicial: <strong>dd/MM/yyyy</strong>
+                Data inicial: <strong>{watch("dataInicio")?.toString()}</strong>
               </p>
               <p>
                 Dias <strong>Qua, Qui</strong>
               </p>
               <p>
-                Horas por dia: <strong>XXh</strong>
+                Horas por dia:{" "}
+                <strong>{watch("cargaDiaria")?.toString()}h</strong>
               </p>
               <p>
                 Data Final: <strong>dd/MM/yyyy</strong>
@@ -324,7 +327,7 @@ export function ModalCreateNewClass({
             </div>
           </ModalCreateClassSumarryContent>
 
-          <HomeCheckBoxButton>Criar</HomeCheckBoxButton>
+          <HomeCheckBoxButton type="submit">Criar</HomeCheckBoxButton>
         </ModalCreateClassContent>
       </Content>
     </Dialog.Portal>

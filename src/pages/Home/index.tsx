@@ -12,14 +12,13 @@ import {
 } from "./style";
 import { addDays, eachDayOfInterval, nextDay, previousDay, startOfWeek } from "date-fns";
 import { useState } from "react";
-import Engrenagem from "../../assets/engrenagem.svg";
-
 
 export function Home() {
   const today = new Date();
   //Dia de referencia
   const [referenceDay, setReferenceDay] = useState(today);
   const [open, setOpen] = useState(false);
+  const [title, setTitle] = useState("")
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
@@ -60,25 +59,25 @@ export function Home() {
             <HomeButtonCreate buttonsColor={1}>
               <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
-                  <button>Regular</button>
+                  <button onClick={() => setTitle("Regular")}>Regular</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name="Regular" />
+                <ModalCreateNewClass closeModal={closeModal} name={title} />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={2}>
               <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
-                  <button>FIC</button>
+                  <button onClick={() => setTitle("FIC")}>FIC</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name="FIC" />
+                <ModalCreateNewClass closeModal={closeModal} name={title} />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={3}>
               <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger asChild>
-                  <button>Customizavel</button>
+                  <button onClick={() => setTitle("Customizável")}>Customizável</button>
                 </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name="customizável" />
+                <ModalCreateNewClass closeModal={closeModal} name={title} />
               </Dialog.Root>
             </HomeButtonCreate>
           </HomeButtonContainer>
