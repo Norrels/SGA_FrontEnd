@@ -33,15 +33,14 @@ export type AulaType = z.infer<typeof aulaInput>;
 
 interface AulaProps {
   classItem: AulaTypeSuper[];
-  /* placeAnimationDelay: number; */
 }
+[];
 
 export function AdvancedSeachTable(classItem: AulaProps) {
   const [aula, setAula] = useState<AulaType[]>([]);
   async function handleGet() {
     const res = await API.get("aula");
 
-    console.log(res.data);
     if (res.data.length > 0) {
       setAula(res.data);
     }
@@ -64,17 +63,29 @@ export function AdvancedSeachTable(classItem: AulaProps) {
           </tr>
         </thead>
         <tbody>
-          {aula.map((value) => (
-            <tr>
-              <td>{value.unidadeCurricular.nome}</td>
-              <td>{value.professor.nome}</td>
-              <td>{value.ambiente.nome}</td>
-              <td>{value.data}</td>
-              <td>
-                <DotsThreeOutline size={20} />
-              </td>
-            </tr>
-          ))}
+          {(classItem.classItem.length > 0 &&
+            classItem.classItem.map((value) => (
+              <tr>
+                <td>{value.unidadeCurricular.nome}</td>
+                <td>{value.professor.nome}</td>
+                <td>{value.ambiente.nome}</td>
+                <td>{value.data}</td>
+                <td>
+                  <DotsThreeOutline size={20} />
+                </td>
+              </tr>
+            ))) ||
+            aula.map((value) => (
+              <tr>
+                <td>{value.unidadeCurricular.nome}</td>
+                <td>{value.professor.nome}</td>
+                <td>{value.ambiente.nome}</td>
+                <td>{value.data}</td>
+                <td>
+                  <DotsThreeOutline size={20} />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </TableContaine>
