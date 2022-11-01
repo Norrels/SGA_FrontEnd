@@ -28,6 +28,7 @@ import { NavLink } from "react-router-dom";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { ObjectsContext } from "../../Contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
@@ -56,6 +57,10 @@ export const aulaInput = z.object({
   semana: z.boolean().array(),
 });
 
+export const searchValue = z.object({
+  busca: z.string(),
+});
+
 export interface CourseProps {
   id: number;
   nome: string;
@@ -71,7 +76,11 @@ export interface CourseProps {
 
 export type AulaTypeSuper = z.infer<typeof aulaInput>;
 
+export type SearchValue = z.infer<typeof searchValue>;
+
 export default function AdvancedSearch() {
+  const { register, handleSubmit, reset } = useForm<SearchValue>();
+
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
 
@@ -83,7 +92,7 @@ export default function AdvancedSearch() {
       setCourseMatch([]);
     } else {
       let matches = courses.filter((course) => {
-        const regex = new RegExp(`${text}`, "gi");
+        const regex = new RegExp(`${text}`);
         return course.nome.match(regex);
       });
       setCourseMatch(matches);
@@ -103,6 +112,14 @@ export default function AdvancedSearch() {
     handleGet();
     searchClass("");
   }, []);
+
+  async function handleGetPlaces(data: SearchValue) {
+    const res = await API.get(`/aula/filtro/${data.busca}`);
+
+    setClassMatch(res.data);
+    setCourseMatch([]);
+    reset();
+  }
 
   async function searchClass(value: String) {
     if (!value) {
@@ -189,18 +206,20 @@ export default function AdvancedSearch() {
             <h1>Aulas</h1>
             <p>Faça buscas e aplique filtros para encontrar determinada aula</p>
           </AdvancedTitleContainer>
-
-          <AdvancedSearchInput>
-            <input
-              onChange={(e) => searchCourse(e.target.value)}
-              type="text"
-              placeholder="Burcar por aula "
-            />
-            <button>Buscar</button>
-          </AdvancedSearchInput>
+          <form onSubmit={handleSubmit(handleGetPlaces)}>
+            <AdvancedSearchInput>
+              <input
+                type="text"
+                placeholder="Buscar por aula"
+                {...register("busca")}
+                onChange={(e) => searchCourse(e.target.value)}
+              />
+              <button type="submit">Buscar</button>
+            </AdvancedSearchInput>
+          </form>
           {courseMatch &&
             courseMatch.map((course) => (
-              <AdvancedSearchAutocomplete>
+              <AdvancedSearchAutocomplete onClick={() => handleGetPlaces({ busca: course.nome })}>
                 {course.nome}
               </AdvancedSearchAutocomplete>
             ))}
