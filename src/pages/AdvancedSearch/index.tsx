@@ -53,6 +53,7 @@ export const aulaInput = z.object({
   }),
   curso: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
   semana: z.boolean().array(),
 });
@@ -74,6 +75,13 @@ export interface CourseProps {
 }
 [];
 
+export interface unidadeCurricular {
+  id?: number;
+  nome: string;
+  horas: number;
+}
+[];
+
 export type AulaTypeSuper = z.infer<typeof aulaInput>;
 
 export type SearchValue = z.infer<typeof searchValue>;
@@ -84,18 +92,26 @@ export default function AdvancedSearch() {
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
 
-  const [courseMatch, setCourseMatch] = useState<CourseProps[]>([]);
+  const [unidadeMatch, setUnidadeMatch] = useState<unidadeCurricular[]>([]);
+  const [inputValue, setInputValue] = useState<String>('');
+  const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
+
   const { teachers, placesList, courses } = useContext(ObjectsContext);
 
+  console.log("Professor: " + teachers);
+  console.log("Ambientes: " + placesList);
+  console.log("Courses: " + courses);
+
   const searchCourse = (text: String) => {
+    setInputValue(text);
     if (!text) {
-      setCourseMatch([]);
+      setUnidadeMatch([]);
     } else {
-      let matches = courses.filter((course) => {
+      let matches = unidade.filter((unCurricular) => {
         const regex = new RegExp(`${text}`);
-        return course.nome.match(regex);
+        return unCurricular.nome.match(regex);
       });
-      setCourseMatch(matches);
+      setUnidadeMatch(matches);
     }
   };
 
@@ -111,13 +127,27 @@ export default function AdvancedSearch() {
   useEffect(() => {
     handleGet();
     searchClass("");
+    handleGetAllUnit();
   }, []);
+
+  async function handleGetAllUnit() {
+    const res = await API.get(`/unidade`);
+
+    if (res.data.length > 0) {
+      setUnidade(res.data);
+    }
+  }
+
+  async function handleSetInputValue(data: SearchValue) {
+    setInputValue(data.busca);
+    setUnidadeMatch([]);
+  }
 
   async function handleGetPlaces(data: SearchValue) {
     const res = await API.get(`/aula/filtro/${data.busca}`);
 
     setClassMatch(res.data);
-    setCourseMatch([]);
+    setUnidadeMatch([]);
     reset();
   }
 
@@ -212,17 +242,21 @@ export default function AdvancedSearch() {
                 type="text"
                 placeholder="Buscar por aula"
                 {...register("busca")}
+                value={inputValue + ''}
                 onChange={(e) => searchCourse(e.target.value)}
+                autoComplete="off"
               />
               <button type="submit">Buscar</button>
             </AdvancedSearchInput>
           </form>
-          {courseMatch &&
-            courseMatch.map((course) => (
-              <AdvancedSearchAutocomplete onClick={() => handleGetPlaces({ busca: course.nome })}>
-                {course.nome}
-              </AdvancedSearchAutocomplete>
-            ))}
+          {unidadeMatch &&
+            unidadeMatch.map((unidade) =>
+                <AdvancedSearchAutocomplete
+                  onClick={() => handleSetInputValue({ busca: unidade.nome })}
+                >
+                  {unidade.nome}
+                </AdvancedSearchAutocomplete>
+            )}
 
           <AdvancedFilterLabel>
             <Sliders color="#0031B0" size={25} />
@@ -336,15 +370,16 @@ export default function AdvancedSearch() {
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      {teachers.map((teacher) => {
-                        if ((teacher.ativo = true)) {
-                          return (
-                            <span key={teacher.id}>
-                              <input type="checkbox" /> {teacher.nome}
-                            </span>
-                          );
-                        }
-                      })}
+                      {teachers &&
+                        teachers.map((teacher) => {
+                          if ((teacher.ativo = true)) {
+                            return (
+                              <span key={teacher.id}>
+                                <input type="checkbox" /> {teacher.nome}
+                              </span>
+                            );
+                          }
+                        })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -357,15 +392,16 @@ export default function AdvancedSearch() {
                   </AdvancedContentTitle>
                   <Accordion.Content>
                     <AdvancedFilterItens>
-                      {placesList.map((place) => {
-                        if ((place.ativo = true)) {
-                          return (
-                            <span key={place.id}>
-                              <input type="checkbox" /> {place.nome}
-                            </span>
-                          );
-                        }
-                      })}
+                      {placesList &&
+                        placesList.map((place) => {
+                          if ((place.ativo = true)) {
+                            return (
+                              <span key={place.id}>
+                                <input type="checkbox" /> {place.nome}
+                              </span>
+                            );
+                          }
+                        })}
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -374,7 +410,7 @@ export default function AdvancedSearch() {
             <AdvancedSeachTable classItem={classMatch} />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
-            <p>1.055 resultados encontrados</p>
+            <p>{aula.length} resultados encontrados</p>
           </AdvancedFilterTotal>
         </AdvancedContent>
       </AdvancedContainer>
