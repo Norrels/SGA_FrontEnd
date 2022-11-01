@@ -25,6 +25,7 @@ export const aulaInput = z.object({
   }),
   curso: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
   semana: z.boolean().array(),
 });
@@ -66,7 +67,7 @@ export function AdvancedSeachTable(classItem: AulaProps) {
           {(classItem.classItem.length > 0 &&
             classItem.classItem.map((value) => (
               <tr>
-                <td>{value.unidadeCurricular.nome}</td>
+                <td>{value.curso?.nome}</td>
                 <td>{value.professor.nome}</td>
                 <td>{value.ambiente.nome}</td>
                 <td>{value.data}</td>
@@ -77,7 +78,7 @@ export function AdvancedSeachTable(classItem: AulaProps) {
             ))) ||
             aula.map((value) => (
               <tr>
-                <td>{value.unidadeCurricular.nome}</td>
+                <td>{value.curso?.nome}</td>
                 <td>{value.professor.nome}</td>
                 <td>{value.ambiente.nome}</td>
                 <td>{value.data}</td>
