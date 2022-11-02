@@ -127,7 +127,8 @@ export const ButtonLeftContainer = styled.div`
   justify-content: center;
 
   button {
-    height: 100%;
+    width: 50%;
+    height: 50%;
     margin-right: 10px;
     border-radius: 5px;
 
