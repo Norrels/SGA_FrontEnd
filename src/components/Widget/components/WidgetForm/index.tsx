@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import {
   ButtonLeftContainer,
@@ -22,6 +22,7 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
+import { ScreenshotButton } from "./ScreenshotButton";
 
 const newCallInput = z.object({
   tipoChamado: z.string(),
@@ -34,6 +35,7 @@ export function WidgetForm() {
   const [type, setType] = useState("inicio");
   const { register, handleSubmit, reset } = useForm<NewCallType>();
 
+  const [screenshot, setScreenshot] = useState<string | null>(null);
   async function handleCreateNewCall(data: NewCallType) {
     console.log(
       "widget = " +
@@ -119,9 +121,10 @@ export function WidgetForm() {
               </ContentBody>
               <ContentFooter>
                 <ButtonLeftContainer>
-                  <button>
-                    <Camera size={32} />
-                  </button>
+                  <ScreenshotButton
+                    screenshot={screenshot}
+                    onScreenshotTook={setScreenshot}
+                  />
                 </ButtonLeftContainer>
                 <ButtonRightContainer>
                   <button type="submit">Enviar Feedback</button>
@@ -161,9 +164,10 @@ export function WidgetForm() {
               </ContentBody>
               <ContentFooter>
                 <ButtonLeftContainer>
-                  <button>
-                    <Camera size={32} />
-                  </button>
+                  <ScreenshotButton
+                    screenshot={screenshot}
+                    onScreenshotTook={setScreenshot}
+                  />
                 </ButtonLeftContainer>
                 <ButtonRightContainer>
                   <button type="submit">Enviar Feedback</button>
@@ -203,9 +207,10 @@ export function WidgetForm() {
               </ContentBody>
               <ContentFooter>
                 <ButtonLeftContainer>
-                  <button>
-                    <Camera size={32} />
-                  </button>
+                  <ScreenshotButton
+                    screenshot={screenshot}
+                    onScreenshotTook={setScreenshot}
+                  />
                 </ButtonLeftContainer>
                 <ButtonRightContainer>
                   <button type="submit">Enviar Feedback</button>

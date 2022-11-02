@@ -1,6 +1,5 @@
 import * as Popover from "@radix-ui/react-popover";
 import { ChatTeardropDots } from "phosphor-react";
-import React from "react";
 import { WidgetForm } from "./components/WidgetForm";
 import { ButtonContainer } from "./style";
 
