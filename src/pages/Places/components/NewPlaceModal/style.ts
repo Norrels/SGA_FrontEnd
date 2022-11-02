@@ -162,32 +162,6 @@ export const InputContent = styled.div`
       transform: translateY(-5px);
     }
   }
-
-  input {
-    &:read-only {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
-
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
-    }
-  }
-  select {
-    &:disabled {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
-  }
-
   p {
     color: #8d0000;
   }
@@ -217,31 +191,6 @@ export const InputIndividual = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
-  }
-
-  input {
-    &:read-only {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
-
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
-    }
-  }
-  select {
-    &:disabled {
-      background-color: #e2e2e2;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
   }
 `;
 

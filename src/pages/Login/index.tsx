@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo.svg";
 import Mockup from "../../assets/Mockup.svg";
@@ -19,7 +20,7 @@ export function Login() {
   }
 
   return (
-    <>
+    <div style={{}}>
       <LoginHeaderContainer>
         <LoginHeaderContent>
           <img src={Logo} alt="" />
@@ -55,6 +56,6 @@ export function Login() {
           <img src={Mockup} alt="" />
         </LoginFormContent>
       </LoginFormContainer>
-    </>
+    </div>
   );
 }

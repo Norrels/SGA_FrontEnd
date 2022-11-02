@@ -151,9 +151,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setTipoAmbiente(event.target.value);
   }
 
-  console.log(watch());
-  console.log(errors);
-
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
     setCep("");
