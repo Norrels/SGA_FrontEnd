@@ -9,6 +9,16 @@ const fadeIn = keyframes`
   } 
 `;
 
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  } 
+`;
+
+
 const swipeRight = keyframes`
   from {
     opacity: 0;

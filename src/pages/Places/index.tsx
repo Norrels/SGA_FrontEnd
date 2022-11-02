@@ -58,7 +58,6 @@ export function Places() {
         <PlacesTitleContainer>
           <h1>Ambientes</h1>
           <p>Selecione um Ambiente ou crie um novo!</p>
-
           <PlacesButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>

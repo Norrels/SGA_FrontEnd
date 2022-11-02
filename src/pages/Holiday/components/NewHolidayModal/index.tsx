@@ -6,11 +6,13 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import {
-  CloseButton,
-  ContainerButtonCreate,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
@@ -22,18 +24,18 @@ export const holidayInput = z.object({
 });
 
 interface holidayProps {
-  closeModal(): void
+  closeModal(): void;
 }
 
 export type HolidayType = z.infer<typeof holidayInput>;
 
-export function NewHolidayModal({closeModal} : holidayProps) {
+export function NewHolidayModal({ closeModal }: holidayProps) {
   const { register, handleSubmit, reset } = useForm<HolidayType>();
 
   function handleCreateHoliday(data: HolidayType) {
     handleCreateHolidayAPI(data);
     reset;
-    closeModal()
+    closeModal();
   }
 
   async function handleCreateHolidayAPI(data: HolidayType) {
@@ -59,42 +61,53 @@ export function NewHolidayModal({closeModal} : holidayProps) {
     <Dialog.Portal>
       <Overlay />
       <Content>
+        <ModalHeader>
+          <Dialog.Title>Novo dia não letivo</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
         <form onSubmit={handleSubmit(handleCreateHoliday)}>
-          <CloseButton>
-            <X />
-          </CloseButton>
-
-          <Dialog.Title>Novo dia</Dialog.Title>
-
-          <InputContainer>
-            <InputContent>
-              <label>Nome</label>
-              <input
-                type="text"
-                {...register("nome")}
-                placeholder="digite o nome do dia"
-              />
-            </InputContent>
-            <InputContent>
-              <label>Tipo</label>
-              <select {...register("tipoDeDia")}>
-                <option>Selecione o tipo de dia</option>
-                <option value="FERIADO">Feriado</option>
-                <option value="EMENDA">Emenda</option>
-              </select>
-            </InputContent>
-            <InputContent>
-              <label>Data</label>
-              <input
-                {...register("dataInicio")}
-                type="date"
-                placeholder="dd/MM/yyyy"
-              />
-            </InputContent>
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button>Criar</button>
-          </ContainerButtonCreate>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Nome</label>
+                <input
+                  type="text"
+                  placeholder="Digite o nome do dia"
+                  {...register("nome")}
+                />
+                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Tipo</label>
+                <select
+                  placeholder="Selecione o tipo do dia"
+                  {...register("tipoDeDia")}
+                  defaultValue=""
+                >
+                  <option value="" disabled>Selecione o tipo do dia</option>
+                  <option value="FERIADO">Feriado</option>
+                  <option value="EMENDA">Emenda</option>
+                </select>
+                {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Data</label>
+                <input
+                  type="date"
+                  placeholder="dd/MM/yyyy"
+                  {...register("dataInicio")}
+                />
+                {/* {errors.data && <p>{errors.data.message}</p>} */}
+              </InputContent>
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
         </form>
       </Content>
     </Dialog.Portal>

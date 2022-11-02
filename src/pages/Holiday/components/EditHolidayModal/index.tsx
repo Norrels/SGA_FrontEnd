@@ -19,48 +19,106 @@ import {
 
 interface EditAdminModalProps {
   holiday: HolidayProps;
-  closeModal: () => void
+  closeModal: () => void;
 }
 
 export const holidayInput = z.object({
   id: z.number(),
   nome: z.string(),
+  // *************************************** tipoDeDia nao seria só tipo? e ta no tipo z.date, ta certo?
   tipoDeDia: z.date(),
-  diaInicio: z.date(),
-  diaFinal: z.string()
+  data: z.date(),
 });
 
 export type HolidayType = z.infer<typeof holidayInput>;
 
 export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
-  const [disabled, setDisabled] = useState(true);
+  const [editable, setEditable] = useState(false);
 
   // const [datat, setDatat] = useState(format(new Date(holiday.dataInicio), "dd-MM-yyyy"))
 
   const { handleSubmit, register, reset } = useForm<HolidayType>();
 
-  function handleUpdateAdmin(data: HolidayType) {
-    handleUpdateAdminAPI(data);
+  function handleUpdateHoliday(data: HolidayType) {
+    handleUpdateHolidayAPI(data);
     reset();
     closeModal();
   }
 
-  async function handleUpdateAdminAPI(data: HolidayType) {
-    console.log(data);
-
+  async function handleUpdateHolidayAPI(data: HolidayType) {
     const resp = await API.put(`dnl/${holiday.id}`, {
       id: holiday.id,
       nome: data.nome,
-      dataInicio: format(new Date(data.diaInicio), "dd/MM/yyyy"),
-      dataFinal: format(new Date(data.diaInicio), "dd/MM/yyyy"),
-      tipoDeDia: data.tipoDeDia
+      data: format(new Date(data.data), "dd/MM/yyyy"),
+      tipoDeDia: data.tipoDeDia,
     });
-
-    console.log(resp);
   }
 
   return (
     <Dialog.Portal>
+      <Overlay />
+      <Content onCloseAutoFocus={() => setEditable(false)}>
+        <ModalHeader>
+          <Dialog.Title>
+            {!editable ? "Dia não letivo" : "Editar dia não letivo"}
+          </Dialog.Title>
+          <HeaderButtons>
+            {!editable && (
+              <button onClick={() => setEditable(true)}>
+                <NotePencil size={50} weight="light" />
+              </button>
+            )}
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form onSubmit={handleSubmit(handleUpdateHoliday)}>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Nome</label>
+                <input
+                  type="text"
+                  placeholder="Digite o nome do dia"
+                  defaultValue={holiday.nome}
+                  {...register("nome")}
+                />
+                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Tipo</label>
+                <select
+                  placeholder="Selecione o tipo do dia"
+                  {...register("tipoDeDia")}
+                  defaultValue={holiday.tipoDeDia}
+                >
+                  <option value="" disabled>
+                    Selecione o tipo do dia
+                  </option>
+                  <option value="FERIADO">Feriado</option>
+                  <option value="EMENDA">Emenda</option>
+                </select>
+                {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Data</label>
+                <input
+                  type="date"
+                  placeholder="dd/MM/yyyy"
+                  defaultValue={holiday.dataInicio}
+                  {...register("data")}
+                />
+                {/* {errors.data && <p>{errors.data.message}</p>} */}
+              </InputContent>
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
+        </form>
+      </Content>
+      {/* <Dialog.Portal>
       <Overlay />
       <Content>
         <form onSubmit={handleSubmit(handleUpdateAdmin)}>
@@ -141,6 +199,7 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
           </ContainerButtonCreate>
         </form>
       </Content>
+    </Dialog.Portal> */}
     </Dialog.Portal>
   );
 }
