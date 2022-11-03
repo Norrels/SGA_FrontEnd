@@ -47,7 +47,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
     }
   );
 
-  async function handleCourse(id: number) {
+  async function handleCourse(id: number | undefined) {
     deleteCourse(id);
   }
 
@@ -67,7 +67,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
         <CourseItemInfoContent>
           <ItemInfoContentHeader>
             <h3>{course.nome}</h3>
-            <CourseInfoType>{course.tipoCurso?.toLowerCase()}</CourseInfoType>
+            <CourseInfoType>{course.tipo?.toLowerCase()}</CourseInfoType>
           </ItemInfoContentHeader>
 
           <p>
@@ -94,7 +94,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
 
         <CourseItemButton
           buttonColor="delete"
-          onClick={() => handleCourse(course.id)}
+          onClick={() => handleCourse(course?.id)}
         >
           <Trash color="#fff" size={26} />
         </CourseItemButton>

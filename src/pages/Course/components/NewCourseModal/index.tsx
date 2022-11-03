@@ -23,12 +23,12 @@ import {
 
 //Varivel de validação
 export const coursesInputs = z.object({
-  id: z.number(),
+  id: z.number().optional(),
   nome: z
     .string()
     .max(30, { message: "* O nome não deve ter mais de 30 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
-  tipoCurso: z.enum(["FIC", "REGULAR"]),
+  tipo: z.enum(["FIC", "REGULAR"]),
   ativo: z.boolean().optional(),
   unidadeCurricular: z
     .object({
@@ -90,6 +90,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
+    console.log(data)
     createCourseAPI(data);
     reset();
     closeModal();
@@ -109,11 +110,6 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
         </ModalHeader>
 
         <form onSubmit={handleSubmit(handleCreateNewCourse)}>
-          <input
-            type="hidden"
-            value={0}
-            {...register("id", { valueAsNumber: true })}
-          />
           <InputScroll>
             <InputContainer>
               <InputContent>
@@ -132,7 +128,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
               <InputContent>
                 <label>Tipo</label>
                 <select
-                  {...register("tipoCurso", { required: true })}
+                  {...register("tipo", { required: true })}
                   defaultValue={""}
                 >
                   <option value="" disabled>
@@ -141,7 +137,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <option value="FIC">FIC</option>
                   <option value="REGULAR">Regular</option>
                 </select>
-                {errors.tipoCurso && <p>* Selecione um valor válido...</p>}
+                {errors.tipo && <p>* Selecione um valor válido...</p>}
               </InputContent>
               {fields.map((field, index) => {
                 return (

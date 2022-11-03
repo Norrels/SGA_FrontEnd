@@ -69,7 +69,7 @@ export function ModalCreateNewClass({
 
   //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
-    if (course.tipoCurso.toLowerCase() == name.toLowerCase()) {
+    if (course.tipo.toLowerCase() == name.toLowerCase()) {
       return course;
     }
     if (name == "Customizável") {
@@ -80,7 +80,7 @@ export function ModalCreateNewClass({
   //Aqui eu exibo as unidades curriculares do curso que a pessoa selecionou
   function onChangeCourse(event: ChangeEvent<HTMLSelectElement>) {
     const course = courses.find(
-      (course) => course.id.toString() == event.target.value
+      (course) => course?.id?.toString() == event.target.value
     );
     setSelectedCourse(course);
   }

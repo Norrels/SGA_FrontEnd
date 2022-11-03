@@ -59,25 +59,7 @@ export function Calender({ days, today }: CalenderProps) {
     fetchAulas();
   }, [])
 
-  function classOfTheDay(theDay: string) {
-    const aulaPorDia = aulas.map(aula => {
-      if (aula.data == theDay) {
-        return aula
-      }
-    })
-    return aulaPorDia
-  }
 
-  let aulasPorPeriodo
-
-
-
-  console.log(format(new Date(days[1]), 'dd/MM/yyyy').toString())
-
-  // const data = format(new Date(days[3]), 'dd/MM/yyyy')
-  // console.log(data)
-  // console.log(aulas[1]?.data)
-  // console.log(aulas[1]?.data == data.toString())
   return (
     <HomeCalenderContainer>
       <HomeCalenderHeader>
@@ -116,32 +98,16 @@ export function Calender({ days, today }: CalenderProps) {
                 <HomeClassesContainer>
                   {
                     aulas.map((aula, index) => {
-                      {
-                        aulasPorPeriodo = classOfTheDay(aula.data).reduce((acc, aula) => {
-                          if (aula?.periodo == "MANHA") {
-                            acc.manha = {
-                              professor : aula.professor.nome
-                            }
-                          }
-                          return acc
-                        }, {
-                          manha: {
-                            professor: ""
-                          }
-                        })}
                       return (
-                        
-
                         <HomeClasses>
-
-                       
                           {
                             aula.periodo === 'MANHA' ?
                               <ContextMenu.Root>
                                 <ContextMenu.Trigger>
                                   <HomeClass period="morning">
-                                    <p>{aulasPorPeriodo.manha.professor}</p>
+                                    <p>{aula.professor.nome}</p>
                                     <sup>Photoshop</sup>
+                            
                                   </HomeClass>
 
                                 </ContextMenu.Trigger>
@@ -149,36 +115,7 @@ export function Calender({ days, today }: CalenderProps) {
                               </ContextMenu.Root>
                               : <div></div>
                           }
-                          {
-                            aula.periodo === 'TARDE' &&
-
-                            <ContextMenu.Root>
-                              <ContextMenu.Trigger>
-                                <HomeClass period="afternoon">
-                                  <p>Caio</p>
-                                  <sup>Photoshop</sup>
-                                </HomeClass>
-
-                              </ContextMenu.Trigger>
-                              <RightClick />
-                            </ContextMenu.Root>
-                          }
-                          {
-                            aula.periodo === 'NOITE' &&
-
-                            <ContextMenu.Root>
-                              <ContextMenu.Trigger>
-                                <HomeClass period="night">
-                                  <p>Caio</p>
-                                  <sup>Photoshop</sup>
-                                </HomeClass>
-
-                              </ContextMenu.Trigger>
-                              <RightClick />
-                            </ContextMenu.Root>
-                          }
                         </HomeClasses>
-
                       )
 
                     })}

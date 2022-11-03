@@ -36,9 +36,9 @@ export interface PlaceProps {
 [];
 
 export interface CourseProps {
-  id: number;
+  id?: number;
   nome: string;
-  tipoCurso: string;
+  tipo: string;
   ativo?: boolean
   unidadeCurricular: 
     {
@@ -53,7 +53,7 @@ interface ObjectsContextType {
   courses: CourseProps[]
   placesList: NewPlaceType[]
   deleteTeacher: (id : number) => void
-  deleteCourse: (id: number) => void
+  deleteCourse: (id: number | undefined) => void
   deletePlace: (id: number) => void
   updateTeaches: (data: TeacherProps) => void
   updatePlaces: (data: NewPlaceType) => void
@@ -129,7 +129,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function deleteCourse(id: number) {
+  async function deleteCourse(id: number | undefined) {
     const res = await API.put(`/curso/inativar/${id}`);
   
     if (res.status == 200) {

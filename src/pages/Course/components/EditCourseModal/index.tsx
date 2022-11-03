@@ -109,13 +109,13 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
               <InputContent disabled={!editable ? "disabled" : "on"}>
                 <label>Tipo</label>
                 <select
-                  defaultValue={course.tipoCurso}
-                  {...register("tipoCurso", { required: true })}
+                  defaultValue={course.tipo}
+                  {...register("tipo", { required: true })}
                 >
                   <option value="FIC">FIC</option>
                   <option value="REGULAR">Regular</option>
                 </select>
-                {errors.tipoCurso && <p>* Selecione um valor válido...</p>}
+                {errors.tipo && <p>* Selecione um valor válido...</p>}
               </InputContent>
               {fields.map((field, index) => {
                 return (
@@ -153,7 +153,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index >= course.unidadeCurricular.length && (
+                    {index >= course.unidadeCurricular.length && editable && (
                       <Trash
                         size={40}
                         weight="light"
