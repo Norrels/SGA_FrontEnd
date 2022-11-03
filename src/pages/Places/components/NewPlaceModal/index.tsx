@@ -20,7 +20,7 @@ import {
 
 const presencialValidation = z.object({
   id: z.number().optional(),
-  tipoAmbiente: z.literal("PRESENCIAL"),
+  tipo: z.literal("PRESENCIAL"),
   nome: z
     .string()
     .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
@@ -36,7 +36,7 @@ const presencialValidation = z.object({
 
 const unidadeMovelValidation = z.object({
   id: z.number().optional(),
-  tipoAmbiente: z.literal("UNIDADE_MOVEL"),
+  tipo: z.literal("UNIDADE_MOVEL"),
   capacidade: z
     .number({ invalid_type_error: "* Informe um valor" })
     .min(3, { message: "* Deve ser maior que 1 caracter" }),
@@ -52,7 +52,7 @@ const unidadeMovelValidation = z.object({
 
 const empresalValidation = z.object({
   id: z.number().optional(),
-  tipoAmbiente: z.literal("EMPRESA"),
+  tipo: z.literal("EMPRESA"),
   capacidade: z
     .number({ invalid_type_error: "* Informe um valor" })
     .min(1, { message: "* Deve ser maior que 1 caracter" }),
@@ -75,7 +75,7 @@ const empresalValidation = z.object({
 
 const entidadelValidation = z.object({
   id: z.number().optional(),
-  tipoAmbiente: z.literal("ENTIDADE"),
+  tipo: z.literal("ENTIDADE"),
   capacidade: z
     .number({ invalid_type_error: "* Informe um valor" })
     .min(1, { message: "* Deve ser maior que 1 caracter" }),
@@ -98,7 +98,7 @@ const entidadelValidation = z.object({
 
 const remotoValidation = z.object({
   id: z.number().optional(),
-  tipoAmbiente: z.literal("REMOTO"),
+  tipo: z.literal("REMOTO"),
   nome: z
     .string()
     .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
@@ -110,7 +110,7 @@ const remotoValidation = z.object({
   capacidade: z.number().optional(),
 });
 
-export const allValidation = z.discriminatedUnion("tipoAmbiente", [
+export const allValidation = z.discriminatedUnion("tipo", [
   presencialValidation,
   unidadeMovelValidation,
   entidadelValidation,
@@ -130,7 +130,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     handleSubmit,
     reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const { createPlacesAPI } = useContext(ObjectsContext);
@@ -169,9 +168,13 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
         (response) => {
           if (response.status >= 200 && response.status < 299) {
             response.json().then((data) => {
+              console.log(data)
               if (!adress && data.logradouro !== undefined) {
-                setValue("endereco", data.logradouro);
-                setAdress(data.logradouro);
+                const endereco = `${data.logradouro} - ${data.localidade}, ${data.uf}`
+              
+                setValue("endereco", endereco);
+                
+                setAdress(endereco);
               }
             });
           }
@@ -217,7 +220,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do ambiente"
-                  {...register("tipoAmbiente")}
+                  {...register("tipo")}
                   onChange={handleSelectTipoAmbiente}
                   defaultValue=""
                 >
@@ -230,7 +233,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   <option value="ENTIDADE">Entidade</option>
                   <option value="EMPRESA">Empresa</option>
                 </select>
-                {errors.tipoAmbiente && <p>* Selecione um valor</p>}
+                {errors.tipo && <p>* Selecione um valor</p>}
               </InputContent>
               <InputContent>
                 <InputIndividual>

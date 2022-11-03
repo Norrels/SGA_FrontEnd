@@ -75,8 +75,8 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do ambiente"
-                  defaultValue={place.tipoAmbiente}
-                  {...register("tipoAmbiente")}
+                  defaultValue={place.tipo}
+                  {...register("tipo")}
                 >
                   <option value="UNIDADE_MOVEL">Unidade Movel</option>
                   <option value="PRESENCIAL">Presencial</option>
@@ -89,7 +89,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                 <InputIndividual>
                   <label
                     style={
-                      place.tipoAmbiente === "REMOTO"
+                      place.tipo === "REMOTO"
                         ? { opacity: "30%" }
                         : { opacity: "100%" }
                     }
@@ -101,16 +101,16 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     placeholder="Digite a capacidade"
                     defaultValue={place?.capacidade}
                     {...register("capacidade", { valueAsNumber: true })}
-                    readOnly={place.tipoAmbiente !== "REMOTO" && !editable}
-                    disabled={place.tipoAmbiente === "REMOTO"}
+                    readOnly={place.tipo !== "REMOTO" && !editable}
+                    disabled={place.tipo === "REMOTO"}
                   />
                   {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
                 <InputIndividual>
                   <label
                     style={
-                      place.tipoAmbiente === "EMPRESA" ||
-                      place.tipoAmbiente === "ENTIDADE"
+                      place.tipo === "EMPRESA" ||
+                      place.tipo === "ENTIDADE"
                         ? { opacity: "100%" }
                         : { opacity: "30%" }
                     }
@@ -123,13 +123,13 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     defaultValue={place?.cep}
                     {...register("cep")}
                     readOnly={
-                      (place.tipoAmbiente === "EMPRESA" ||
-                        place.tipoAmbiente === "ENTIDADE") &&
+                      (place.tipo === "EMPRESA" ||
+                        place.tipo === "ENTIDADE") &&
                       !editable
                     }
                     disabled={
-                      place.tipoAmbiente !== "EMPRESA" &&
-                      place.tipoAmbiente !== "ENTIDADE"
+                      place.tipo !== "EMPRESA" &&
+                      place.tipo !== "ENTIDADE"
                     }
                   />
                   {errors.cep && <p>{errors.cep.message}</p>}
@@ -138,8 +138,8 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
               <InputContent disabled={"on"}>
                 <label
                   style={
-                    place.tipoAmbiente === "EMPRESA" ||
-                    place.tipoAmbiente === "ENTIDADE"
+                    place.tipo === "EMPRESA" ||
+                    place.tipo === "ENTIDADE"
                       ? { opacity: "100%" }
                       : { opacity: "30%" }
                   }
@@ -152,13 +152,13 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   defaultValue={place?.endereco}
                   {...register("endereco")}
                   readOnly={
-                    (place.tipoAmbiente === "EMPRESA" ||
-                      place.tipoAmbiente === "ENTIDADE") &&
+                    (place.tipo === "EMPRESA" ||
+                      place.tipo === "ENTIDADE") &&
                     !editable
                   }
                   disabled={
-                    place.tipoAmbiente !== "EMPRESA" &&
-                    place.tipoAmbiente !== "ENTIDADE"
+                    place.tipo !== "EMPRESA" &&
+                    place.tipo !== "ENTIDADE"
                   }
                 />
                 {errors.endereco && <p>{errors.endereco.message}</p>}
@@ -166,8 +166,8 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
               <InputContent disabled={"on"}>
                 <label
                   style={
-                    place.tipoAmbiente === "EMPRESA" ||
-                    place.tipoAmbiente === "ENTIDADE"
+                    place.tipo === "EMPRESA" ||
+                    place.tipo === "ENTIDADE"
                       ? { opacity: "100%" }
                       : { opacity: "30%" }
                   }
@@ -180,13 +180,13 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   defaultValue={place?.complemento}
                   {...register("complemento")}
                   readOnly={
-                    (place.tipoAmbiente === "EMPRESA" ||
-                      place.tipoAmbiente === "ENTIDADE") &&
+                    (place.tipo === "EMPRESA" ||
+                      place.tipo === "ENTIDADE") &&
                     !editable
                   }
                   disabled={
-                    place.tipoAmbiente !== "EMPRESA" &&
-                    place.tipoAmbiente !== "ENTIDADE"
+                    place.tipo !== "EMPRESA" &&
+                    place.tipo !== "ENTIDADE"
                   }
                 />
                 {errors.complemento && <p>{errors.complemento.message}</p>}

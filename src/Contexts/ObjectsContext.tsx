@@ -27,7 +27,7 @@ export interface PlaceProps {
   id: number;
   nome: string;
   capacidade: number;
-  tipoAmbiente: string;
+  tipo: string;
   cep: string;
   /* endereco: string; */
   complemento: string;

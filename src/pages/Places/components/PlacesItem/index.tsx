@@ -46,12 +46,12 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
           <ItemInfoContentHeader>
             <h3>{placeItem.nome}</h3>
             <PlaceInfoType>
-              {placeItem?.tipoAmbiente?.toLowerCase() === "unidade_movel"
+              {placeItem?.tipo?.toLowerCase() === "unidade_movel"
                 ? "Unidade Móvel"
-                : placeItem?.tipoAmbiente?.toLowerCase()}
+                : placeItem?.tipo?.toLowerCase()}
             </PlaceInfoType>
           </ItemInfoContentHeader>
-          {placeItem.tipoAmbiente !== "REMOTO" && (
+          {placeItem.tipo !== "REMOTO" && (
             <p>
               Quantidade de pessoas: <span>{placeItem.capacidade}</span>
             </p>
