@@ -24,7 +24,8 @@ interface HolidayItem {
 export const holidayInput = z.object({
   id: z.string(),
   nome: z.string(),
-  tipoDeDia: z.string(),
+  tipo: z.string(),
+  data: z.string(),
 });
 
 export type HolidayType = z.infer<typeof holidayInput>;
@@ -53,11 +54,11 @@ export function HolidayItem({ holiday }: HolidayItem) {
         <HolidayItemInfoContent>
           <ItemInfoContentHeader>
             <h3>{holiday.nome}</h3>
-            <PlaceInfoType>{holiday.tipoDeDia.toLowerCase()}</PlaceInfoType>
+            <PlaceInfoType>{holiday.tipo}</PlaceInfoType>
           </ItemInfoContentHeader>
 
           <p>
-            Data: <span>{holiday.dataInicio}</span>
+            Data: <span>{holiday.data}</span>
           </p>
         </HolidayItemInfoContent>
       </HolidayItemInfoContainer>
