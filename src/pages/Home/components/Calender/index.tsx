@@ -59,6 +59,7 @@ export function Calender({ days, today }: CalenderProps) {
     fetchAulas();
   }, [])
 
+  console
 
   return (
     <HomeCalenderContainer>
@@ -97,26 +98,33 @@ export function Calender({ days, today }: CalenderProps) {
                 </HomePlaces>
                 <HomeClassesContainer>
                   {
+                   
                     aulas.map((aula, index) => {
-                      return (
-                        <HomeClasses>
-                          {
-                            aula.periodo === 'MANHA' ?
-                              <ContextMenu.Root>
-                                <ContextMenu.Trigger>
-                                  <HomeClass period="morning">
-                                    <p>{aula.professor.nome}</p>
-                                    <sup>Photoshop</sup>
-                            
-                                  </HomeClass>
+                      
 
-                                </ContextMenu.Trigger>
-                                <RightClick />
-                              </ContextMenu.Root>
-                              : <div></div>
-                          }
-                        </HomeClasses>
-                      )
+                     
+                        return (
+                          <HomeClasses>
+                            {
+                              aula.periodo === 'MANHA' && aula.ambiente.id == place.id ?
+                                <ContextMenu.Root>
+                                  <ContextMenu.Trigger>
+                                    <HomeClass period="morning">
+                                      <p>{aula.professor.nome}</p>
+                                      <sup>Photoshop</sup>
+                                      <p>{ }</p>
+                                      <p>{aula.data}</p>
+                                    </HomeClass>
+
+                                  </ContextMenu.Trigger>
+                                  <RightClick />
+                                </ContextMenu.Root>
+                                : <div></div>
+                            }
+                          </HomeClasses>
+                        )
+
+                      
 
                     })}
 
