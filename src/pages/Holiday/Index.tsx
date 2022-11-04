@@ -13,10 +13,9 @@ import {
 
 export interface HolidayProps {
   id: string;
-  dataInicio: string;
-  dataFinal: string;
+  data: string;
   nome: string;
-  tipoDeDia: string;
+  tipo: string;
 }
 [];
 
@@ -51,9 +50,8 @@ export function Holiday() {
         const regex = new RegExp(`${text}`, "gi");
         return (
           holiday.nome.match(regex) ||
-          holiday.dataInicio.match(regex) ||
-          holiday.dataFinal.match(regex) ||
-          holiday.tipoDeDia.match(regex)
+          holiday.data.match(regex) ||
+          holiday.tipo.match(regex)
         );
       });
       setHolidayMatches(matches);

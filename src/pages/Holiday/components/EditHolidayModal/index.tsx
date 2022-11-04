@@ -7,13 +7,13 @@ import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import { HolidayProps } from "../../Index";
 import {
-  CloseButton,
-  ContainerButtonCreate,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
-  NoteButton,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
@@ -25,8 +25,7 @@ interface EditAdminModalProps {
 export const holidayInput = z.object({
   id: z.number(),
   nome: z.string(),
-  // *************************************** tipoDeDia nao seria só tipo? e ta no tipo z.date, ta certo?
-  tipoDeDia: z.date(),
+  tipo: z.date(),
   data: z.date(),
 });
 
@@ -50,7 +49,7 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
       id: holiday.id,
       nome: data.nome,
       data: format(new Date(data.data), "dd/MM/yyyy"),
-      tipoDeDia: data.tipoDeDia,
+      tipo: data.tipo,
     });
   }
 
@@ -76,22 +75,23 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
         <form onSubmit={handleSubmit(handleUpdateHoliday)}>
           <InputScroll>
             <InputContainer>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label>Nome</label>
                 <input
                   type="text"
                   placeholder="Digite o nome do dia"
                   defaultValue={holiday.nome}
                   {...register("nome")}
+                  readOnly={!editable}
                 />
                 {/* {errors.nome && <p>{errors.nome.message}</p>} */}
               </InputContent>
-              <InputContent>
+              <InputContent disabled={editable ? "on" : "disabled"}>
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do dia"
-                  {...register("tipoDeDia")}
-                  defaultValue={holiday.tipoDeDia}
+                  {...register("tipo")}
+                  defaultValue={holiday.tipo}
                 >
                   <option value="" disabled>
                     Selecione o tipo do dia
@@ -101,19 +101,22 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
                 </select>
                 {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
               </InputContent>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <label>Data</label>
                 <input
                   type="date"
                   placeholder="dd/MM/yyyy"
-                  defaultValue={holiday.dataInicio}
+                  defaultValue={holiday.data}
                   {...register("data")}
+                  readOnly={!editable}
                 />
                 {/* {errors.data && <p>{errors.data.message}</p>} */}
               </InputContent>
-              <FinalButton>
-                <button>Criar</button>
-              </FinalButton>
+              {editable && (
+                <FinalButton>
+                  <button>Salvar</button>
+                </FinalButton>
+              )}  
             </InputContainer>
           </InputScroll>
         </form>
