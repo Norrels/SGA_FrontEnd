@@ -1,5 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { ArrowCounterClockwise, Check, Confetti, DotsThreeOutline, MagnifyingGlass, X } from "phosphor-react";
+import {
+  ArrowCounterClockwise,
+  Check,
+  Confetti,
+  DotsThreeOutline,
+  MagnifyingGlass,
+  X,
+} from "phosphor-react";
 import {
   AvailableContainer,
   ButtonIndividual,
@@ -24,12 +31,42 @@ import {
 } from "./style";
 
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
+import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { z } from "zod";
+
+export const teacherInput = z.object({
+  id: z.number(),
+  diaSemana: z.boolean().array(),
+  dataInicio: z.date(),
+  dataFinal: z.date(),
+  periodo: z.string(),
+  professor: z.object({
+    id: z.number(),
+  }),
+});
+
+export type DispProps = z.infer<typeof teacherInput>;
 
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
   const aulas = [{}];
+
+  const { teachers } = useContext(ObjectsContext);
+
+  const { register, handleSubmit, reset, watch, setValue } = useForm<DispProps>(
+    {
+      defaultValues: {
+        diaSemana: [false],
+      },
+    }
+  );
+
+  async function handleGetTeachers(data: DispProps) {
+    console.log(data);
+  }
 
   return (
     <Dialog.Portal>
@@ -51,216 +88,263 @@ export function AvaliableModal() {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        {/* <form onSubmit={handleSubmit()}> */}
-        <ContentScroll>
-          <div id="up" style={{ display: "none" }}></div>
-          <ContentContainer>
-            <Main>
-              <img src={DisponibilidadePerson} />
-              <InputContainer>
-                <InputContent>
-                  <InputIndividual>
-                    <label>Professor</label>
-                    <select
-                      placeholder="Selecione o professor"
-                      defaultValue="default"
-                      /* {...register("professor")} */
-                    >
-                      <option value="default" disabled>
-                        Selecione o professor
-                      </option>
-                    </select>
-                  </InputIndividual>
-                  <InputIndividual>
-                    <label>Periodo</label>
-                    <select
-                      placeholder="Selecione o periodo"
-                      defaultValue="default"
-                      /* {...register("periodo")} */
-                    >
-                      <option value="default" disabled>
-                        Selecione o periodo
-                      </option>
-                      <option value="MANHA">Manhã</option>
-                      <option value="TARDE">Tarde</option>
-                      <option value="NOITE">Noite</option>
-                      <option value="INTEGRAL">Integral</option>
-                    </select>
-                  </InputIndividual>
-                </InputContent>
-                <InputSeparator>
-                  <hr />
-                  <p>Selecione o intervalo de datas e os dias da semana</p>
-                  <hr />
-                </InputSeparator>
-                <InputContent>
-                  <InputIndividual>
-                    <label>Data de Inicio</label>
-                    <input type="date" placeholder="dd/MM/yyyy" />
-                  </InputIndividual>
-                  <InputIndividual>
-                    <label>Data Final</label>
-                    <input type="date" placeholder="dd/MM/yyyy" />
-                  </InputIndividual>
-                </InputContent>
-                <ChecksContent>
-                  <CheckIndividual title="Domingo">
-                    <label>Dom</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Segunda-feira">
-                    <label>Seg</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Terça-feira">
-                    <label>Ter</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Quarta-feira">
-                    <label>Qua</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Quinta-feira">
-                    <label>Qui</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Sexta-feira">
-                    <label>Sex</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                  <CheckIndividual title="Sábado">
-                    <label>Sab</label>
-                    <CheckboxRoot>
-                      <CheckboxIndicator>
-                        <Check size={40} weight="bold" color="#fff" />
-                      </CheckboxIndicator>
-                    </CheckboxRoot>
-                  </CheckIndividual>
-                </ChecksContent>
-              </InputContainer>
-            </Main>
-            {aulas.length !== 0 ? (
-              <InfoBusca>
-                <p>
-                  {searched
-                    ? `{professor.nome} possui {aulas.length} aulas durante o intervalo de datas e os dias da semana selecionados...`
-                    : "Verifique a disponibilidade do professor..."}
-                </p>
-              </InfoBusca>
-            ) : (
-              <></>
-            )}
+        <form onSubmit={handleSubmit(handleGetTeachers)}>
+          <ContentScroll>
+            <div id="up" style={{ display: "none" }}></div>
+            <ContentContainer>
+              <Main>
+                <img src={DisponibilidadePerson} />
+                <InputContainer>
+                  <InputContent>
+                    <InputIndividual>
+                      <label>Professor</label>
+                      <select
+                        placeholder="Selecione o professor"
+                        defaultValue="default"
+                        {...register("professor.id")}
+                      >
+                        <option value="default" disabled>
+                          Selecione o professor
+                        </option>
+                        {teachers.map((value) => (
+                          <option value={value.id}>
+                            {value.nome}
+                          </option>
+                        ))}
+                      </select>
+                    </InputIndividual>
+                    <InputIndividual>
+                      <label>Periodo</label>
+                      <select
+                        placeholder="Selecione o periodo"
+                        defaultValue="default"
+                        {...register("periodo")}
+                      >
+                        <option value="default" disabled>
+                          Selecione o periodo
+                        </option>
+                        <option value="MANHA">Manhã</option>
+                        <option value="TARDE">Tarde</option>
+                        <option value="NOITE">Noite</option>
+                        <option value="INTEGRAL">Integral</option>
+                      </select>
+                    </InputIndividual>
+                  </InputContent>
+                  <InputSeparator>
+                    <hr />
+                    <p>Selecione o intervalo de datas e os dias da semana</p>
+                    <hr />
+                  </InputSeparator>
+                  <InputContent>
+                    <InputIndividual>
+                      <label>Data de Inicio</label>
+                      <input {...register("dataInicio")} type="date" placeholder="dd/MM/yyyy" />
+                    </InputIndividual>
+                    <InputIndividual>
+                      <label>Data Final</label>
+                      <input {...register("dataFinal")} type="date" placeholder="dd/MM/yyyy" />
+                    </InputIndividual>
+                  </InputContent>
+                  <ChecksContent>
+                    <CheckIndividual title="Domingo">
+                      <label>Dom</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${0}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${0}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Segunda-feira">
+                      <label>Seg</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${1}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${1}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Terça-feira">
+                      <label>Ter</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${2}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${2}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Quarta-feira">
+                      <label>Qua</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${3}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${3}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Quinta-feira">
+                      <label>Qui</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${4}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${4}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Sexta-feira">
+                      <label>Sex</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${5}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${5}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                    <CheckIndividual title="Sábado">
+                      <label>Sab</label>
+                      <CheckboxRoot
+                        {...register(`diaSemana.${6}`, { value: false })}
+                        onCheckedChange={(checked) => {
+                          console.log(checked);
+                          setValue(`diaSemana.${6}`, checked ? true : false);
+                        }}
+                      >
+                        <CheckboxIndicator>
+                          <Check size={40} weight="bold" color="#fff" />
+                        </CheckboxIndicator>
+                      </CheckboxRoot>
+                    </CheckIndividual>
+                  </ChecksContent>
+                </InputContainer>
+              </Main>
+              {aulas.length !== 0 ? (
+                <InfoBusca>
+                  <p>
+                    {searched
+                      ? `{professor.nome} possui {aulas.length} aulas durante o intervalo de datas e os dias da semana selecionados...`
+                      : "Verifique a disponibilidade do professor..."}
+                  </p>
+                </InfoBusca>
+              ) : (
+                <></>
+              )}
 
-            {searched && aulas.length !== 0 ? (
-              <TableContainer>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <p>Ver mais</p>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-                <TableRow>
-                  <p>Curso</p>
-                  <p>Ambiente</p>
-                  <p>Periodo</p>
-                  <p>Data</p>
-                  <button>
-                    <DotsThreeOutline size={32} />
-                  </button>
-                </TableRow>
-              </TableContainer>
-            ) : (
-              <></>
-            )}
-            {searched && aulas.length === 0 ? (
-              <AvailableContainer>
-                <Confetti size={60} weight="light" />
-                <p>
-                  O ambiente está disponivel no intervalo de datas e dias
-                  selecionados
-                </p>
-                <p>Clique aqui para cadastrar sua aula!</p>
-              </AvailableContainer>
-            ) : (
-              <></>
-            )}
-            <FinalButton>
-              <button onClick={() => setSearched(true)}>Buscar</button>
-            </FinalButton>
-            <div id="down" style={{ display: "none" }}></div>
-          </ContentContainer>
-        </ContentScroll>
-        {/* </form> */}
+              {searched && aulas.length !== 0 ? (
+                <TableContainer>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <p>Ver mais</p>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                  <TableRow>
+                    <p>Curso</p>
+                    <p>Ambiente</p>
+                    <p>Periodo</p>
+                    <p>Data</p>
+                    <button>
+                      <DotsThreeOutline size={32} />
+                    </button>
+                  </TableRow>
+                </TableContainer>
+              ) : (
+                <></>
+              )}
+              {searched && aulas.length === 0 ? (
+                <AvailableContainer>
+                  <Confetti size={60} weight="light" />
+                  <p>
+                    O ambiente está disponivel no intervalo de datas e dias
+                    selecionados
+                  </p>
+                  <p>Clique aqui para cadastrar sua aula!</p>
+                </AvailableContainer>
+              ) : (
+                <></>
+              )}
+              <FinalButton>
+                <button onClick={() => setSearched(true)}>Buscar</button>
+              </FinalButton>
+              <div id="down" style={{ display: "none" }}></div>
+            </ContentContainer>
+          </ContentScroll>
+        </form>
         <Dialog.Description />
       </Content>
     </Dialog.Portal>
