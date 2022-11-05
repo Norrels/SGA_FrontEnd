@@ -1,8 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
-import { AdminItem } from "./components/AdminItem";
-import { NewAdminModal } from "./components/NewAdminModal";
+import { AdminItem } from "./components/UserItem";
+import { NewAdminModal } from "./components/NewUserModal";
 import {
   AdminButtonContainer,
   AdminContainer,
