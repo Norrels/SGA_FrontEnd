@@ -40,25 +40,28 @@ import { API } from "../../../../lib/axios";
 export const aulaInput = z.object({
   codTurma: z.string(),
   periodo: z.string(),
-  dataInicio: z.date(),
+  data: z.string(),
   cargaDiaria: z.string(),
   diaSemana: z.boolean().array(),
   unidadeCurricular: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
   professor: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
   ambiente: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
   curso: z.object({
     id: z.number(),
+    nome: z.string(),
   }),
 });
 
 export type AulaType = z.infer<typeof aulaInput>;
-
 
 export const disponibilidadeInput = z.object({
   dataInicio: z.string(),
@@ -74,7 +77,7 @@ export type DispProps = z.infer<typeof disponibilidadeInput>;
 
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
-  const [aula, setAula] = useState<AulaType[]>([])
+  const [aula, setAula] = useState<AulaType[]>([]);
 
   const { placesList } = useContext(ObjectsContext);
 
@@ -90,7 +93,10 @@ export function AvaliableModal() {
     console.log(data);
     const res = await API.post("/ambiente/disponibilidade/periodo", data);
 
-    console.log(res)
+    console.log(res);
+    if (res.status == 200) {
+      setAula(res.data);
+    }
   }
 
   return (
@@ -278,7 +284,7 @@ export function AvaliableModal() {
                   </ChecksContent>
                 </InputContainer>
               </Main>
-              {/* {aulas.length !== 0 ? (
+              {aula.length !== 0 ? (
                 <InfoBusca>
                   <p>
                     {searched
@@ -290,7 +296,7 @@ export function AvaliableModal() {
                 <></>
               )}
 
-              {searched && aulas.length !== 0 ? (
+              {searched && aula.length !== 0 ? (
                 <TableContainer>
                   <TableRow>
                     <p>Curso</p>
@@ -299,65 +305,22 @@ export function AvaliableModal() {
                     <p>Data</p>
                     <p>Ver mais</p>
                   </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Professor</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
+                  {aula.map((value) => (
+                    <TableRow>
+                      <p>{value.curso.nome}</p>
+                      <p>{value.professor.nome}</p>
+                      <p>{value.periodo}</p>
+                      <p>{value.data}</p>
+                      <button>
+                        <DotsThreeOutline size={32} />
+                      </button>
+                    </TableRow>
+                  ))}
                 </TableContainer>
               ) : (
                 <></>
               )}
-              {searched && aulas.length === 0 ? (
+              {searched && aula.length === 0 ? (
                 <AvailableContainer>
                   <Confetti size={60} weight="light" />
                   <p>
@@ -368,7 +331,7 @@ export function AvaliableModal() {
                 </AvailableContainer>
               ) : (
                 <></>
-              )} */}
+              )}
               <FinalButton>
                 <button onClick={() => setSearched(true)}>Buscar</button>
               </FinalButton>

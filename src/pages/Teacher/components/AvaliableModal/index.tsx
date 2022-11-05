@@ -36,6 +36,33 @@ import { useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
 import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
 import { z } from "zod";
+import { API } from "../../../../lib/axios";
+
+export const aulaInput = z.object({
+  codTurma: z.string(),
+  periodo: z.string(),
+  data: z.string(),
+  cargaDiaria: z.string(),
+  diaSemana: z.boolean().array(),
+  unidadeCurricular: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  professor: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  ambiente: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+  curso: z.object({
+    id: z.number(),
+    nome: z.string(),
+  }),
+});
+
+export type AulaType = z.infer<typeof aulaInput>;
 
 export const teacherInput = z.object({
   id: z.number(),
@@ -52,7 +79,7 @@ export type DispProps = z.infer<typeof teacherInput>;
 
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
-  const aulas = [{}];
+  const [aula, setAula] = useState<AulaType[]>([]);
 
   const { teachers } = useContext(ObjectsContext);
 
@@ -66,6 +93,12 @@ export function AvaliableModal() {
 
   async function handleGetTeachers(data: DispProps) {
     console.log(data);
+
+    const res = await API.post("/professor/disponibilidade/periodo", data);
+
+    if (res.status == 200) {
+      setAula(res.data);
+    }
   }
 
   return (
@@ -107,9 +140,7 @@ export function AvaliableModal() {
                           Selecione o professor
                         </option>
                         {teachers.map((value) => (
-                          <option value={value.id}>
-                            {value.nome}
-                          </option>
+                          <option value={value.id}>{value.nome}</option>
                         ))}
                       </select>
                     </InputIndividual>
@@ -138,11 +169,19 @@ export function AvaliableModal() {
                   <InputContent>
                     <InputIndividual>
                       <label>Data de Inicio</label>
-                      <input {...register("dataInicio")} type="date" placeholder="dd/MM/yyyy" />
+                      <input
+                        {...register("dataInicio")}
+                        type="date"
+                        placeholder="dd/MM/yyyy"
+                      />
                     </InputIndividual>
                     <InputIndividual>
                       <label>Data Final</label>
-                      <input {...register("dataFinal")} type="date" placeholder="dd/MM/yyyy" />
+                      <input
+                        {...register("dataFinal")}
+                        type="date"
+                        placeholder="dd/MM/yyyy"
+                      />
                     </InputIndividual>
                   </InputContent>
                   <ChecksContent>
@@ -247,7 +286,7 @@ export function AvaliableModal() {
                   </ChecksContent>
                 </InputContainer>
               </Main>
-              {aulas.length !== 0 ? (
+              {aula.length !== 0 ? (
                 <InfoBusca>
                   <p>
                     {searched
@@ -259,7 +298,7 @@ export function AvaliableModal() {
                 <></>
               )}
 
-              {searched && aulas.length !== 0 ? (
+              {searched && aula.length !== 0 ? (
                 <TableContainer>
                   <TableRow>
                     <p>Curso</p>
@@ -268,65 +307,22 @@ export function AvaliableModal() {
                     <p>Data</p>
                     <p>Ver mais</p>
                   </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
-                  <TableRow>
-                    <p>Curso</p>
-                    <p>Ambiente</p>
-                    <p>Periodo</p>
-                    <p>Data</p>
-                    <button>
-                      <DotsThreeOutline size={32} />
-                    </button>
-                  </TableRow>
+                  {aula.map((value) => (
+                    <TableRow>
+                      <p>{value.curso.nome}</p>
+                      <p>{value.professor.nome}</p>
+                      <p>{value.periodo}</p>
+                      <p>{value.data}</p>
+                      <button>
+                        <DotsThreeOutline size={32} />
+                      </button>
+                    </TableRow>
+                  ))}
                 </TableContainer>
               ) : (
                 <></>
               )}
-              {searched && aulas.length === 0 ? (
+              {searched && aula.length === 0 ? (
                 <AvailableContainer>
                   <Confetti size={60} weight="light" />
                   <p>
