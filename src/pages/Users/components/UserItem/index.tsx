@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { z } from "zod";
 import { AdminProps } from "../..";
 import { API } from "../../../../lib/axios";
-import { EditAdminModal } from "../EditAdminModal";
+import { EditAdminModal } from "../EditUserModal";
 import {
   AdminItemButton,
   AdminItemButtonContainer,

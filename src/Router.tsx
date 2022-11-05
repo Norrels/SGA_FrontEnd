@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
 import { DefaultLayoutSup } from "./layout/DefaultLayoutSup";
-import { Admin } from "./pages/Admin";
+import { Admin } from "./pages/Users";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";

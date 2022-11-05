@@ -20,6 +20,7 @@ import { useState } from "react";
 export function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  
 
   function closeModal() {
     setOpen(false);
