@@ -161,6 +161,11 @@ export const InputContent = styled.div`
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
     }
+
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
   }
   p {
     color: #8d0000;
@@ -191,6 +196,11 @@ export const InputIndividual = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
+
+    &:disabled {
+      opacity: 30%;
+      background-color: ${(props) => props.theme["white"]};
+    }
   }
 `;
 

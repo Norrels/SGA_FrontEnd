@@ -16,7 +16,7 @@ export function HeaderSup() {
         <img src={Logo} alt="" />
         <HeaderNavBar>
           <NavLink to="/chamadas">Chamadas</NavLink>
-          <NavLink to="/admins">Administradores</NavLink>
+          <NavLink to="/usuarios">Usuários</NavLink>
         </HeaderNavBar>
 
         <HeaderUser>

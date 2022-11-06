@@ -168,7 +168,7 @@ export default function AdvancedSearch() {
 
           <HeaderNavBar>
             <HeaderNavMenu>
-              <NavLink to="/busca-avancada" title="Início">
+              <NavLink to="/aulas" title="Aulas">
                 Aulas
               </NavLink>
               <DropdownMenu.Root>
@@ -181,7 +181,7 @@ export default function AdvancedSearch() {
                   </HeaderNavMenuArrow>
 
                   <HeaderNavMenuItem>
-                    <NavLink to="/aulas">Início</NavLink>
+                    <NavLink to="/inicio">Início</NavLink>
                   </HeaderNavMenuItem>
                   <HeaderNavMenuItem>
                     <NavLink to="/dias-nao-letivos">Dias não letivo</NavLink>
@@ -218,6 +218,30 @@ export default function AdvancedSearch() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
+            <HeaderNavMenu>
+              <p>Suporte</p>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <CaretDown weight="fill" />
+                </DropdownMenu.Trigger>
+                <HeaderNavMenuContent>
+                  <HeaderNavMenuArrow>
+                    <CaretUp weight="fill" size={30} />
+                  </HeaderNavMenuArrow>
+                  <HeaderNavMenuItem>
+                    <NavLink to="/chamados" title="Chamados">
+                      Chamados
+                    </NavLink>
+                  </HeaderNavMenuItem>  
+                  <HeaderNavMenuItem>
+                    <NavLink to="/usuarios" title="Usuários">
+                      Usuários
+                    </NavLink>
+                  </HeaderNavMenuItem>
+                  
+                </HeaderNavMenuContent>
+              </DropdownMenu.Root>
+            </HeaderNavMenu>
           </HeaderNavBar>
 
           <HeaderUser>

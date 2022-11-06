@@ -16,26 +16,24 @@ import { ViewTeacher } from "./pages/ViewTeacher";
 export function Router() {
   return (
     <Routes>
-      <Route path="/" element={<Login />} />
-      
       <Route path="/" element={<DefaultLayout />}>
-        <Route path="/aulas" element={<Home />} />
-        <Route path="/professores" element={<Teacher />} ></Route>
-        <Route path="/professor" >
-          <Route path=":teacherId" element={<ViewTeacher/>}/>
+        <Route path="/inicio" element={<Home />} />
+        <Route path="/professores" element={<Teacher />}></Route>
+        <Route path="/professor">
+          <Route path=":teacherId" element={<ViewTeacher />} />
         </Route>
         <Route path="/ambientes" element={<Places />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/cursos" element={<Course />} />
-        <Route path="/dias-nao-letivos" element={<Holiday />} />
       </Route>
 
-      <Route path="/busca-avancada" element={<AdvancedSearch />} />
+      <Route path="/login" element={<Login />} />
 
-      <Route path="/" element={<DefaultLayoutSup />}>
-        <Route path="/chamadas" element={<Call />} />
-        <Route path="/admins" element={<Admin />} />
-      </Route>
+      <Route path="/aulas" element={<AdvancedSearch />} />
+      <Route path="/dias-nao-letivos" element={<Holiday />} />
+      
+      <Route path="/chamados" element={<Call />} />
+      <Route path="/usuarios" element={<Admin />} />
     </Routes>
   );
 }

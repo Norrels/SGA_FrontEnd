@@ -37,6 +37,18 @@ export const HeaderNavBar = styled.nav`
       color: ${(props) => props.theme["blue-300"]};
     }
   }
+
+  p {
+    color: ${(props) => props.theme["black"]};
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+
+    &.active {
+      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
 `;
 
 export const HeaderUser = styled.span`
