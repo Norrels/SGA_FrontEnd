@@ -59,7 +59,7 @@ interface ObjectsContextType {
   updatePlaces: (data: NewPlaceType) => void
   updateCourses: (data: CourseProps) => void
   createTeacherAPI: (data: TeacherProps) => void
-  createCourseAPI: (data: CourseProps) => void
+  createCourseAPI: (data: CourseProps) => Promise<number>
   createPlacesAPI: (data: NewPlaceType) => void
 }
 
@@ -96,6 +96,8 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
       data.id = res.data[1]
       setCourses([...courses, data]);
     }
+
+    return res.status
   }
 
   async function createPlacesAPI(data: NewPlaceType) {
@@ -105,6 +107,8 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
       data.id = res.data[1]
       setPlacesList([...placesList, data]);
     }
+
+
   }
 
   async function fetchCourses() {

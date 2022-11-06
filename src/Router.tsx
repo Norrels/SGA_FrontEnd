@@ -17,7 +17,7 @@ export function Router() {
     <Routes>
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/inicio" element={<Home />} />
-        <Route path="/professores" element={<Teacher />}></Route>
+        <Route path="/professores" element={<Teacher />}/>
         <Route path="/professor">
           <Route path=":teacherId" element={<ViewTeacher />} />
         </Route>
@@ -27,7 +27,6 @@ export function Router() {
       </Route>
 
       <Route path="/login" element={<Login />} />
-
       <Route path="/aulas" element={<AdvancedSearch />} />
       <Route path="/dias-nao-letivos" element={<Holiday />} />
       

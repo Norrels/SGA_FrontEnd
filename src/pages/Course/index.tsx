@@ -17,7 +17,6 @@ export function Course() {
   const { courses } = useContext(ObjectsContext);
 
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
-
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
   function closeModal() {
@@ -51,14 +50,14 @@ export function Course() {
         <CourseTitleContainer>
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
-          <CourseButtonContainer>
+      
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <button>Novo Curso</button>
+                <CourseButtonContainer>Novo Curso</CourseButtonContainer>
               </Dialog.Trigger>
               <NewCourseModal closeModal={closeModal} />
             </Dialog.Root>
-          </CourseButtonContainer>
+ 
         </CourseTitleContainer>
         <input
           type="text"
@@ -76,6 +75,7 @@ export function Course() {
             }
           })}
         </CourseList>
+       
       </CourseContent>
     </CourseContainer>
   );

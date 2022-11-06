@@ -3,7 +3,7 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, Trash, X } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -20,6 +20,7 @@ import {
   ModalHeader,
   Overlay,
 } from "./style";
+import { Notification } from "../../../../components/Notification";
 
 //Varivel de validação
 export const coursesInputs = z.object({
@@ -71,6 +72,8 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     },
   });
 
+  const [open, setOpen] = useState(false)
+
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
 
@@ -90,121 +93,134 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
-    console.log(data)
     createCourseAPI(data);
     reset();
     closeModal();
+    setOpen(true)
+  }
+
+  function openNotificantionMethod(){
+    setOpen(false)
   }
 
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content>
-        <ModalHeader>
-          <Dialog.Title>Novo curso</Dialog.Title>
-          <HeaderButtons>
-            <Dialog.Close>
-              <X size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
+    <>
+      <Dialog.Portal>
+        <Overlay />
+        <Content>
+          <ModalHeader>
+            <Dialog.Title>Novo curso</Dialog.Title>
+            <HeaderButtons>
+              <Dialog.Close>
+                <X size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
 
-        <form onSubmit={handleSubmit(handleCreateNewCourse)}>
-          <InputScroll>
-            <InputContainer>
-              <InputContent>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  placeholder="Digite seu nome"
-                  required
-                  {...register("nome", {
-                    required: true,
-                    setValueAs: (v) => firstLetterUppercase(v),
-                  })}
-                />
-                {errors.nome && <p>{errors.nome.message}</p>}
-              </InputContent>
-              <InputContent>
-                <label>Tipo</label>
-                <select
-                  {...register("tipo", { required: true })}
-                  defaultValue={""}
+          <form onSubmit={handleSubmit(handleCreateNewCourse)}>
+            <InputScroll>
+              <InputContainer>
+                <InputContent>
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    placeholder="Digite seu nome"
+                    required
+                    {...register("nome", {
+                      required: true,
+                      setValueAs: (v) => firstLetterUppercase(v),
+                    })}
+                  />
+                  {errors.nome && <p>{errors.nome.message}</p>}
+                </InputContent>
+                <InputContent>
+                  <label>Tipo</label>
+                  <select
+                    {...register("tipo", { required: true })}
+                    defaultValue={""}
+                  >
+                    <option value="" disabled>
+                      Selecione o tipo do ambiente
+                    </option>
+                    <option value="FIC">FIC</option>
+                    <option value="REGULAR">Regular</option>
+                  </select>
+                  {errors.tipo && <p>* Selecione um valor válido...</p>}
+                </InputContent>
+                {fields.map((field, index) => {
+                  return (
+                    <InputContent key={field.id}>
+                      <InputIndividual>
+                        {/* aparecer a label apenas no primeiro componente, validar com o time */}
+                        {/* {index == 0 ? <label>Unidade Curricular</label> : <></>} */}
+                        <label>Unidade Curricular</label>
+                        <input
+                          type="text"
+                          placeholder="Digite a unidade curricular"
+                          required
+                          {...register(`unidadeCurricular.${index}.nome`, {
+                            required: true,
+                            setValueAs: (v) => firstLetterUppercase(v),
+                          })}
+                        />
+                        {errors.unidadeCurricular && (
+                          <p>
+                            {errors.unidadeCurricular[index]?.nome?.message}
+                          </p>
+                        )}
+                      </InputIndividual>
+                      <InputIndividual>
+                        {/* {index == 0 ? <label>Horas</label> : <></>} */}
+                        <label>Horas</label>
+                        <input
+                          type="number"
+                          placeholder="Digite as horas"
+                          required
+                          {...register(`unidadeCurricular.${index}.horas`, {
+                            valueAsNumber: true,
+                            required: true,
+                          })}
+                        />
+                        {errors.unidadeCurricular && (
+                          <p>
+                            {errors.unidadeCurricular[index]?.horas?.message}
+                          </p>
+                        )}
+                      </InputIndividual>
+                      {index !== 0 && (
+                        <Trash
+                          size={40}
+                          weight="light"
+                          onClick={() => remove(index)}
+                        />
+                      )}
+                    </InputContent>
+                  );
+                })}
+                <ButtonNewUnidadeCurricular
+                  onClick={() => {
+                    append({
+                      nome: "",
+                      horas: 6,
+                    });
+                  }}
+                  type="button"
                 >
-                  <option value="" disabled>
-                    Selecione o tipo do ambiente
-                  </option>
-                  <option value="FIC">FIC</option>
-                  <option value="REGULAR">Regular</option>
-                </select>
-                {errors.tipo && <p>* Selecione um valor válido...</p>}
-              </InputContent>
-              {fields.map((field, index) => {
-                return (
-                  <InputContent key={field.id}>
-                    <InputIndividual>
-                      {/* aparecer a label apenas no primeiro componente, validar com o time */}
-                      {/* {index == 0 ? <label>Unidade Curricular</label> : <></>} */}
-                      <label>Unidade Curricular</label>
-                      <input
-                        type="text"
-                        placeholder="Digite a unidade curricular"
-                        required
-                        {...register(`unidadeCurricular.${index}.nome`, {
-                          required: true,
-                          setValueAs: (v) => firstLetterUppercase(v),
-                        })}
-                      />
-                      {errors.unidadeCurricular && (
-                        <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
-                      )}
-                    </InputIndividual>
-                    <InputIndividual>
-                      {/* {index == 0 ? <label>Horas</label> : <></>} */}
-                      <label>Horas</label>
-                      <input
-                        type="number"
-                        placeholder="Digite as horas"
-                        required
-                        {...register(`unidadeCurricular.${index}.horas`, {
-                          valueAsNumber: true,
-                          required: true,
-                        })}
-                      />
-                      {errors.unidadeCurricular && (
-                        <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
-                      )}
-                    </InputIndividual>
-                    {index !== 0 && (
-                      <Trash
-                        size={40}
-                        weight="light"
-                        onClick={() => remove(index)}
-                      />
-                    )}
-                  </InputContent>
-                );
-              })}
-              <ButtonNewUnidadeCurricular
-                onClick={() => {
-                  append({
-                    nome: "",
-                    horas: 6,
-                  });
-                }}
-                type="button"
-              >
-                <Plus size={32} />
-                <p>Adicionar unidade curricular</p>
-              </ButtonNewUnidadeCurricular>
-              <FinalButton>
-                <button>Criar</button>
-              </FinalButton>
-            </InputContainer>
-          </InputScroll>
-        </form>
-      </Content>
-    </Dialog.Portal>
+                  <Plus size={32} />
+                  <p>Adicionar unidade curricular</p>
+                </ButtonNewUnidadeCurricular>
+                <FinalButton>
+                  <button>Criar</button>
+                </FinalButton>
+              </InputContainer>
+            </InputScroll>
+          </form>
+        </Content>
+       
+      </Dialog.Portal>
+
+      <Notification openNotification={open} openNotificationMethod={openNotificantionMethod}/>
+    </>
   );
 }
 

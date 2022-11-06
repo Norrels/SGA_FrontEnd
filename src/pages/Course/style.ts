@@ -82,13 +82,9 @@ export const CourseTitleContainer = styled.div`
   }
 `;
 
-export const CourseButtonContainer = styled.div`
-  margin-top: 2rem;
 
-  display: flex;
-  gap: 2rem;
-
-  button {
+export const CourseButtonContainer = styled.button`
+    margin-top: 2rem;
     width: 12.5rem;
     height: 3.75rem;
 
@@ -106,7 +102,7 @@ export const CourseButtonContainer = styled.div`
       box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
       transform: translateY(-5px);
     }
-  }
+  
 `;
 
 export const Toggle = styled.div`
