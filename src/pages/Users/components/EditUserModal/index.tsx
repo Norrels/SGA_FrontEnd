@@ -4,25 +4,26 @@ import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AdminProps } from "../..";
+import { UserProps } from "../..";
 import { API } from "../../../../lib/axios";
 import {
-  CloseButton,
-  ContainerButtonCreate,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
-  NoteButton,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
-interface EditAdminModalProps {
-  admin: AdminProps;
+interface EditUserModalProps {
+  user: UserProps;
   closeModal: () => void;
 }
 
-export const adminInput = z.object({
+export const userInput = z.object({
   id: z.number(),
   nome: z
     .string()
@@ -36,39 +37,39 @@ export const adminInput = z.object({
     .string()
     .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
     .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
+  tipo: z.enum(["ADMINISTRADOR", "SUPORTE"]),
   senha: z.string(),
 });
 
-export type AdminType = z.infer<typeof adminInput>;
+export type UserType = z.infer<typeof userInput>;
 
-export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
-  const [disabled, setDisabled] = useState(true);
+export function EditUserModal({ user, closeModal }: EditUserModalProps) {
+  const [editable, setEditable] = useState(false);
 
   const {
     handleSubmit,
     register,
     reset,
     formState: { errors },
-  } = useForm<AdminType>({
-    resolver: zodResolver(adminInput),
+  } = useForm<UserType>({
+    resolver: zodResolver(userInput),
   });
 
-  function handleUpdateAdmin(data: AdminType) {
-    handleUpdateAdminAPI(data);
+  function handleUpdateUser(data: UserType) {
+    handleUpdateUserAPI(data);
     reset();
     closeModal();
-    // window.location.reload();
   }
 
-  async function handleUpdateAdminAPI(data: AdminType) {
-    const res = await API.put(`usuario/${admin.id}`, {
-      id: admin.id,
+  async function handleUpdateUserAPI(data: UserType) {
+    const res = await API.put(`usuario/${user.id}`, {
+      id: user.id,
       nome: data.nome,
       nif: data.nif,
       email: data.email,
-      tipoUsuario: "ADMINISTRADOR",
+      tipo: data.tipo,
       ativo: "true",
-      senha: admin.email.slice(0, admin.email.search("@")),
+      senha: user.email.slice(0, user.email.search("@")),
     });
 
     if (res.status == 200) {
@@ -79,99 +80,81 @@ export function EditAdminModal({ admin, closeModal }: EditAdminModalProps) {
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
-        {disabled ? (
-          <>
-            <NoteButton>
-              <NotePencil onClick={() => setDisabled(false)} size={32} />
-            </NoteButton>
-          </>
-        ) : (
-          <></>
-        )}
-        <CloseButton>
-          <X onClick={() => setDisabled(true)} />
-        </CloseButton>
-
-        <Dialog.Title>Editar Admin</Dialog.Title>
-        <form onSubmit={handleSubmit(handleUpdateAdmin)}>
-          <InputContainer>
-            <InputContentDupo>
-              {disabled ? (
-                <>
-                  <div>
-                    <label>Nome</label>
-                    <input
-                      type="text"
-                      defaultValue={admin.nome}
-                      placeholder="Digite o nome do curso"
-                      disabled
-                    />
-                    {errors.nome && <p>{errors.nome.message}</p>}
-                  </div>
-                  <div>
-                    <label>NIF</label>
-                    <input
-                      type="text"
-                      defaultValue={admin.nif}
-                      placeholder="Digite o NIF"
-                      disabled
-                    />
-                    {errors.nif && <p>{errors.nif.message}</p>}
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label>Nome</label>
-                    <input
-                      type="text"
-                      {...register("nome")}
-                      defaultValue={admin.nome}
-                      placeholder="Digite o nome do curso"
-                    />
-                    {errors.nome && <p>{errors.nome.message}</p>}
-                  </div>
-                  <div>
-                    <label>NIF</label>
-                    <input
-                      type="text"
-                      {...register("nif")}
-                      defaultValue={admin.nif}
-                      placeholder="Digite o NIF"
-                    />
-                    {errors.nif && <p>{errors.nif.message}</p>}
-                  </div>
-                </>
-              )}
-            </InputContentDupo>
-            <InputContent>
-              {disabled ? (
-                <>
-                  <label>Email</label>
+      <Content onCloseAutoFocus={() => setEditable(false)}>
+        <ModalHeader>
+          <Dialog.Title>
+            {!editable ? "Usuário" : "Editar usuário"}
+          </Dialog.Title>
+          <HeaderButtons>
+            {!editable ? (
+              <button onClick={() => setEditable(true)}>
+                <NotePencil size={50} weight="light" />
+              </button>
+            ) : (
+              <></>
+            )}
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form onSubmit={handleSubmit(handleUpdateUser)}>
+          <InputScroll>
+            <InputContainer>
+              <InputContent disabled={"on"}>
+                <InputIndividual>
+                  <label>Nome</label>
                   <input
-                    placeholder="Digite o Email"
-                    defaultValue={admin.email}
-                    disabled
+                    type="text"
+                    placeholder="Digite o nome"
+                    defaultValue={user.nome}
+                    {...register("nome")}
+                    readOnly={!editable}
                   />
-                  {errors.email && <p>{errors.email.message}</p>}
-                </>
-              ) : (
-                <>
-                  <label>Email</label>
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Nif</label>
                   <input
-                    {...register("email")}
-                    placeholder="Digite o Email"
-                    defaultValue={admin.email}
+                    type="text"
+                    placeholder="Digite nif"
+                    defaultValue={user.nif}
+                    {...register("nif")}
+                    readOnly={!editable}
                   />
-                  {errors.email && <p>{errors.email.message}</p>}
-                </>
+                </InputIndividual>
+              </InputContent>
+              <InputContent disabled={"on"}>
+                <label>Email</label>
+                <input
+                  type="text"
+                  placeholder="Digite o email"
+                  defaultValue={user.email}
+                  {...register("email")}
+                  readOnly={!editable}
+                />
+                {/* {errors.email && <p>{errors.email.message}</p>} */}
+              </InputContent>
+              <InputContent disabled={!editable ? "disabled" : "on"}>
+                <label>Tipo de usuário</label>
+                <select
+                  placeholder="Selecione o tipo do usuário"
+                  defaultValue={user.tipo}
+                  {...register("tipo")}
+                >
+                  <option value="ADMINISTRADOR">Administrador</option>
+                  <option value="SUPORTE">Suporte</option>
+                </select>
+                {errors.tipo && <p>* Selecione o tipo do usuário...</p>}
+              </InputContent>
+              {editable ? (
+                <FinalButton>
+                  <button>Salvar</button>
+                </FinalButton>
+              ) : (
+                <></>
               )}
-            </InputContent>
-            <ContainerButtonCreate>
-              <button>Editar</button>
-            </ContainerButtonCreate>
-          </InputContainer>
+            </InputContainer>
+          </InputScroll>
         </form>
       </Content>
     </Dialog.Portal>

@@ -3,75 +3,72 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AdminProps } from "../..";
+import { UserProps } from "../..";
 import { API } from "../../../../lib/axios";
 import {
-  CloseButton,
-  ContainerButtonCreate,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
-interface NewAdminModalProps {
+interface NewUserModalProps {
   closeModal: () => void;
 }
 
-export const adminInput = z.object({
+export const userInput = z.object({
   id: z.number(),
   nome: z
     .string()
-    .min(3, { message: "*** O Nome deve ser maior que 3 caracteres... " })
-    .max(36, { message: "*** O Nome deve ser menor que 36 caracteres... " }),
+    .min(3, { message: "* O Nome deve ser maior que 3 caracteres... " })
+    .max(36, { message: "* O Nome deve ser menor que 36 caracteres... " }),
   nif: z
     .string()
-    .min(4, { message: "*** O NIF deve ser maior que 4 caracteres... " })
-    .max(8, { message: "*** O NIF deve ser menor que 8 caracteres... " }),
+    .min(4, { message: "* O NIF deve ser maior que 4 caracteres... " })
+    .max(8, { message: "* O NIF deve ser menor que 8 caracteres... " }),
   email: z
     .string()
-    .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
-    .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
+    .min(6, { message: "* O Email deve ser maior que 6 caracteres... " })
+    .max(36, { message: "* O Email deve ser menor que 36 caracteres... " }),
+  tipo: z.enum(["ADMINISTRADOR", "SUPORTE"]),
   senha: z.string(),
 });
 
-export type AdminType = z.infer<typeof adminInput>;
+export type UserType = z.infer<typeof userInput>;
 
-export function NewAdminModal({ closeModal }: NewAdminModalProps) {
+export function NewUserModal({ closeModal }: NewUserModalProps) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<AdminType>({
-    resolver: zodResolver(adminInput),
+  } = useForm<UserType>({
+    resolver: zodResolver(userInput),
   });
 
-  console.log(errors);
-
-  function handleCreateAdmin(data: AdminType) {
-    handleCreateAdminAPI(data);
+  function handleCreateUser(data: UserType) {
+    handleCreateUserAPI(data);
     reset();
     closeModal();
     window.location.reload();
   }
 
-  async function handleCreateAdminAPI(admin: AdminType) {
+  async function handleCreateUserAPI(user: UserType) {
     const res = await API.post("usuario", {
-      nome: admin.nome,
-      nif: admin.nif,
-      email: admin.email,
-      senha: admin.email.slice(0, admin.email.search("@")),
-      tipoUsuario: "ADMINISTRADOR",
+      nome: user.nome,
+      nif: user.nif,
+      email: user.email,
+      senha: user.email.slice(0, user.email.search("@")),
+      tipoUsuario: user.tipo,
       ativo: true,
     });
 
-    // console.log(res);
-    // console.log(admin);
-
     if (res.status == 200) {
-      // console.log("deu certo");
     }
   }
 
@@ -79,48 +76,70 @@ export function NewAdminModal({ closeModal }: NewAdminModalProps) {
     <Dialog.Portal>
       <Overlay />
       <Content>
-        <form onSubmit={handleSubmit(handleCreateAdmin)}>
-          <CloseButton>
-            <X />
-          </CloseButton>
-          <Dialog.Title>
-            <span>Novo Administrador</span>
-          </Dialog.Title>
-          <InputContainer>
-            <InputContentDupo>
-              <div>
-                <label>Nome</label>
+        <ModalHeader>
+          <Dialog.Title>Novo usuário</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form onSubmit={handleSubmit(handleCreateUser)}>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <InputIndividual>
+                  <label>Nome</label>
+                  <input
+                    type="text"
+                    placeholder="Digite o nome"
+                    {...register("nome")}
+                    required
+                  />
+                  {errors.nome && <p>{errors.nome.message}</p>}
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Nif</label>
+                  <input
+                    type="text"
+                    placeholder="Digite nif"
+                    {...register("nif")}
+                    required
+                  />
+                  {errors.nif && <p>{errors.nif.message}</p>}
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <label>Email</label>
                 <input
                   type="text"
-                  {...register("nome")}
-                  placeholder="Digite o nome"
+                  placeholder="Digite o email"
+                  {...register("email")}
+                  required
                 />
-                {errors.nome && <p>{errors.nome.message}</p>}
-              </div>
-              <div>
-                <label>NIF</label>
-                <input
-                  type="text"
-                  {...register("nif")}
-                  placeholder="Digite o NIF"
-                />
-                {errors.nif && <p>{errors.nif.message}</p>}
-              </div>
-            </InputContentDupo>
-
-            <InputContent>
-              <label>Email</label>
-              <input
-                type="email"
-                {...register("email")}
-                placeholder="Digite o Email"
-              />
-              {errors.email && <p>{errors.email.message}</p>}
-            </InputContent>
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button type="submit">Criar</button>
-          </ContainerButtonCreate>
+                {errors.email && <p>{errors.email.message}</p>}
+              </InputContent>
+              <InputContent>
+                <label>Tipo de usuário</label>
+                <select
+                  placeholder="Selecione o tipo do usuário"
+                  {...register("tipo")}
+                  defaultValue=""
+                  required
+                >
+                  <option value="" disabled>
+                    Selecione o tipo do usuário
+                  </option>
+                  <option value="ADMINISTRADOR">Administrador</option>
+                  <option value="SUPORTE">Suporte</option>
+                </select>
+                {errors.tipo && <p>* Selecione o tipo do usuário...</p>}
+              </InputContent>
+              <FinalButton>
+                <button type="submit">Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
         </form>
       </Content>
     </Dialog.Portal>

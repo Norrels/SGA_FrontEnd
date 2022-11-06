@@ -1,15 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
-import { AdminItem } from "./components/UserItem";
-import { NewAdminModal } from "./components/NewUserModal";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
-  AdminButtonContainer,
-  AdminContainer,
-  AdminContent,
-  AdminList,
-  AdminTitleContainer,
   HeaderContainer,
   HeaderContent,
   HeaderNavBar,
@@ -19,52 +12,59 @@ import {
   HeaderNavMenuItem,
   HeaderUser,
   Toggle,
+  UsersButtonContainer,
+  UsersContainer,
+  UsersContent,
+  UsersList,
+  UsersTitleContainer,
 } from "./style";
 import { NavLink } from "react-router-dom";
-import { CaretDown, CaretUp, User } from "phosphor-react";
+import { CaretDown, CaretUp } from "phosphor-react";
 import Logo from "../../assets/Logo.svg";
+import { UserItem } from "./components/UserItem";
+import { NewUserModal } from "./components/NewUserModal";
 
-export interface AdminProps {
+export interface UserProps {
   id: string;
   nome: string;
   email: string;
   nif: string;
-  tipoCurso: string;
+  tipo: string;
   senha: string;
   ativo: string;
 }
 [];
 
-export function Admin() {
-  const [admin, setAdmin] = useState<AdminProps[]>([]);
-  const [adminMatches, setAdminMatches] = useState<AdminProps[]>([]);
+export function User() {
+  const [user, setUser] = useState<UserProps[]>([]);
+  const [userMatches, setUserMatches] = useState<UserProps[]>([]);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);
   }
 
-  async function fetchAdmin() {
+  async function fetchUser() {
     const res = await API.get("usuario");
 
     console.log(res.data);
-    setAdmin(res.data);
-    setAdminMatches(res.data);
+    setUser(res.data);
+    setUserMatches(res.data);
   }
 
   useEffect(() => {
-    fetchAdmin();
+    fetchUser();
   }, []);
 
-  const searchAdmin = (text: String) => {
+  const searchUser = (text: String) => {
     if (!text) {
-      setAdminMatches(admin);
+      setUserMatches(user);
     } else {
-      let matches = admin.filter((admin) => {
+      let matches = user.filter((user) => {
         const regex = new RegExp(`${text}`, "gi");
-        return admin.nome.match(regex) || admin.nif.match(regex);
+        return user.nome.match(regex) || user.nif.match(regex);
       });
-      setAdminMatches(matches);
+      setUserMatches(matches);
     }
   };
 
@@ -149,7 +149,6 @@ export function Admin() {
           </HeaderNavBar>
 
           <HeaderUser>
-            <User size={23} />
             <p>Odair</p>
             <button>
               <CaretDown weight="fill" />
@@ -157,34 +156,34 @@ export function Admin() {
           </HeaderUser>
         </HeaderContent>
       </HeaderContainer>
-      <AdminContainer>
-        <AdminContent>
-          <AdminTitleContainer>
-            <h1>Administradores</h1>
-            <p>Chamadas realizadas no momento</p>
-            <AdminButtonContainer>
+      <UsersContainer>
+        <UsersContent>
+          <UsersTitleContainer>
+            <h1>Usuários</h1>
+            <p>Selecione um usuário ou crie um novo!</p>
+            <UsersButtonContainer>
               <Dialog.Root open={open} onOpenChange={setOpen}>
-                <Dialog.Trigger>Novo administrador</Dialog.Trigger>
-                <NewAdminModal closeModal={closeModal} />
+                <Dialog.Trigger>Novo usuário</Dialog.Trigger>
+                <NewUserModal closeModal={closeModal} />
               </Dialog.Root>
-            </AdminButtonContainer>
-          </AdminTitleContainer>
+            </UsersButtonContainer>
+          </UsersTitleContainer>
           <input
             type="text"
-            placeholder="Buscar por Administrador"
-            onChange={(e) => searchAdmin(e.target.value)}
+            placeholder="Busque um ou vários usúarios..."
+            onChange={(e) => searchUser(e.target.value)}
           />
           <Toggle>
             <label>Desativados</label>
             <input type="checkbox" />
           </Toggle>
-          <AdminList>
-            {adminMatches.map((admin) => (
-              <AdminItem key={admin.id} admin={admin} />
+          <UsersList>
+            {userMatches.map((user) => (
+              <UserItem key={user.id} user={user} />
             ))}
-          </AdminList>
-        </AdminContent>
-      </AdminContainer>
+          </UsersList>
+        </UsersContent>
+      </UsersContainer>
     </>
   );
 }
