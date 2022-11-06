@@ -47,6 +47,18 @@ export const HeaderNavBar = styled.nav`
       color: ${(props) => props.theme["blue-300"]};
     }
   }
+
+  p {
+    color: ${(props) => props.theme["black"]};
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-decoration: none;
+
+    &.active {
+      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
 `;
 
 export const HeaderUser = styled.span`
@@ -147,9 +159,8 @@ export const HeaderEditUserButton = styled.button`
   font-size: 1.25rem;
   background: transparent;
   border-radius: 3px;
-  
+
   transition: color, background-color 0.1s;
-  
 
   display: flex;
   gap: 0.5rem;

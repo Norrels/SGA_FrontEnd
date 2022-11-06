@@ -20,7 +20,6 @@ import { useState } from "react";
 export function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  
 
   function closeModal() {
     setOpen(false);
@@ -29,7 +28,7 @@ export function Header() {
   function closeAulas() {
     setTimeout(() => {
       setOpen(true);
-    }, 5)
+    }, 5);
   }
 
   return (
@@ -40,7 +39,7 @@ export function Header() {
 
           <HeaderNavBar>
             <HeaderNavMenu>
-              <NavLink to="/aulas" title="Início">
+              <NavLink to="/inicio" title="Início">
                 Início
               </NavLink>
               <DropdownMenu.Root>
@@ -53,7 +52,7 @@ export function Header() {
                   </HeaderNavMenuArrow>
 
                   <HeaderNavMenuItem>
-                    <NavLink to="/busca-avancada">Aulas</NavLink>
+                    <NavLink to="/aulas">Aulas</NavLink>
                   </HeaderNavMenuItem>
                   <HeaderNavMenuItem>
                     <NavLink to="/dias-nao-letivos">Dias não letivo</NavLink>
@@ -75,6 +74,30 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
+            <HeaderNavMenu>
+              <p>Suporte</p>
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <CaretDown weight="fill" />
+                </DropdownMenu.Trigger>
+                <HeaderNavMenuContent>
+                  <HeaderNavMenuArrow>
+                    <CaretUp weight="fill" size={30} />
+                  </HeaderNavMenuArrow>
+                  <HeaderNavMenuItem>
+                    <NavLink to="/chamados" title="Chamados">
+                      Chamados
+                    </NavLink>
+                  </HeaderNavMenuItem>  
+                  <HeaderNavMenuItem>
+                    <NavLink to="/usuarios" title="Usuários">
+                      Usuários
+                    </NavLink>
+                  </HeaderNavMenuItem>
+                  
+                </HeaderNavMenuContent>
+              </DropdownMenu.Root>
+            </HeaderNavMenu>
           </HeaderNavBar>
 
           <HeaderUser>
@@ -92,11 +115,10 @@ export function Header() {
 
                 <HeaderNavMenuItem onClick={closeAulas}>
                   <HeaderEditUserButton>Seu perfil</HeaderEditUserButton>
-
                 </HeaderNavMenuItem>
                 <HeaderNavMenuItem>
                   <HeaderEditUserButton
-                    onClick={() => navigate("/", { replace: true })}
+                    onClick={() => navigate("/login", { replace: true })}
                   >
                     Sair <SignOut />
                   </HeaderEditUserButton>
@@ -108,10 +130,8 @@ export function Header() {
       </HeaderContainer>
 
       <Dialog.Root open={open} onOpenChange={setOpen}>
-
         <EditUserModal closeModal={closeModal} />
       </Dialog.Root>
     </>
   );
-
 }
