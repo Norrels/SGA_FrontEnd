@@ -1,7 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
-import { DefaultLayoutSup } from "./layout/DefaultLayoutSup";
-import { Admin } from "./pages/Users";
 import AdvancedSearch from "./pages/AdvancedSearch";
 import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";
@@ -11,6 +9,7 @@ import { Home } from "./pages/Home";
 import { Login } from "./pages/Login";
 import { Places } from "./pages/Places";
 import { Teacher } from "./pages/Teacher";
+import { User } from "./pages/Users";
 import { ViewTeacher } from "./pages/ViewTeacher";
 
 export function Router() {
@@ -33,7 +32,7 @@ export function Router() {
       <Route path="/dias-nao-letivos" element={<Holiday />} />
       
       <Route path="/chamados" element={<Call />} />
-      <Route path="/usuarios" element={<Admin />} />
+      <Route path="/usuarios" element={<User />} />
     </Routes>
   );
 }

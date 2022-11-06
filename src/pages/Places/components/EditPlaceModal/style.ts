@@ -32,7 +32,6 @@ export const Overlay = styled(Dialog.Overlay)`
   animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
-
 export const Content = styled(Dialog.Content)`
   width: 46.875rem;
   padding: 3.75rem 2.344rem 3.75rem 0;
@@ -199,14 +198,9 @@ export const InputContent = styled.div<DisabledProps>`
     }
   }
   select {
-    &:disabled {
-      background-color: #efefef;
-      color: rgba(109, 109, 109, 0.5);
-      opacity: 1;
-      &::placeholder {
-        color: rgba(109, 109, 109, 0.5);
-      }
-    }
+    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
   }
 `;
 

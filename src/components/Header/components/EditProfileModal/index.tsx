@@ -33,7 +33,6 @@ export type UserType = z.infer<typeof userInput>;
 
 export function EditUserModal({ closeModal }: EditUserModal) {
   const [editable, setEditable] = useState(false);
-
   const {register, handleSubmit, reset} = useForm<UserType>();  
 
   function handleUpdateUser(data: UserType) {

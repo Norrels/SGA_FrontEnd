@@ -32,11 +32,7 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
   }
 
   return (
-    <PlacesItemContainer
-    /* style={{
-        animationDelay: `${placeAnimationDelay}s `,
-      }} */
-    >
+    <PlacesItemContainer>
       <PlacesItemInfoContainer>
         <PlacesItemIcon>
           <ChalkboardTeacher size={32} />

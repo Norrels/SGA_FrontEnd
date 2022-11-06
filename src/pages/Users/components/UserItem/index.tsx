@@ -2,84 +2,90 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { DotsThree, Pencil, Trash, User } from "phosphor-react";
 import React, { useState } from "react";
 import { z } from "zod";
-import { AdminProps } from "../..";
+import { UserProps } from "../..";
 import { API } from "../../../../lib/axios";
-import { EditAdminModal } from "../EditUserModal";
+import { EditUserModal } from "../EditUserModal";
 import {
-  AdminItemButton,
-  AdminItemButtonContainer,
-  AdminItemContainer,
-  AdminItemIcon,
-  AdminItemInfoContent,
-  AdminItemInfoContentName,
+  ItemInfoContentHeader,
+  UserInfoType,
+  UserItemButton,
+  UserItemButtonContainer,
+  UserItemContainer,
+  UserItemIcon,
+  UserItemInfoContainer,
+  UserItemInfoContent,
 } from "./style";
 
-interface NewAdminModalProps {
-  admin: AdminProps;
-  
+interface NewUserModalProps {
+  user: UserProps;
 }
 
-export const adminInput = z.object({
+export const userInput = z.object({
   id: z.string(),
   nome: z.string(),
   nif: z.string(),
   email: z.string(),
+  tipo: z.string(),
 });
 
-export type AdminType = z.infer<typeof adminInput>;
+export type UserType = z.infer<typeof userInput>;
 
-export function AdminItem({ admin }: NewAdminModalProps) {
-
+export function UserItem({ user }: NewUserModalProps) {
   const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);
   }
 
-  async function handleDisableAdminAPI(data: AdminType) {
+  async function handleDisableUserAPI(data: UserType) {
     const res = await API.put(`usuario/desativar/${data.id}`);
     // console.log(res);
     window.location.reload();
   }
 
   return (
-    <>
-      {admin.ativo ? (
-        <>
-          <AdminItemContainer>
-            <AdminItemInfoContent>
-              <AdminItemIcon>
-                <User size={30} />
-              </AdminItemIcon>
+    <UserItemContainer>
+      <UserItemInfoContainer>
+        <UserItemIcon>
+          <User size={32} />
+        </UserItemIcon>
 
-              <AdminItemInfoContentName>
-                <h3>{admin.nome}</h3>
-                <p>{admin.nif}</p>
-              </AdminItemInfoContentName>
-            </AdminItemInfoContent>
+        <UserItemInfoContent>
+          <ItemInfoContentHeader>
+            <h3>{user.nome}</h3>
+            <UserInfoType>
+              <p>{user.tipo.toLowerCase()}</p>
+            </UserInfoType>
+          </ItemInfoContentHeader>
+          <p>
+            NIF: <span>{user.nif}</span>
+          </p>
+        </UserItemInfoContent>
+      </UserItemInfoContainer>
+      <UserItemButtonContainer>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger
+            style={{
+              backgroundColor: "transparent",
+              border: "none",
+              display: "flex",
+            }}
+          >
+            <UserItemButton buttonColor="edit">
+              <DotsThree color="#fff" size={32} />
+            </UserItemButton>
+          </Dialog.Trigger>
+          <EditUserModal closeModal={closeModal} user={user} key={user.id} />
+        </Dialog.Root>
 
-            <AdminItemButtonContainer>
-              <Dialog.Root open={open} onOpenChange={setOpen} >
-                <Dialog.Trigger style={{ border: "none" }}>
-                  
-                    <DotsThree color="#000" size={25} />
-                 
-                </Dialog.Trigger>
-                <EditAdminModal closeModal={closeModal} admin={admin} key={admin.id} />
-              </Dialog.Root>
-
-              <AdminItemButton
-                onClick={() => handleDisableAdminAPI(admin)}
-                buttonColor="delete"
-              >
-                <Trash color="#fff" size={25} />
-              </AdminItemButton>
-            </AdminItemButtonContainer>
-          </AdminItemContainer>
-        </>
-      ) : (
-        <></>
-      )}
-    </>
+        <UserItemButton buttonColor="delete">
+          <Trash
+            color="#fff"
+            size={26}
+            onClick={() => handleDisableUserAPI(user)}
+          />
+        </UserItemButton>
+      </UserItemButtonContainer>
+    </UserItemContainer>
   );
 }
