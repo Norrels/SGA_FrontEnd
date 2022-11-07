@@ -1,12 +1,15 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
+
 import { DotsThree, Pencil, Trash } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
-import { z } from "zod";
 
+import { z } from "zod";
 import {
   CourseProps,
   ObjectsContext,
 } from "../../../../Contexts/ObjectsContext";
+import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { EditCourseModal } from "../EditCourseModal";
 import {
   CourseInfoType,
@@ -34,8 +37,7 @@ export type CourseType = z.infer<typeof courseInput>;
 export function CourseItem({ course }: NewCouserModalProps) {
   const { deleteCourse } = useContext(ObjectsContext);
 
-  useEffect(() => {
-  }, [course]);
+  useEffect(() => {}, [course]);
 
   const cargaHoraria = course.unidadeCurricular.reduce(
     (acc, unidades) => {
@@ -47,8 +49,8 @@ export function CourseItem({ course }: NewCouserModalProps) {
     }
   );
 
-  async function handleCourse(id: number | undefined) {
-    deleteCourse(id);
+  async function handleCourse() {
+    deleteCourse(course.id);
   }
 
   const [open, setOpen] = useState(false);
@@ -92,12 +94,17 @@ export function CourseItem({ course }: NewCouserModalProps) {
           <EditCourseModal course={course} closeModal={closeModal} />
         </Dialog.Root>
 
-        <CourseItemButton
-          buttonColor="delete"
-          onClick={() => handleCourse(course?.id)}
-        >
-          <Trash color="#fff" size={26} />
-        </CourseItemButton>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild>
+            <CourseItemButton
+              buttonColor="delete"
+            
+            >
+              <Trash color="#fff" size={26} />
+            </CourseItemButton>
+          </AlertDialog.Trigger>
+          <DeleteAlert deleteById={handleCourse}/>
+        </AlertDialog.Root>
       </CourseItemButtonContainer>
     </CourseItemContainer>
   );
