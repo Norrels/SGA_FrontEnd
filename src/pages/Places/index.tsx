@@ -75,7 +75,7 @@ export function Places() {
         </PlacesTitleContainer>
         <input
           type="text"
-          placeholder="Buscar por ambiente"
+          placeholder="Busque um ou vários ambientes..."
           onChange={(e) => searchPlace(e.target.value)}
         />
         <Toggle>

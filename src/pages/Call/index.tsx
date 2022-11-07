@@ -77,7 +77,7 @@ export function Call() {
           </CallTitleContainer>
           <input
             type="text"
-            placeholder="Buscar por Chamada"
+            placeholder="Busque um ou vários chamados..."
             onChange={(e) => searchCall(e.target.value)}
           />
           <CallList>

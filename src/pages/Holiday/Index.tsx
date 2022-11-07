@@ -88,7 +88,7 @@ export function Holiday() {
           <input
             type="text"
             onChange={(v) => searchHoliday(v.target.value)}
-            placeholder="Buscar um dia não letivo"
+            placeholder="Busque um ou vários dias não letivos..."
           />
 
           <HolidayList>
