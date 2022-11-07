@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { UserProps } from "../..";
 import { API } from "../../../../lib/axios";
 import {
   Content,
@@ -22,7 +22,6 @@ interface NewUserModalProps {
 }
 
 export const userInput = z.object({
-  id: z.number(),
   nome: z
     .string()
     .min(3, { message: "* O Nome deve ser maior que 3 caracteres... " })
@@ -36,7 +35,6 @@ export const userInput = z.object({
     .min(6, { message: "* O Email deve ser maior que 6 caracteres... " })
     .max(36, { message: "* O Email deve ser menor que 36 caracteres... " }),
   tipo: z.enum(["ADMINISTRADOR", "SUPORTE"]),
-  senha: z.string(),
 });
 
 export type UserType = z.infer<typeof userInput>;
@@ -51,7 +49,7 @@ export function NewUserModal({ closeModal }: NewUserModalProps) {
     resolver: zodResolver(userInput),
   });
 
-  function handleCreateUser(data: UserType) {
+  function handleCreateNewUser(data: UserType) {
     handleCreateUserAPI(data);
     reset();
     closeModal();
@@ -64,12 +62,9 @@ export function NewUserModal({ closeModal }: NewUserModalProps) {
       nif: user.nif,
       email: user.email,
       senha: user.email.slice(0, user.email.search("@")),
-      tipoUsuario: user.tipo,
+      tipo: user.tipo,
       ativo: true,
     });
-
-    if (res.status == 200) {
-    }
   }
 
   return (
@@ -84,7 +79,7 @@ export function NewUserModal({ closeModal }: NewUserModalProps) {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form onSubmit={handleSubmit(handleCreateUser)}>
+        <form onSubmit={handleSubmit(handleCreateNewUser)}>
           <InputScroll>
             <InputContainer>
               <InputContent>
