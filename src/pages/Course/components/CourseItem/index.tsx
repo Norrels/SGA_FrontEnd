@@ -49,7 +49,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
     }
   );
 
-  async function handleCourse() {
+  async function handleDeleteCourse() {
     deleteCourse(course.id);
   }
 
@@ -103,7 +103,7 @@ export function CourseItem({ course }: NewCouserModalProps) {
               <Trash color="#fff" size={26} />
             </CourseItemButton>
           </AlertDialog.Trigger>
-          <DeleteAlert deleteById={handleCourse}/>
+          <DeleteAlert deleteById={handleDeleteCourse}/>
         </AlertDialog.Root>
       </CourseItemButtonContainer>
     </CourseItemContainer>

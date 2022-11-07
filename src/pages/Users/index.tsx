@@ -23,6 +23,7 @@ import { CaretDown, CaretUp } from "phosphor-react";
 import Logo from "../../assets/Logo.svg";
 import { UserItem } from "./components/UserItem";
 import { NewUserModal } from "./components/NewUserModal";
+import { Header } from "../../components/Header";
 
 export interface UserProps {
   id: string;
@@ -70,92 +71,7 @@ export function User() {
 
   return (
     <>
-      <HeaderContainer>
-        <HeaderContent>
-          <img src={Logo} alt="" />
-
-          <HeaderNavBar>
-            <HeaderNavMenu>
-              <NavLink to="/inicio" title="Início">
-                Início
-              </NavLink>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem>
-                    <NavLink to="/aulas">Aulas</NavLink>
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/dias-nao-letivos">Dias não letivo</NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-            <NavLink to="/dashboard" title="Dashboard">
-              Dashboard
-            </NavLink>
-            <HeaderNavMenu>
-              <NavLink to="/professores" title="Professor">
-                Professores
-              </NavLink>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem>
-                    <NavLink to="/ferias-coletiva">Ferias</NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-            <NavLink to="/cursos" title="Cursos">
-              Cursos
-            </NavLink>
-            <NavLink to="/ambientes" title="Ambientes">
-              Ambientes
-            </NavLink>
-            <HeaderNavMenu>
-            <NavLink to="/usuarios" title="Usuários">
-                Usuários
-              </NavLink>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/chamados" title="Chamados">
-                      Chamados
-                    </NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-          </HeaderNavBar>
-
-          <HeaderUser>
-            <p>Odair</p>
-            <button>
-              <CaretDown weight="fill" />
-            </button>
-          </HeaderUser>
-        </HeaderContent>
-      </HeaderContainer>
+      <Header />
       <UsersContainer>
         <UsersContent>
           <UsersTitleContainer>
