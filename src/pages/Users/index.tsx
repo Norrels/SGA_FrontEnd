@@ -86,7 +86,7 @@ export function User() {
           </UsersTitleContainer>
           <input
             type="text"
-            placeholder="Busque um ou vários usúarios..."
+            placeholder="Busque um ou vários usuários..."
             onChange={(e) => searchUser(e.target.value)}
           />
           <Toggle>

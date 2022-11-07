@@ -77,7 +77,7 @@ export function Teacher() {
 
         <input
           type="text"
-          placeholder="Buscar por professor"
+          placeholder="Busque um ou vários professores..."
           onChange={(v) => searchTeacher(v.target.value)}
         />
         <Toggle>

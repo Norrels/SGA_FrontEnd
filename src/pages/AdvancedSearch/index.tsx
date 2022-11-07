@@ -172,7 +172,7 @@ export default function AdvancedSearch() {
             <AdvancedSearchInput>
               <input
                 type="text"
-                placeholder="Buscar por aula"
+                placeholder="Busque uma ou várias aulas..."
                 {...register("busca")}
                 value={inputValue + ''}
                 onChange={(e) => searchCourse(e.target.value)}
