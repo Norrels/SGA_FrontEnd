@@ -81,7 +81,7 @@ export function HomeSearchInput({
       </HomeUpContentSearchInput>
 
       <HomeDownContentSearchInput>
-        <input type="text" placeholder="Buscar por curso" />
+        <input type="text" placeholder="Busque uma ou várias aulas dessa semana..." />
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>

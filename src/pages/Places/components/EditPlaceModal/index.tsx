@@ -71,7 +71,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
-              <InputContent disabled={"disabled"}>
+              <InputContent disabled={editable ? "on" : "disabled"}>
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do ambiente"

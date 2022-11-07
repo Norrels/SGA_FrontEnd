@@ -62,7 +62,7 @@ export function Course() {
         
         <input
           type="text"
-          placeholder="Buscar por curso"
+          placeholder="Busque um ou vários cursos..."
           onChange={(e) => searchCourse(e.target.value)}
         />
         <Toggle>
