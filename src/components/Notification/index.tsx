@@ -8,24 +8,31 @@ import {
   ViewPortContainer,
 } from "./style";
 
-
 interface NotificationProps {
   openNotification: boolean;
-  openNotificationMethod: () => void
+  openNotificationMethod: () => void;
+  title?: string;
+  description?: string;
 }
 
-export function Notification({openNotification, openNotificationMethod}: NotificationProps){
-  
-
-
+export function Notification({
+  openNotification,
+  openNotificationMethod,
+  title,
+  description,
+}: NotificationProps) {
   return (
     <Toast.Provider duration={3000} swipeDirection="right">
-      <NotificationContainer open={openNotification} onOpenChange={openNotificationMethod} duration={3000}>
+      <NotificationContainer
+        open={openNotification}
+        onOpenChange={openNotificationMethod}
+        duration={3000}
+      >
         <Info size={30} />
-        <NotificationTitle>Criado com sucesso</NotificationTitle>
-        <NotificationDescription>
-          O curso foi criado com sucesso
-        </NotificationDescription>
+        <NotificationTitle asChild>
+          <strong>{title}</strong>
+        </NotificationTitle>
+        <NotificationDescription>{description}</NotificationDescription>
         <NotificationCloseButton>
           <X size={20} />
         </NotificationCloseButton>

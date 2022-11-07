@@ -86,8 +86,9 @@ export function ModalCreateNewClass({
   }
 
   async function handleCreateNewAula(data: AulaType) {
+    console.log(data)
     const res = await API.post("aula", data);
-   
+    
       console.log(res);
       reset();
       closeModal();

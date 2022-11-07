@@ -72,6 +72,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     },
   });
 
+  //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false)
 
   //Método do context que faz a requisição para API e adiciona o valor no state
@@ -219,7 +220,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
        
       </Dialog.Portal>
 
-      <Notification openNotification={open} openNotificationMethod={openNotificantionMethod}/>
+      <Notification description="Criado com sucesso" title="Usuário criado" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
     </>
   );
 }

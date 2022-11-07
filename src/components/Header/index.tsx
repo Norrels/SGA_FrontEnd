@@ -1,5 +1,5 @@
 import { User, CaretDown, CaretUp, SignOut } from "phosphor-react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   HeaderContainer,
   HeaderContent,
@@ -21,6 +21,10 @@ export function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  const location = useLocation();
+
+  console.log(location.pathname);
+
   function closeModal() {
     setOpen(false);
   }
@@ -39,9 +43,20 @@ export function Header() {
 
           <HeaderNavBar>
             <HeaderNavMenu>
-              <NavLink to="/inicio" title="Início">
-                Início
-              </NavLink>
+              {location.pathname == "/dias-nao-letivos" ? (
+                <NavLink to="/dias-nao-letivos" title="Dias não letivos">
+                  Dias não letivos
+                </NavLink>
+              ) : location.pathname == "/aulas" ? (
+                <NavLink to="/aulas" title="Aulas">
+                  Aulas
+                </NavLink>
+              ) : (
+                <NavLink to="/inicio" title="Início">
+                  Início
+                </NavLink>
+              )}
+
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger asChild>
                   <CaretDown weight="fill" />
@@ -52,10 +67,18 @@ export function Header() {
                   </HeaderNavMenuArrow>
 
                   <HeaderNavMenuItem>
-                    <NavLink to="/aulas">Aulas</NavLink>
+                    {location.pathname == "/aulas" ? (
+                      <NavLink to="/inicio">Inicio</NavLink>
+                    ) : (
+                      <NavLink to="/aulas">Aulas</NavLink>
+                    )}
                   </HeaderNavMenuItem>
                   <HeaderNavMenuItem>
-                    <NavLink to="/dias-nao-letivos">Dias não letivo</NavLink>
+                    {location.pathname == "/dias-nao-letivos" ? (
+                      <NavLink to="/inicio">Inicio</NavLink>
+                    ) : (
+                      <NavLink to="/dias-nao-letivos">Dias não letivos</NavLink>
+                    )}
                   </HeaderNavMenuItem>
                 </HeaderNavMenuContent>
               </DropdownMenu.Root>
@@ -74,30 +97,6 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
-            <HeaderNavMenu>
-              <p>Suporte</p>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/chamados" title="Chamados">
-                      Chamados
-                    </NavLink>
-                  </HeaderNavMenuItem>  
-                  <HeaderNavMenuItem>
-                    <NavLink to="/usuarios" title="Usuários">
-                      Usuários
-                    </NavLink>
-                  </HeaderNavMenuItem>
-                  
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
           </HeaderNavBar>
 
           <HeaderUser>

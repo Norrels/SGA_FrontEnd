@@ -44,6 +44,7 @@ export const Content = styled(Dialog.Content)`
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 80;
 
   border-radius: 20px;
   background: ${(props) => props.theme["white"]};

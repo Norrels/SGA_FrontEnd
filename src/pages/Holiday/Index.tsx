@@ -71,97 +71,6 @@ export function Holiday() {
   };
 
   return (
-    <>
-      <HeaderContainer>
-        <HeaderContent>
-          <img src={Logo} alt="" />
-
-          <HeaderNavBar>
-            <HeaderNavMenu>
-              <NavLink to="/dias-nao-letivos" title="Dias não letivos">
-                Dias não letivos
-              </NavLink>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem>
-                    <NavLink to="/inicio">Início</NavLink>
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/aulas">Aulas</NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-            <NavLink to="/dashboard" title="Dashboard">
-              Dashboard
-            </NavLink>
-            <HeaderNavMenu>
-              <NavLink to="/professores" title="Professor">
-                Professores
-              </NavLink>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem>
-                    <NavLink to="/ferias-coletiva">Ferias</NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-            <NavLink to="/cursos" title="Cursos">
-              Cursos
-            </NavLink>
-            <NavLink to="/ambientes" title="Ambientes">
-              Ambientes
-            </NavLink>
-            <HeaderNavMenu>
-              <p>Suporte</p>
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/chamados" title="Chamados">
-                      Chamados
-                    </NavLink>
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    <NavLink to="/usuarios" title="Usuários">
-                      Usuários
-                    </NavLink>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-          </HeaderNavBar>
-
-          <HeaderUser>
-            <User size={23} />
-            <p>Odair</p>
-            <button>
-              <CaretDown weight="fill" />
-            </button>
-          </HeaderUser>
-        </HeaderContent>
-      </HeaderContainer>
       <HolidayContainer>
         <HolidayContent>
           <HolidayTitleContainer>
@@ -189,6 +98,6 @@ export function Holiday() {
           </HolidayList>
         </HolidayContent>
       </HolidayContainer>
-    </>
+    
   );
 }

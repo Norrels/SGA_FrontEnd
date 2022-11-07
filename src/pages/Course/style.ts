@@ -54,6 +54,7 @@ export const CourseTitleContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  z-index: 3;
 
   opacity: 0;
   animation: ${fadeIn} 1s ease-in-out forwards;

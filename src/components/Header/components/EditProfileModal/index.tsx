@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useRouteError } from "react-router-dom";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import {
