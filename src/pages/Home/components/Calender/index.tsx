@@ -19,7 +19,7 @@ import {
 import ptBR from "date-fns/locale/pt-BR";
 import { RightClick } from "../RightClick";
 import { useContext, useEffect, useState } from "react";
-import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../Contexts/ObjectsContext";
+import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 
 

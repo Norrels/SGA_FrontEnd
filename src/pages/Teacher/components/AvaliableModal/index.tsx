@@ -34,7 +34,7 @@ import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg"
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 

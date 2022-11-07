@@ -11,7 +11,7 @@ import {
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
-import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Places() {

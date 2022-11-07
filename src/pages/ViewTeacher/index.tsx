@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { date } from "zod";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
-import { ObjectsContext, TeacherProps } from "../../Contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { AbsenseItem } from "./components/AbsenseItem";
 import { EditTeacherModal } from "./components/EditTeacherModal";

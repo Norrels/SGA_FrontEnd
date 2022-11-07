@@ -7,7 +7,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import {
   CourseProps,
   ObjectsContext,
-} from "../../../../Contexts/ObjectsContext";
+} from "../../../../contexts/ObjectsContext";
 import {
   ButtonNewUnidadeCurricular,
   Content,

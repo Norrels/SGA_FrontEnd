@@ -11,7 +11,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
 import { useContext, useEffect, useState } from "react";
-import { ObjectsContext, TeacherProps } from "../../Contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
 import { NewVacation } from "./components/NewVacation";
 import { API } from "../../lib/axios";
 

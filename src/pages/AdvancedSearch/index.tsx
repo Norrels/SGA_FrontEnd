@@ -29,7 +29,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ObjectsContext } from "../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
 

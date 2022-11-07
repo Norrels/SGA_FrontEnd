@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components';
-import { ObjectsContextProvider } from './Contexts/ObjectsContext';
+import { ObjectsContextProvider } from './contexts/ObjectsContext';
 
 import { Router } from "./Router";
 import { GlobalStyle } from './styles/global';

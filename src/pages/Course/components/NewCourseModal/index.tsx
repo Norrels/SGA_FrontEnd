@@ -7,7 +7,7 @@ import { useContext, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import {
   ButtonNewUnidadeCurricular,
   Content,

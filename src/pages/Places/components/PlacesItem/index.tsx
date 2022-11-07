@@ -1,10 +1,10 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
 import styled, { keyframes } from "styled-components";
-import {
-  ObjectsContext,
-} from "../../../../Contexts/ObjectsContext";
+import { DeleteAlert } from "../../../../components/DeleteAlert";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
 import { NewPlaceType } from "../NewPlaceModal";
 import {
@@ -29,6 +29,10 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
 
   function closeModal() {
     setOpen(false);
+  }
+
+  function handleDelete() {
+    deletePlace(placeItem.id!);
   }
 
   return (
@@ -71,13 +75,17 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
           <EditPlaceModal place={placeItem} closeModal={closeModal} />
         </Dialog.Root>
 
-        <PlacesItemButton buttonColor="delete">
-          <Trash
-            color="#fff"
-            size={26}
-            onClick={() => deletePlace(placeItem.id!)}
-          />
-        </PlacesItemButton>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild>
+            <PlacesItemButton buttonColor="delete">
+              <Trash
+                color="#fff"
+                size={26}
+              />
+            </PlacesItemButton>
+          </AlertDialog.Trigger>
+          <DeleteAlert deleteById={handleDelete} />
+        </AlertDialog.Root>
       </PlacesItemButtonContainer>
     </PlacesItemContainer>
   );

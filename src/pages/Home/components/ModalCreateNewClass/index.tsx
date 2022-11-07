@@ -7,7 +7,7 @@ import Resumo from "../../../../assets/Resumo.svg";
 import {
   CourseProps,
   ObjectsContext,
-} from "../../../../Contexts/ObjectsContext";
+} from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
   CloseButton,

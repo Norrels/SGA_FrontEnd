@@ -8,7 +8,7 @@ import {
   FormProvider,
 } from "react-hook-form";
 import { z } from "zod";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { StarsSection } from "./components/StarsSection";
 

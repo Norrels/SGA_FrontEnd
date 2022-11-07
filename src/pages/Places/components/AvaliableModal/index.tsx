@@ -34,7 +34,7 @@ import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg"
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 
 export const aulaInput = z.object({

@@ -1,6 +1,6 @@
 import { ArrowClockwise, Lightbulb, Warning } from "phosphor-react";
 import { ChangeEvent, useContext } from "react";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { TeacherGraphContainer, TeacherGraphDescription, TeacherGraphLabel, TeacherGraphs, TeacherGraphSelects, TeacherGraphSubtitle, TeacherGraphSubtitles, TeacherGraphSubtitleSpan, TeacherGraphTextContainer } from "./styles";
 import {
   Chart as ChartJS,

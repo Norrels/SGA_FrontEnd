@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ObjectsContext } from "../../../../Contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { allValidation, NewPlaceType } from "../NewPlaceModal";
 import {
   Content,

@@ -8,7 +8,7 @@ import { z } from "zod";
 import {
   CourseProps,
   ObjectsContext,
-} from "../../../../Contexts/ObjectsContext";
+} from "../../../../contexts/ObjectsContext";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { EditCourseModal } from "../EditCourseModal";
 import {

@@ -10,7 +10,7 @@ import {
   CourseTitleContainer,
   Toggle,
 } from "./style";
-import { CourseProps, ObjectsContext } from "../../Contexts/ObjectsContext";
+import { CourseProps, ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Course() {

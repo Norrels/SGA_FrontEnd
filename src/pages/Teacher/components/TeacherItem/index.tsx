@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import {
   ObjectsContext,
   TeacherProps,
-} from "../../../../Contexts/ObjectsContext";
+} from "../../../../contexts/ObjectsContext";
 import UserPicture from "../../../../assets/User.png";
 import {
   ItemInfoContentHeader,

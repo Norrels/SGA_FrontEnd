@@ -22,7 +22,7 @@ import {
 import {
   ObjectsContext,
   TeacherProps,
-} from "../../../../Contexts/ObjectsContext";
+} from "../../../../contexts/ObjectsContext";
 
 export interface IInput {
   id?: number;
