@@ -37,7 +37,6 @@ export function Places() {
 
   async function handleGetPlaces() {
     const resp = await API.get("/ambiente");
-
     if (resp.status == 200) {
       setPlaceMatchs(resp.data);
     }
@@ -47,10 +46,8 @@ export function Places() {
     setOn(value);
     if (value) {
       setPlaceMatchs(placesList.filter((e) => e.ativo == false));
-      console.log(placeMatchs);
     } else {
       setPlaceMatchs(placesList.filter((e) => e.ativo == true));
-      console.log(placeMatchs);
     }
   }
 
