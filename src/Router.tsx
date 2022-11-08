@@ -15,6 +15,8 @@ import { ViewTeacher } from "./pages/ViewTeacher";
 export function Router() {
   return (
     <Routes>
+      <Route path="/" element={<Login />} />
+
       <Route path="/" element={<DefaultLayout />}>
         <Route path="/inicio" element={<Home />} />
         <Route path="/professores" element={<Teacher />} />
@@ -27,8 +29,6 @@ export function Router() {
         <Route path="/aulas" element={<AdvancedSearch />} />
         <Route path="/dias-nao-letivos" element={<Holiday />} />
       </Route>
-
-      <Route path="/login" element={<Login />} />
 
       <Route path="/chamados" element={<Call />} />
       <Route path="/usuarios" element={<User />} />

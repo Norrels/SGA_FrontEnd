@@ -3,13 +3,16 @@ import { X } from "phosphor-react";
 import React from "react";
 import { z } from "zod";
 import { CallInterface } from "../..";
+import Print from "../../../../assets/testeprintchamado.jpg";
 import {
-  CloseButton,
-  ContainerButtonCreate,
   Content,
+  FinalButton,
+  HeaderButtons,
   InputContainer,
   InputContent,
-  InputContentDupo,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
@@ -31,58 +34,55 @@ export const callInput = z.object({
 export type CallTypeProps = z.infer<typeof callInput>;
 
 interface ViewCallModal {
-  callItem: CallInterface;
+  call: CallInterface;
 }
 
-export function ViewCallModal({ callItem }: ViewCallModal) {
+export function ViewCallModal({ call }: ViewCallModal) {
   return (
     <Dialog.Portal>
       <Overlay />
       <Content>
+        <ModalHeader>
+          <Dialog.Title>Chamado</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
         <form>
-          <CloseButton>
-            <X />
-          </CloseButton>
-
-          <Dialog.Title>
-            <span>Chamado</span>
-          </Dialog.Title>
-
-          <InputContainer>
-            <InputContent>
-              <label>Foto</label>
-              <img src="#" />
-            </InputContent>
-            <InputContentDupo>
-              <div>
-                <label>Usuario</label>
-                <input
-                  type="text"
-                  placeholder="Usuário"
-                  disabled
-                  defaultValue={callItem.usuario.nome}
-                />
-              </div>
-              <div>
-                <label>Tipo do Chamado</label>
-                <input
-                  type="text"
-                  placeholder="Chamado"
-                  disabled
-                  defaultValue={callItem.tipoChamado}
-                />
-              </div>
-            </InputContentDupo>
-
-            <InputContent>
-              <label>Descrição</label>
-              <textarea
-                placeholder="Desc"
-                disabled
-                defaultValue={callItem.descricao}
-              ></textarea>
-            </InputContent>
-          </InputContainer>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Foto</label>
+                <a href={Print} target="blank" title="Abrir imagem em outra guia"><img src={Print} /></a>
+              </InputContent>
+              <InputContent>
+                <InputIndividual>
+                  <label>Usuário</label>
+                  <input
+                    type="text"
+                    defaultValue={call.usuario.nome}
+                    readOnly={true}
+                  />
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Tipo do chamado</label>
+                  <input type="text" defaultValue={call.tipo} readOnly={true} />
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <label>Descrição</label>
+                <textarea
+                  defaultValue={call.descricao}
+                  readOnly={true}
+                ></textarea>
+              </InputContent>
+              <FinalButton>
+                <button>Fechar chamado</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
         </form>
       </Content>
     </Dialog.Portal>

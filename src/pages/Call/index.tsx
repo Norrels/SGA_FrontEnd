@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import { CallItem } from "./components/CallItem";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
   CallContainer,
   CallContent,
   CallList,
   CallTitleContainer,
-  HeaderContainer,
-  HeaderContent,
-  HeaderNavBar,
-  HeaderNavMenu,
-  HeaderNavMenuArrow,
-  HeaderNavMenuContent,
-  HeaderNavMenuItem,
-  HeaderUser,
 } from "./style";
-import { NavLink } from "react-router-dom";
-import { CaretDown, CaretUp, User } from "phosphor-react";
-import Logo from "../../assets/Logo.svg";
 import { Header } from "../../components/Header";
 
 export interface CallInterface {
   id: number;
-  tipoChamado: string;
+  tipo: string;
   descricao: string;
   foto: string;
   usuario: Usuario;
@@ -59,7 +47,7 @@ export function Call() {
     } else {
       let matches = calls.filter((calls) => {
         const regex = new RegExp(`${text}`, "gi");
-        return calls.tipoChamado.match(regex);
+        return calls.tipo.match(regex);
       });
 
       setCallMatches(matches);
@@ -82,7 +70,7 @@ export function Call() {
           />
           <CallList>
             {callMatches.map((call) => (
-              <CallItem key={call.id} callItem={call} />
+              <CallItem key={call.id} call={call} />
             ))}
           </CallList>
         </CallContent>
