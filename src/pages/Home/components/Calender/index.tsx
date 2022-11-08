@@ -51,15 +51,17 @@ export function Calender({ days, today }: CalenderProps) {
   const [aulas, setAulas] = useState<AulaProps[]>([]);
 
   async function fetchAulas() {
-    const response = await API.get("aula")
+    const response = await API.get(`aula/lista?dataInicio=${format(new Date(days[0]), "yyyy'-'MM'-'dd")}&dataFinal=${format(new Date(days[6]), "yyyy'-'MM'-'dd")}`)
     setAulas(response.data)
+
   }
 
   useEffect(() => {
     fetchAulas();
   }, [])
 
-  console
+  console.log(format(days[0], "dd'/'MM'/'yyyy"))
+
 
   return (
     <HomeCalenderContainer>
@@ -92,44 +94,40 @@ export function Calender({ days, today }: CalenderProps) {
         placesList.map((place) => {
           return (
             <div key={place.id}>
-              <HomeCalenderContent >
+              {/* <HomeCalenderContent >
                 <HomePlaces>
                   <p>{place.nome}</p>
                 </HomePlaces>
                 <HomeClassesContainer>
                   {
-                   
-                    aulas.map((aula, index) => {
-                      
 
-                     
-                        return (
-                          <HomeClasses>
-                            {
-                              aula.periodo === 'MANHA' && aula.ambiente.id == place.id ?
-                                <ContextMenu.Root>
-                                  <ContextMenu.Trigger>
-                                    <HomeClass period="morning">
-                                      <p>{aula.professor.nome}</p>
-                                      <sup>Photoshop</sup>
-                                      <p>{ }</p>
-                                      <p>{aula.data}</p>
-                                    </HomeClass>
+                    days.map((day, index) => {
+                      return (
+                        <HomeClasses>
+                       
+                        {
 
-                                  </ContextMenu.Trigger>
-                                  <RightClick />
-                                </ContextMenu.Root>
-                                : <div></div>
-                            }
-                          </HomeClasses>
-                        )
+                         aulas.map((day, index) => {
+                            // format(new Date(aula.data), "MM'/'dd'/'yyyy") == format(days[2], "dd'/'MM'/'yyyy") && aula.ambiente.id == place.id ?
+                            <ContextMenu.Root>
+                              <ContextMenu.Trigger>
+                                <HomeClass period="morning">
 
-                      
+                                  <sup>Photoshop</sup>
 
+
+                                </HomeClass>
+
+                              </ContextMenu.Trigger>
+                              <RightClick />
+                            </ContextMenu.Root>
+
+                         )}}
+                        </HomeClasses>
+                      )
                     })}
-
                 </HomeClassesContainer>
-              </HomeCalenderContent>
+              </HomeCalenderContent> */}
 
             </div>
           )
