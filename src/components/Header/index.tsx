@@ -148,7 +148,7 @@ export function Header() {
                 </HeaderNavMenuItem>
                 <HeaderNavMenuItem>
                   <HeaderEditUserButton
-                    onClick={() => navigate("/login", { replace: true })}
+                    onClick={() => navigate("/", { replace: true })}
                   >
                     Sair <SignOut />
                   </HeaderEditUserButton>

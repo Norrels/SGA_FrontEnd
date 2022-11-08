@@ -1,35 +1,43 @@
 import styled from "styled-components";
 
 export const Content = styled.div`
+  width: 350px;
+  padding: 30px 25px;
   margin-right: 10px;
   margin-bottom: 10px;
+
   border-radius: 20px;
-
-  width: 350px;
-  height: 270px;
-  background-color: rgb(24, 24, 27);
-
-  padding: 10px;
+  background: ${(props) => props.theme["white"]};
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
 `;
 
 export const TextContent = styled.div`
-  text-align: center;
-  padding: 15px;
+  margin-bottom: 1rem;
 
   display: flex;
 
   button {
-    color: white;
+    color: black;
     border: none;
     background-color: transparent;
     font-size: 16px;
+
+    transition-duration: 0.3s;
+
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 
   p {
     margin-left: auto;
     margin-right: auto;
-    font-size: 18px;
-    color: white;
+
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: ${(props) => props.theme["black"]};
+
+    text-align: center;
   }
 `;
 
@@ -42,110 +50,115 @@ export const ContainerClose = styled.div`
 export const ContainerSelect = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
   div {
-    border-radius: 10px;
+    width: 95px;
+    padding: 30px 0;
 
     display: flex;
     align-items: center;
     flex-direction: column;
-
     justify-content: center;
-    color: white;
 
-    background-color: rgb(39, 39, 42);
-    height: 120px;
-    margin: auto;
-    width: 28%;
+    border-radius: 10px;
+    color: white;
+    background-color: #f6f6f6;
     cursor: pointer;
 
-    :hover {
-      transition: ease-in;
-      border-bottom: 1px solid ${(props) => props.theme["blue-400"]};
-    }
-  }
+    transition-duration: 0.4s;
 
-  svg {
-    margin-bottom: 10px;
+    &:hover {
+      box-shadow: 0px 5px 0px rgba(37, 181, 233, 0.6);
+      transform: translateY(-5px);
+    }
+
+    p {
+      color: black;
+    }
   }
 `;
 
 export const ContentHeader = styled.div`
-  padding: 15px;
-
-  svg {
-    color: white;
-    margin-right: 10px;
-  }
+  margin-bottom: 1rem;
 
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  svg {
+    color: black;
+    transition-duration: 0.3s;
+
+    &:hover {
+      color: ${(props) => props.theme["blue-500"]};
+      cursor: pointer;
+    }
+  }
 
   div {
-    border-radius: 10px;
-
     display: flex;
-    align-content: center;
     align-items: center;
+    justify-content: center;
 
-    color: white;
-    width: 33%;
-    cursor: pointer;
+    img {
+      width: 24px;
+    }
+
+    p {
+      margin: 0 5px;
+
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: ${(props) => props.theme["black"]};
+
+      text-align: center;
+    }
   }
 
   button {
-    margin-left: auto;
     color: white;
     border: none;
     background-color: transparent;
-    font-size: 16px;
   }
 `;
 
 export const ContentBody = styled.div`
-  padding: 10px;
-
   textarea {
+    width: 100%;
+    padding: 10px;
     resize: none;
 
     border: 1px solid gray;
+    border-radius: 5px;
     background-color: transparent;
-    color: white;
-    width: 100%;
-    padding: 10px;
+    color: black;
   }
 `;
 
 export const ContentFooter = styled.div`
-  display: flex;
   width: 100%;
-  justify-content: center;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const ButtonLeftContainer = styled.div`
+  display: flex;
   text-align: center;
   justify-content: center;
-
-  button {
-    width: 50%;
-    height: 50%;
-    margin-right: 10px;
-    border-radius: 5px;
-
-    color: white;
-    background-color: rgb(39, 39, 42);
-    border: none;
-  }
 `;
 
 export const ButtonRightContainer = styled.div`
   button {
-    padding: 10px;
+    width: 100%;
+    padding: 13px;
     width: 200px;
     border-radius: 5px;
 
     border: none;
     color: white;
-    background-color: ${(props) => props.theme["blue-400"]};
+    background-color: ${(props) => props.theme["blue-300"]};
   }
 `;

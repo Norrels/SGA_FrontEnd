@@ -96,7 +96,7 @@ export const HeaderButtons = styled.div`
 export const InputScroll = styled.div`
   width: 100%;
   max-height: 600px;
-  padding: 0 2.344rem 1rem 4.688rem;
+  padding: 0 2.344rem 0 4.688rem;
 
   overflow-y: scroll;
 
