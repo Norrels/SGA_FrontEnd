@@ -39,6 +39,7 @@ import { z } from "zod";
 import { API } from "../../../../lib/axios";
 
 export const aulaInput = z.object({
+  id: z.number(),
   codTurma: z.string(),
   periodo: z.string(),
   data: z.string(),
@@ -66,7 +67,7 @@ export type AulaType = z.infer<typeof aulaInput>;
 
 export const teacherInput = z.object({
   id: z.number(),
-  diaSemana: z.boolean().array(),
+  diasSemana: z.boolean().array(),
   dataInicio: z.date(),
   dataFinal: z.date(),
   periodo: z.string(),
@@ -83,19 +84,17 @@ export function AvaliableModal() {
 
   const { teachers } = useContext(ObjectsContext);
 
-  const { register, handleSubmit, reset, watch, setValue } = useForm<DispProps>(
+  const { register, handleSubmit, reset, setValue } = useForm<DispProps>(
     {
       defaultValues: {
-        diaSemana: [false],
+        diasSemana: [false],
       },
     }
   );
 
   async function handleGetTeachers(data: DispProps) {
-    console.log(data);
-
-    const res = await API.post("/professor/disponibilidade/periodo", data);
-
+    const res = await API.post("/professor/disponibilidadeProf/periodo", data);
+    console.log(res)
     if (res.status == 200) {
       setAula(res.data);
     }
@@ -105,14 +104,15 @@ export function AvaliableModal() {
     <Dialog.Portal>
       <Overlay />
       <Content onCloseAutoFocus={() => setSearched(false)}>
+      <form onSubmit={handleSubmit(handleGetTeachers)}>
         <ModalHeader>
           <Dialog.Title>Disponibilidade</Dialog.Title>
           <HeaderButtons>
-            <ButtonIndividual title="Busque o professor disponível">
+            <ButtonIndividual type="submit" title="Busque o professor disponível">
               <MagnifyingGlass size={40} weight="light" />
               <p>Buscar</p>
             </ButtonIndividual>
-            <ButtonIndividual title="Limpe os campos do formulário">
+            <ButtonIndividual type="button" onClick={() => reset()} title="Limpe os campos do formulário">
               <ArrowCounterClockwise size={40} weight="light" />
               <p>Limpar</p>
             </ButtonIndividual>
@@ -121,7 +121,6 @@ export function AvaliableModal() {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form onSubmit={handleSubmit(handleGetTeachers)}>
           <ContentScroll>
             <div id="up" style={{ display: "none" }}></div>
             <ContentContainer>
@@ -140,7 +139,7 @@ export function AvaliableModal() {
                           Selecione o professor
                         </option>
                         {teachers.map((value) => (
-                          <option value={value.id}>{value.nome}</option>
+                          <option key={value.id} value={value.id}>{value.nome}</option>
                         ))}
                       </select>
                     </InputIndividual>
@@ -188,10 +187,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Domingo">
                       <label>Dom</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${0}`, { value: false })}
+                        {...register(`diasSemana.${0}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${0}`, checked ? true : false);
+                          setValue(`diasSemana.${0}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -202,10 +200,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Segunda-feira">
                       <label>Seg</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${1}`, { value: false })}
+                        {...register(`diasSemana.${1}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${1}`, checked ? true : false);
+                          setValue(`diasSemana.${1}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -216,10 +213,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Terça-feira">
                       <label>Ter</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${2}`, { value: false })}
+                        {...register(`diasSemana.${2}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${2}`, checked ? true : false);
+                          setValue(`diasSemana.${2}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -230,10 +226,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Quarta-feira">
                       <label>Qua</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${3}`, { value: false })}
+                        {...register(`diasSemana.${3}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${3}`, checked ? true : false);
+                          setValue(`diasSemana.${3}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -244,10 +239,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Quinta-feira">
                       <label>Qui</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${4}`, { value: false })}
+                        {...register(`diasSemana.${4}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${4}`, checked ? true : false);
+                          setValue(`diasSemana.${4}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -258,10 +252,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Sexta-feira">
                       <label>Sex</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${5}`, { value: false })}
+                        {...register(`diasSemana.${5}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${5}`, checked ? true : false);
+                          setValue(`diasSemana.${5}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -272,10 +265,9 @@ export function AvaliableModal() {
                     <CheckIndividual title="Sábado">
                       <label>Sab</label>
                       <CheckboxRoot
-                        {...register(`diaSemana.${6}`, { value: false })}
+                        {...register(`diasSemana.${6}`, { value: false })}
                         onCheckedChange={(checked) => {
-                          console.log(checked);
-                          setValue(`diaSemana.${6}`, checked ? true : false);
+                          setValue(`diasSemana.${6}`, checked ? true : false);
                         }}
                       >
                         <CheckboxIndicator>
@@ -297,7 +289,6 @@ export function AvaliableModal() {
               ) : (
                 <></>
               )}
-
               {searched && aula.length !== 0 ? (
                 <TableContainer>
                   <TableRow>
@@ -308,7 +299,7 @@ export function AvaliableModal() {
                     <p>Ver mais</p>
                   </TableRow>
                   {aula.map((value) => (
-                    <TableRow>
+                    <TableRow key={value.id}>
                       <p>{value.curso.nome}</p>
                       <p>{value.professor.nome}</p>
                       <p>{value.periodo}</p>
@@ -340,8 +331,8 @@ export function AvaliableModal() {
               <div id="down" style={{ display: "none" }}></div>
             </ContentContainer>
           </ContentScroll>
-        </form>
         <Dialog.Description />
+        </form>
       </Content>
     </Dialog.Portal>
   );
