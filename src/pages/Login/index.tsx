@@ -16,7 +16,7 @@ export function Login() {
   const navigate = useNavigate();
 
   function handleLogin() {
-    navigate("/aulas", { replace: true });
+    navigate("/inicio", { replace: true });
   }
 
   return (
@@ -25,7 +25,7 @@ export function Login() {
         <LoginHeaderContent>
           <img src={Logo} alt="" />
           <HeaderNavBar>
-            <NavLink to="/">Login</NavLink>
+            <NavLink to="/login">Login</NavLink>
             <NavLink to="/sobre">Sobre</NavLink>
           </HeaderNavBar>
         </LoginHeaderContent>

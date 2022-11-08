@@ -22,6 +22,9 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
+import Cobrinha from "../../../../assets/Cobrinha.svg";
+import Idea from "../../../../assets/Idea.svg";
+import Thought from "../../../../assets/Thought.svg";
 import { ScreenshotButton } from "./ScreenshotButton";
 
 const newCallInput = z.object({
@@ -65,50 +68,57 @@ export function WidgetForm() {
 
   return (
     <Popover.Portal>
+      
       <Popover.Content side={"top"}>
         {type == "inicio" ? (
           <Content>
             <TextContent>
-              <p>Deixe seu Feedback!</p>
+              <p>Deixe seu feedback! :D</p>
               <Popover.Close>
-                <X />
+                <X size={25} />
               </Popover.Close>
             </TextContent>
             <ContainerSelect>
               <div onClick={() => setType("PROBLEMA")}>
-                <BugBeetle color="#5AADD1" size={32} />
+                <img src={Cobrinha} />
                 <p>Problema</p>
               </div>
               <div onClick={() => setType("IDEIA")}>
-                <Lightbulb color="#5AADD1" size={32} />
+                <img src={Idea} />
                 <p>Ideia</p>
               </div>
               <div onClick={() => setType("OUTRO")}>
-                <CloudMoon color="#5AADD1" size={32} />
+                <img src={Thought} />
                 <p>Outro</p>
               </div>
             </ContainerSelect>
           </Content>
         ) : (
-          <></>
-        )}
-
-        {type == "PROBLEMA" ? (
           <form onSubmit={handleSubmit(handleCreateNewCall)}>
             <Content>
               <ContentHeader>
-                <div onClick={() => setType("inicio")}>
-                  <ArrowLeft size={16} />
-                </div>
+                <ArrowLeft onClick={() => setType("inicio")} size={25} />
                 <div>
-                  <BugBeetle color="#5AADD1" size={28} />
-                  <p>Problema</p>
+                  <img
+                    src={
+                      type === "PROBLEMA"
+                        ? Cobrinha
+                        : type === "IDEIA"
+                        ? Idea
+                        : Thought
+                    }
+                  />
+                  <p>
+                    {type === "PROBLEMA"
+                      ? "Problema"
+                      : type === "IDEIA"
+                      ? "Ideia"
+                      : "Outro"}
+                  </p>
                 </div>
-                <div>
-                  <Popover.Close>
-                    <X />
-                  </Popover.Close>
-                </div>
+                <Popover.Close>
+                  <X size={25} />
+                </Popover.Close>
               </ContentHeader>
               <ContentBody>
                 <textarea
@@ -132,94 +142,6 @@ export function WidgetForm() {
               </ContentFooter>
             </Content>
           </form>
-        ) : (
-          <></>
-        )}
-
-        {type == "IDEIA" ? (
-          <form onSubmit={handleSubmit(handleCreateNewCall)}>
-            <Content>
-              <ContentHeader>
-                <div onClick={() => setType("inicio")}>
-                  <ArrowLeft size={16} />
-                </div>
-                <div>
-                  <Lightbulb color="#5AADD1" size={28} />
-                  <p> Ideia</p>
-                </div>
-                <div>
-                  <Popover.Close>
-                    <X />
-                  </Popover.Close>
-                </div>
-              </ContentHeader>
-              <ContentBody>
-                <textarea
-                  cols={10}
-                  maxLength={228}
-                  {...register("descricao")}
-                  rows={6}
-                  placeholder="Nos conte o que está acontecendo..."
-                ></textarea>
-              </ContentBody>
-              <ContentFooter>
-                <ButtonLeftContainer>
-                  <ScreenshotButton
-                    screenshot={screenshot}
-                    onScreenshotTook={setScreenshot}
-                  />
-                </ButtonLeftContainer>
-                <ButtonRightContainer>
-                  <button type="submit">Enviar Feedback</button>
-                </ButtonRightContainer>
-              </ContentFooter>
-            </Content>
-          </form>
-        ) : (
-          <></>
-        )}
-
-        {type == "OUTRO" ? (
-          <form onSubmit={handleSubmit(handleCreateNewCall)}>
-            <Content>
-              <ContentHeader>
-                <div onClick={() => setType("inicio")}>
-                  <ArrowLeft size={16} />
-                </div>
-                <div>
-                  <CloudMoon color="#5AADD1" size={28} />
-                  <p> Outro</p>
-                </div>
-                <div>
-                  <Popover.Close>
-                    <X />
-                  </Popover.Close>
-                </div>
-              </ContentHeader>
-              <ContentBody>
-                <textarea
-                  cols={10}
-                  maxLength={228}
-                  {...register("descricao")}
-                  rows={6}
-                  placeholder="Nos conte o que está acontecendo..."
-                ></textarea>
-              </ContentBody>
-              <ContentFooter>
-                <ButtonLeftContainer>
-                  <ScreenshotButton
-                    screenshot={screenshot}
-                    onScreenshotTook={setScreenshot}
-                  />
-                </ButtonLeftContainer>
-                <ButtonRightContainer>
-                  <button type="submit">Enviar Feedback</button>
-                </ButtonRightContainer>
-              </ContentFooter>
-            </Content>
-          </form>
-        ) : (
-          <></>
         )}
       </Popover.Content>
     </Popover.Portal>
