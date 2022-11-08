@@ -19,6 +19,7 @@ export function Teacher() {
   const { teachers } = useContext(ObjectsContext);
   const [teachersMatch, setTeachersMatch] = useState<TeacherProps[]>([]);
   const [open, setOpen] = useState(false);
+  const [on, setOn] = useState<Boolean>(false);
 
   function closeModal() {
     setOpen(false);
@@ -33,6 +34,15 @@ export function Teacher() {
 
     if (resp.status == 200) {
       setTeachersMatch(resp.data);
+    }
+  }
+
+  async function handleChangeList(value: Boolean) {
+    setOn(value);
+    if(value) {
+      setTeachersMatch(teachers.filter((e) => e.ativo == false));
+    } else {
+      setTeachersMatch(teachers.filter((e) => e.ativo == true));
     }
   }
 
@@ -82,13 +92,15 @@ export function Teacher() {
         />
         <Toggle>
           <label>Desativados</label>
-          <input type="checkbox" />
+          <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
         </Toggle>
         <TeacherList>
           {teachersMatch.map((teacher) => {
-            if (teacher.ativo) {
-              return <TeacherItem key={teacher.id} teacherItem={teacher} />;
-            }
+              if(teacher.ativo && on == false) {
+                return <TeacherItem key={teacher.id} teacherItem={teacher} />;
+              } else if(teacher.ativo == false && on == true) {
+                return <TeacherItem key={teacher.id} teacherItem={teacher} />;
+              }
           })}
         </TeacherList>
       </TeacherContent>

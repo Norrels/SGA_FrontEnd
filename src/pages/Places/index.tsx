@@ -19,6 +19,7 @@ export function Places() {
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [animation, setAnimation] = useState(true);
+  const [on, setOn] = useState<Boolean>(false);
 
   /* let animationDelay = 1;
 
@@ -36,9 +37,17 @@ export function Places() {
 
   async function handleGetPlaces() {
     const resp = await API.get("/ambiente");
-
     if (resp.status == 200) {
       setPlaceMatchs(resp.data);
+    }
+  }
+
+  async function handleChangeList(value: Boolean) {
+    setOn(value);
+    if (value) {
+      setPlaceMatchs(placesList.filter((e) => e.ativo == false));
+    } else {
+      setPlaceMatchs(placesList.filter((e) => e.ativo == true));
     }
   }
 
@@ -80,20 +89,33 @@ export function Places() {
         />
         <Toggle>
           <label>Desativados</label>
-          <input type="checkbox" />
+          <input
+            onChange={(e) => handleChangeList(e.target.checked)}
+            type="checkbox"
+          />
         </Toggle>
         <PlacesList>
-          {placeMatchs.map(
-            (place) =>
-              place.ativo === true && (
+          {placeMatchs.map((place) => {
+            if (place.ativo && on == false) {
+              return (
                 <Place
                   key={place.id}
                   placeItem={
                     place
                   } /* placeAnimationDelay={animationDelay+=0.2} */
                 />
-              )
-          )}
+              );
+            } else if (place.ativo == false && on == true) {
+              return (
+                <Place
+                  key={place.id}
+                  placeItem={
+                    place
+                  } /* placeAnimationDelay={animationDelay+=0.2} */
+                />
+              );
+            }
+          })}
         </PlacesList>
       </PlacesContent>
     </PlacesContainer>

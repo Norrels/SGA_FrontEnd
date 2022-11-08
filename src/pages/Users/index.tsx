@@ -32,7 +32,7 @@ export interface UserProps {
   nif: string;
   tipo: string;
   senha: string;
-  ativo: string;
+  ativo: boolean;
 }
 [];
 
@@ -40,6 +40,7 @@ export function User() {
   const [user, setUser] = useState<UserProps[]>([]);
   const [userMatches, setUserMatches] = useState<UserProps[]>([]);
   const [open, setOpen] = useState(false);
+  const [on, setOn] = useState<Boolean>(false);
 
   function closeModal() {
     setOpen(false);
@@ -48,7 +49,6 @@ export function User() {
   async function fetchUser() {
     const res = await API.get("usuario");
 
-    console.log(res.data);
     setUser(res.data);
     setUserMatches(res.data);
   }
@@ -56,6 +56,15 @@ export function User() {
   useEffect(() => {
     fetchUser();
   }, []);
+
+  async function handleChangeList(value: Boolean) {
+    setOn(value);
+    if(value) {
+      setUserMatches(user.filter((e) => e.ativo == false));
+    } else {
+      setUserMatches(user.filter((e) => e.ativo == true));
+    }
+  }
 
   const searchUser = (text: String) => {
     if (!text) {
@@ -91,12 +100,16 @@ export function User() {
           />
           <Toggle>
             <label>Desativados</label>
-            <input type="checkbox" />
+            <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
           </Toggle>
           <UsersList>
-            {userMatches.map((user) => (
-              <UserItem key={user.id} user={user} />
-            ))}
+            {userMatches.map((user) => {
+              if (user.ativo && on == false) {
+                return <UserItem key={user.id} user={user} />;
+              } else if (user.ativo == false && on == true) {
+                return <UserItem key={user.id} user={user} />;
+              }
+            })}
           </UsersList>
         </UsersContent>
       </UsersContainer>

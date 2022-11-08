@@ -15,9 +15,8 @@ import { API } from "../../lib/axios";
 
 export function Course() {
   const { courses } = useContext(ObjectsContext);
-
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
-
+  const [on, setOn] = useState<Boolean>(false);
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
   function closeModal() {
@@ -36,6 +35,15 @@ export function Course() {
     }
   }
 
+  async function handleChangeList(value: Boolean) {
+    setOn(value);
+    if(value) {
+      setCourseMatchs(courses.filter((e) => e.ativo == false));
+    } else {
+      setCourseMatchs(courses.filter((e) => e.ativo == true));
+    }
+  }
+
   async function searchCourse(value: String) {
     if (!value) {
       setCourseMatchs(courses);
@@ -51,7 +59,6 @@ export function Course() {
         <CourseTitleContainer>
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
-      
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
                 <CourseButtonContainer>Novo Curso</CourseButtonContainer>
@@ -59,7 +66,6 @@ export function Course() {
               <NewCourseModal closeModal={closeModal} />
             </Dialog.Root>
         </CourseTitleContainer>
-        
         <input
           type="text"
           placeholder="Busque um ou vários cursos..."
@@ -67,16 +73,17 @@ export function Course() {
         />
         <Toggle>
           <label>Desativados</label>
-          <input type="checkbox" />
+          <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
         </Toggle>
         <CourseList>
           {courseMatchs.map((course) => {
-            if (course.ativo) {
+            if (course.ativo && on == false) {
+              return <CourseItem key={course.id} course={course} />;
+            } else if(course.ativo == false && on == true) {
               return <CourseItem key={course.id} course={course} />;
             }
-          })}
+           })}
         </CourseList>
-       
       </CourseContent>
     </CourseContainer>
   );
