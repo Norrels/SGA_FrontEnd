@@ -103,7 +103,7 @@ export const HeaderButtons = styled.div`
   }
 `;
 
-export const ButtonIndividual = styled.div`
+export const ButtonIndividual = styled.button`
   margin: 0 0.5rem;
 
   display: flex;
