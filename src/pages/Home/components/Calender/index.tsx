@@ -33,7 +33,7 @@ interface AulaProps {
   professor: TeacherProps,
   ambiente: PlaceProps,
   cargaDiaria: number,
-  data: string,
+  data: Date,
   unidadeCurricular: {
     id: number,
     nome: string,
@@ -59,9 +59,6 @@ export function Calender({ days, today }: CalenderProps) {
   useEffect(() => {
     fetchAulas();
   }, [])
-
-  console.log(format(days[0], "dd'/'MM'/'yyyy"))
-
 
   return (
     <HomeCalenderContainer>
@@ -94,40 +91,37 @@ export function Calender({ days, today }: CalenderProps) {
         placesList.map((place) => {
           return (
             <div key={place.id}>
-              {/* <HomeCalenderContent >
+              <HomeCalenderContent >
                 <HomePlaces>
                   <p>{place.nome}</p>
                 </HomePlaces>
                 <HomeClassesContainer>
                   {
-
                     days.map((day, index) => {
+
                       return (
-                        <HomeClasses>
-                       
-                        {
-
-                         aulas.map((day, index) => {
-                            // format(new Date(aula.data), "MM'/'dd'/'yyyy") == format(days[2], "dd'/'MM'/'yyyy") && aula.ambiente.id == place.id ?
-                            <ContextMenu.Root>
-                              <ContextMenu.Trigger>
-                                <HomeClass period="morning">
-
-                                  <sup>Photoshop</sup>
-
-
-                                </HomeClass>
-
-                              </ContextMenu.Trigger>
-                              <RightClick />
-                            </ContextMenu.Root>
-
-                         )}}
+                        <HomeClasses key={day.getDate()}>
+                          {
+                            aulas.map((aula, index) => { 
+                              return (
+                                format(new Date(aula.data), "MM/dd/yyyy") == format(day, "dd/MM/yyyy") && aula.ambiente.id == place.id &&
+                                <ContextMenu.Root>
+                                  <ContextMenu.Trigger>
+                                    <HomeClass period="morning">
+                                      <p>Caio</p>
+                                      <sup>Photoshop</sup>
+                                      <p></p>
+                                    </HomeClass>
+                                  </ContextMenu.Trigger>
+                                  <RightClick />
+                                </ContextMenu.Root>
+                              )
+                            })}
                         </HomeClasses>
                       )
                     })}
                 </HomeClassesContainer>
-              </HomeCalenderContent> */}
+              </HomeCalenderContent>
 
             </div>
           )

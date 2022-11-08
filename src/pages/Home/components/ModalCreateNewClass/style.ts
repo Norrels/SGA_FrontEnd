@@ -53,15 +53,6 @@ export const CloseButton = styled(Dialog.Close)`
   color: ${(props) => props.theme["black"]};
 `;
 
-export const AvaliableModalContainer = styled.section`
-  margin-top: 3rem;
-
-  sup {
-    font-size: 1.25rem;
-    font-style: italic;
-  }
-`;
-
 export const ModalCreateClassContent = styled.form`
   width: 100%;
   margin-top: 2.5rem;

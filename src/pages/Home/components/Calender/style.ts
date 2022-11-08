@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const HomeCalenderContainer = styled.section`
   display: flex;
@@ -144,19 +144,7 @@ export const HomeClasses = styled.div`
   justify-content: space-between;
   gap: 0.5rem;
 
-  span {
-    &:first-child {
-      div {
-        border-radius: 8px 8px 0px 0px;
-      }
-    }
-
-    &:last-child {
-      div {
-        border-radius: 0px 0px 8px 8px;
-      }
-    }
-  }
+  
 `;
 
 export const HomeClass = styled.div<ClassProps>`
@@ -165,6 +153,12 @@ export const HomeClass = styled.div<ClassProps>`
   justify-content: center;
   padding: 0.4rem;
   border-radius: 0;
+
+  ${(props) => props.theme[PERIOD[props.period]] == "#5AADD1" && css`
+    border-radius: 8px 8px 0px 0px;
+  `
+
+  }
 
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
