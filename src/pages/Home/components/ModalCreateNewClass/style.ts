@@ -22,6 +22,12 @@ const swipeTop = keyframes`
   } 
 `;
 
+const swipeLeft = keyframes`
+to {
+  transform: translateX(-712px);
+} 
+`;
+
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
   height: 100w;
@@ -90,14 +96,37 @@ export const HeaderButtons = styled.div`
       color: ${(props) => props.theme["blue-300"]};
     }
   }
+
+  svg {
+    transition-duration: 0.3s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+      cursor: pointer;
+    }
+  }
+`;
+
+export const InputMain = styled.div`
+  width: 100%;
+  overflow: hidden;
+`;
+
+export const InputOverflow = styled.div`
+  width: fit-content;
+
+  display: flex;
+  align-items: top;
+  justify-content: space-between;
 `;
 
 export const InputScroll = styled.div`
-  width: 100%;
+  width: 712px;
   max-height: 600px;
   padding: 0 2.344rem 1rem 4.688rem;
 
   overflow-y: scroll;
+
+  transition-duration: 0.5s;
 
   ::-webkit-scrollbar {
     width: 6px;
@@ -129,16 +158,18 @@ export const InputContent = styled.div`
   display: flex;
   justify-content: space-between;
 
-  &:nth-child(4), &:nth-child(6)  {
-    flex-direction: row;
-  }
-
   flex-direction: column;
   gap: 0.625rem;
 
   label {
     font-weight: 800;
     font-size: 1.25rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  span {
+    font-weight: 700;
+    font-size: 1.125rem;
     color: ${(props) => props.theme["gray-700"]};
   }
 
@@ -173,8 +204,25 @@ export const InputContent = styled.div`
   }
 `;
 
+export const Steps = styled.div`
+  width: 100%;
+  height: 6px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  
+  div {
+    width: 32%;
+    height: 100%;
+  }
+`;
+
 export const InputIndividual = styled.div`
-  width: 280px;
+  width: 360px;
+  &:last-child {
+    width: 210px;
+  }
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -257,6 +305,10 @@ export const FinalButton = styled.div`
     width: 100%;
     height: 4.688rem;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     border: none;
     border-radius: 10px;
     background-color: ${(props) => props.theme["blue-500"]};
@@ -264,5 +316,9 @@ export const FinalButton = styled.div`
     color: ${(props) => props.theme["white"]};
     font-size: 1.25rem;
     font-weight: bold;
+
+    svg {
+      margin-left: 10px;
+    }
   }
 `;
