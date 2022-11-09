@@ -36,7 +36,7 @@ export const teacherInput = z.object({
     .number({ invalid_type_error: "* Informe um valor" })
     .gte(10, { message: "* Deve ser no minimo 10 horas" })
     .lte(40, { message: "* Não deve passar de 40 horas" }),
-  foto: z.string().optional(),
+  foto:  z.string().optional(),
   ativo: z.boolean().optional(),
   email: z.string().email({ message: "* Informe um email válido" }),
   competencia: z
@@ -55,6 +55,8 @@ export type TeacherType = z.infer<typeof teacherInput>;
 interface NewTeacherModalProps {
   closeModal: () => void;
 }
+
+
 
 interface CurricularUnit {
   id: number;
