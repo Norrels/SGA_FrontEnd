@@ -36,7 +36,7 @@ export const teacherInput = z.object({
     .number({ invalid_type_error: "* Informe um valor" })
     .gte(10, { message: "* Deve ser no minimo 10 horas" })
     .lte(40, { message: "* Não deve passar de 40 horas" }),
-  foto: z.string().optional(),
+  foto:  z.string().optional(),
   ativo: z.boolean().optional(),
   email: z.string().email({ message: "* Informe um email válido" }),
   competencia: z
@@ -55,6 +55,7 @@ export type TeacherType = z.infer<typeof teacherInput>;
 interface NewTeacherModalProps {
   closeModal: () => void;
 }
+
 
 interface CurricularUnit {
   id: number;
@@ -125,8 +126,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
+    console.log(file)
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
+    console.log(String(base64).length);
   };
 
   function convertBase64(file: Blob) {
@@ -157,7 +160,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     return value
   }
 
-  console.log(errors)
 
   return (
     <Dialog.Portal>
