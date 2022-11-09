@@ -11,7 +11,7 @@ export interface TeacherProps {
   nome: string;
   cargaSemanal: number;
   ativo?: boolean;
-  foto?: string;
+  foto?: string | { content : string} | object ;
   email: string;
   competencia: {
     nivel: number;
@@ -22,6 +22,8 @@ export interface TeacherProps {
   }[];
 }
 [];
+
+
 
 export interface PlaceProps {
   id: number;

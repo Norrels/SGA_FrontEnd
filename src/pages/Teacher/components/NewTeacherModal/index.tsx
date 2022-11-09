@@ -38,12 +38,12 @@ export const teacherInput = z.object({
     .lte(40, { message: "* Não deve passar de 40 horas" }),
   foto: z.string().optional(),
   ativo: z.boolean().optional(),
-  email: z.string().email({message: "* Informe um email válido"}),
+  email: z.string().email({ message: "* Informe um email válido" }),
   competencia: z
     .object({
       nivel: z.number(),
       unidadeCurricular: z.object({
-        id: z.number().positive({message: "* Selecione uma UC"}),
+        id: z.number().positive({ message: "* Selecione uma UC" }),
         nome: z.string().optional(),
       }),
     })
@@ -99,6 +99,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     watch,
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = newTeacherForm;
 
@@ -111,14 +112,12 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     },
   });
 
-  //Gambiara ? :D
-  const [baseImage, setBaseImage] = useState("");
+
   //Pwgando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
-    data.foto = baseImage;
     createTeacherAPI(data);
     reset();
     closeModal();
@@ -127,7 +126,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
     const base64 = await convertBase64(file);
-    setBaseImage(String(base64));
+    setValue("foto", String(base64));
   };
 
   function convertBase64(file: Blob) {
@@ -146,8 +145,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   function isValidOption(id: number) {
-    const options = watch("competencia").map((value) => value.unidadeCurricular.id) 
-    if(options.find(ids => ids == id)) {
+    const options = watch("competencia").map((value) => value.unidadeCurricular.id)
+    if (options.find(ids => ids == id)) {
       return true
     }
     return false;
@@ -157,7 +156,9 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     return value
   }
-  
+
+  console.log(errors)
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -179,7 +180,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   type="text"
                   placeholder="Digite o nome do professor"
                   required
-                  {...register("nome", {setValueAs: v => firstLetterUppercase(v)})}
+                  {...register("nome", { setValueAs: v => firstLetterUppercase(v) })}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -189,7 +190,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   type="email"
                   placeholder="Digite o email do professor"
                   required
-                  {...register("email", {setValueAs: v => firstLetterUppercase(v)})}
+                  {...register("email", { setValueAs: v => firstLetterUppercase(v) })}
                 />
                 {errors.email && <p>{errors.email.message}</p>}
               </InputContent>
@@ -219,8 +220,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                       multiple={false}
                       accept="image/*"
                       onChange={uploadImage}
-                      // required
-                      // {...register("foto")}
                     />
                   </InputFile>
                 </InputIndividual>
