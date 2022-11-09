@@ -17,7 +17,11 @@ export function Home() {
   const today = new Date();
   //Dia de referencia
   const [referenceDay, setReferenceDay] = useState(today);
-  const [open, setOpen] = useState(false);
+
+  const [openRegular, setOpenRegular] = useState(false);
+  const [openFic, setOpenFic] = useState(false);
+  const [openCustomizavel, setOpenCustomizavel] = useState(false);
+
   const [title, setTitle] = useState("")
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
@@ -43,7 +47,9 @@ export function Home() {
   }
 
   function closeModal() {
-    setOpen(false);
+    setOpenRegular(false);
+    setOpenFic(false);
+    setOpenCustomizavel(false);
   }
 
   return (
@@ -57,15 +63,15 @@ export function Home() {
           <p>Selecione um tipo de curso e crie uma nova aula</p>
           <HomeButtonContainer>
             <HomeButtonCreate buttonsColor={1}>
-              <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Root open={openRegular} onOpenChange={setOpenRegular}>
                 <Dialog.Trigger asChild>
-                  <button onClick={() => setTitle("Regular")}>Regular</button>
+                  <button onClick={() => setTitle("regular")}>Regular</button>
                 </Dialog.Trigger>
                 <ModalCreateNewClass closeModal={closeModal} name={title} />
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={2}>
-              <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Root open={openFic} onOpenChange={setOpenFic}>
                 <Dialog.Trigger asChild>
                   <button onClick={() => setTitle("FIC")}>FIC</button>
                 </Dialog.Trigger>
@@ -73,9 +79,9 @@ export function Home() {
               </Dialog.Root>
             </HomeButtonCreate>
             <HomeButtonCreate buttonsColor={3}>
-              <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Root open={openCustomizavel} onOpenChange={setOpenCustomizavel}>
                 <Dialog.Trigger asChild>
-                  <button onClick={() => setTitle("Customizável")}>Customizável</button>
+                  <button onClick={() => setTitle("customizável")}>Customizável</button>
                 </Dialog.Trigger>
                 <ModalCreateNewClass closeModal={closeModal} name={title} />
               </Dialog.Root>
