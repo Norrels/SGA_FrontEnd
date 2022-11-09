@@ -1,10 +1,8 @@
 import {
-  AdvancedButtonContainer,
   AdvancedContainer,
   AdvancedContent,
   AdvancedContentTitle,
   AdvancedFilterContainer,
-  AdvancedFilterContent,
   AdvancedFilterItens,
   AdvancedFilterLabel,
   AdvancedFilterTotal,
@@ -12,28 +10,18 @@ import {
   AdvancedSearchInput,
   AdvancedTableContent,
   AdvancedTitleContainer,
-  HeaderContainer,
-  HeaderContent,
-  HeaderNavBar,
-  HeaderNavMenu,
-  HeaderNavMenuArrow,
-  HeaderNavMenuContent,
-  HeaderNavMenuItem,
-  HeaderUser,
 } from "./style";
-import Logo from "../../assets/Logo.svg";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import { CaretDown, CaretUp, Sliders, User } from "phosphor-react";
-import { NavLink } from "react-router-dom";
+import { CaretDown, Sliders } from "phosphor-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
 
 export const aulaInput = z.object({
+  id: z.number(),
   codTurma: z.string(),
   periodo: z.string(),
   data: z.string(),
@@ -53,6 +41,7 @@ export const aulaInput = z.object({
   }),
   curso: z.object({
     id: z.number(),
+    tipo: z.string(),
     nome: z.string(),
   }),
   semana: z.boolean().array(),
@@ -87,20 +76,14 @@ export type AulaTypeSuper = z.infer<typeof aulaInput>;
 export type SearchValue = z.infer<typeof searchValue>;
 
 export default function AdvancedSearch() {
-  const { register, handleSubmit, reset } = useForm<SearchValue>();
-
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
-
   const [unidadeMatch, setUnidadeMatch] = useState<unidadeCurricular[]>([]);
-  const [inputValue, setInputValue] = useState<String>('');
+  const [inputValue, setInputValue] = useState<String>("");
   const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
 
-  const { teachers, placesList, courses } = useContext(ObjectsContext);
-
-  console.log("Professor: " + teachers);
-  console.log("Ambientes: " + placesList);
-  console.log("Courses: " + courses);
+  const { register, handleSubmit, reset } = useForm<SearchValue>();
+  const { teachers, placesList } = useContext(ObjectsContext);
 
   const searchCourse = (text: String) => {
     setInputValue(text);
@@ -115,12 +98,76 @@ export default function AdvancedSearch() {
     }
   };
 
+  const filterClass = (text: String) => {
+
+    /**
+     * 
+     *    @Filter Logic
+     * 
+     *    Tentando Montar o @Filter
+     *    @Const aula.@some => traz @Boolean caso Algo Exista No Array.
+     * 
+     */
+
+    /* if (!text) {
+      setClassMatch([]);
+    } else {
+      // matches que traz se existe algo ou não no array
+      let matches = aula.some((value) => {
+        const regex = new RegExp(`${text}`);
+        return (
+          value.ambiente.nome.match(regex) ||
+          value.professor.nome.match(regex) ||
+          value.data.match(regex) ||
+          value.curso.nome.match(regex) ||
+          value.curso.tipo.match(regex) ||
+          value.periodo.match(regex)
+        );
+      });
+
+      if (matches) {
+        setClassMatch(
+          aula.filter((value) => {
+            const regex = new RegExp(`${text}`);
+            return (
+              value.ambiente.nome.match(regex) ||
+              value.professor.nome.match(regex) ||
+              value.data.match(regex) ||
+              value.curso.nome.match(regex) ||
+              value.curso.tipo.match(regex) ||
+              value.periodo.match(regex)
+            );
+          })
+        );
+      } else if (matches.valueOf() == false) {
+        var __ = aula.filter((value) => {
+          const regex = new RegExp(`${text}`);
+          return (
+            value.ambiente.nome.match(regex) ||
+            value.professor.nome.match(regex) ||
+            value.data.match(regex) ||
+            value.curso.nome.match(regex) ||
+            value.curso.tipo.match(regex) ||
+            value.periodo.match(regex)
+          );
+        });
+        __.map((v) => {
+          setClassMatch([...classMatch, v]);
+        });
+      } else {
+        setClassMatch([]);
+      }
+      console.log(matches);
+      console.log(classMatch);
+    } */
+  };
+
   async function handleGet() {
     const res = await API.get("aula");
 
-    console.log(res.data);
     if (res.data.length > 0) {
       setAula(res.data);
+      setClassMatch(res.data);
     }
   }
 
@@ -174,7 +221,7 @@ export default function AdvancedSearch() {
                 type="text"
                 placeholder="Busque uma ou várias aulas..."
                 {...register("busca")}
-                value={inputValue + ''}
+                value={inputValue + ""}
                 onChange={(e) => searchCourse(e.target.value)}
                 autoComplete="off"
               />
@@ -182,13 +229,13 @@ export default function AdvancedSearch() {
             </AdvancedSearchInput>
           </form>
           {unidadeMatch &&
-            unidadeMatch.map((unidade) =>
-                <AdvancedSearchAutocomplete
-                  onClick={() => handleSetInputValue({ busca: unidade.nome })}
-                >
-                  {unidade.nome}
-                </AdvancedSearchAutocomplete>
-            )}
+            unidadeMatch.map((unidade) => (
+              <AdvancedSearchAutocomplete
+                onClick={() => handleSetInputValue({ busca: unidade.nome })}
+              >
+                {unidade.nome}
+              </AdvancedSearchAutocomplete>
+            ))}
 
           <AdvancedFilterLabel>
             <Sliders color="#0031B0" size={25} />
@@ -212,15 +259,36 @@ export default function AdvancedSearch() {
                     <AdvancedFilterItens>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Regular
+                        <input
+                          type="checkbox"
+                          value="REGULAR"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Regular
                       </span>
                       <span>
                         {" "}
-                        <input type="checkbox" /> FIC
+                        <input
+                          type="checkbox"
+                          value="FIC"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        FIC
                       </span>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Aprendizagem
+                        <input
+                          type="checkbox"
+                          value="Aprendizagem"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Aprendizagem
                       </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
@@ -235,16 +303,44 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       <span>
-                        <input type="checkbox" /> Manhã
+                        <input
+                          type="checkbox"
+                          value="MANHA"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Manhã
                       </span>
                       <span>
-                        <input type="checkbox" /> Tarde
+                        <input
+                          type="checkbox"
+                          value="TARDE"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Tarde
                       </span>
                       <span>
-                        <input type="checkbox" /> Noite
+                        <input
+                          type="checkbox"
+                          value="NOITE"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Noite
                       </span>
                       <span>
-                        <input type="checkbox" /> Integral
+                        <input
+                          type="checkbox"
+                          value="INTEGRAL"
+                          onChange={(checked) =>
+                            filterClass(checked.target.value)
+                          }
+                        />{" "}
+                        Integral
                       </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
@@ -259,9 +355,19 @@ export default function AdvancedSearch() {
                   <Accordion.Content>
                     <AdvancedFilterItens>
                       <span> Data de início</span>
-                      <input type="date" />
+                      <input
+                        type="date"
+                        onChange={(checked) =>
+                          filterClass(checked.target.value)
+                        }
+                      />
                       <span> Data final</span>
-                      <input type="date" />
+                      <input
+                        type="date"
+                        onChange={(checked) =>
+                          filterClass(checked.target.value)
+                        }
+                      />
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>

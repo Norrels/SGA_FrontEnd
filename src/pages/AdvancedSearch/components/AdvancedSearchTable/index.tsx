@@ -6,6 +6,7 @@ import { API } from "../../../../lib/axios";
 import { TableContaine } from "./style";
 
 export const aulaInput = z.object({
+  id: z.number(),
   codTurma: z.string(),
   periodo: z.string(),
   data: z.string(),
@@ -66,7 +67,7 @@ export function AdvancedSeachTable(classItem: AulaProps) {
         <tbody>
           {(classItem.classItem.length > 0 &&
             classItem.classItem.map((value) => (
-              <tr>
+              <tr key={value.id}>
                 <td>{value.curso?.nome}</td>
                 <td>{value.professor.nome}</td>
                 <td>{value.ambiente.nome}</td>
@@ -76,8 +77,8 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                 </td>
               </tr>
             ))) ||
-            aula.map((value) => (
-              <tr>
+            /* aula.map((value) => (
+              <tr key={value.id}>
                 <td>{value.curso?.nome}</td>
                 <td>{value.professor.nome}</td>
                 <td>{value.ambiente.nome}</td>
@@ -86,7 +87,12 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                   <DotsThreeOutline size={20} />
                 </td>
               </tr>
-            ))}
+            )) */
+            (
+              <>
+                <h1>Infelizmente não encontramos nada</h1>
+              </>
+            )}
         </tbody>
       </table>
     </TableContaine>
