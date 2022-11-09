@@ -57,7 +57,6 @@ interface NewTeacherModalProps {
 }
 
 
-
 interface CurricularUnit {
   id: number;
   nome: string;
@@ -127,8 +126,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
+    console.log(file)
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
+    console.log(String(base64).length);
   };
 
   function convertBase64(file: Blob) {
@@ -159,7 +160,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     return value
   }
 
-  console.log(errors)
 
   return (
     <Dialog.Portal>

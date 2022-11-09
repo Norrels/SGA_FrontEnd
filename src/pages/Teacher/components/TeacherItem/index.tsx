@@ -30,12 +30,12 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
   function handleDeleteTeacher(){
     deleteTeacher(teacherItem.id!)
   }
-  console.log(teacherItem)
+
   return (
     <TeacherItemContainer>
       <TeacherItemInfoContainer>
         <TeacherItemIcon>
-          <img alt="" src={teacherItem.foto?.content ? teacherItem.foto?.content: UserPicture} />
+          <img alt="" src={teacherItem.foto ? teacherItem.foto: UserPicture} />
         </TeacherItemIcon>
 
         <TeacherItemInfoContent>
