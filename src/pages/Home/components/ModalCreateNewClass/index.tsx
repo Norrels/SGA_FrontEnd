@@ -153,7 +153,8 @@ export function ModalCreateNewClass({
           <ModalCreateClassContentLines>
             <ModalCreateClassContentCollum>
               <label htmlFor="">Periodo</label>
-              <select {...register("periodo")} name="" id="">
+              <select {...register("periodo")} defaultValue="">
+                <option value="">Selecione um período</option>
                 <option value="MANHA">Manhã</option>
                 <option value="TARDE">Tarde</option>
                 <option value="NOITE">Noite</option>
@@ -269,8 +270,8 @@ export function ModalCreateNewClass({
 
           <ModalCreateClassContentLines>
             <ModalCreateClassContentCollum>
-              <label htmlFor="">Professor</label>
-              <select id="" {...register("professor.id")}>
+              <label>Professor</label>
+              <select {...register("professor.id")}>
                 {teachers.map((teacher) => {
                   return (
                     <option key={teacher.id} value={teacher.id}>
@@ -282,7 +283,7 @@ export function ModalCreateNewClass({
             </ModalCreateClassContentCollum>
 
             <ModalCreateClassContentCollum>
-              <label htmlFor="">Hora(s) por dia</label>
+              <label>Hora(s) por dia</label>
               <input
                 {...register("cargaDiaria")}
                 type="number"
@@ -294,9 +295,10 @@ export function ModalCreateNewClass({
           <ModalCreateClassContentLine>
             <label htmlFor="">Ambiente</label>
             <select
+            defaultValue=""
               {...register("ambiente.id")}
-              placeholder="Digite o código da turma"
             >
+              <option value="" disabled>Selecione um ambiente</option>
               {placesList.map((place) => {
                 return (
                   <option value={place.id} key={place.id}>
@@ -306,28 +308,6 @@ export function ModalCreateNewClass({
               })}
             </select>
           </ModalCreateClassContentLine>
-
-          <ModalCreateClassSumarryContent>
-            <img src={Resumo} alt="" />
-
-            <div>
-              <h3>Resumo</h3>
-              <p>
-                Data inicial: <strong>{watch("dataInicio")?.toString()}</strong>
-              </p>
-              <p>
-                Dias <strong>Qua, Qui</strong>
-              </p>
-              <p>
-                Horas por dia:{" "}
-                <strong>{watch("cargaDiaria")?.toString()}h</strong>
-              </p>
-              <p>
-                Data Final: <strong>dd/MM/yyyy</strong>
-              </p>
-            </div>
-          </ModalCreateClassSumarryContent>
-
           <HomeCheckBoxButton type="submit">Criar</HomeCheckBoxButton>
         </ModalCreateClassContent>
       </Content>
