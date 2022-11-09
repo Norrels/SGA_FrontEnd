@@ -10,17 +10,18 @@ import {
 } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import {
-  CloseButton,
+  CheckboxIndicator,
+  CheckboxRoot,
+  CheckIndividual,
+  ChecksContent,
   Content,
-  HomeCheckBox,
-  HomeCheckBoxButton,
-  HomeCheckBoxIndicator,
-  ModalCreateClassContent,
-  ModalCreateClassContentCollum,
-  ModalCreateClassContentLine,
-  ModalCreateClassContentLines,
-  ModalCreateClassDays,
-  ModalCreateClassSumarryContent,
+  FinalButton,
+  HeaderButtons,
+  InputContainer,
+  InputContent,
+  InputIndividual,
+  InputScroll,
+  ModalHeader,
   Overlay,
 } from "./style";
 
@@ -86,17 +87,262 @@ export function ModalCreateNewClass({
   }
 
   async function handleCreateNewAula(data: AulaType) {
-    console.log(data)
+    console.log(data);
     const res = await API.post("aula", data);
-    
-      console.log(res);
-      reset();
-      closeModal();
-    
+
+    console.log(res);
+    reset();
+    closeModal();
   }
 
   return (
     <Dialog.Portal>
+      <Overlay />
+      <Content>
+        <ModalHeader>
+          <Dialog.Title>Nova aula {name}</Dialog.Title>
+          <HeaderButtons>
+            <Dialog.Close>
+              <X size={50} weight="light" />
+            </Dialog.Close>
+          </HeaderButtons>
+        </ModalHeader>
+        <form onSubmit={handleSubmit(handleCreateNewAula)}>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <label>Curso</label>
+                <select
+                  {...register("curso.id")}
+                  onChange={onChangeCourse}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Selecione um curso...
+                  </option>
+                  {courseFiltedByType.map((course) => {
+                    return (
+                      <option key={course.id} value={course.id}>
+                        {course.nome}
+                      </option>
+                    );
+                  })}
+                </select>
+                {/* {errors.curso && <p>* Selecione um valor...</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Unidade curricular</label>
+                <select
+                  {...register("unidadeCurricular.id")}
+                  defaultValue=""
+                  disabled={selectedCourse == undefined}
+                >
+                  <option value="" disabled>
+                    Selecione uma unidade curricular...
+                  </option>
+                  {selectedCourse?.unidadeCurricular.map((unidade) => {
+                    return (
+                      <option key={unidade.id} value={unidade.id?.toString()}>
+                        {unidade.nome}
+                      </option>
+                    );
+                  })}
+                </select>
+                {/* {errors.unidadeCurricular && <p>* Selecione um valor...</p>} */}
+              </InputContent>
+              <InputContent>
+                <label>Código da turma</label>
+                <input
+                  type="text"
+                  {...register("codTurma")}
+                  placeholder="Digite o código da turma..."
+                />
+                {/* {errors.codTurma && <p>{errors.codTurma.message}</p>} */}
+              </InputContent>
+              <InputContent>
+                <InputIndividual>
+                  <label>Periodo</label>
+                  <select
+                    placeholder="Selecione um periodo..."
+                    {...register("periodo")}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Selecione um periodo...
+                    </option>
+                    <option value="MANHA">Manhã</option>
+                    <option value="TARDE">Tarde</option>
+                    <option value="NOITE">Noite</option>
+                    <option value="INTEGRAL">Integral</option>
+                  </select>
+                  {/* {errors.periodo && <p>* Selecione um valor...</p>} */}
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Data de início</label>
+                  <input type="date" {...register("dataInicio")} />
+                  {/* {errors.dataInicio && <p>{errors.dataInicio.message}</p>} */}
+                </InputIndividual>
+              </InputContent>
+              <ChecksContent>
+                <CheckIndividual title="Domingo">
+                  <label>Dom</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${0}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${0}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Segunda-feira">
+                  <label>Seg</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${1}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${1}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Terça-feira">
+                  <label>Ter</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${2}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${2}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Quarta-feira">
+                  <label>Qua</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${3}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${3}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Quinta-feira">
+                  <label>Qui</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${4}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${4}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Sexta-feira">
+                  <label>Sex</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${5}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${5}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+                <CheckIndividual title="Sábado">
+                  <label>Sab</label>
+                  <CheckboxRoot
+                    {...register(`diaSemana.${0}`, { value: false })}
+                    onCheckedChange={(checked) => {
+                      console.log(checked);
+                      setValue(`diaSemana.${0}`, checked ? true : false);
+                    }}
+                  >
+                    <CheckboxIndicator>
+                      <Check size={40} weight="bold" color="#fff" />
+                    </CheckboxIndicator>
+                  </CheckboxRoot>
+                </CheckIndividual>
+              </ChecksContent>
+              <InputContent>
+                <InputIndividual>
+                  <label>Professor</label>
+                  <select
+                    placeholder="Selecione um professor..."
+                    {...register("professor.id")}
+                    defaultValue=""
+                  >
+                    <option value="" disabled>
+                      Selecione um professor...
+                    </option>
+                    {teachers.map((teacher) => {
+                      return (
+                        <option key={teacher.id} value={teacher.id}>
+                          {teacher.nome}
+                        </option>
+                      );
+                    })}
+                  </select>
+                  {/* {errors.professor && <p>* Selecione um valor...</p>} */}
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Hora(s) por dia</label>
+                  <input
+                    type="number"
+                    placeholder="Digite as horas..."
+                    {...register("cargaDiaria")}
+                  />
+                  {/* {errors.horas && <p>{errors.horas.message}</p>} */}
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <label>Ambiente</label>
+                <select
+                  placeholder="Selecione um ambiente..."
+                  {...register("ambiente.id")}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Selecione um ambiente...
+                  </option>
+                  {placesList.map((place) => {
+                    return (
+                      <option value={place.id} key={place.id}>
+                        {place.nome}
+                      </option>
+                    );
+                  })}
+                </select>
+                {/* {errors.ambiente && <p>* Selecione um valor...</p>} */}
+              </InputContent>
+
+              <FinalButton>
+                <button>Criar</button>
+              </FinalButton>
+            </InputContainer>
+          </InputScroll>
+        </form>
+      </Content>
+      {/* <Dialog.Portal>
       <Overlay />
       <Content onCloseAutoFocus={() => reset()}>
         <CloseButton>
@@ -311,6 +557,7 @@ export function ModalCreateNewClass({
           <HomeCheckBoxButton type="submit">Criar</HomeCheckBoxButton>
         </ModalCreateClassContent>
       </Content>
+    </Dialog.Portal> */}
     </Dialog.Portal>
   );
 }
