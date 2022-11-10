@@ -1,6 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import {
-  ArrowCircleLeft,
   ArrowLeft,
   ArrowRight,
   Check,
@@ -9,7 +8,6 @@ import {
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import Resumo from "../../../../assets/Resumo.svg";
 import {
   CourseProps,
   ObjectsContext,
@@ -56,6 +54,7 @@ export const aulaInput = z.object({
 
 export type AulaType = z.infer<typeof aulaInput>;
 
+//Propriedades da Modal
 interface ModalCreateNewClassProps {
   name: string;
   closeModal(): void;
@@ -65,6 +64,7 @@ export function ModalCreateNewClass({
   name,
   closeModal,
 }: ModalCreateNewClassProps) {
+
   //Pegando os valores do context
   //Quando o back fazer o metedo, isso daqui vai fica só com cursos
   const { courses, placesList, teachers } = useContext(ObjectsContext);
@@ -77,7 +77,6 @@ export function ModalCreateNewClass({
 
   const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
   const [step, setStep] = useState(0);
-  console.log(step);
 
   //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
@@ -100,7 +99,6 @@ export function ModalCreateNewClass({
   async function handleCreateNewAula(data: AulaType) {
     console.log(data);
     const res = await API.post("aula", data);
-
     console.log(res);
     reset();
     closeModal();
@@ -122,7 +120,6 @@ export function ModalCreateNewClass({
                 weight="light"
               />
             )}
-
             <Dialog.Close
               onClick={() => {
                 setStep(0);
@@ -256,7 +253,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -270,7 +267,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -284,7 +281,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -298,7 +295,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -312,7 +309,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -326,7 +323,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>
@@ -340,7 +337,7 @@ export function ModalCreateNewClass({
                         }}
                       >
                         <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
+                          <Check size={30} weight="bold" color="#fff" />
                         </CheckboxIndicator>
                       </CheckboxRoot>
                     </CheckIndividual>

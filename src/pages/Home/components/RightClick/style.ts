@@ -7,7 +7,6 @@ export const RightClickContainer = styled(ContextMenu.Content)`
   background: ${(props) => props.theme["white"]};
   border-radius: 6px;
 
-  color: ${(props) => props.theme["gray-600"]};
   font-weight: 800;
 
   display: flex;
@@ -25,6 +24,7 @@ export const RightClickItem = styled(ContextMenu.Item)`
   border-radius: 3px;
   padding: 0.2rem 0.5rem;
   transition: background-color, color 0.1s;
+  color: ${(props) => props.theme["gray-700"]};
 
   button {
     border: none;
@@ -33,7 +33,6 @@ export const RightClickItem = styled(ContextMenu.Item)`
 
     font-size: 16px;
     font-weight: bolder;
-    color: rgb(181, 181, 181);
 
     &:hover {
       background: ${(props) => props.theme["blue-500"]};
@@ -43,9 +42,6 @@ export const RightClickItem = styled(ContextMenu.Item)`
   
   &:hover {
     background: ${(props) => props.theme["blue-500"]};
-
-    button {
-      color: ${(props) => props.theme["white"]};
-    }
+    color: ${(props) => props.theme["white"]};
   }
 `;

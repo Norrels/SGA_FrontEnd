@@ -1,4 +1,5 @@
 import {
+  HomeButtonClickRoot,
   HomeCalenderContainer,
   HomeCalenderContent,
   HomeCalenderDay,
@@ -22,13 +23,13 @@ import { useContext, useEffect, useState } from "react";
 import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 
-
 interface CalenderProps {
   days: Date[];
   today: Date;
+  aulas: AulaProps[]
 }
 
-interface AulaProps {
+export interface AulaProps {
   id: number,
   professor: TeacherProps,
   ambiente: PlaceProps,
@@ -44,21 +45,26 @@ interface AulaProps {
   periodo: string
 }
 
-
 export function Calender({ days, today }: CalenderProps) {
   const { placesList } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
 
   async function fetchAulas() {
-    const response = await API.get(`aula/lista?dataInicio=${format(new Date(days[0]), "yyyy'-'MM'-'dd")}&dataFinal=${format(new Date(days[6]), "yyyy'-'MM'-'dd")}`)
+    const response = await API.get(`aula/lista?dataInicio=${format(days[0], "yyyy'-'MM'-'dd")}&dataFinal=${format(days[6], "yyyy'-'MM'-'dd")}`)
     setAulas(response.data)
-
   }
 
+  const daysFormatados = days.map((day) => {
+    return format(day, "MM'/'dd'/'yyyy")
+  })
+
+  console.log(daysFormatados)
+  console.log(days)
+
   useEffect(() => {
-    fetchAulas();
-  }, [])
+    fetchAulas()
+  }, [days])
 
   return (
     <HomeCalenderContainer>
@@ -67,7 +73,7 @@ export function Calender({ days, today }: CalenderProps) {
           <p>Crescente</p>
         </HomeCalenderOrderBy>
         <HomeCalenderHeaderDays>
-          {days.map((day) => {
+          {days?.map((day) => {
             return (
               <HomeCalenderDay
                 key={day.getDay()}
@@ -84,9 +90,6 @@ export function Calender({ days, today }: CalenderProps) {
           })}
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
-
-
-
       {
         placesList.map((place) => {
           return (
@@ -97,38 +100,36 @@ export function Calender({ days, today }: CalenderProps) {
                 </HomePlaces>
                 <HomeClassesContainer>
                   {
-                    days.map((day, index) => {
-
+                    days?.map((day, index) => {
                       return (
                         <HomeClasses key={day.getDate()}>
                           {
-                            aulas.map((aula, index) => { 
+                            aulas?.map((aula, index) => { 
                               return (
-                                format(new Date(aula.data), "MM/dd/yyyy") == format(day, "dd/MM/yyyy") && aula.ambiente.id == place.id &&
-                                <ContextMenu.Root>
-                                  <ContextMenu.Trigger>
-                                    <HomeClass period="morning">
-                                      <p>Caio</p>
-                                      <sup>Photoshop</sup>
-                                      <p></p>
+                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.ambiente.id == place.id &&
+                                <ContextMenu.Root  key={aula.id}>
+                                  <HomeButtonClickRoot period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }>
+                                    <HomeClass period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }  >
+                                      <p>{aula.professor.nome}</p>
+                                      <sup>{aula.unidadeCurricular.nome}</sup>
                                     </HomeClass>
-                                  </ContextMenu.Trigger>
-                                  <RightClick />
+                                  </HomeButtonClickRoot>
+                                  <RightClick aulas={aula} />
                                 </ContextMenu.Root>
                               )
                             })}
                         </HomeClasses>
                       )
                     })}
+                  
                 </HomeClassesContainer>
+               
               </HomeCalenderContent>
-
+              <HomeDivider/>
             </div>
           )
         })
       }
-
-
     </HomeCalenderContainer>
   );
 }

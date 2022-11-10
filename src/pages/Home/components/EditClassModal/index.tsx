@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
+import { AulaProps } from "../Calender";
 
 import {
   Content,
@@ -16,9 +17,10 @@ import {
 
 interface ModalCreateNewClassProps {
   closeModal(): void;
+  aulas: AulaProps
 }
 
-export function EditClassModal({ closeModal }: ModalCreateNewClassProps) {
+export function EditClassModal({ closeModal, aulas }: ModalCreateNewClassProps) {
   const { register, handleSubmit, reset } = useForm();
 
   async function handleEditClass() {
@@ -51,7 +53,7 @@ export function EditClassModal({ closeModal }: ModalCreateNewClassProps) {
                   <select
                     placeholder="Selecione o ambiente..."
                     {...register("tipo")}
-                    defaultValue=""
+                    defaultValue={aulas.ambiente.id}
                   >
                     <option value="" disabled>
                       Selecione o ambiente

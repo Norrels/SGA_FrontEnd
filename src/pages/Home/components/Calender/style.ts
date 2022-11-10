@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import * as ContextMenu from "@radix-ui/react-context-menu";
 
 export const HomeCalenderContainer = styled.section`
   display: flex;
@@ -124,9 +125,9 @@ export const HomeClassesContainer = styled.article`
 `;
 
 const PERIOD = {
-  morning: "blue-400",
-  afternoon: "blue-500",
-  night: "blue-600",
+  MANHA: "blue-400",
+  TARDE: "blue-500",
+  NOITE: "blue-600",
 } as const;
 
 interface ClassProps {
@@ -139,26 +140,51 @@ export const HomeClasses = styled.div`
 
   border-radius: 9px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display: grid;
+  grid-template-areas: "manha" "tarde" "noite";
+  grid-template-columns: auto(1fr, 3);
   gap: 0.5rem;
+`;
 
-  
+export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
+
+  ${(props) =>
+    props.theme[PERIOD[props.period]] == "#5AADD1" &&
+    css`
+       grid-area: manha;
+      div {
+        border-radius: 8px 8px 0px 0px;
+      }
+    `}
+
+  ${(props) =>
+    props.theme[PERIOD[props.period]] == "#367FBF" &&
+    css`
+       grid-area: tarde;
+      div {
+        border-radius: 0px 0px 0px 0px;
+      }
+    `}
+
+  ${(props) =>
+    props.theme[PERIOD[props.period]] == "#0031B0" &&
+    css`
+      grid-area: noite;
+      div {
+        border-radius: 0px 0px 8px 8px;
+      }
+    `}
 `;
 
 export const HomeClass = styled.div<ClassProps>`
   display: flex;
+  height: 100%;
+  width: 110px;
   flex-direction: column;
   justify-content: center;
   padding: 0.4rem;
   border-radius: 0;
-
-  ${(props) => props.theme[PERIOD[props.period]] == "#5AADD1" && css`
-    border-radius: 8px 8px 0px 0px;
-  `
-
-  }
+  grid-area: tarde;
 
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
@@ -171,10 +197,20 @@ export const HomeClass = styled.div<ClassProps>`
     font-size: 1rem;
     font-weight: 700;
   }
+
+  sup {
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
+  }
 `;
 
 export const HomeDivider = styled.span`
   opacity: 0.2;
+  margin-top: 50px;
   background-color: ${(props) => props.theme["gray-700"]};
   display: block;
   height: 1px;

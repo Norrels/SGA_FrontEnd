@@ -1,24 +1,32 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
+import { AulaProps } from "../Calender";
 import { EditAllClassModal } from "../EditAllClassModal";
 import { EditClassModal } from "../EditClassModal";
+import { AulaType } from "../ModalCreateNewClass";
 import {
   RightClickContainer,
   RightClickItem,
   RightClickSeperator,
 } from "./style";
 
-export function RightClick() {
+interface RightClickProps {
+  aulas: AulaProps
+}
+
+export function RightClick({aulas} : RightClickProps) {
   const [open, setOpen] = useState(false);
   const [openClasses, setOpenClasses] = useState(false);
 
+  //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
   function close() {
     setTimeout(() => {
       setOpen(true);
     }, 5)
   }
 
+  //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
   function closeAulas() {
     setTimeout(() => {
       setOpenClasses(true);
@@ -45,7 +53,7 @@ export function RightClick() {
       </ContextMenu.Portal>
 
       <Dialog.Root open={open} onOpenChange={setOpen}>
-        <EditClassModal closeModal={closeModal} />
+        <EditClassModal aulas={aulas} closeModal={closeModal} />
       </Dialog.Root>
 
       <Dialog.Root open={openClasses} onOpenChange={setOpenClasses}>
