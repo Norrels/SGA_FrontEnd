@@ -24,6 +24,7 @@ const swipeTop = keyframes`
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
   height: 100w;
+  z-index: 2;
 
   position: fixed;
   inset: 0;
@@ -44,6 +45,7 @@ export const Content = styled(Dialog.Content)`
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 3;
 
   border-radius: 20px;
   background: ${(props) => props.theme["white"]};
