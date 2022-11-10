@@ -69,9 +69,9 @@ export function AdvancedSeachTable(classItem: AulaProps) {
             classItem.classItem.map((value) => (
               <tr key={value.id}>
                 <td>{value.curso?.nome}</td>
-                <td>{value.professor.nome}</td>
-                <td>{value.ambiente.nome}</td>
-                <td>{value.data}</td>
+                <td>{value.professor?.nome}</td>
+                <td>{value.ambiente?.nome}</td>
+                <td>{value?.data}</td>
                 <td>
                   <DotsThreeOutline size={20} />
                 </td>

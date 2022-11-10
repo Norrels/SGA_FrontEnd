@@ -82,6 +82,12 @@ export default function AdvancedSearch() {
   const [inputValue, setInputValue] = useState<String>("");
   const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
 
+  const [busca, setBusca] = useState<String[]>([]);
+
+  const [palv, setPalv] = useState<String>("");
+
+  const [saveClass, setSaveClass] = useState<AulaTypeSuper[]>([]);
+
   const { register, handleSubmit, reset } = useForm<SearchValue>();
   const { teachers, placesList } = useContext(ObjectsContext);
 
@@ -98,68 +104,90 @@ export default function AdvancedSearch() {
     }
   };
 
-  const filterClass = (text: String) => {
-
+  const filterClass = async (text: String) => {
     /**
-     * 
+     *
      *    @Filter Logic
-     * 
+     *
      *    Tentando Montar o @Filter
      *    @Const aula.@some => traz @Boolean caso Algo Exista No Array.
-     * 
+     *
+     *    Olá Programador, neste filtro foram gastadas 10 horas, boa sorte!
+     *    @AVidaÉTriste
+     *
      */
 
-    /* if (!text) {
-      setClassMatch([]);
+    setPalv(text);
+    // Verifica se texto está vindo
+    if (!text || text == "") {
+      // Seta aula ao Listener
+      setClassMatch(aula);
     } else {
-      // matches que traz se existe algo ou não no array
-      let matches = aula.some((value) => {
-        const regex = new RegExp(`${text}`);
-        return (
-          value.ambiente.nome.match(regex) ||
-          value.professor.nome.match(regex) ||
-          value.data.match(regex) ||
-          value.curso.nome.match(regex) ||
-          value.curso.tipo.match(regex) ||
-          value.periodo.match(regex)
-        );
+
+      // seta Busca map de Checkbox
+      await busca.map((valor) => {
+
+        // deleta no array caso busca ja exista
+        if (valor == text) {
+          setBusca(busca.filter((c) => c !== text));
+        } else {
+          // adiciona no array caso não exista
+          setBusca([...busca, text]);
+        }
       });
 
-      if (matches) {
-        setClassMatch(
-          aula.filter((value) => {
-            const regex = new RegExp(`${text}`);
-            return (
-              value.ambiente.nome.match(regex) ||
-              value.professor.nome.match(regex) ||
-              value.data.match(regex) ||
-              value.curso.nome.match(regex) ||
-              value.curso.tipo.match(regex) ||
-              value.periodo.match(regex)
-            );
-          })
-        );
-      } else if (matches.valueOf() == false) {
-        var __ = aula.filter((value) => {
-          const regex = new RegExp(`${text}`);
-          return (
+      // Arrumar e rever
+      if (busca.length == 0) {
+        console.log("igual a zero");
+        console.log(busca);
+        setBusca([...busca, text]);
+      }
+
+      // Map para ver oque se relaciona o checkbox com as aulas
+      await busca.map((v) => {
+        const regex = new RegExp(`${v}`);
+
+        // relacionador
+        var _l = aula.filter(
+          (value) =>
             value.ambiente.nome.match(regex) ||
             value.professor.nome.match(regex) ||
             value.data.match(regex) ||
-            value.curso.nome.match(regex) ||
             value.curso.tipo.match(regex) ||
             value.periodo.match(regex)
-          );
-        });
-        __.map((v) => {
-          setClassMatch([...classMatch, v]);
-        });
-      } else {
-        setClassMatch([]);
-      }
-      console.log(matches);
+        );
+
+         // check
+        if (_l.length == 0 && busca.length > 0) {
+          console.log("passou aqui");
+        }
+
+        // check
+        if (_l.length == 0 && busca.length == 1) {
+          setSaveClass(aula);
+        }
+
+        // check
+        if (saveClass.length == 0) {
+          setSaveClass(_l);
+        } else {
+          setSaveClass(saveClass, _l);
+        }
+
+        // check
+        if (_l.length == 0 && busca.length == 1) {
+          setSaveClass([]);
+        }
+
+        console.log("Busca : " + _l.length);
+        console.log("Check : " + busca.length);
+        console.log(busca);
+      });
+
+      setClassMatch(saveClass);
       console.log(classMatch);
-    } */
+      console.log(busca);
+    }
   };
 
   async function handleGet() {
@@ -167,6 +195,10 @@ export default function AdvancedSearch() {
 
     if (res.data.length > 0) {
       setAula(res.data);
+
+      console.log(res.data);
+      console.log(aula);
+
       setClassMatch(res.data);
     }
   }
@@ -176,6 +208,10 @@ export default function AdvancedSearch() {
     searchClass("");
     handleGetAllUnit();
   }, []);
+
+  useEffect(() => {
+    console.log(aula);
+  }, [aula]);
 
   async function handleGetAllUnit() {
     const res = await API.get(`/unidade`);
@@ -263,7 +299,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="REGULAR"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Regular
@@ -274,7 +312,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="FIC"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         FIC
@@ -285,7 +325,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="Aprendizagem"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Aprendizagem
@@ -307,7 +349,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="MANHA"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Manhã
@@ -317,7 +361,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="TARDE"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Tarde
@@ -327,7 +373,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="NOITE"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Noite
@@ -337,7 +385,9 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="INTEGRAL"
                           onChange={(checked) =>
-                            filterClass(checked.target.value)
+                            checked.target.checked
+                              ? filterClass(checked.target.value)
+                              : filterClass("")
                           }
                         />{" "}
                         Integral
@@ -358,14 +408,18 @@ export default function AdvancedSearch() {
                       <input
                         type="date"
                         onChange={(checked) =>
-                          filterClass(checked.target.value)
+                          checked.target.checked
+                            ? filterClass(checked.target.value)
+                            : filterClass("")
                         }
                       />
                       <span> Data final</span>
                       <input
                         type="date"
                         onChange={(checked) =>
-                          filterClass(checked.target.value)
+                          checked.target.checked
+                            ? filterClass(checked.target.value)
+                            : filterClass("")
                         }
                       />
                     </AdvancedFilterItens>
@@ -448,7 +502,7 @@ export default function AdvancedSearch() {
             <AdvancedSeachTable classItem={classMatch} />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
-            <p>{aula.length} resultados encontrados</p>
+            <p>{aula.length - 1} resultados encontrados</p>
           </AdvancedFilterTotal>
         </AdvancedContent>
       </AdvancedContainer>
