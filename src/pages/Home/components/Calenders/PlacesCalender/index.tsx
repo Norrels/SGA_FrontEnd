@@ -98,7 +98,7 @@ export function Calender({ days, today }: CalenderProps) {
                           {
                             aulas?.map((aula) => { 
                               return (
-                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.ambiente.id == teacher.id &&
+                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.professor.id == teacher.id &&
                                 <ContextMenu.Root  key={aula.id}>
                                   <HomeButtonClickRoot period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }>
                                     <HomeClass period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }  >

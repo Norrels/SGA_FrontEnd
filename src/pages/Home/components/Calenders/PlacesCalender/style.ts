@@ -199,6 +199,12 @@ export const HomeClass = styled.div<ClassProps>`
   p {
     font-size: 1rem;
     font-weight: 700;
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
   }
 
   sup {
