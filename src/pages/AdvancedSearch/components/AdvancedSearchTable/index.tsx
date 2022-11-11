@@ -76,7 +76,7 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                   <DotsThreeOutline size={20} />
                 </td>
               </tr>
-            ))) ||
+            ))) || (
             /* aula.map((value) => (
               <tr key={value.id}>
                 <td>{value.curso?.nome}</td>
@@ -88,11 +88,12 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                 </td>
               </tr>
             )) */
-            (
-              <>
+            <tr>
+              <td>
                 <h1>Infelizmente não encontramos nada</h1>
-              </>
-            )}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </TableContaine>

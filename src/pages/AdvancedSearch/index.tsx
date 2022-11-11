@@ -81,11 +81,7 @@ export default function AdvancedSearch() {
   const [unidadeMatch, setUnidadeMatch] = useState<unidadeCurricular[]>([]);
   const [inputValue, setInputValue] = useState<String>("");
   const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
-
   const [busca, setBusca] = useState<String[]>([]);
-
-  const [palv, setPalv] = useState<String>("");
-
   const [saveClass, setSaveClass] = useState<AulaTypeSuper[]>([]);
 
   const { register, handleSubmit, reset } = useForm<SearchValue>();
@@ -104,100 +100,19 @@ export default function AdvancedSearch() {
     }
   };
 
-  const filterClass = async (text: String) => {
-    /**
-     *
-     *    @Filter Logic
-     *
-     *    Tentando Montar o @Filter
-     *    @Const aula.@some => traz @Boolean caso Algo Exista No Array.
-     *
-     *    Olá Programador, neste filtro foram gastadas 10 horas, boa sorte!
-     *    @AVidaÉTriste
-     *
-     */
-
-    setPalv(text);
-    // Verifica se texto está vindo
-    if (!text || text == "") {
-      // Seta aula ao Listener
-      setClassMatch(aula);
+  function handleCreateArray(value: String) {
+    if (busca.some((v) => v == value)) {
+      setBusca(busca.filter((c) => c !== value));
     } else {
-
-      // seta Busca map de Checkbox
-      await busca.map((valor) => {
-
-        // deleta no array caso busca ja exista
-        if (valor == text) {
-          setBusca(busca.filter((c) => c !== text));
-        } else {
-          // adiciona no array caso não exista
-          setBusca([...busca, text]);
-        }
-      });
-
-      // Arrumar e rever
-      if (busca.length == 0) {
-        console.log("igual a zero");
-        console.log(busca);
-        setBusca([...busca, text]);
-      }
-
-      // Map para ver oque se relaciona o checkbox com as aulas
-      await busca.map((v) => {
-        const regex = new RegExp(`${v}`);
-
-        // relacionador
-        var _l = aula.filter(
-          (value) =>
-            value.ambiente.nome.match(regex) ||
-            value.professor.nome.match(regex) ||
-            value.data.match(regex) ||
-            value.curso.tipo.match(regex) ||
-            value.periodo.match(regex)
-        );
-
-         // check
-        if (_l.length == 0 && busca.length > 0) {
-          console.log("passou aqui");
-        }
-
-        // check
-        if (_l.length == 0 && busca.length == 1) {
-          setSaveClass(aula);
-        }
-
-        // check
-        if (saveClass.length == 0) {
-          setSaveClass(_l);
-        } else {
-          setSaveClass(saveClass, _l);
-        }
-
-        // check
-        if (_l.length == 0 && busca.length == 1) {
-          setSaveClass([]);
-        }
-
-        console.log("Busca : " + _l.length);
-        console.log("Check : " + busca.length);
-        console.log(busca);
-      });
-
-      setClassMatch(saveClass);
-      console.log(classMatch);
-      console.log(busca);
+      setBusca([...busca, value]);
     }
-  };
+  }
 
   async function handleGet() {
     const res = await API.get("aula");
 
     if (res.data.length > 0) {
       setAula(res.data);
-
-      console.log(res.data);
-      console.log(aula);
 
       setClassMatch(res.data);
     }
@@ -210,8 +125,65 @@ export default function AdvancedSearch() {
   }, []);
 
   useEffect(() => {
-    console.log(aula);
-  }, [aula]);
+    /**
+     *
+     *    @Filter Logic
+     *
+     *    Tentando Montar o @Filter
+     *    @Const aula.@some => traz @Boolean caso Algo Exista No Array.
+     *
+     *    Metódo @handleCreateArray complementa esse onde no @handleCreateArray
+     *    Define o array para fazer o filtro
+     *
+     *    Olá Programador, neste filtro foram gastadas 15 horas.
+     *    @AVidaÉTriste
+     *
+     */
+
+    handleMapArray();
+  }, [busca]);
+
+  useEffect(() => {
+    const saveDup = saveClass.filter(
+      (val, id, array) => saveClass.indexOf(val) == id
+    );
+    console.log(saveDup);
+    setClassMatch(saveDup);
+  }, [saveClass]);
+
+  function handleMapArray() {
+    let last = [...busca].pop();
+    if (last == null) {
+      setSaveClass(aula);
+    } else {
+      const regex = new RegExp(`${last}`);
+      var _l = aula.filter(
+        (value) =>
+          value.curso.tipo.match(regex) ||
+          value.periodo.match(regex) ||
+          value.ambiente.nome.match(regex) ||
+          value.professor.nome.match(regex) ||
+          value.data.match(regex)
+      );
+
+      // console.log(_l.length);
+      // console.log(saveClass.length)
+      // console.log(busca.length)
+      
+      if (!(_l.length == 0 && busca.length > 0)) {
+        // console.log("passou aqui")
+        if (busca.length == 0 || _l.length == 0) {
+          setSaveClass([]);
+        }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        }
+      } else if(_l.length == 0 && busca.length == 1) {
+        setSaveClass([])
+      } 
+    }
+  }
 
   async function handleGetAllUnit() {
     const res = await API.get(`/unidade`);
@@ -299,9 +271,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="REGULAR"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Regular
@@ -312,9 +282,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="FIC"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         FIC
@@ -325,9 +293,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="Aprendizagem"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Aprendizagem
@@ -349,9 +315,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="MANHA"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Manhã
@@ -361,9 +325,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="TARDE"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Tarde
@@ -373,9 +335,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="NOITE"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Noite
@@ -385,9 +345,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="INTEGRAL"
                           onChange={(checked) =>
-                            checked.target.checked
-                              ? filterClass(checked.target.value)
-                              : filterClass("")
+                            handleCreateArray(checked.target.value)
                           }
                         />{" "}
                         Integral
@@ -408,18 +366,14 @@ export default function AdvancedSearch() {
                       <input
                         type="date"
                         onChange={(checked) =>
-                          checked.target.checked
-                            ? filterClass(checked.target.value)
-                            : filterClass("")
+                          handleCreateArray(checked.target.value)
                         }
                       />
                       <span> Data final</span>
                       <input
                         type="date"
                         onChange={(checked) =>
-                          checked.target.checked
-                            ? filterClass(checked.target.value)
-                            : filterClass("")
+                          handleCreateArray(checked.target.value)
                         }
                       />
                     </AdvancedFilterItens>
@@ -502,7 +456,7 @@ export default function AdvancedSearch() {
             <AdvancedSeachTable classItem={classMatch} />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
-            <p>{aula.length - 1} resultados encontrados</p>
+            <p>{classMatch.length - 1} resultados encontrados</p>
           </AdvancedFilterTotal>
         </AdvancedContent>
       </AdvancedContainer>
