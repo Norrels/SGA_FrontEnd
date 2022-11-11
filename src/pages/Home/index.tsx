@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
-import { Calender } from "./components/Calender";
+import { Calender } from "./components/Calenders/PlacesCalender";
 import { HomeSearchInput } from "./components/SearchInputHome";
 import {
   HomeButtonContainer,
@@ -12,6 +12,7 @@ import {
 } from "./style";
 import { addDays, eachDayOfInterval, nextDay, previousDay, startOfWeek } from "date-fns";
 import { useState } from "react";
+import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
 
 export function Home() {
   const today = new Date();
@@ -23,8 +24,13 @@ export function Home() {
   const [openCustomizavel, setOpenCustomizavel] = useState(false);
 
   const [title, setTitle] = useState("")
+  const [isViewClass, setIsViewClass] = useState("")
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
+
+  function changeView(type : string){
+    setIsViewClass(type)
+  }
 
   const daysWeek = eachDayOfInterval({
     start: semana,
@@ -51,6 +57,7 @@ export function Home() {
     setOpenFic(false);
     setOpenCustomizavel(false);
   }
+
 
   return (
     <HomeContainer>
@@ -90,8 +97,13 @@ export function Home() {
         </HomeTitleContainer>
 
 
-        <HomeSearchInput referenceDay={referenceDay} previousDayWeek={previousDayWeek} choiceDayWeek={choicedDay} nextDayWeek={nextDayWeek}/>
-        <Calender today={today} days={daysWeek} />
+        <HomeSearchInput  choiceTypeOfViewCalender={changeView} referenceDay={referenceDay} previousDayWeek={previousDayWeek} choiceDayWeek={choicedDay} nextDayWeek={nextDayWeek}/>
+        
+        {
+          isViewClass == 'Professores' ?
+          <Calender today={today} days={daysWeek} /> : <CalenderTeacher today={today} days={daysWeek} />
+        }
+      
       </HomeContent>
     </HomeContainer>
   );

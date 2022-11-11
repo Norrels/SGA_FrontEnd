@@ -18,15 +18,14 @@ import {
   format,
 } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { RightClick } from "../RightClick";
+import { RightClick } from "../../RightClick";
 import { useContext, useEffect, useState } from "react";
-import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
-import { API } from "../../../../lib/axios";
+import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../../contexts/ObjectsContext";
+import { API } from "../../../../../lib/axios";
 
 interface CalenderProps {
   days: Date[];
   today: Date;
-  aulas: AulaProps[]
 }
 
 export interface AulaProps {
@@ -45,22 +44,14 @@ export interface AulaProps {
   periodo: string
 }
 
-export function Calender({ days, today }: CalenderProps) {
+export function CalenderTeacher({ days, today }: CalenderProps) {
   const { placesList } = useContext(ObjectsContext);
-  const [open, setOpen] = useState(false);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
 
   async function fetchAulas() {
     const response = await API.get(`aula/lista?dataInicio=${format(days[0], "yyyy'-'MM'-'dd")}&dataFinal=${format(days[6], "yyyy'-'MM'-'dd")}`)
     setAulas(response.data)
   }
-
-  const daysFormatados = days.map((day) => {
-    return format(day, "MM'/'dd'/'yyyy")
-  })
-
-  console.log(daysFormatados)
-  console.log(days)
 
   useEffect(() => {
     fetchAulas()
@@ -91,22 +82,22 @@ export function Calender({ days, today }: CalenderProps) {
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
       {
-        placesList.map((place) => {
+        placesList.map((places) => {
           return (
-            <div key={place.id}>
+            <div key={places.id}>
               <HomeCalenderContent >
                 <HomePlaces>
-                  <p>{place.nome}</p>
+                  <p>{places.nome}</p>
                 </HomePlaces>
                 <HomeClassesContainer>
                   {
-                    days?.map((day, index) => {
+                    days?.map((day) => {
                       return (
                         <HomeClasses key={day.getDate()}>
                           {
-                            aulas?.map((aula, index) => { 
+                            aulas?.map((aula) => { 
                               return (
-                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.ambiente.id == place.id &&
+                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.ambiente.id == places.id &&
                                 <ContextMenu.Root  key={aula.id}>
                                   <HomeButtonClickRoot period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }>
                                     <HomeClass period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }  >
@@ -121,9 +112,7 @@ export function Calender({ days, today }: CalenderProps) {
                         </HomeClasses>
                       )
                     })}
-                  
-                </HomeClassesContainer>
-               
+                </HomeClassesContainer>              
               </HomeCalenderContent>
               <HomeDivider/>
             </div>

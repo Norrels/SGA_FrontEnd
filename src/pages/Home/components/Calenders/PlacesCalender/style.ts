@@ -15,6 +15,7 @@ export const HomeCalenderHeader = styled.header`
   padding-top: 1rem;
   padding-bottom: 1rem;
   top: 0;
+  z-index: 1;
 
   background: ${(props) => props.theme["background"]};
 `;
@@ -141,12 +142,14 @@ export const HomeClasses = styled.div`
   border-radius: 9px;
 
   display: grid;
+  grid-template-rows: repeat(3, 1fr);
   grid-template-areas: "manha" "tarde" "noite";
-  grid-template-columns: auto(1fr, 3);
+
   gap: 0.5rem;
 `;
 
 export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
+
 
   ${(props) =>
     props.theme[PERIOD[props.period]] == "#5AADD1" &&
@@ -161,7 +164,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
     props.theme[PERIOD[props.period]] == "#367FBF" &&
     css`
        grid-area: tarde;
-      div {
+      div {     
         border-radius: 0px 0px 0px 0px;
       }
     `}
@@ -179,7 +182,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
 export const HomeClass = styled.div<ClassProps>`
   display: flex;
   height: 100%;
-  width: 110px;
+  width: 105px;
   flex-direction: column;
   justify-content: center;
   padding: 0.4rem;
@@ -196,6 +199,12 @@ export const HomeClass = styled.div<ClassProps>`
   p {
     font-size: 1rem;
     font-weight: 700;
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
   }
 
   sup {

@@ -10,8 +10,7 @@ export const HoverCardContainer = styled(HoverCard.Content)`
   gap: 1rem;
   position: relative;
   margin-top: 1rem;
-
-  
+  z-index: 2;
 
   h4 {
     width: 100%;

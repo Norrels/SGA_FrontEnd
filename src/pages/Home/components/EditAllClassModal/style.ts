@@ -27,6 +27,7 @@ export const Overlay = styled(Dialog.Overlay)`
 
   position: fixed;
   inset: 0;
+  z-index: 2;
 
   background: rgba(0, 0, 0, 0.4);
   animation: ${fadeIn} 0.5s ease-in-out forwards;
@@ -44,6 +45,7 @@ export const Content = styled(Dialog.Content)`
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 3;
 
   border-radius: 20px;
   background: ${(props) => props.theme["white"]};

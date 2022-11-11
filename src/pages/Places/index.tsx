@@ -95,7 +95,7 @@ export function Places() {
           />
         </Toggle>
         <PlacesList>
-          {placeMatchs.map((place) => {
+          {placeMatchs.map((place, index) => {
             if (place.ativo && on == false) {
               return (
                 <Place
