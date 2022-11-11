@@ -1,10 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  X,
-} from "phosphor-react";
+import { ArrowLeft, ArrowRight, Check, X } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,6 +25,10 @@ import {
   ModalHeader,
   Overlay,
   Steps,
+  SummaryContainer,
+  SummaryContent,
+  SummaryDetails,
+  SummaryHeader,
 } from "./style";
 
 export const aulaInput = z.object({
@@ -64,7 +63,6 @@ export function ModalCreateNewClass({
   name,
   closeModal,
 }: ModalCreateNewClassProps) {
-
   //Pegando os valores do context
   //Quando o back fazer o metedo, isso daqui vai fica só com cursos
   const { courses, placesList, teachers } = useContext(ObjectsContext);
@@ -449,11 +447,11 @@ export function ModalCreateNewClass({
               <InputScroll
                 style={
                   step == 1
-                    ? { transform: "translateX(-712px)", overflowY: "auto" }
+                    ? { transform: "translateX(-712px)" }
                     : step == 2
-                    ? { transform: "translateX(-1424px)", overflowY: "auto" }
+                    ? { transform: "translateX(-1424px)" }
                     : step == 3
-                    ? { transform: "translateX(-712px)", overflowY: "auto" }
+                    ? { transform: "translateX(-712px)" }
                     : { transform: "translateX(0)" }
                 }
               >
@@ -472,6 +470,78 @@ export function ModalCreateNewClass({
                       <div style={{ backgroundColor: "#367FBF" }}></div>
                     </Steps>
                   </InputContent>
+                  <SummaryContainer>
+                    <SummaryHeader>
+                      <h3>Ambiente</h3>
+                      <h3>Capacidade</h3>
+                    </SummaryHeader>
+                    <SummaryContent>
+                      <SummaryDetails>
+                        <span>Sala-12</span>
+                        <p>Presencial</p>
+                      </SummaryDetails>
+                      <SummaryDetails>
+                        <p>25 Alunos</p>
+                      </SummaryDetails>
+                    </SummaryContent>
+                  </SummaryContainer>
+                  <SummaryContainer>
+                    <SummaryHeader>
+                      <h3>Detalhes</h3>
+                      <h3>Carga total</h3>
+                    </SummaryHeader>
+                    <SummaryContent>
+                      <SummaryDetails>
+                        <span>Hardware e Redes</span>
+                        <p>Tecnico em desenvolvimento de Sistemas</p>
+                      </SummaryDetails>
+                      <SummaryDetails>
+                        <p>120 horas</p>
+                      </SummaryDetails>
+                    </SummaryContent>
+                  </SummaryContainer>
+                  <SummaryContainer>
+                    <SummaryHeader>
+                      <h3>Professor</h3>
+                      <h3>Horas por dia</h3>
+                    </SummaryHeader>
+                    <SummaryContent>
+                      <SummaryDetails>
+                        <p>Jose Roberto Chile</p>
+                      </SummaryDetails>
+                      <SummaryDetails>
+                        <p>4 horas</p>
+                      </SummaryDetails>
+                    </SummaryContent>
+                  </SummaryContainer>
+                  <SummaryContainer>
+                    <SummaryHeader>
+                      <h3>Periodo</h3>
+                      <h3>Dias da semana</h3>
+                    </SummaryHeader>
+                    <SummaryContent>
+                      <SummaryDetails>
+                        <p>Noite</p>
+                      </SummaryDetails>
+                      <SummaryDetails>
+                        <p>Seg, Qua, Qui, Sex</p>
+                      </SummaryDetails>
+                    </SummaryContent>
+                  </SummaryContainer>
+                  <SummaryContainer>
+                    <SummaryHeader>
+                      <h3>Início</h3>
+                      <h3>Fim</h3>
+                    </SummaryHeader>
+                    <SummaryContent>
+                      <SummaryDetails>
+                        <p>09/11/2022</p>
+                      </SummaryDetails>
+                      <SummaryDetails>
+                        <p>20/11/2022</p>
+                      </SummaryDetails>
+                    </SummaryContent>
+                  </SummaryContainer>
                   <FinalButton>
                     <button type="submit">Criar</button>
                   </FinalButton>

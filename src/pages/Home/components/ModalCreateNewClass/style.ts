@@ -209,11 +209,11 @@ export const InputContent = styled.div`
 export const Steps = styled.div`
   width: 100%;
   height: 6px;
-  
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   div {
     width: 32%;
     height: 100%;
@@ -299,6 +299,68 @@ export const CheckboxIndicator = styled(Checkbox.Indicator)`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+export const SummaryContainer = styled.div`
+  width: 100%;
+  padding:0 0 1.25rem 0;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid black;
+  }
+`;
+
+export const SummaryHeader = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    font-size: 1.375rem;
+  }
+`;
+
+export const SummaryContent = styled.div`
+  width: 100%;
+  margin-top: 0.625rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const SummaryDetails = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  &:first-child {
+    text-align: left;
+    align-items: left;
+
+    font-weight: 700;
+    font-size: 1.125rem;
+
+    span {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+
+    p {
+      color: ${(props) => props.theme["gray-700"]};
+    }
+  }
+
+  &:last-child {
+    text-align: right;
+    align-items: right;
+
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: ${(props) => props.theme["gray-700"]};
+  }
+
+  justify-content: space-between;
+  gap: 0.625rem;
 `;
 
 export const FinalButton = styled.div`
