@@ -1,7 +1,7 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { AulaProps } from "../Calender";
+import { AulaProps } from "../Calenders";
 import { EditAllClassModal } from "../EditAllClassModal";
 import { EditClassModal } from "../EditClassModal";
 import { AulaType } from "../ModalCreateNewClass";
