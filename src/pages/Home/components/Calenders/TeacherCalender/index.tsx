@@ -33,7 +33,7 @@ export interface AulaProps {
   professor: TeacherProps,
   ambiente: PlaceProps,
   cargaDiaria: number,
-  data: Date,
+  data: string,
   unidadeCurricular: {
     id: number,
     nome: string,
