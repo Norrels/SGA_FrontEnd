@@ -1,6 +1,7 @@
 //Abstrai isso pelo amor de Deussssssssssssssssssssssssss
 
 import * as Dialog from "@radix-ui/react-dialog";
+import { format } from "date-fns";
 import { X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -61,8 +62,11 @@ export function EditClassModal({
   }
 
   async function handleEditClass(data : EditClassModalProps) {
+    console.log(data.data)
     aulas.ambiente.id = data.ambientes
     aulas.professor.id = data.professor
+    aulas.data = format(new Date(data.data + "T00:00:00"), 'dd/MM/yyyy')
+    console.log(aulas)
     const res = await API.put(`aula/${aulas.id}`, aulas);
     reset();
     closeModal();
