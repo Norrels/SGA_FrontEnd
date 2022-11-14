@@ -46,7 +46,8 @@ export const TeacherItemIcon = styled.span`
   background: ${(props) => props.theme["white-300"]};
 
   img {
-    width: 100%;
+    width: 100%; 
+    border-radius: 3.125rem;
   }
 `;
 
