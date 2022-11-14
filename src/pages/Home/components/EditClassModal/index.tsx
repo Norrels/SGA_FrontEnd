@@ -1,10 +1,11 @@
+//Abstrai isso pelo amor de Deussssssssssssssssssssssssss
+
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
-import { AulaType } from "../ModalCreateNewClass";
 
 import {
   Content,
@@ -60,16 +61,11 @@ export function EditClassModal({
   }
 
   async function handleEditClass(data : EditClassModalProps) {
-    console.log(data)
-    console.log(aulas)
     aulas.ambiente.id = data.ambientes
     aulas.professor.id = data.professor
-    console.log(aulas)
     const res = await API.put(`aula/${aulas.id}`, aulas);
-    console.log(res)
     reset();
     closeModal();
-
   }
 
   return (

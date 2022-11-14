@@ -30,10 +30,12 @@ interface CalenderProps {
 
 export interface AulaProps {
   id: number,
+  dataFinal: string,
   professor: TeacherProps,
   ambiente: PlaceProps,
   cargaDiaria: number,
   data: string,
+  dataInicio: string,
   unidadeCurricular: {
     id: number,
     nome: string,
@@ -97,7 +99,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                           {
                             aulas?.map((aula) => { 
                               return (
-                                aula.data.toString() == format(day, "dd/MM/yyyy") && aula.ambiente.id == places.id &&
+                                aula.data == format(day, "dd/MM/yyyy") && aula.ambiente.id == places.id &&
                                 <ContextMenu.Root  key={aula.id}>
                                   <HomeButtonClickRoot period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }>
                                     <HomeClass period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }  >
