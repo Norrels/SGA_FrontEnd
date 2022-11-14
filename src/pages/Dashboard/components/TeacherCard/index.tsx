@@ -3,7 +3,6 @@ import { TeacherCardContainer, TeacherCardText } from "./style";
 import UserPicture from "../../../../assets/User.png"
 
 export function TeacherCard({ professor, emAula, ambiente } : InclassTeacherProps) {
-  console.log(professor)
   return (
     <TeacherCardContainer disponibilidade={emAula ? 'emAula' : 'livre'}>
       <TeacherCardText>

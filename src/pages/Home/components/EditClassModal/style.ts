@@ -164,6 +164,14 @@ export const InputContent = styled.div`
       transform: translateY(-5px);
     }
   }
+
+  option {
+    &:disabled {
+      background-color: ${(props) => props.theme["white-400"]};
+      color: ${(props) => props.theme["gray-500"]};
+    }
+  }
+  
   p {
     color: #8d0000;
   }
@@ -197,6 +205,13 @@ export const InputIndividual = styled.div`
     &:focus {
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
+    }
+  }
+
+  option {
+    &:disabled {
+      background-color: ${(props) => props.theme["white-400"]};
+      color: ${(props) => props.theme["gray-500"]};
     }
   }
 `;

@@ -102,7 +102,7 @@ export function Calender({ days, today }: CalenderProps) {
                                 <ContextMenu.Root  key={aula.id}>
                                   <HomeButtonClickRoot period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }>
                                     <HomeClass period={aula.periodo == "MANHA" ? "MANHA" : aula.periodo == "TARDE" ? "TARDE" : "NOITE" }  >
-                                      <p>{aula.professor.nome}</p>
+                                      <p>{aula.ambiente.nome}</p>
                                       <sup>{aula.unidadeCurricular.nome}</sup>
                                     </HomeClass>
                                   </HomeButtonClickRoot>
