@@ -13,7 +13,7 @@ export function ClassGraph() {
     <ClassGraphContainer>
       <ClassGraphText>
         <h3>Aulas</h3>
-        <p>Estáticas gerais por aulas em relação ao mes anterior</p>
+        <p>Quantidade geral de aulas por período em relação ao mês anterior</p>
       </ClassGraphText>
 
       <ClassGraphCard>

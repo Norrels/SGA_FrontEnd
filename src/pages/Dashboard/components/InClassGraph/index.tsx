@@ -5,13 +5,15 @@ import { TeacherCard } from "../TeacherCard";
 import { InClassContainer, InclassTeacherCards } from "./style";
 
 export interface InclassTeacherProps {
-  professor: TeacherProps,
-  ambiente: PlaceProps,
-  emAula: boolean,
+  professor: TeacherProps;
+  ambiente: PlaceProps;
+  emAula: boolean;
 }
 
 export function InClassGraph() {
-  const [teacherInClass, setTeacherInClass] = useState<InclassTeacherProps[]>([])
+  const [teacherInClass, setTeacherInClass] = useState<InclassTeacherProps[]>(
+    []
+  );
 
   async function fetchTeachersInClass() {
     const res = await API.get("/professor/professorDisp/");
@@ -19,21 +21,25 @@ export function InClassGraph() {
   }
 
   useEffect(() => {
-    fetchTeachersInClass()
-  },[])
+    fetchTeachersInClass();
+  }, []);
 
-    return (
-        <InClassContainer>
-            <h3>Em aula</h3>
-          <InclassTeacherCards>
-            {
-              teacherInClass.map((teacher) => {
-                return(
-                  <TeacherCard key={teacher.professor.id} ambiente={teacher.ambiente} emAula={teacher.emAula} professor={teacher.professor} />
-                )
-              })
-            }
-          </InclassTeacherCards>
-        </InClassContainer>
-    )
+  return (
+    <InClassContainer>
+      <h3>{teacherInClass.length == 0 ? "Nenhum professor econtrado" : "Em aula"}</h3>
+      {/* {teacherInClass.length == 0 ?  : } */}
+      <InclassTeacherCards>
+        {teacherInClass.map((teacher) => {
+          return (
+            <TeacherCard
+              key={teacher.professor.id}
+              ambiente={teacher.ambiente}
+              emAula={teacher.emAula}
+              professor={teacher.professor}
+            />
+          );
+        })}
+      </InclassTeacherCards>
+    </InClassContainer>
+  );
 }
