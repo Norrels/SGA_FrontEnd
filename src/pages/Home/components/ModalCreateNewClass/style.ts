@@ -121,12 +121,24 @@ export const InputOverflow = styled.div`
   justify-content: space-between;
 `;
 
-export const InputScroll = styled.div`
+interface StepProps {
+  step: number;
+}
+
+export const InputScroll = styled.div<StepProps>`
   width: 712px;
   max-height: 600px;
   padding: 0 2.344rem 1rem 4.688rem;
+  transform: ${(props) => {
+    if (props.step == 1) {
+      return "translateX(-712px)";
+    } else if (props.step == 2) {
+      return "translateX(-1424px)";
+    } else
+      return "translateX(0px)"
+  }};
 
-  overflow-y: scroll;
+  overflow-y: auto;
 
   transition-duration: 0.5s;
 
@@ -333,6 +345,8 @@ export const SummaryContent = styled.div`
 export const SummaryDetails = styled.div`
   display: flex;
   flex-direction: column;
+
+  text-transform: capitalize;
 
   &:first-child {
     text-align: left;
