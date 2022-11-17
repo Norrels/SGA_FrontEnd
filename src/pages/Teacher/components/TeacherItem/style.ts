@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-const fadeIn = keyframes`
+const fadeInAtivo = keyframes`
   from {
     opacity: 0;
   }
@@ -9,7 +9,25 @@ const fadeIn = keyframes`
   } 
 `;
 
-export const TeacherItemContainer = styled.article`
+const fadeInDesativado = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  } 
+`;
+
+const CONTAINER = {
+  ativo: "ativo",
+  desativado: "desativado",
+} as const;
+
+interface ContainerProps {
+  animation: keyof typeof CONTAINER;
+}
+
+export const TeacherItemContainer = styled.article<ContainerProps>`
   width: 100%;
   padding: 2rem;
   margin-bottom: 1rem;
@@ -24,7 +42,7 @@ export const TeacherItemContainer = styled.article`
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 
   opacity: 0;
-  animation: ${fadeIn} 1s ease-in-out forwards;
+  animation: ${props => (props.animation === 'ativo' ? "${fadeInAtivo}" : "${fadeInDesativado}")} 1s ease-in-out forwards;
 `;
 
 export const TeacherItemInfoContainer = styled.div`
