@@ -19,6 +19,7 @@ import { useForm } from "react-hook-form";
 import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
+import { getDay, setDay } from "date-fns";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -83,9 +84,15 @@ export default function AdvancedSearch() {
   const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
   const [busca, setBusca] = useState<String[]>([]);
   const [saveClass, setSaveClass] = useState<AulaTypeSuper[]>([]);
+  const [initialDate, setInitialDate] = useState<String>("");
+  const [lastDate, setLastDate] = useState<String>("");
+  const [teacherMatch, setTeacherMatch] = useState<String[]>([]);
+  const [placeMatch, setPlaceMatch] = useState<String[]>([]);
+  const [semanaMatch, setSemanaMatch] = useState<String[]>([]);
 
   const { register, handleSubmit, reset } = useForm<SearchValue>();
   const { teachers, placesList } = useContext(ObjectsContext);
+  
 
   const searchCourse = (text: String) => {
     setInputValue(text);
@@ -99,6 +106,47 @@ export default function AdvancedSearch() {
       setUnidadeMatch(matches);
     }
   };
+
+  function handleCreateArrayTeacher(value: String) {
+    if (teacherMatch.some((v) => v == value)) {
+      setTeacherMatch(teacherMatch.filter((c) => c !== value));
+    } else {
+      setTeacherMatch([...teacherMatch, value]);
+    }
+  }
+
+  function handleCreateArrayPlace(value: String) {
+    if (placeMatch.some((v) => v == value)) {
+      setPlaceMatch(placeMatch.filter((c) => c !== value));
+    } else {
+      setPlaceMatch([...placeMatch, value]);
+    }
+  }
+
+  function handleCreateSemanaArray(value: String) {
+    if (semanaMatch.some((v) => v == value)) {
+      setSemanaMatch(semanaMatch.filter((c) => c !== value));
+    } else {
+      setSemanaMatch([...semanaMatch, value]);
+    }
+  }
+
+  function handleCreateInitAndFinalDateFns(value: string) {
+    var valueSave = value.split("-");
+    if (valueSave[0] == "init") {
+      if (valueSave[2] == undefined) {
+        setInitialDate("");
+      } else {
+        setInitialDate(valueSave[3] + "/" + valueSave[2] + "/" + valueSave[1]);
+      }
+    } else if (valueSave[0] == "finl") {
+      if (valueSave[2] == undefined) {
+        setLastDate("");
+      } else {
+        setLastDate(valueSave[3] + "/" + valueSave[2] + "/" + valueSave[1]);
+      }
+    }
+  }
 
   function handleCreateArray(value: String) {
     if (busca.some((v) => v == value)) {
@@ -117,6 +165,10 @@ export default function AdvancedSearch() {
       setClassMatch(res.data);
     }
   }
+
+  useEffect(() => {
+    console.log(placeMatch);
+  }, [placeMatch]);
 
   useEffect(() => {
     handleGet();
@@ -141,20 +193,172 @@ export default function AdvancedSearch() {
      */
 
     handleMapArray();
-  }, [busca]);
+  }, [busca, initialDate, lastDate, teacherMatch, placeMatch]);
 
   useEffect(() => {
-    const saveDup = saveClass.filter(
-      (val, id, array) => saveClass.indexOf(val) == id
-    );
+    const saveDup = saveClass.filter((val, id) => saveClass.indexOf(val) == id);
     console.log(saveDup);
     setClassMatch(saveDup);
   }, [saveClass]);
 
   function handleMapArray() {
     let last = [...busca].pop();
+    let lastTeacher = [...teacherMatch].pop();
+    let lastPlace = [...placeMatch].pop();
+
     if (last == null) {
-      setSaveClass(aula);
+      if (initialDate != "" || lastDate != "") {
+        var _l: AulaTypeSuper[] = [];
+        if (initialDate.length > 0 && lastDate.length > 0) {
+          _l = aula.filter((e) => e.data >= initialDate && e.data <= lastDate);
+        } else if (initialDate.length == 0 && lastDate.length > 0) {
+          _l = aula.filter((e) => e.data <= lastDate);
+        } else if (lastDate.length == 0 && initialDate.length > 0) {
+          _l = aula.filter((e) => e.data >= initialDate);
+        } else {
+          _l = [];
+        }
+
+        if (placeMatch.length > 0 && teacherMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (teacherMatch.length > 0 || placeMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (_l.length == 0 && initialDate == null && lastDate == null) {
+          setSaveClass(aula);
+        } else {
+          setSaveClass(_l);
+        }
+      } else if (teacherMatch.length != 0) {
+        const regex = new RegExp(`${lastTeacher}`);
+        var _l = aula.filter((value) => value.professor.nome.match(regex));
+
+        if (initialDate.length > 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
+        } else if (initialDate.length == 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data <= lastDate);
+        } else if (lastDate.length == 0 && initialDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate);
+        }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        }
+
+        if (busca.length == 0 || _l.length == 0) {
+          setSaveClass([]);
+        }
+
+        if (placeMatch.length > 0 && teacherMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (teacherMatch.length > 0 || placeMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (!(_l.length == classMatch.length)) {
+          if (busca.length > 1) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([..._l]);
+          }
+        }
+      } else if (placeMatch.length != 0) {
+        const regex = new RegExp(`${lastPlace}`);
+        var _l = aula.filter((value) => value.ambiente.nome.match(regex));
+
+        if (initialDate.length > 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
+        } else if (initialDate.length == 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data <= lastDate);
+        } else if (lastDate.length == 0 && initialDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate);
+        }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        }
+
+        if (busca.length == 0 || _l.length == 0) {
+          setSaveClass([]);
+        }
+
+        if (placeMatch.length > 0 && teacherMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (teacherMatch.length > 0 || placeMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (!(_l.length == classMatch.length)) {
+          if (placeMatch.length > 1) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([..._l]);
+          }
+        }
+      } else {
+        setSaveClass(aula);
+      }
     } else {
       const regex = new RegExp(`${last}`);
       var _l = aula.filter(
@@ -166,22 +370,75 @@ export default function AdvancedSearch() {
           value.data.match(regex)
       );
 
-      // console.log(_l.length);
-      // console.log(saveClass.length)
-      // console.log(busca.length)
-      
+      // saber qual aula tem...
+
+      /***
+       * 
+       * retornar um type AulaSuper
+       * 
+       */
+      if(semanaMatch.length > 0) {
+        _l.map((v) => {
+          var _value = v.data.split('/');
+          var _res = getDay(setDay(new Date(Number(_value[2]), Number(_value[1]), Number(_value[0])), getDay(new Date(Number(_value[2]), Number(_value[1]), Number(_value[0])))))
+
+          console.log(semanaMatch.filter((v) => v == _res + ''));
+        })
+      }
+
       if (!(_l.length == 0 && busca.length > 0)) {
-        // console.log("passou aqui")
-        if (busca.length == 0 || _l.length == 0) {
-          setSaveClass([]);
+        if (initialDate.length > 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
+        } else if (initialDate.length == 0 && lastDate.length > 0) {
+          _l = _l.filter((e) => e.data <= lastDate);
+        } else if (lastDate.length == 0 && initialDate.length > 0) {
+          _l = _l.filter((e) => e.data >= initialDate);
         }
 
         if (_l.length > 0) {
           setSaveClass([...saveClass, ..._l]);
         }
-      } else if(_l.length == 0 && busca.length == 1) {
-        setSaveClass([])
-      } 
+
+        if (placeMatch.length > 0 && teacherMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (teacherMatch.length > 0 || placeMatch.length > 0) {
+          _l = _l.filter(
+            (e) =>
+              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+          );
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (busca.length == 0 || _l.length == 0) {
+          setSaveClass([]);
+        }
+
+        if (!(_l.length == classMatch.length)) {
+          if (busca.length > 1) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([..._l]);
+          }
+        }
+      } else if (_l.length == 0 && busca.length == 1) {
+        setSaveClass([]);
+      }
     }
   }
 
@@ -366,14 +623,18 @@ export default function AdvancedSearch() {
                       <input
                         type="date"
                         onChange={(checked) =>
-                          handleCreateArray(checked.target.value)
+                          handleCreateInitAndFinalDateFns(
+                            "init-" + checked.target.value
+                          )
                         }
                       />
                       <span> Data final</span>
                       <input
                         type="date"
                         onChange={(checked) =>
-                          handleCreateArray(checked.target.value)
+                          handleCreateInitAndFinalDateFns(
+                            "finl-" + checked.target.value
+                          )
                         }
                       />
                     </AdvancedFilterItens>
@@ -390,19 +651,80 @@ export default function AdvancedSearch() {
                     <AdvancedFilterItens>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Segunda-Feira
+                        <input
+                          value="1"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Segunda-Feira
                       </span>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Terça-Feira
+                        <input
+                          value="2"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Terça-Feira
                       </span>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Quarta-Feira
+                        <input
+                          value="3"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Quarta-Feira
                       </span>
                       <span>
                         {" "}
-                        <input type="checkbox" /> Integral
+                        <input
+                          value="4"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Quinta-Feira
+                      </span>
+                      <span>
+                        {" "}
+                        <input
+                          value="5"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Sexta-Feira
+                      </span>
+                      <span>
+                        {" "}
+                        <input
+                          value="6"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Sábado
+                      </span>
+                      <span>
+                        {" "}
+                        <input
+                          value="0"
+                          onChange={(checked) =>
+                            handleCreateSemanaArray(checked.target.value)
+                          }
+                          type="checkbox"
+                        />{" "}
+                        Domingo
                       </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
@@ -421,7 +743,16 @@ export default function AdvancedSearch() {
                           if ((teacher.ativo = true)) {
                             return (
                               <span key={teacher.id}>
-                                <input type="checkbox" /> {teacher.nome}
+                                <input
+                                  value={teacher.nome}
+                                  onChange={(checked) =>
+                                    handleCreateArrayTeacher(
+                                      checked.target.value
+                                    )
+                                  }
+                                  type="checkbox"
+                                />{" "}
+                                {teacher.nome}
                               </span>
                             );
                           }
@@ -443,7 +774,14 @@ export default function AdvancedSearch() {
                           if ((place.ativo = true)) {
                             return (
                               <span key={place.id}>
-                                <input type="checkbox" /> {place.nome}
+                                <input
+                                  value={place.nome}
+                                  onChange={(checked) =>
+                                    handleCreateArrayPlace(checked.target.value)
+                                  }
+                                  type="checkbox"
+                                />{" "}
+                                {place.nome}
                               </span>
                             );
                           }
