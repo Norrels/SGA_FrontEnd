@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
-import { DotsThree, Trash } from "phosphor-react";
+import { CheckCircle, DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import {
@@ -27,15 +27,15 @@ interface TeacherItemProps {
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
   const { deleteTeacher } = useContext(ObjectsContext);
 
-  function handleDeleteTeacher(){
-    deleteTeacher(teacherItem.id!)
+  function handleDeleteTeacher() {
+    deleteTeacher(teacherItem.id!);
   }
 
   return (
-    <TeacherItemContainer>
+    <TeacherItemContainer animation={teacherItem.ativo == false ? 'ativo' : 'ativo'}>
       <TeacherItemInfoContainer>
         <TeacherItemIcon>
-          <img alt="" src={teacherItem.foto ? teacherItem.foto: UserPicture} />
+          <img alt="" src={teacherItem.foto ? teacherItem.foto : UserPicture} />
         </TeacherItemIcon>
 
         <TeacherItemInfoContent>
@@ -48,23 +48,33 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
       </TeacherItemInfoContainer>
 
       <TeacherItemButtonContainer>
-        <NavLink to={`/professor/${teacherItem.id}`}>
-          <TeacherItemButton buttonColor="edit">
-            <DotsThree color="#fff" size={32} />
-          </TeacherItemButton>
-        </NavLink>
+        {teacherItem.ativo == false ? (
+          <AlertDialog.Root>
+            <AlertDialog.Trigger asChild>
+              <TeacherItemButton buttonColor="delete">
+                <CheckCircle color="#fff" size={26} />
+              </TeacherItemButton>
+            </AlertDialog.Trigger>
+            <DeleteAlert deleteById={handleDeleteTeacher} />
+          </AlertDialog.Root>
+        ) : (
+          <>
+            <NavLink to={`/professor/${teacherItem.id}`}>
+              <TeacherItemButton buttonColor="edit">
+                <DotsThree color="#fff" size={32} />
+              </TeacherItemButton>
+            </NavLink>
 
-        <AlertDialog.Root>
-          <AlertDialog.Trigger asChild>
-        <TeacherItemButton buttonColor="delete">
-          <Trash
-            color="#fff"
-            size={26}
-          />
-        </TeacherItemButton>
-        </AlertDialog.Trigger>
-          <DeleteAlert deleteById={handleDeleteTeacher}/>
-        </AlertDialog.Root>
+            <AlertDialog.Root>
+              <AlertDialog.Trigger asChild>
+                <TeacherItemButton buttonColor="delete">
+                  <Trash color="#fff" size={26} />
+                </TeacherItemButton>
+              </AlertDialog.Trigger>
+              <DeleteAlert deleteById={handleDeleteTeacher} />
+            </AlertDialog.Root>
+          </>
+        )}
       </TeacherItemButtonContainer>
     </TeacherItemContainer>
   );
