@@ -51,17 +51,18 @@ export function EditClassModal({
   const [avaliblePlaces, setAvaliblePlaces] = useState<AvaliblePlaces[]>([]);
   const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
 
-  useEffect(() => {
-    fetchPlacesAndTeachersAvaliable();
-  }, []);
+  // useEffect(() => {
+  //   fetchPlacesAndTeachersAvaliable();
+  // }, []);
 
-  async function fetchPlacesAndTeachersAvaliable() {
-    const res = await API.get("/aula/valoresLivres");
-    setAvalibleTeachers(res.data[0]);
-    setAvaliblePlaces(res.data[1]);
-  }
+  // async function fetchPlacesAndTeachersAvaliable() {
+  //   const res = await API.get(`ambiente/disponivel?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`);
+  //   setAvaliblePlaces(res.data);
+  // }
 
-  async function handleEditClass(data : EditClassModalProps) {
+
+
+  async function handleEditClass(data: EditClassModalProps) {
     console.log(data.data)
     aulas.ambiente.id = data.ambientes
     aulas.professor.id = data.professor
@@ -117,7 +118,7 @@ export function EditClassModal({
                           {place.nome}
                         </option>
                       );
-                      
+
                     })}
                   </select>
                 </InputIndividual>

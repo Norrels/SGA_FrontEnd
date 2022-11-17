@@ -55,7 +55,7 @@ export function ModalCreateNewClass({
     },
   });
 
-  const { handleSubmit, reset } = CreateNewClassForm;
+  const { handleSubmit, reset, getValues } = CreateNewClassForm;
 
   const [step, setStep] = useState(0);
 
@@ -63,11 +63,22 @@ export function ModalCreateNewClass({
     setStep(step);
   }
 
-  async function handleCreateNewAula(data: AulaType) {
+  async function handleCreateNewAula(datas: AulaType) {
+
+    const data = {
+      professor: {
+        id: getValues("professor.id")
+      },
+      ambiente: {
+        id: getValues("ambiente.id")
+      }
+    }
+
     const res = await API.post("aula", data);
     reset();
     closeModal();
   }
+
 
 
   return (

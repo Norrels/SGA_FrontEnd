@@ -1,7 +1,9 @@
+import { format } from "date-fns";
 import { ArrowRight, Check } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import { CourseProps, ObjectsContext } from "../../../../../../contexts/ObjectsContext";
+import { API } from "../../../../../../lib/axios";
 import {
   CheckboxIndicator,
   CheckboxRoot,
@@ -15,35 +17,64 @@ import {
 } from "../../style";
 
 interface firstStepContentProps {
-    name: string
-    handleNextStep: (step: number) => void
+  name: string
+  handleNextStep: (step: number) => void
 }
 
-export function FirstStepContent({name, handleNextStep } : firstStepContentProps) {
+export function FirstStepContent({ name, handleNextStep }: firstStepContentProps) {
   const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
-
+  const [selectedDay, setSelectedDay] = useState("");
   const { courses } = useContext(ObjectsContext);
-
+  const { register, setValue, formState: { errors }, watch, getValues } = useFormContext();
 
   //Aqui eu exibo as unidades curriculares do curso que a pessoa selecionou
   function onChangeCourse(event: ChangeEvent<HTMLSelectElement>) {
     const course = courses.find(
       (course) => course?.id?.toString() == event.target.value
     );
+
     setSelectedCourse(course);
+
   }
 
-    //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
-    const courseFiltedByType = courses.filter((course) => {
-        if (course.tipo.toLowerCase() == name.toLowerCase()) {
-          return course;
-        }
-        if (name == "Customizável") {
-          return course;
-        }
-      });
+  //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
+  const courseFiltedByType = courses.filter((course) => {
+    if (course.tipo.toLowerCase() == name.toLowerCase()) {
+      return course;
+    }
+    if (name == "Customizável") {
+      return course;
+    }
+  });
 
-  const { register, setValue } = useFormContext();
+
+  function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
+    const diaSelecionado = event.target.value
+    diaSelecionado.replace("-", ", ")
+    const selecionadoDia = (format(new Date(diaSelecionado), "i"))
+    console.log(selecionadoDia)
+  }
+
+  const data = {
+    curso: {
+      id: getValues("curso.id")
+    },
+    unidadeCurricular: getValues("unidadeCurricular"),
+    codTurma: getValues("codTurma"),
+    periodo: getValues("periodo"),
+    dataInicio: getValues("dataInicio"),
+    diaSemana: getValues("diaSemana"),
+    cargaDiaria: 60,
+  }
+
+  async function createClassFirstStep(){
+    console.log(data)
+    const res = await API.post("/aula/criar", data)
+    console.log(res)
+  }
+
+
+  console.log(errors)
 
   return (
     <InputContainer>
@@ -79,7 +110,6 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
             );
           })}
         </select>
-        {/* {errors.curso && <p>* Selecione um valor...</p>} */}
       </InputContent>
       <InputContent>
         <label
@@ -89,10 +119,10 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         </label>
         <select
           {...register("unidadeCurricular.id")}
-          defaultValue=""
+          defaultValue=" "
           disabled={selectedCourse == undefined}
         >
-          <option value="" disabled>
+          <option value=" ">
             Selecione uma unidade curricular...
           </option>
           {selectedCourse?.unidadeCurricular.map((unidade) => {
@@ -103,7 +133,6 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
             );
           })}
         </select>
-        {/* {errors.unidadeCurricular && <p>* Selecione um valor...</p>} */}
       </InputContent>
       <InputContent>
         <label>Código da turma</label>
@@ -134,14 +163,14 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         </InputIndividual>
         <InputIndividual>
           <label>Data de início</label>
-          <input type="date" {...register("dataInicio")} />
-          {/* {errors.dataInicio && <p>{errors.dataInicio.message}</p>} */}
+          <input type="date" {...register("dataInicio")} onChange={onChangeDataWithWeek} />
         </InputIndividual>
       </InputContent>
       <ChecksContent>
         <CheckIndividual title="Domingo">
           <label>Dom</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${0}`, { value: false })}
             onCheckedChange={(checked) => {
               setValue(`diaSemana.${0}`, checked ? true : false);
@@ -155,6 +184,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <CheckIndividual title="Segunda-feira">
           <label>Seg</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${1}`, { value: false })}
             onCheckedChange={(checked) => {
               setValue(`diaSemana.${1}`, checked ? true : false);
@@ -168,6 +198,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <CheckIndividual title="Terça-feira">
           <label>Ter</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${2}`, { value: false })}
             onCheckedChange={(checked) => {
               setValue(`diaSemana.${2}`, checked ? true : false);
@@ -181,6 +212,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <CheckIndividual title="Quarta-feira">
           <label>Qua</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${3}`, { value: false })}
             onCheckedChange={(checked) => {
               setValue(`diaSemana.${3}`, checked ? true : false);
@@ -194,6 +226,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <CheckIndividual title="Quinta-feira">
           <label>Qui</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${4}`, { value: false })}
             onCheckedChange={(checked) => {
               setValue(`diaSemana.${4}`, checked ? true : false);
@@ -221,6 +254,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <CheckIndividual title="Sábado">
           <label>Sab</label>
           <CheckboxRoot
+
             {...register(`diaSemana.${6}`, { value: false })}
             onCheckedChange={(checked) => {
               console.log(checked);
@@ -238,6 +272,7 @@ export function FirstStepContent({name, handleNextStep } : firstStepContentProps
         <button
           onClick={() => {
             handleNextStep(1)
+            createClassFirstStep()
           }}
           type="button"
         >

@@ -49,15 +49,15 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
   const { register, handleSubmit, reset } = useForm<EditAllClassModalProps>();
 
   
-  useEffect(() => {
-    fetchPlacesAndTeachersAvaliable();
-  }, []);
+  // useEffect(() => {
+  //   fetchPlacesAndTeachersAvaliable();
+  // }, []);
 
-  async function fetchPlacesAndTeachersAvaliable() {
-    const res = await API.get("/aula/valoresLivres");
-    setAvalibleTeachers(res.data[0]);
-    setAvaliblePlaces(res.data[1]);
-  }
+  // async function fetchPlacesAndTeachersAvaliable() {
+  //   const res = await API.get("/aula/valoresLivres");
+  //   setAvalibleTeachers(res.data[0]);
+  //   setAvaliblePlaces(res.data[1]);
+  // }
 
 
   async function handleEditAllClass(data: EditAllClassModalProps) {

@@ -13,6 +13,8 @@ export function SecondStepContent({handleNextStep} : firstStepContentProps) {
     const { register } = useFormContext();
     const { teachers, placesList } = useContext(ObjectsContext);
 
+  
+
   return (
     <InputContainer>
       <InputContent>
