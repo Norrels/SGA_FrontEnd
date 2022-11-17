@@ -4,6 +4,8 @@ import { z } from "zod";
 import { AulaTypeSuper } from "../..";
 import { API } from "../../../../lib/axios";
 import { TableContaine } from "./style";
+import * as Dialog from "@radix-ui/react-dialog";
+import { EditClassModal } from "../EditClassModal";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -33,13 +35,19 @@ export const aulaInput = z.object({
 
 export type AulaType = z.infer<typeof aulaInput>;
 
-interface AulaProps {
+export interface AulaProps {
   classItem: AulaTypeSuper[];
 }
 [];
 
 export function AdvancedSeachTable(classItem: AulaProps) {
   const [aula, setAula] = useState<AulaType[]>([]);
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
+
   async function handleGet() {
     const res = await API.get("aula");
 
@@ -73,7 +81,12 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                 <td>{value.ambiente?.nome}</td>
                 <td>{value?.data}</td>
                 <td>
-                  <DotsThreeOutline size={20} />
+                  <Dialog.Root>
+                    <Dialog.Trigger>
+                      <DotsThreeOutline size={20} />
+                    </Dialog.Trigger>
+                    <EditClassModal classItem={value} closeModal={closeModal} />
+                  </Dialog.Root>
                 </td>
               </tr>
             ))) || (
