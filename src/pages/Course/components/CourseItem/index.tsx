@@ -1,7 +1,7 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 
-import { DotsThree, Pencil, Trash } from "phosphor-react";
+import { CheckCircle, DotsThree, Pencil, Trash } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
 
 import { z } from "zod";
@@ -21,6 +21,7 @@ import {
   CourseItemInfoContent,
   ItemInfoContentHeader,
 } from "./style";
+import { ReactivateAlert } from "../../../../components/ReactivateAlert";
 
 interface NewCouserModalProps {
   course: CourseProps;
@@ -35,7 +36,7 @@ export const courseInput = z.object({
 export type CourseType = z.infer<typeof courseInput>;
 
 export function CourseItem({ course }: NewCouserModalProps) {
-  const { deleteCourse } = useContext(ObjectsContext);
+  const { updateStatusCourse } = useContext(ObjectsContext);
 
   useEffect(() => {}, [course]);
 
@@ -49,8 +50,8 @@ export function CourseItem({ course }: NewCouserModalProps) {
     }
   );
 
-  async function handleDeleteCourse() {
-    deleteCourse(course.id);
+  async function handleUpdateStatusCourse() {
+    updateStatusCourse(course.id);
   }
 
   const [open, setOpen] = useState(false);
@@ -79,32 +80,42 @@ export function CourseItem({ course }: NewCouserModalProps) {
       </CourseItemInfoContainer>
 
       <CourseItemButtonContainer>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              display: "flex",
-            }}
-          >
-            <CourseItemButton buttonColor="edit">
-              <DotsThree color="#fff" size={32} />
-            </CourseItemButton>
-          </Dialog.Trigger>
-          <EditCourseModal course={course} closeModal={closeModal} />
-        </Dialog.Root>
+        {course.ativo == false ? (
+          <AlertDialog.Root>
+            <AlertDialog.Trigger asChild>
+              <CourseItemButton buttonColor="delete">
+                <CheckCircle color="#fff" size={26} />
+              </CourseItemButton>
+            </AlertDialog.Trigger>
+            <ReactivateAlert reactivateById={handleUpdateStatusCourse} />
+          </AlertDialog.Root>
+        ) : (
+          <>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  display: "flex",
+                }}
+              >
+                <CourseItemButton buttonColor="edit">
+                  <DotsThree color="#fff" size={32} />
+                </CourseItemButton>
+              </Dialog.Trigger>
+              <EditCourseModal course={course} closeModal={closeModal} />
+            </Dialog.Root>
 
-        <AlertDialog.Root>
-          <AlertDialog.Trigger asChild>
-            <CourseItemButton
-              buttonColor="delete"
-            
-            >
-              <Trash color="#fff" size={26} />
-            </CourseItemButton>
-          </AlertDialog.Trigger>
-          <DeleteAlert deleteById={handleDeleteCourse}/>
-        </AlertDialog.Root>
+            <AlertDialog.Root>
+              <AlertDialog.Trigger asChild>
+                <CourseItemButton buttonColor="delete">
+                  <Trash color="#fff" size={26} />
+                </CourseItemButton>
+              </AlertDialog.Trigger>
+              <DeleteAlert deleteById={handleUpdateStatusCourse} />
+            </AlertDialog.Root>
+          </>
+        )}
       </CourseItemButtonContainer>
     </CourseItemContainer>
   );

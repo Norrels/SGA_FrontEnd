@@ -1,9 +1,10 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
-import { ChalkboardTeacher, DotsThree, Trash } from "phosphor-react";
+import { ChalkboardTeacher, CheckCircle, DotsThree, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
+import { ReactivateAlert } from "../../../../components/ReactivateAlert";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { EditPlaceModal } from "../EditPlaceModal";
 import { NewPlaceType } from "../NewPlaceModal";
@@ -24,15 +25,15 @@ interface PlacesProps {
 }
 
 export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
-  const { deletePlace } = useContext(ObjectsContext);
+  const { updateStatusPlace } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);
   }
 
-  function handleDelete() {
-    deletePlace(placeItem.id!);
+  function handleUpdateStatusPlace() {
+    updateStatusPlace(placeItem.id!);
   }
 
   return (
@@ -60,32 +61,42 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
       </PlacesItemInfoContainer>
 
       <PlacesItemButtonContainer>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              display: "flex",
-            }}
-          >
-            <PlacesItemButton buttonColor="edit">
-              <DotsThree color="#fff" size={32} />
-            </PlacesItemButton>
-          </Dialog.Trigger>
-          <EditPlaceModal place={placeItem} closeModal={closeModal} />
-        </Dialog.Root>
+        {placeItem.ativo == false ? (
+          <AlertDialog.Root>
+            <AlertDialog.Trigger asChild>
+              <PlacesItemButton buttonColor="delete">
+                <CheckCircle color="#fff" size={26} />
+              </PlacesItemButton>
+            </AlertDialog.Trigger>
+            <ReactivateAlert reactivateById={handleUpdateStatusPlace} />
+          </AlertDialog.Root>
+        ) : (
+          <>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  display: "flex",
+                }}
+              >
+                <PlacesItemButton buttonColor="edit">
+                  <DotsThree color="#fff" size={32} />
+                </PlacesItemButton>
+              </Dialog.Trigger>
+              <EditPlaceModal place={placeItem} closeModal={closeModal} />
+            </Dialog.Root>
 
-        <AlertDialog.Root>
-          <AlertDialog.Trigger asChild>
-            <PlacesItemButton buttonColor="delete">
-              <Trash
-                color="#fff"
-                size={26}
-              />
-            </PlacesItemButton>
-          </AlertDialog.Trigger>
-          <DeleteAlert deleteById={handleDelete} />
-        </AlertDialog.Root>
+            <AlertDialog.Root>
+              <AlertDialog.Trigger asChild>
+                <PlacesItemButton buttonColor="delete">
+                  <Trash color="#fff" size={26} />
+                </PlacesItemButton>
+              </AlertDialog.Trigger>
+              <DeleteAlert deleteById={handleUpdateStatusPlace} />
+            </AlertDialog.Root>
+          </>
+        )}
       </PlacesItemButtonContainer>
     </PlacesItemContainer>
   );

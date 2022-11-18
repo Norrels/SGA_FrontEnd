@@ -19,20 +19,21 @@ import {
   TeacherItemInfoContent,
 } from "./style";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
+import { ReactivateAlert } from "../../../../components/ReactivateAlert";
 
 interface TeacherItemProps {
   teacherItem: TeacherProps;
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
-  const { deleteTeacher } = useContext(ObjectsContext);
+  const { updateStatusTeacher } = useContext(ObjectsContext);
 
-  function handleDeleteTeacher() {
-    deleteTeacher(teacherItem.id!);
+  function handleUpdateStatusTeacher() {
+    updateStatusTeacher(teacherItem.id!);
   }
 
   return (
-    <TeacherItemContainer animation={teacherItem.ativo == false ? 'ativo' : 'ativo'}>
+    <TeacherItemContainer>
       <TeacherItemInfoContainer>
         <TeacherItemIcon>
           <img alt="" src={teacherItem.foto ? teacherItem.foto : UserPicture} />
@@ -55,7 +56,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
                 <CheckCircle color="#fff" size={26} />
               </TeacherItemButton>
             </AlertDialog.Trigger>
-            <DeleteAlert deleteById={handleDeleteTeacher} />
+            <ReactivateAlert reactivateById={handleUpdateStatusTeacher} />
           </AlertDialog.Root>
         ) : (
           <>
@@ -71,7 +72,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
                   <Trash color="#fff" size={26} />
                 </TeacherItemButton>
               </AlertDialog.Trigger>
-              <DeleteAlert deleteById={handleDeleteTeacher} />
+              <DeleteAlert deleteById={handleUpdateStatusTeacher} />
             </AlertDialog.Root>
           </>
         )}
