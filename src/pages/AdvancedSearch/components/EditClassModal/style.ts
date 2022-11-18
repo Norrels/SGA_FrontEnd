@@ -22,12 +22,6 @@ const swipeTop = keyframes`
   } 
 `;
 
-const swipeLeft = keyframes`
-to {
-  transform: translateX(-712px);
-} 
-`;
-
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
   height: 100w;
@@ -156,22 +150,37 @@ export const InputContainer = styled.div`
   gap: 2.5rem;
 `;
 
-export const InputContent = styled.div`
+const DISABLED = {
+  disabled: {
+    display: "none",
+    cor: "background",
+    color: "gray-600",
+  },
+  on: {
+    display: "block",
+    cor: "white",
+    color: "gray-700",
+  },
+} as const;
+
+interface DisabledProps {
+  disabled: keyof typeof DISABLED;
+}
+
+export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: space-between;
 
   flex-direction: column;
   gap: 0.625rem;
 
+  &:not(:nth-child(1), :nth-child(2), :nth-child(3), :nth-child(6)) {
+    flex-direction: row;
+  }
+
   label {
     font-weight: 800;
     font-size: 1.25rem;
-    color: ${(props) => props.theme["gray-700"]};
-  }
-
-  span {
-    font-weight: 700;
-    font-size: 1.125rem;
     color: ${(props) => props.theme["gray-700"]};
   }
 
@@ -186,42 +195,19 @@ export const InputContent = styled.div`
 
     font-weight: 800;
     font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
 
-    transition-duration: 0.15s;
-
-    // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
-    &:focus {
-      box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
-      transform: translateY(-5px);
-    }
-
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
-    }
+    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
   }
   p {
     color: #8d0000;
   }
 `;
 
-export const Steps = styled.div`
-  width: 100%;
-  height: 6px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  div {
-    width: 32%;
-    height: 100%;
-  }
-`;
-
 export const InputIndividual = styled.div`
   width: 360px;
+
   &:last-child {
     width: 210px;
   }
@@ -246,145 +232,5 @@ export const InputIndividual = styled.div`
 
     font-weight: 800;
     font-size: 1.1rem;
-    color: ${(props) => props.theme["gray-700"]};
-
-    &:disabled {
-      opacity: 30%;
-      background-color: ${(props) => props.theme["white"]};
-    }
-  }
-`;
-
-export const ChecksContent = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const CheckIndividual = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  label {
-    margin-bottom: 5px;
-
-    font-weight: 800;
-    font-size: 20px;
-    color: #6d6d6d;
-  }
-`;
-
-export const CheckboxRoot = styled(Checkbox.Root)`
-  all: unset;
-  background-color: white;
-  width: 3.125rem;
-  height: 3.125rem;
-  border-radius: 3.125rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
-  &:hover {
-    cursor: pointer;
-  }
-  &[data-state="checked"] {
-    background-color: ${(props) => props.theme["blue-300"]};
-  }
-`;
-
-export const CheckboxIndicator = styled(Checkbox.Indicator)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const SummaryContainer = styled.div`
-  width: 100%;
-  padding:0 0 1.25rem 0;
-
-  &:not(:last-child) {
-    border-bottom: 1px solid black;
-  }
-`;
-
-export const SummaryHeader = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  h3 {
-    font-size: 1.375rem;
-  }
-`;
-
-export const SummaryContent = styled.div`
-  width: 100%;
-  margin-top: 0.625rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-export const SummaryDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  text-transform: capitalize;
-
-  &:first-child {
-    text-align: left;
-    align-items: left;
-
-    font-weight: 700;
-    font-size: 1.125rem;
-
-    span {
-      color: ${(props) => props.theme["blue-300"]};
-    }
-
-    p {
-      color: ${(props) => props.theme["gray-700"]};
-    }
-  }
-
-  &:last-child {
-    text-align: right;
-    align-items: right;
-
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: ${(props) => props.theme["gray-700"]};
-  }
-
-  justify-content: space-between;
-  gap: 0.625rem;
-`;
-
-export const FinalButton = styled.div`
-  width: 100%;
-  button {
-    width: 100%;
-    height: 4.688rem;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-    border-radius: 10px;
-    background-color: ${(props) => props.theme["blue-500"]};
-
-    color: ${(props) => props.theme["white"]};
-    font-size: 1.25rem;
-    font-weight: bold;
-
-    svg {
-      margin-left: 10px;
-    }
   }
 `;

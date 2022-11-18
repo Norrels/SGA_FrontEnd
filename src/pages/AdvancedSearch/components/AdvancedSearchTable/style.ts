@@ -76,5 +76,17 @@ table {
     vertical-align: middle;
     text-align: center;
     font-weight: 500;
+
+    button {
+      outline: none;
+      border: none;
+      background: none;
+      svg {
+        transition-duration: 0.3s;
+        &:hover {
+          color: ${(props) => props.theme["blue-300"]}
+        }
+      }
+    }
   }
 `;
