@@ -7,7 +7,6 @@ import { AulaTypeSuper } from "../..";
 import { API } from "../../../../lib/axios";
 import {
   Content,
-  FinalButton,
   HeaderButtons,
   InputContainer,
   InputContent,
@@ -39,8 +38,6 @@ interface EditClassModalProps {
 }
 
 export function EditClassModal({ classItem, closeModal }: EditClassModalProps) {
-  
-
   return (
     <Dialog.Portal>
       <Overlay />
@@ -53,100 +50,80 @@ export function EditClassModal({ classItem, closeModal }: EditClassModalProps) {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-          <InputMain>
-            <InputOverflow>
-              <InputScroll>
-                <InputContainer>
-                  <InputContent>
-                    <label>Curso</label>
-                    <select>
-                      <option>{classItem.curso.nome}</option>
-                    </select>
-                  </InputContent>
-                  <InputContent>
-                    <label
-                    
-                    >
-                      Unidade curricular
-                    </label>
-                    <select>
-                      <option>{classItem.unidadeCurricular.nome}</option>
-                    </select>
-                  </InputContent>
-                  <InputContent>
-                    <label>Código da turma</label>
-                    <input
-                      type="text"
-                      readOnly
-                      /*  defaultValue={class.codTurma} */
-                    />
-                  </InputContent>
-                  <InputContent style={{ flexDirection: "row" }}>
-                    <InputIndividual>
-                      <label>Periodo</label>
-                      <select
-                        placeholder="Selecione um periodo..."
-                        
-                        defaultValue={classItem.periodo}
-                      >
-                        <option value="" disabled>
-                          Selecione um periodo...
-                        </option>
-                        <option value="MANHA">Manhã</option>
-                        <option value="TARDE">Tarde</option>
-                        <option value="NOITE">Noite</option>
-                        <option value="INTEGRAL">Integral</option>
-                      </select>
-                    </InputIndividual>
-                    <InputIndividual>
-                      <label>Data</label>
-                      <input type="date"  />
-                    </InputIndividual>
-                  </InputContent>
-                  <InputContent style={{ flexDirection: "row" }}>
-                    <InputIndividual>
-                      <label>Professor</label>
-                      <select
-                        placeholder="Selecione um professor..."
-                        defaultValue={classItem.professor.nome}
-                      >
-                        <option>
-                        {classItem.cargaDiaria}
-                        </option>
-                        
-                      </select>
-        
-                    </InputIndividual>
-                    <InputIndividual>
-                      <label>Hora(s) por dia</label>
-                      <input
-                        type="number"
-                        placeholder="Digite as horas..."
-                        readOnly
-                        /* {...register("cargaDiaria")} */
-                        defaultValue={classItem.cargaDiaria}
-                      />
-        
-                    </InputIndividual>
-                  </InputContent>
-                  <InputContent>
-                    <label>Ambiente</label>
+        <InputMain>
+          <InputOverflow>
+            <InputScroll>
+              <InputContainer>
+                <InputContent disabled={"disabled"}>
+                  <label>Curso</label>
+                  <select>
+                    <option>{classItem.curso.nome}</option>
+                  </select>
+                </InputContent>
+                <InputContent disabled={"disabled"}>
+                  <label>Unidade curricular</label>
+                  <select>
+                    <option>{classItem.unidadeCurricular.nome}</option>
+                  </select>
+                </InputContent>
+                <InputContent disabled={"disabled"}>
+                  <label>Código da turma</label>
+                  <input
+                    type="text"
+                    readOnly
+                    defaultValue={classItem.codTurma}
+                  />
+                </InputContent>
+                <InputContent disabled={"disabled"}>
+                  <InputIndividual>
+                    <label>Periodo</label>
                     <select
-                      placeholder="Selecione um ambiente..."
-                      /* {...register("ambiente.id")} */
-                      defaultValue=""
+                      placeholder="Selecione um periodo..."
+                      defaultValue={classItem.periodo}
                     >
-                      <option>
-                      {classItem.ambiente.nome}
+                      <option value="" disabled>
+                        Selecione um periodo...
                       </option>
-                      
+                      <option value="MANHA">Manhã</option>
+                      <option value="TARDE">Tarde</option>
+                      <option value="NOITE">Noite</option>
+                      <option value="INTEGRAL">Integral</option>
                     </select>
-      
-                  </InputContent>
-                </InputContainer>
-              </InputScroll>
-            </InputOverflow>
-          </InputMain>
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label>Data</label>
+                    <input type="text" defaultValue={classItem.data}/>
+                  </InputIndividual>
+                </InputContent>
+                <InputContent disabled={"disabled"}>
+                  <InputIndividual>
+                    <label>Professor</label>
+                    <select placeholder="Selecione um professor...">
+                      <option>{classItem.professor.nome}</option>
+                    </select>
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label>Hora(s) por dia</label>
+                    <input
+                      type="number"
+                      placeholder="Digite as horas..."
+                      readOnly
+                      defaultValue={classItem.cargaDiaria}
+                    />
+                  </InputIndividual>
+                </InputContent>
+                <InputContent disabled={"disabled"}>
+                  <label>Ambiente</label>
+                  <select
+                    placeholder="Selecione um ambiente..."
+                  >
+                    <option>{classItem.ambiente.nome}</option>
+                  </select>
+                </InputContent>
+              </InputContainer>
+            </InputScroll>
+          </InputOverflow>
+        </InputMain>
       </Content>
     </Dialog.Portal>
   );
