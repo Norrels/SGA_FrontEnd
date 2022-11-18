@@ -54,9 +54,9 @@ interface ObjectsContextType {
   teachers: TeacherProps[]
   courses: CourseProps[]
   placesList: NewPlaceType[]
-  deleteTeacher: (id : number) => void
-  deleteCourse: (id: number | undefined) => void
-  deletePlace: (id: number) => void
+  updateStatusTeacher: (id : number) => void
+  updateStatusCourse: (id: number | undefined) => void
+  updateStatusPlace: (id: number) => void
   updateTeaches: (data: TeacherProps) => void
   updatePlaces: (data: NewPlaceType) => void
   updateCourses: (data: CourseProps) => void
@@ -124,8 +124,8 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   }
 
 
-  async function deletePlace(id: number) {
-    const res = await API.put(`/ambiente/inativar/${id}`);
+  async function updateStatusPlace(id: number) {
+    const res = await API.put(`/ambiente/alterarStatus/${id}`);
   
     if (res.status == 200) {
       const valorAtualizado = placesList.filter((place) => {
@@ -135,8 +135,8 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function deleteCourse(id: number | undefined) {
-    const res = await API.put(`/curso/inativar/${id}`);
+  async function updateStatusCourse(id: number | undefined) {
+    const res = await API.put(`/curso/alterarStatus/${id}`);
   
     if (res.status == 200) {
       const valorAtualizado = courses.filter((course) => {
@@ -146,8 +146,8 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     }
   }
 
-  async function deleteTeacher(id: number) {
-    const res = await API.put(`/professor/desativar/${id}`);
+  async function updateStatusTeacher(id: number) {
+    const res = await API.put(`/professor/alterarStatus/${id}`);
   
     if (res.status == 200) {
       const valorAtualizado = teachers.filter((professor) => {
@@ -206,11 +206,11 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   return (
     <ObjectsContext.Provider
       value={{
-        deleteTeacher,
+        updateStatusTeacher,
         updateTeaches,
-        deleteCourse,
+        updateStatusCourse,
         updateCourses,
-        deletePlace,
+        updateStatusPlace,
         updatePlaces,
         createPlacesAPI,
         placesList,
