@@ -14,7 +14,7 @@ import {
 import { CaretDown, Sliders } from "phosphor-react";
 import * as Accordion from "@radix-ui/react-accordion";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
@@ -82,17 +82,17 @@ export default function AdvancedSearch() {
   const [unidadeMatch, setUnidadeMatch] = useState<unidadeCurricular[]>([]);
   const [inputValue, setInputValue] = useState<String>("");
   const [unidade, setUnidade] = useState<unidadeCurricular[]>([]);
-  const [busca, setBusca] = useState<String[]>([]);
   const [saveClass, setSaveClass] = useState<AulaTypeSuper[]>([]);
   const [initialDate, setInitialDate] = useState<String>("");
   const [lastDate, setLastDate] = useState<String>("");
   const [teacherMatch, setTeacherMatch] = useState<String[]>([]);
   const [placeMatch, setPlaceMatch] = useState<String[]>([]);
   const [semanaMatch, setSemanaMatch] = useState<String[]>([]);
+  const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
+  const [typeCoursesMatch, setTypeCoursesMatch] = useState<String[]>([]);
 
   const { register, handleSubmit, reset } = useForm<SearchValue>();
   const { teachers, placesList } = useContext(ObjectsContext);
-  
 
   const searchCourse = (text: String) => {
     setInputValue(text);
@@ -106,6 +106,22 @@ export default function AdvancedSearch() {
       setUnidadeMatch(matches);
     }
   };
+
+  function handleCreateArrayCoursesType(value: String) {
+    if (typeCoursesMatch.some((v) => v == value)) {
+      setTypeCoursesMatch(typeCoursesMatch.filter((c) => c !== value));
+    } else {
+      setTypeCoursesMatch([...typeCoursesMatch, value]);
+    }
+  }
+
+  function handleCreateArrayDayType(value: String) {
+    if (dayTypeMatch.some((v) => v == value)) {
+      setDayTypeMatch(dayTypeMatch.filter((c) => c !== value));
+    } else {
+      setDayTypeMatch([...dayTypeMatch, value]);
+    }
+  }
 
   function handleCreateArrayTeacher(value: String) {
     if (teacherMatch.some((v) => v == value)) {
@@ -148,14 +164,6 @@ export default function AdvancedSearch() {
     }
   }
 
-  function handleCreateArray(value: String) {
-    if (busca.some((v) => v == value)) {
-      setBusca(busca.filter((c) => c !== value));
-    } else {
-      setBusca([...busca, value]);
-    }
-  }
-
   async function handleGet() {
     const res = await API.get("aula");
 
@@ -165,10 +173,6 @@ export default function AdvancedSearch() {
       setClassMatch(res.data);
     }
   }
-
-  useEffect(() => {
-    console.log(placeMatch);
-  }, [placeMatch]);
 
   useEffect(() => {
     handleGet();
@@ -193,252 +197,513 @@ export default function AdvancedSearch() {
      */
 
     handleMapArray();
-  }, [busca, initialDate, lastDate, teacherMatch, placeMatch]);
+  }, [
+    initialDate,
+    lastDate,
+    teacherMatch,
+    placeMatch,
+    semanaMatch,
+    dayTypeMatch,
+    typeCoursesMatch,
+  ]);
 
   useEffect(() => {
     const saveDup = saveClass.filter((val, id) => saveClass.indexOf(val) == id);
-    console.log(saveDup);
     setClassMatch(saveDup);
   }, [saveClass]);
 
+  function revealDateLogic(_l: AulaTypeSuper[]) {
+    if (initialDate.length > 0 && lastDate.length > 0) {
+      _l = aula.filter((e) => e.data >= initialDate && e.data <= lastDate);
+    } else if (initialDate.length == 0 && lastDate.length > 0) {
+      _l = aula.filter((e) => e.data <= lastDate);
+    } else if (lastDate.length == 0 && initialDate.length > 0) {
+      _l = aula.filter((e) => e.data >= initialDate);
+    } else {
+      _l = [];
+    }
+
+    return _l;
+  }
+
   function handleMapArray() {
-    let last = [...busca].pop();
     let lastTeacher = [...teacherMatch].pop();
     let lastPlace = [...placeMatch].pop();
+    let lastSemana = [...semanaMatch].pop();
+    let lastDayType = [...dayTypeMatch].pop();
+    let lastCourseType = [...typeCoursesMatch].pop();
 
-    if (last == null) {
-      if (initialDate != "" || lastDate != "") {
-        var _l: AulaTypeSuper[] = [];
-        if (initialDate.length > 0 && lastDate.length > 0) {
-          _l = aula.filter((e) => e.data >= initialDate && e.data <= lastDate);
-        } else if (initialDate.length == 0 && lastDate.length > 0) {
-          _l = aula.filter((e) => e.data <= lastDate);
-        } else if (lastDate.length == 0 && initialDate.length > 0) {
-          _l = aula.filter((e) => e.data >= initialDate);
-        } else {
-          _l = [];
-        }
+    if (initialDate != "" || lastDate != "") {
+      var _l: AulaTypeSuper[] = [];
 
-        if (placeMatch.length > 0 && teacherMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
-          );
+      _l = revealDateLogic(_l);
 
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (teacherMatch.length > 0 || placeMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (_l.length == 0 && initialDate == null && lastDate == null) {
-          setSaveClass(aula);
-        } else {
-          setSaveClass(_l);
-        }
-      } else if (teacherMatch.length != 0) {
-        const regex = new RegExp(`${lastTeacher}`);
-        var _l = aula.filter((value) => value.professor.nome.match(regex));
-
-        if (initialDate.length > 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
-        } else if (initialDate.length == 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data <= lastDate);
-        } else if (lastDate.length == 0 && initialDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate);
-        }
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
 
         if (_l.length > 0) {
           setSaveClass([...saveClass, ..._l]);
-        }
-
-        if (busca.length == 0 || _l.length == 0) {
+        } else {
           setSaveClass([]);
         }
+      }
 
-        if (placeMatch.length > 0 && teacherMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (teacherMatch.length > 0 || placeMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (!(_l.length == classMatch.length)) {
-          if (busca.length > 1) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([..._l]);
-          }
-        }
-      } else if (placeMatch.length != 0) {
-        const regex = new RegExp(`${lastPlace}`);
-        var _l = aula.filter((value) => value.ambiente.nome.match(regex));
-
-        if (initialDate.length > 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
-        } else if (initialDate.length == 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data <= lastDate);
-        } else if (lastDate.length == 0 && initialDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate);
-        }
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
 
         if (_l.length > 0) {
           setSaveClass([...saveClass, ..._l]);
-        }
-
-        if (busca.length == 0 || _l.length == 0) {
+        } else {
           setSaveClass([]);
         }
+      }
 
-        if (placeMatch.length > 0 && teacherMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
+      if (semanaMatch.length > 0) {
+        _l = _l.filter(
+          (v) =>
+            getDay(
+              setDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                ),
+                getDay(
+                  new Date(
+                    Number(v.data.split("/")[2]),
+                    Number(v.data.split("/")[1]),
+                    Number(v.data.split("/")[0])
+                  )
+                )
+              )
+            ) == Number(lastSemana)
+        );
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
+      }
 
-        if (teacherMatch.length > 0 || placeMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
+      if (dayTypeMatch.length > 0) {
+        _l = _l.filter((v) => v.periodo == lastDayType);
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
+      }
 
-        if (!(_l.length == classMatch.length)) {
-          if (placeMatch.length > 1) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([..._l]);
-          }
+      if (typeCoursesMatch.length > 0) {
+        _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
-      } else {
+      }
+
+      if (
+        _l.length == 0 &&
+        initialDate == null &&
+        lastDate == null &&
+        lastSemana == null &&
+        lastCourseType == null &&
+        dayTypeMatch.length == 0
+      ) {
         setSaveClass(aula);
+      } else {
+        setSaveClass(_l);
       }
-    } else {
-      const regex = new RegExp(`${last}`);
-      var _l = aula.filter(
-        (value) =>
-          value.curso.tipo.match(regex) ||
-          value.periodo.match(regex) ||
-          value.ambiente.nome.match(regex) ||
-          value.professor.nome.match(regex) ||
-          value.data.match(regex)
-      );
+    } else if (teacherMatch.length != 0) {
+      const regex = new RegExp(`${lastTeacher}`);
+      var _l = aula.filter((value) => value.professor.nome.match(regex));
 
-      // saber qual aula tem...
-
-      /***
-       * 
-       * retornar um type AulaSuper
-       * 
-       */
-      if(semanaMatch.length > 0) {
-        _l.map((v) => {
-          var _value = v.data.split('/');
-          var _res = getDay(setDay(new Date(Number(_value[2]), Number(_value[1]), Number(_value[0])), getDay(new Date(Number(_value[2]), Number(_value[1]), Number(_value[0])))))
-
-          console.log(semanaMatch.filter((v) => v == _res + ''));
-        })
+      if (initialDate != "" || lastDate != "") {
+        _l = revealDateLogic(_l);
       }
 
-      if (!(_l.length == 0 && busca.length > 0)) {
-        if (initialDate.length > 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
-        } else if (initialDate.length == 0 && lastDate.length > 0) {
-          _l = _l.filter((e) => e.data <= lastDate);
-        } else if (lastDate.length == 0 && initialDate.length > 0) {
-          _l = _l.filter((e) => e.data >= initialDate);
-        }
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
 
-        if (_l.length > 0) {
-          setSaveClass([...saveClass, ..._l]);
-        }
-
-        if (placeMatch.length > 0 && teacherMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (teacherMatch.length > 0 || placeMatch.length > 0) {
-          _l = _l.filter(
-            (e) =>
-              e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
-          );
-
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-
-        if (busca.length == 0 || _l.length == 0) {
-          setSaveClass([]);
-        }
-
-        if (!(_l.length == classMatch.length)) {
-          if (busca.length > 1) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([..._l]);
-          }
-        }
-      } else if (_l.length == 0 && busca.length == 1) {
+      if (_l.length == 0) {
         setSaveClass([]);
       }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (semanaMatch.length > 0) {
+        _l = _l.filter(
+          (v) =>
+            getDay(
+              setDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                ),
+                getDay(
+                  new Date(
+                    Number(v.data.split("/")[2]),
+                    Number(v.data.split("/")[1]),
+                    Number(v.data.split("/")[0])
+                  )
+                )
+              )
+            ) == Number(lastSemana) && v.professor.nome == lastTeacher
+        );
+
+        if (dayTypeMatch.length > 0) {
+          _l = _l.filter((v) => v.periodo == lastDayType);
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (typeCoursesMatch.length > 0) {
+        _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (!(_l.length == classMatch.length)) {
+        if (teacherMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
+    } else if (placeMatch.length != 0) {
+      const regex = new RegExp(`${lastPlace}`);
+      var _l = aula.filter((value) => value.ambiente.nome.match(regex));
+
+      if (initialDate != "" || lastDate != "") {
+        _l = revealDateLogic(_l);
+      }
+
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
+
+      if (_l.length == 0) {
+        setSaveClass([]);
+      }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (!(_l.length == classMatch.length)) {
+        if (placeMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
+
+      if (dayTypeMatch.length > 0) {
+        _l = _l.filter((v) => v.periodo == lastDayType);
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (semanaMatch.length > 0) {
+        _l = _l.filter(
+          (v) =>
+            getDay(
+              setDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                ),
+                getDay(
+                  new Date(
+                    Number(v.data.split("/")[2]),
+                    Number(v.data.split("/")[1]),
+                    Number(v.data.split("/")[0])
+                  )
+                )
+              )
+            ) == Number(lastSemana) && v.ambiente.nome == lastPlace
+        );
+
+        if (typeCoursesMatch.length > 0) {
+          _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+    } else if (semanaMatch.length != 0) {
+      var _l = aula.filter(
+        (v) =>
+          getDay(
+            setDay(
+              new Date(
+                Number(v.data.split("/")[2]),
+                Number(v.data.split("/")[1]),
+                Number(v.data.split("/")[0])
+              ),
+              getDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                )
+              )
+            )
+          ) == Number(lastSemana)
+      );
+
+      if (initialDate != "" || lastDate != "") {
+        _l = revealDateLogic(_l);
+      }
+
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
+
+      if (_l.length == 0) {
+        setSaveClass([]);
+      }
+
+      if (dayTypeMatch.length > 0) {
+        _l = _l.filter((v) => v.periodo == lastDayType);
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (typeCoursesMatch.length > 0) {
+        _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (!(_l.length == classMatch.length)) {
+        if (semanaMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
+    } else if (dayTypeMatch.length != 0) {
+      let _l = aula.filter((v) => v.periodo == lastDayType);
+
+      if (initialDate.length > 0 && lastDate.length > 0) {
+        _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
+      } else if (initialDate.length == 0 && lastDate.length > 0) {
+        _l = _l.filter((e) => e.data <= lastDate);
+      } else if (lastDate.length == 0 && initialDate.length > 0) {
+        _l = _l.filter((e) => e.data >= initialDate);
+      }
+
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
+
+      if (_l.length == 0) {
+        setSaveClass([]);
+      }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (typeCoursesMatch.length > 0) {
+        _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (!(_l.length == classMatch.length)) {
+        if (dayTypeMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
+    } else if (typeCoursesMatch.length != 0) {
+      let _l = aula.filter((e) => e.curso.tipo == lastCourseType);
+
+      if (initialDate.length > 0 && lastDate.length > 0) {
+        _l = _l.filter((e) => e.data >= initialDate && e.data <= lastDate);
+      } else if (initialDate.length == 0 && lastDate.length > 0) {
+        _l = _l.filter((e) => e.data <= lastDate);
+      } else if (lastDate.length == 0 && initialDate.length > 0) {
+        _l = _l.filter((e) => e.data >= initialDate);
+      }
+
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
+
+      if (_l.length == 0) {
+        setSaveClass([]);
+      }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
+      if (!(_l.length == classMatch.length)) {
+        if (dayTypeMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
+    } else {
+      setSaveClass(aula);
     }
   }
 
@@ -528,7 +793,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="REGULAR"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayCoursesType(checked.target.value)
                           }
                         />{" "}
                         Regular
@@ -539,7 +804,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="FIC"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayCoursesType(checked.target.value)
                           }
                         />{" "}
                         FIC
@@ -550,7 +815,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="Aprendizagem"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayCoursesType(checked.target.value)
                           }
                         />{" "}
                         Aprendizagem
@@ -572,7 +837,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="MANHA"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayDayType(checked.target.value)
                           }
                         />{" "}
                         Manhã
@@ -582,7 +847,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="TARDE"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayDayType(checked.target.value)
                           }
                         />{" "}
                         Tarde
@@ -592,7 +857,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="NOITE"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayDayType(checked.target.value)
                           }
                         />{" "}
                         Noite
@@ -602,7 +867,7 @@ export default function AdvancedSearch() {
                           type="checkbox"
                           value="INTEGRAL"
                           onChange={(checked) =>
-                            handleCreateArray(checked.target.value)
+                            handleCreateArrayDayType(checked.target.value)
                           }
                         />{" "}
                         Integral
@@ -652,7 +917,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="1"
+                          value="3"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -663,7 +928,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="2"
+                          value="4"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -674,7 +939,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="3"
+                          value="5"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -685,7 +950,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="4"
+                          value="6"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -696,7 +961,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="5"
+                          value="0"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -707,7 +972,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="6"
+                          value="1"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
@@ -718,7 +983,7 @@ export default function AdvancedSearch() {
                       <span>
                         {" "}
                         <input
-                          value="0"
+                          value="2"
                           onChange={(checked) =>
                             handleCreateSemanaArray(checked.target.value)
                           }
