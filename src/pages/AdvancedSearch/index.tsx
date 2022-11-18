@@ -100,8 +100,8 @@ export default function AdvancedSearch() {
       setUnidadeMatch([]);
     } else {
       let matches = unidade.filter((unCurricular) => {
-        const regex = new RegExp(`${text}`);
-        return unCurricular.nome.match(regex);
+        const regex = new RegExp(`${text.toLowerCase()}`);
+        return unCurricular.nome.toLowerCase().match(regex);
       });
       setUnidadeMatch(matches);
     }
@@ -193,6 +193,8 @@ export default function AdvancedSearch() {
      *
      *    Olá Programador, neste filtro foram gastadas 15 horas.
      *    @AVidaÉTriste
+     *
+     *    Ambiente e Fic Traz apenas aulas correlatas ao filtro
      *
      */
 
@@ -349,7 +351,6 @@ export default function AdvancedSearch() {
       }
 
       if (teacherMatch.length > 0 || placeMatch.length > 0) {
-
         _l = _l.filter(
           (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
         );
@@ -431,6 +432,17 @@ export default function AdvancedSearch() {
         setSaveClass([]);
       }
 
+      if (dayTypeMatch.length > 0) {
+        _l = _l.filter(
+          (v) => v.periodo == lastDayType && v.ambiente.nome == lastPlace
+        );
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
+        }
+      }
+
       if (placeMatch.length > 0 && teacherMatch.length > 0) {
         _l = _l.filter(
           (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
@@ -460,15 +472,6 @@ export default function AdvancedSearch() {
           setSaveClass([...saveClass, ..._l]);
         } else {
           setSaveClass([..._l]);
-        }
-      }
-
-      if (dayTypeMatch.length > 0) {
-        _l = _l.filter((v) => v.periodo == lastDayType);
-        if (_l.length > 0) {
-          setSaveClass([...saveClass, ..._l]);
-        } else {
-          setSaveClass([]);
         }
       }
 
@@ -809,17 +812,6 @@ export default function AdvancedSearch() {
                         />{" "}
                         FIC
                       </span>
-                      <span>
-                        {" "}
-                        <input
-                          type="checkbox"
-                          value="Aprendizagem"
-                          onChange={(checked) =>
-                            handleCreateArrayCoursesType(checked.target.value)
-                          }
-                        />{" "}
-                        Aprendizagem
-                      </span>
                     </AdvancedFilterItens>
                   </Accordion.Content>
                 </Accordion.Item>
@@ -1059,7 +1051,10 @@ export default function AdvancedSearch() {
             <AdvancedSeachTable classItem={classMatch} />
           </AdvancedTableContent>
           <AdvancedFilterTotal>
-            <p>{classMatch.length - 1} resultados encontrados</p>
+            <p>
+              {classMatch.length == 0 ? "0" : classMatch.length} resultados
+              encontrados
+            </p>
           </AdvancedFilterTotal>
         </AdvancedContent>
       </AdvancedContainer>
