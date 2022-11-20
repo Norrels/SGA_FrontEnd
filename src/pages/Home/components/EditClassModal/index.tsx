@@ -1,6 +1,7 @@
 //Abstrai isso pelo amor de Deussssssssssssssssssssssssss
 
 import * as Dialog from "@radix-ui/react-dialog";
+import axios from "axios";
 import { format } from "date-fns";
 import { X } from "phosphor-react";
 import { useEffect, useState } from "react";
@@ -23,20 +24,17 @@ import {
 interface ModalCreateNewClassProps {
   closeModal(): void;
   aulas: AulaProps;
+  EditClass: (data: EditClassModalProps) => void;
 }
 
-interface EditClassModalProps {
-  professor: number
-  ambientes: number
-  data: string
+export interface EditClassModalProps {
+  professor: number;
+  ambientes: number;
+  data: string;
+  id: number
 }
 
-interface AvalibleTeachers {
-  id: number;
-  nome: string;
-}
-
-interface AvaliblePlaces {
+interface AvalibleTeachersAndPlaces {
   id: number;
   nome: string;
 }
@@ -44,33 +42,45 @@ interface AvaliblePlaces {
 export function EditClassModal({
   closeModal,
   aulas,
+  EditClass,
 }: ModalCreateNewClassProps) {
-  const [avalibleTeachers, setAvalibleTeachers] = useState<AvalibleTeachers[]>(
-    []
-  );
-  const [avaliblePlaces, setAvaliblePlaces] = useState<AvaliblePlaces[]>([]);
+  const [avalibleTeachers, setAvalibleTeachers] = useState<
+    AvalibleTeachersAndPlaces[]
+  >([]);
+  const [avaliblePlaces, setAvaliblePlaces] = useState<
+    AvalibleTeachersAndPlaces[]
+  >([]);
   const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
 
-  // useEffect(() => {
-  //   fetchPlacesAndTeachersAvaliable();
-  // }, []);
+  useEffect(() => {
+    fetchPlacesAndTeachersAvaliable();
+  }, []);
 
-  // async function fetchPlacesAndTeachersAvaliable() {
-  //   const res = await API.get(`ambiente/disponivel?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`);
-  //   setAvaliblePlaces(res.data);
-  // }
+  const requestOne = API.get(
+    `ambiente/disponivel?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`
+  );
+  // const requestTwo = API.get(`professor/disponibilidade/periodo?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`);
+  const requestTwo = API.get("aula/valoresLivres");
 
-
+  async function fetchPlacesAndTeachersAvaliable() {
+    const res = await axios.all([requestOne, requestTwo]);
+    if (res[0].status == 200 && res[1].status == 200) {
+      setAvaliblePlaces(res[0].data);
+      setAvalibleTeachers(res[1].data[0]);
+    }
+  }
 
   async function handleEditClass(data: EditClassModalProps) {
-    console.log(data.data)
-    aulas.ambiente.id = data.ambientes
-    aulas.professor.id = data.professor
-    aulas.data = format(new Date(data.data + "T00:00:00"), 'dd/MM/yyyy')
-    console.log(aulas)
+    console.log(data.data);
+    aulas.ambiente.id = data.ambientes;
+    aulas.professor.id = data.professor;
+    aulas.data = format(new Date(data.data + "T00:00:00"), "dd/MM/yyyy");
+    console.log(aulas);
     const res = await API.put(`aula/${aulas.id}`, aulas);
     reset();
     closeModal();
+    data.id = aulas.id
+    res.status == 200 && EditClass(data)
   }
 
   return (
@@ -99,6 +109,7 @@ export function EditClassModal({
                     )}-${aulas.data.slice(3, 5)}-${aulas.data.slice(0, 2)}`}
                     placeholder="Escolha uma data..."
                     {...register("data")}
+                    onChange={fetchPlacesAndTeachersAvaliable}
                   />
                 </InputIndividual>
                 <InputIndividual>
@@ -118,7 +129,6 @@ export function EditClassModal({
                           {place.nome}
                         </option>
                       );
-
                     })}
                   </select>
                 </InputIndividual>

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AulaProps } from "../Calenders/TeacherCalender";
 
 import { EditAllClassModal } from "../EditAllClassModal";
-import { EditClassModal } from "../EditClassModal";
+import { EditClassModal, EditClassModalProps } from "../EditClassModal";
 import { AulaType } from "../ModalCreateNewClass";
 import {
   RightClickContainer,
@@ -14,9 +14,10 @@ import {
 
 interface RightClickProps {
   aulas: AulaProps
+  handleEditClass: (data: EditClassModalProps) => void
 }
 
-export function RightClick({aulas} : RightClickProps) {
+export function RightClick({aulas, handleEditClass} : RightClickProps) {
   const [open, setOpen] = useState(false);
   const [openClasses, setOpenClasses] = useState(false);
 
@@ -54,7 +55,7 @@ export function RightClick({aulas} : RightClickProps) {
       </ContextMenu.Portal>
 
       <Dialog.Root open={open} onOpenChange={setOpen}>
-        <EditClassModal aulas={aulas} closeModal={closeModal} />
+        <EditClassModal aulas={aulas} closeModal={closeModal} EditClass={handleEditClass}/>
       </Dialog.Root>
 
       <Dialog.Root open={openClasses} onOpenChange={setOpenClasses}>

@@ -61,9 +61,6 @@ export function Home() {
 
   return (
     <HomeContainer>
-      {/* <Load>
-        <img src={Engrenagem}/>
-      </Load> */}
       <HomeContent>
         <HomeTitleContainer>
           <h1>Bem Vindo</h1>

@@ -22,6 +22,7 @@ import { RightClick } from "../../RightClick";
 import { useContext, useEffect, useState } from "react";
 import { CourseProps, ObjectsContext, PlaceProps, TeacherProps } from "../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../lib/axios";
+import { EditClassModalProps } from "../../EditClassModal";
 
 interface CalenderProps {
   days: Date[];
@@ -49,6 +50,7 @@ export interface AulaProps {
 export function CalenderTeacher({ days, today }: CalenderProps) {
   const { placesList } = useContext(ObjectsContext);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
+  const {teachers} = useContext(ObjectsContext)
 
   async function fetchAulas() {
     const response = await API.get(`aula/lista?dataInicio=${format(days[0], "yyyy'-'MM'-'dd")}&dataFinal=${format(days[6], "yyyy'-'MM'-'dd")}`)
@@ -58,6 +60,23 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   useEffect(() => {
     fetchAulas()
   }, [days])
+
+  function handleEditClass(data: EditClassModalProps){
+    const teacherName = teachers.find((element) => element.id == data.professor);
+    console.log(data.professor)
+    const aulasEditadas = aulas.map((aula) => {
+      if(aula.id === data.id){
+   
+        aula.ambiente.id = data.ambientes
+        aula.professor.id = data.professor
+        aula.dataInicio = data.data
+        aula.professor.nome = teacherName!.nome
+      }
+      return aula
+    })
+
+    setAulas(aulasEditadas)
+  }
 
   return (
     <HomeCalenderContainer>
@@ -107,7 +126,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                                       <sup>{aula.unidadeCurricular.nome}</sup>
                                     </HomeClass>
                                   </HomeButtonClickRoot>
-                                  <RightClick aulas={aula} />
+                                  <RightClick aulas={aula} handleEditClass={handleEditClass} />
                                 </ContextMenu.Root>
                               )
                             })}
