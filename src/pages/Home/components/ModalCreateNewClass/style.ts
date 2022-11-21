@@ -398,5 +398,9 @@ export const FinalButton = styled.div`
     svg {
       margin-left: 10px;
     }
+
+    &:disabled {
+      opacity: .6;
+    }
   }
 `;
