@@ -84,7 +84,7 @@ export function ModalCreateNewClass({
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => reset}>
         <ModalHeader>
           <Dialog.Title>Nova aula {name}</Dialog.Title>
           <HeaderButtons>
