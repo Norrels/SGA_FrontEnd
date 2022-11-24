@@ -56,26 +56,22 @@ export function EditClassModal({
     fetchPlacesAndTeachersAvaliable();
   }, []);
 
-  const requestOne = API.get(
-    `ambiente/disponivel?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`
-  );
-  // const requestTwo = API.get(`professor/disponibilidade/periodo?dataInicio=${aulas.dataInicio}&dataFinal=${aulas.dataInicio}&periodo=${aulas.periodo}`);
-  const requestTwo = API.get("aula/valoresLivres");
-
   async function fetchPlacesAndTeachersAvaliable() {
-    const res = await axios.all([requestOne, requestTwo]);
-    if (res[0].status == 200 && res[1].status == 200) {
-      setAvaliblePlaces(res[0].data);
-      setAvalibleTeachers(res[1].data[0]);
+    const res = await API.get(`aula/professorAmbienteDisponivel?dataInicio=${aulas.data}&periodo=${aulas.periodo}`);
+    if (res.status == 200) {
+      console.log('SUCESSO')
+      
+      
+    } else {
+      console.log('ERRO')
     }
+    console.log(res)
   }
 
   async function handleEditClass(data: EditClassModalProps) {
-    console.log(data.data);
     aulas.ambiente.id = data.ambientes;
     aulas.professor.id = data.professor;
     aulas.data = format(new Date(data.data + "T00:00:00"), "dd/MM/yyyy");
-    console.log(aulas);
     const res = await API.put(`aula/${aulas.id}`, aulas);
     reset();
     closeModal();
