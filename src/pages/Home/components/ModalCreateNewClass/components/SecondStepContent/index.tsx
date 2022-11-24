@@ -2,19 +2,21 @@ import { ArrowRight } from "phosphor-react";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import { ObjectsContext } from "../../../../../../contexts/ObjectsContext";
-import { FinalButton, InputContainer, InputContent, InputIndividual, Steps } from "../../style";
+import {
+  FinalButton,
+  InputContainer,
+  InputContent,
+  InputIndividual,
+  Steps,
+} from "../../style";
 
 interface firstStepContentProps {
-    handleNextStep: (step: number) => void
+  handleNextStep: (step: number) => void;
 }
 
-export function SecondStepContent({handleNextStep} : firstStepContentProps) {
-
-    const { register } = useFormContext();
-    const { teachers, placesList } = useContext(ObjectsContext);
-
-  
-
+export function SecondStepContent({ handleNextStep }: firstStepContentProps) {
+  const { register } = useFormContext();
+  const { teachers, placesList } = useContext(ObjectsContext);
   return (
     <InputContainer>
       <InputContent>
@@ -32,35 +34,24 @@ export function SecondStepContent({handleNextStep} : firstStepContentProps) {
         </Steps>
       </InputContent>
       <InputContent style={{ flexDirection: "row" }}>
-        <InputIndividual>
-          <label>Professor</label>
-          <select
-            placeholder="Selecione um professor..."
-            {...register("professor.id")}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Selecione um professor...
-            </option>
-            {teachers.map((teacher) => {
-              return (
-                <option key={teacher.id} value={teacher.id}>
-                  {teacher.nome}
-                </option>
-              );
-            })}
-          </select>
-          {/* {errors.professor && <p>* Selecione um valor...</p>} */}
-        </InputIndividual>
-        <InputIndividual>
-          <label>Hora(s) por dia</label>
-          <input
-            type="number"
-            placeholder="Digite as horas..."
-            {...register("cargaDiaria")}
-          />
-          {/* {errors.horas && <p>{errors.horas.message}</p>} */}
-        </InputIndividual>
+        <label>Professor</label>
+        <select
+          placeholder="Selecione um professor..."
+          {...register("professor.id")}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Selecione um professor...
+          </option>
+          {teachers.map((teacher) => {
+            return (
+              <option key={teacher.id} value={teacher.id}>
+                {teacher.nome}
+              </option>
+            );
+          })}
+        </select>
+        {/* {errors.professor && <p>* Selecione um valor...</p>} */}
       </InputContent>
       <InputContent>
         <label>Ambiente</label>
@@ -85,7 +76,7 @@ export function SecondStepContent({handleNextStep} : firstStepContentProps) {
       <FinalButton>
         <button
           onClick={() => {
-            handleNextStep(2)
+            handleNextStep(2);
           }}
           type="button"
         >

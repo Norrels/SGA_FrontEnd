@@ -44,7 +44,7 @@ export function FirstStepContent({
     formState: { errors },
     watch,
     getValues,
-    resetField
+    resetField,
   } = useFormContext();
 
   //Aqui eu exibo as unidades curriculares do curso que a pessoa selecionou
@@ -52,7 +52,7 @@ export function FirstStepContent({
     const course = courses.find(
       (course) => course?.id?.toString() == event.target.value
     );
-    resetField("unidadeCurricular.id")
+    resetField("unidadeCurricular.id");
     setSelectedCourse(course);
   }
 
@@ -83,7 +83,7 @@ export function FirstStepContent({
     periodo: getValues("periodo"),
     dataInicio: getValues("dataInicio"),
     diaSemana: getValues("diaSemana"),
-    cargaDiaria: 60,
+    cargaDiaria: getValues("cargaDiaria"),
   };
 
   async function createClassFirstStep() {
@@ -156,14 +156,25 @@ export function FirstStepContent({
           })}
         </select>
       </InputContent>
-      <InputContent>
-        <label>Código da turma</label>
-        <input
-          type="text"
-          {...register("codTurma")}
-          placeholder="Digite o código da turma..."
-        />
-        {/* {errors.codTurma && <p>{errors.codTurma.message}</p>} */}
+      <InputContent style={{ flexDirection: "row" }}>
+        <InputIndividual>
+          <label>Código da turma</label>
+          <input
+            type="text"
+            {...register("codTurma")}
+            placeholder="Digite o código da turma..."
+          />
+          {/* {errors.codTurma && <p>{errors.codTurma.message}</p>} */}
+        </InputIndividual>
+        <InputIndividual>
+          <label>Hora(s) por dia</label>
+          <input
+            type="number"
+            placeholder="Digite as horas..."
+            {...register("cargaDiaria")}
+          />
+          {/* {errors.horas && <p>{errors.horas.message}</p>} */}
+        </InputIndividual>
       </InputContent>
       <InputContent style={{ flexDirection: "row" }}>
         <InputIndividual>
