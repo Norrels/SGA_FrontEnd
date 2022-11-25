@@ -55,7 +55,7 @@ export function ViewCallModal({ call }: ViewCallModal) {
             <InputContainer>
               <InputContent>
                 <label>Foto</label>
-                <a href={Print} target="blank" title="Abrir imagem em outra guia"><img src={Print} /></a>
+                <a href={call.foto} target="blank" title="Abrir imagem em outra guia"><img src={call.foto} /></a>
               </InputContent>
               <InputContent>
                 <InputIndividual>

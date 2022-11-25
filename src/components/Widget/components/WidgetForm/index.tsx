@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import {
   ButtonLeftContainer,
@@ -30,6 +30,7 @@ import { ScreenshotButton } from "./ScreenshotButton";
 const newCallInput = z.object({
   tipoChamado: z.string(),
   descricao: z.string(),
+  foto: z.string().optional()
 });
 
 export type NewCallType = z.infer<typeof newCallInput>;
@@ -39,37 +40,47 @@ export function WidgetForm() {
   const { register, handleSubmit, reset } = useForm<NewCallType>();
 
   const [screenshot, setScreenshot] = useState<string | null>(null);
-  async function handleCreateNewCall(data: NewCallType) {
-    console.log(
-      "widget = " +
-        {
-          descricao: data.descricao,
-          foto: "foto",
-          usuario: {
-            nif: "001",
-          },
-          tipoChamado: data.tipoChamado,
-        }
-    );
+  const [screenshotSave, setScreenShotSave] = useState<string | null>(null);
 
-    const res = await API.post("chamado", {
+  useEffect(() => {
+    setScreenShotSave(screenshot)
+  }, [screenshot])
+
+  async function handleCreateNewCall(data: NewCallType) {
+    console.log({
       descricao: data.descricao,
-      foto: "foto",
+      foto: screenshotSave,
       usuario: {
         id: 1,
       },
       tipoChamado: type,
-    });
+      tipoStatus: "ABERTO"
+    })
 
-    if (res.status == 200) {
-      console.log("deu certo");
+    if(screenshotSave != null) {
+      const res = await API.post("chamado", {
+        descricao: data.descricao,
+        foto: screenshotSave,
+        usuario: {
+          id: 1,
+        },
+        tipo: type,
+        status: "ABERTO"
+      });
+  
+      console.log(res)
+  
+      if (res.status == 200) {
+        console.log("deu certo");
+      }
     }
+    
   }
 
   return (
     <Popover.Portal>
       
-      <Popover.Content side={"top"}>
+      <Popover.Content style={{ zIndex: 1000 }} side={"top"}>
         {type == "inicio" ? (
           <Content>
             <TextContent>

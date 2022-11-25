@@ -5,6 +5,8 @@ export const ButtonContainer = styled.div`
   right: 0;
   bottom: 0;
 
+  z-index: 1000;
+
   margin-right: 25px;
   margin-bottom: 25px;
 

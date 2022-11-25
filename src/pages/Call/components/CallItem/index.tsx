@@ -51,8 +51,8 @@ export function CallItem({ call }: CallProps) {
 
           <CallItemInfoContent>
             <ItemInfoContentHeader>
-              <h3>{call.tipo.toLocaleLowerCase()}</h3>
-              <CallInfoType>{/* {call.status.toLocaleLowerCase()} */}</CallInfoType>
+              <h3>{call.tipo?.toLocaleLowerCase()}</h3>
+              <CallInfoType>{call.status.toLocaleLowerCase()}</CallInfoType>
             </ItemInfoContentHeader>
             <p>
               Usuário: <span>{call.usuario.nome}</span>

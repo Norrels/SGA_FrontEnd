@@ -15,6 +15,7 @@ export interface CallInterface {
   descricao: string;
   foto: string;
   usuario: Usuario;
+  status: string;
 }
 [];
 
