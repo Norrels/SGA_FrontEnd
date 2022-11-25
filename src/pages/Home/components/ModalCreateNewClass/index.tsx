@@ -66,12 +66,12 @@ export function ModalCreateNewClass({
   async function handleCreateNewAula(datas: AulaType) {
     const data = {
       professor: {
-        id: getValues("professor.id")
+        id: getValues("professor.id"),
       },
       ambiente: {
-        id: getValues("ambiente.id")
-      }
-    }
+        id: getValues("ambiente.id"),
+      },
+    };
 
     const res = await API.post("aula", data);
     reset();

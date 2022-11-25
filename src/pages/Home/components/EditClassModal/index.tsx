@@ -64,7 +64,6 @@ export function EditClassModal({
   }
 
   async function fetchPadrao(value: string) {
-    
     const res = await API.get(
       `aula/aulaProfessorAmbienteDisponivel?dataInicio=${value}&periodo=${aulas.periodo}&id=${aulas.id}`
     );
@@ -75,7 +74,7 @@ export function EditClassModal({
     } else {
       console.log("ERRO");
     }
-    console.log(res)
+    console.log(res);
   }
 
   async function handleEditClass(data: EditClassModalProps) {
