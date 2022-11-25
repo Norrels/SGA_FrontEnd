@@ -70,7 +70,7 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
 
   async function handleUpdateTeacher(data: TeacherType) {
     //Coloca um input hiden no form
-    data.id = teacherItem.id;
+    /* data.id = teacherItem.id; */
     /* updateTeaches(data); */
   }
 
@@ -173,37 +173,48 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
                   </InputFile>
                 </InputIndividual>
               </InputContent>
-              <InputContent disabled={!editable ? "disabled" : "on"}>
-                <InputIndividual>
-                  <label>Competência</label>
-                  <select>
-                    <option value="" selected disabled>
-                      Selecione uma unidade curricular
-                    </option>
-                    {/* {unidadeCurricular.map((value) => (
-                      <option key={value.id} value={value.nome}>
-                        {value.nome}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {/* REVISAR ISSO AQUI QUE EU FIZ */}
+              {teacherItem.competencia.map((index) => (
+                <InputContent disabled={!editable ? "disabled" : "on"}>
+                  <InputIndividual>
+                    <label>Competência</label>
+                    {/* REVISAR ISSO AQUI QUE EU FIZ */}
+                    <select>
+                      <option value={index?.unidadeCurricular?.id} selected disabled>
+                      {index?.unidadeCurricular?.nome}
                       </option>
-                    ))} */}
-                  </select>
-                </InputIndividual>
-                <InputIndividual>
-                  <header>
-                    <label>Nível</label>
-                    {/* quando fizer a logica descomentar codigo abaixo :D */}
-                    {/* {index !== 0 ? <Trash size={24} /> : <></>} */}
-                  </header>
-                  <NivelStars
-                    style={!editable ? { opacity: "30%" } : { opacity: "100%" }}
-                  >
-                    <Star size={37} weight="fill" />
-                    <Star size={37} weight="fill" />
-                    <Star size={37} weight="fill" />
-                    <Star size={37} weight="fill" />
-                    <Star size={37} weight="fill" />
-                  </NivelStars>
-                </InputIndividual>
-              </InputContent>
+                    </select>
+                  </InputIndividual>
+                  <InputIndividual>
+                    <header>
+                      <label>Nível</label>
+                      {/* quando fizer a logica descomentar codigo abaixo :D */}
+                      {/* {index !== 0 ? <Trash size={24} /> : <></>} */}
+                    </header>
+                    <NivelStars
+                      style={
+                        !editable ? { opacity: "30%" } : { opacity: "100%" }
+                      }
+                    >
+                      <Star size={37} weight="fill" />
+                      <Star size={37} weight="fill" />
+                      <Star size={37} weight="fill" />
+                      <Star size={37} weight="fill" />
+                      <Star size={37} weight="fill" />
+                    </NivelStars>
+                  </InputIndividual>
+                </InputContent>
+              ))}
               {editable ? (
                 <ButtonNewCompetencia onClick={() => {}} type="button">
                   <Plus size={32} />

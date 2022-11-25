@@ -54,7 +54,7 @@ export function ViewTeacher() {
   ])
 
   async function fetchUser() {
-    const response = await API.get(`/ausencia/professor/${teacherId}`)
+    const response = await API.get(`/professor/${teacherId}`)
     console.log(response.data)
     setTeachers(response.data[0])
     setAbsenseList(response.data[1])
