@@ -4,7 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import axios from "axios";
 import { format } from "date-fns";
 import { X } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
@@ -31,7 +31,7 @@ export interface EditClassModalProps {
   professor: number;
   ambientes: number;
   data: string;
-  id: number
+  id: number;
 }
 
 interface AvalibleTeachersAndPlaces {
@@ -53,17 +53,27 @@ export function EditClassModal({
   const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
 
   useEffect(() => {
-    fetchPlacesAndTeachersAvaliable();
+    fetchPadrao(aulas.data);
   }, []);
 
-  async function fetchPlacesAndTeachersAvaliable() {
-    const res = await API.get(`aula/professorAmbienteDisponivel?dataInicio=${aulas.data}&periodo=${aulas.periodo}`);
+  async function fetchPlacesAndTeachersAvaliable(
+    event: ChangeEvent<HTMLInputElement>
+  ) {
+    fetchPadrao(event.target.value);
+    console.log(format(new Date(aulas.data), "yyyy-MM-dd"));
+  }
+
+  async function fetchPadrao(value: string) {
+    
+    const res = await API.get(
+      `aula/aulaProfessorAmbienteDisponivel?dataInicio=${value}&periodo=${aulas.periodo}&id=${aulas.id}`
+    );
     if (res.status == 200) {
-      console.log('SUCESSO')
-      
-      
+      console.log("SUCESSO");
+      setAvalibleTeachers(res.data[0]);
+      setAvaliblePlaces(res.data[1]);
     } else {
-      console.log('ERRO')
+      console.log("ERRO");
     }
     console.log(res)
   }
@@ -75,8 +85,8 @@ export function EditClassModal({
     const res = await API.put(`aula/${aulas.id}`, aulas);
     reset();
     closeModal();
-    data.id = aulas.id
-    res.status == 200 && EditClass(data)
+    data.id = aulas.id;
+    res.status == 200 && EditClass(data);
   }
 
   return (

@@ -64,7 +64,6 @@ export function ModalCreateNewClass({
   }
 
   async function handleCreateNewAula(datas: AulaType) {
-
     const data = {
       professor: {
         id: getValues("professor.id")
@@ -77,9 +76,8 @@ export function ModalCreateNewClass({
     const res = await API.post("aula", data);
     reset();
     closeModal();
+    setStep(0);
   }
-
-
 
   return (
     <Dialog.Portal>
