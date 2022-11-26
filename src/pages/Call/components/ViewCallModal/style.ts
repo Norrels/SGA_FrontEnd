@@ -120,6 +120,12 @@ export const InputScroll = styled.div`
   }
 `;
 
+export const InputContainerContent = styled.div`
+  width: 100%;
+  max-height: 600px;
+  padding: 0 2.344rem 0 4.688rem;
+`;
+
 export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -148,7 +154,8 @@ export const InputContent = styled.div`
     border-radius: 8px;
   }
 
-  input, textarea {
+  input,
+  textarea {
     padding: 1.25rem;
 
     border: none;

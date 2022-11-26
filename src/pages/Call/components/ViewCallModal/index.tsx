@@ -9,6 +9,7 @@ import {
   FinalButton,
   HeaderButtons,
   InputContainer,
+  InputContainerContent,
   InputContent,
   InputIndividual,
   InputScroll,
@@ -51,11 +52,11 @@ export function ViewCallModal({ call }: ViewCallModal) {
           </HeaderButtons>
         </ModalHeader>
         <form>
-          <InputScroll>
+          <InputContainerContent>
             <InputContainer>
               <InputContent>
-                <label>Foto</label>
-                <a href={Print} target="blank" title="Abrir imagem em outra guia"><img src={Print} /></a>
+                {/* <label>Foto</label>
+                <a href={call.foto} target="blank" title="Abrir imagem em outra guia"><img src={call.foto} /></a> */}
               </InputContent>
               <InputContent>
                 <InputIndividual>
@@ -82,7 +83,7 @@ export function ViewCallModal({ call }: ViewCallModal) {
                 <button>Fechar chamado</button>
               </FinalButton>
             </InputContainer>
-          </InputScroll>
+          </InputContainerContent>
         </form>
       </Content>
     </Dialog.Portal>

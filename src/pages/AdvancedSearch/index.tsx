@@ -235,7 +235,119 @@ export default function AdvancedSearch() {
     let lastDayType = [...dayTypeMatch].pop();
     let lastCourseType = [...typeCoursesMatch].pop();
 
-    if (initialDate != "" || lastDate != "") {
+    if(dayTypeMatch.length > 0) {
+        const regex = new RegExp(`${lastDayType}`);
+        var _l = aula.filter((value) => value.periodo.match(regex));
+      
+      
+
+        if (initialDate != "" || lastDate != "") {
+          _l = revealDateLogic(_l);
+        }
+  
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        }
+  
+        if (_l.length == 0) {
+          setSaveClass([]);
+        }
+  
+        if (placeMatch.length > 0 && teacherMatch.length > 0) {
+          _l = _l.filter(
+            (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+          );
+  
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+  
+        if (teacherMatch.length > 0 || placeMatch.length > 0) {
+          _l = _l.filter(
+            (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+          );
+  
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+  
+        if (semanaMatch.length > 0) {
+          _l = _l.filter(
+            (v) =>
+              getDay(
+                setDay(
+                  new Date(
+                    Number(v.data.split("/")[2]),
+                    Number(v.data.split("/")[1]),
+                    Number(v.data.split("/")[0])
+                  ),
+                  getDay(
+                    new Date(
+                      Number(v.data.split("/")[2]),
+                      Number(v.data.split("/")[1]),
+                      Number(v.data.split("/")[0])
+                    )
+                  )
+                )
+              ) == Number(lastSemana) && v.professor.nome == lastTeacher
+          );
+  
+          if (dayTypeMatch.length > 0) {
+            _l = _l.filter((v) => v.periodo == lastDayType);
+            if (_l.length > 0) {
+              setSaveClass([...saveClass, ..._l]);
+            } else {
+              setSaveClass([]);
+            }
+          }
+  
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+  
+        if (typeCoursesMatch.length > 0) {
+          _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+  
+          if (_l.length > 0) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([]);
+          }
+        }
+  
+        if (!(_l.length == classMatch.length)) {
+          if (teacherMatch.length > 1) {
+            setSaveClass([...saveClass, ..._l]);
+          } else {
+            setSaveClass([..._l]);
+          }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    } else if (initialDate != "" || lastDate != "") {
       var _l: AulaTypeSuper[] = [];
 
       _l = revealDateLogic(_l);
