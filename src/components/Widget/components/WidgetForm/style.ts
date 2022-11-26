@@ -154,7 +154,7 @@ export const ButtonRightContainer = styled.div`
   button {
     width: 100%;
     padding: 13px;
-    width: 200px;
+    width: 300px;
     border-radius: 5px;
 
     border: none;

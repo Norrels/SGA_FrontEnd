@@ -30,7 +30,7 @@ import { ScreenshotButton } from "./ScreenshotButton";
 const newCallInput = z.object({
   tipoChamado: z.string(),
   descricao: z.string(),
-  foto: z.string().optional()
+  foto: z.string().optional(),
 });
 
 export type NewCallType = z.infer<typeof newCallInput>;
@@ -39,47 +39,33 @@ export function WidgetForm() {
   const [type, setType] = useState("inicio");
   const { register, handleSubmit, reset } = useForm<NewCallType>();
 
-  const [screenshot, setScreenshot] = useState<string | null>(null);
-  const [screenshotSave, setScreenShotSave] = useState<string | null>(null);
+  // const [screenshot, setScreenshot] = useState<string | null>(null);
+  // const [screenshotSave, setScreenShotSave] = useState<string | null>(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setScreenShotSave(screenshot)
-  }, [screenshot])
+  }, [screenshot]) */
 
   async function handleCreateNewCall(data: NewCallType) {
-    console.log({
+    // if(screenshotSave != null) {
+    const res = await API.post("chamado", {
       descricao: data.descricao,
-      foto: screenshotSave,
+      foto: "",
       usuario: {
         id: 1,
       },
-      tipoChamado: type,
-      tipoStatus: "ABERTO"
-    })
+      tipo: type,
+      status: "ABERTO",
+    });
 
-    if(screenshotSave != null) {
-      const res = await API.post("chamado", {
-        descricao: data.descricao,
-        foto: screenshotSave,
-        usuario: {
-          id: 1,
-        },
-        tipo: type,
-        status: "ABERTO"
-      });
-  
-      console.log(res)
-  
-      if (res.status == 200) {
-        console.log("deu certo");
-      }
+    if (res.status == 200) {
+      // 200
     }
-    
+    // }
   }
 
   return (
     <Popover.Portal>
-      
       <Popover.Content style={{ zIndex: 1000 }} side={"top"}>
         {type == "inicio" ? (
           <Content>
@@ -141,12 +127,12 @@ export function WidgetForm() {
                 ></textarea>
               </ContentBody>
               <ContentFooter>
-                <ButtonLeftContainer>
+                {/* <ButtonLeftContainer>
                   <ScreenshotButton
                     screenshot={screenshot}
                     onScreenshotTook={setScreenshot}
                   />
-                </ButtonLeftContainer>
+                </ButtonLeftContainer> */}
                 <ButtonRightContainer>
                   <button type="submit">Enviar Feedback</button>
                 </ButtonRightContainer>
