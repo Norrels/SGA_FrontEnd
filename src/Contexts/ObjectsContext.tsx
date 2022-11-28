@@ -11,19 +11,17 @@ export interface TeacherProps {
   nome: string;
   cargaSemanal: number;
   ativo?: boolean;
-  foto?:  string ;
+  foto?: string;
   email: string;
   competencia: {
     nivel: number;
     unidadeCurricular: {
       id: number;
       nome?: string;
-    }
+    };
   }[];
 }
 [];
-
-
 
 export interface PlaceProps {
   id: number;
@@ -31,7 +29,7 @@ export interface PlaceProps {
   capacidade: number;
   tipo: string;
   cep: string;
-  /* endereco: string; */
+  endereco: string;
   complemento: string;
   ativo: boolean;
 }
@@ -41,34 +39,35 @@ export interface CourseProps {
   id?: number;
   nome: string;
   tipo: string;
-  ativo?: boolean
-  unidadeCurricular: 
-    {
-      id?: number | null;
-      nome: string;
-      horas: number
-    }[]
-}[]
+  ativo?: boolean;
+  unidadeCurricular: {
+    id?: number | null;
+    nome: string;
+    horas: number;
+  }[];
+}
+[];
 
 interface ObjectsContextType {
-  teachers: TeacherProps[]
-  courses: CourseProps[]
-  placesList: NewPlaceType[]
-  updateStatusTeacher: (id : number) => void
-  updateStatusCourse: (id: number | undefined) => void
-  updateStatusPlace: (id: number) => void
-  updateTeaches: (data: TeacherProps) => void
-  updatePlaces: (data: NewPlaceType) => void
-  updateCourses: (data: CourseProps) => void
-  createTeacherAPI: (data: TeacherProps) => void
-  createCourseAPI: (data: CourseProps) => Promise<number>
-  createPlacesAPI: (data: NewPlaceType) => void
+  teachers: TeacherProps[];
+  courses: CourseProps[];
+  placesList: NewPlaceType[];
+  updateStatusTeacher: (id: number) => void;
+  updateStatusCourse: (id: number | undefined) => void;
+  updateStatusPlace: (id: number) => void;
+  updateTeaches: (data: TeacherProps) => void;
+  updatePlaces: (data: NewPlaceType) => void;
+  updateCourses: (data: CourseProps) => void;
+  createTeacherAPI: (data: TeacherProps) => void;
+  createCourseAPI: (data: CourseProps) => Promise<number>;
+  createPlacesAPI: (data: NewPlaceType) => void;
 }
 
-export const ObjectsContext = createContext({} as ObjectsContextType)
+export const ObjectsContext = createContext({} as ObjectsContextType);
 
-export function ObjectsContextProvider({ children }: ObjectsContextProviderProps) {
-
+export function ObjectsContextProvider({
+  children,
+}: ObjectsContextProviderProps) {
   useEffect(() => {
     fetchPlaces();
     fetchTeachers();
@@ -87,7 +86,7 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   async function createTeacherAPI(data: TeacherProps) {
     const res = await API.post("/professor", data);
     if (res.status == 200) {
-      data.id = res.data[1]
+      data.id = res.data[1];
       setTeachers([...teachers, data]);
     }
   }
@@ -95,22 +94,19 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
   async function createCourseAPI(data: CourseProps) {
     const res = await API.post("/curso", data);
     if (res.status == 200) {
-      data.id = res.data[1]
+      data.id = res.data[1];
       setCourses([...courses, data]);
     }
 
-    return res.status
+    return res.status;
   }
 
   async function createPlacesAPI(data: NewPlaceType) {
-    
     const res = await API.post("ambiente", data);
     if (res.status == 200) {
-      data.id = res.data[1]
+      data.id = res.data[1];
       setPlacesList([...placesList, data]);
     }
-
-
   }
 
   async function fetchCourses() {
@@ -123,82 +119,81 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
     setPlacesList(res.data);
   }
 
-
   async function updateStatusPlace(id: number) {
     const res = await API.put(`/ambiente/alterarStatus/${id}`);
-  
+
     if (res.status == 200) {
       const valorAtualizado = placesList.filter((place) => {
-        return place.id != id
-      })
+        return place.id != id;
+      });
       setPlacesList(valorAtualizado);
     }
   }
 
   async function updateStatusCourse(id: number | undefined) {
     const res = await API.put(`/curso/alterarStatus/${id}`);
-  
+
     if (res.status == 200) {
       const valorAtualizado = courses.filter((course) => {
-        return course.id != id
-      })
+        return course.id != id;
+      });
       setCourses(valorAtualizado);
     }
   }
 
   async function updateStatusTeacher(id: number) {
     const res = await API.put(`/professor/alterarStatus/${id}`);
-  
+
     if (res.status == 200) {
       const valorAtualizado = teachers.filter((professor) => {
-        return professor.id != id
-      })
+        return professor.id != id;
+      });
       setTeachers(valorAtualizado);
     }
   }
 
   async function updateCourses(data: CourseProps) {
     const res = await API.put(`/curso/${data.id}`, data);
-    
+
     if (res.status == 200) {
       const valorAtualizado = courses.map((course) => {
-        if(course.id == data.id) {
-          course = data
+        if (course.id == data.id) {
+          course = data;
         }
-        return course
-      })
+        return course;
+      });
       setCourses(valorAtualizado);
     }
   }
 
   async function updatePlaces(data: NewPlaceType) {
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
-    data.ativo = true
+    data.ativo = true;
     const res = await API.put(`/ambiente/${data.id}`, data);
-    
+
     if (res.status == 200) {
       const valorAtualizado = placesList.map((place) => {
-        if(place.id == data.id) {
-          place = data
+        if (place.id == data.id) {
+          place = data;
         }
-        return place
-      })
+        return place;
+      });
       setPlacesList(valorAtualizado);
     }
   }
 
   async function updateTeaches(data: TeacherProps) {
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
-    data.ativo = true
+    data.ativo = true;
     const res = await API.put(`/professor/${data.id}`, data);
-    
+
     if (res.status == 200) {
       const valorAtualizado = teachers.map((teacher) => {
-        if(teacher.id == data.id) {
-          teacher = data
+        if (teacher.id == data.id) {
+          teacher = data;
         }
-        return teacher
-      })
+        return teacher;
+      });
       setTeachers(valorAtualizado);
     }
   }
@@ -217,10 +212,10 @@ export function ObjectsContextProvider({ children }: ObjectsContextProviderProps
         teachers,
         courses,
         createTeacherAPI,
-        createCourseAPI
+        createCourseAPI,
       }}
     >
       {children}
     </ObjectsContext.Provider>
-  )
+  );
 }

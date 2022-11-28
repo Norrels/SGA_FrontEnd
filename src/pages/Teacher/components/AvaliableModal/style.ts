@@ -35,7 +35,7 @@ export const Overlay = styled(Dialog.Overlay)`
 
 export const Content = styled(Dialog.Content)`
   width: 66.25rem;
-  padding: 3.75rem 2.344rem 1.25rem 0;
+  padding: 3.75rem 2.344rem 3.75rem 0;
 
   display: flex;
   flex-direction: column;
@@ -127,6 +127,7 @@ export const ButtonIndividual = styled.button`
 export const ContentScroll = styled.div`
   width: 100%;
   max-height: 600px;
+  margin-top: 2.5rem;
   padding: 0 2.344rem 0 4.688rem;
 
   overflow-y: scroll;

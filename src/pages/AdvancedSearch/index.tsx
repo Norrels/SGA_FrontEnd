@@ -1,4 +1,5 @@
 import {
+  AdvancedButtonContainer,
   AdvancedContainer,
   AdvancedContent,
   AdvancedContentTitle,
@@ -13,6 +14,7 @@ import {
 } from "./style";
 import { CaretDown, Sliders } from "phosphor-react";
 import * as Accordion from "@radix-ui/react-accordion";
+import * as Dialog from "@radix-ui/react-dialog";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -20,6 +22,7 @@ import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
 import { getDay, setDay } from "date-fns";
+import { ModalCreateNewClass } from "../Home/components/ModalCreateNewClass";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -77,6 +80,8 @@ export type AulaTypeSuper = z.infer<typeof aulaInput>;
 export type SearchValue = z.infer<typeof searchValue>;
 
 export default function AdvancedSearch() {
+  document.title = "Aulas | SGA";
+
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
   const [unidadeMatch, setUnidadeMatch] = useState<unidadeCurricular[]>([]);
@@ -93,6 +98,12 @@ export default function AdvancedSearch() {
 
   const { register, handleSubmit, reset } = useForm<SearchValue>();
   const { teachers, placesList } = useContext(ObjectsContext);
+
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   const searchCourse = (text: String) => {
     setInputValue(text);
@@ -235,118 +246,100 @@ export default function AdvancedSearch() {
     let lastDayType = [...dayTypeMatch].pop();
     let lastCourseType = [...typeCoursesMatch].pop();
 
-    if(dayTypeMatch.length > 0) {
-        const regex = new RegExp(`${lastDayType}`);
-        var _l = aula.filter((value) => value.periodo.match(regex));
-      
-      
+    if (dayTypeMatch.length > 0) {
+      const regex = new RegExp(`${lastDayType}`);
+      var _l = aula.filter((value) => value.periodo.match(regex));
 
-        if (initialDate != "" || lastDate != "") {
-          _l = revealDateLogic(_l);
-        }
-  
+      if (initialDate != "" || lastDate != "") {
+        _l = revealDateLogic(_l);
+      }
+
+      if (_l.length > 0) {
+        setSaveClass([...saveClass, ..._l]);
+      }
+
+      if (_l.length == 0) {
+        setSaveClass([]);
+      }
+
+      if (placeMatch.length > 0 && teacherMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
+        );
+
         if (_l.length > 0) {
           setSaveClass([...saveClass, ..._l]);
-        }
-  
-        if (_l.length == 0) {
+        } else {
           setSaveClass([]);
         }
-  
-        if (placeMatch.length > 0 && teacherMatch.length > 0) {
-          _l = _l.filter(
-            (e) => e.ambiente.nome == lastPlace && e.professor.nome == lastTeacher
-          );
-  
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
+      }
+
+      if (teacherMatch.length > 0 || placeMatch.length > 0) {
+        _l = _l.filter(
+          (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
+        );
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
-  
-        if (teacherMatch.length > 0 || placeMatch.length > 0) {
-          _l = _l.filter(
-            (e) => e.professor.nome == lastTeacher || e.ambiente.nome == lastPlace
-          );
-  
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
-        }
-  
-        if (semanaMatch.length > 0) {
-          _l = _l.filter(
-            (v) =>
-              getDay(
-                setDay(
+      }
+
+      if (semanaMatch.length > 0) {
+        _l = _l.filter(
+          (v) =>
+            getDay(
+              setDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                ),
+                getDay(
                   new Date(
                     Number(v.data.split("/")[2]),
                     Number(v.data.split("/")[1]),
                     Number(v.data.split("/")[0])
-                  ),
-                  getDay(
-                    new Date(
-                      Number(v.data.split("/")[2]),
-                      Number(v.data.split("/")[1]),
-                      Number(v.data.split("/")[0])
-                    )
                   )
                 )
-              ) == Number(lastSemana) && v.professor.nome == lastTeacher
-          );
-  
-          if (dayTypeMatch.length > 0) {
-            _l = _l.filter((v) => v.periodo == lastDayType);
-            if (_l.length > 0) {
-              setSaveClass([...saveClass, ..._l]);
-            } else {
-              setSaveClass([]);
-            }
-          }
-  
+              )
+            ) == Number(lastSemana) && v.professor.nome == lastTeacher
+        );
+
+        if (dayTypeMatch.length > 0) {
+          _l = _l.filter((v) => v.periodo == lastDayType);
           if (_l.length > 0) {
             setSaveClass([...saveClass, ..._l]);
           } else {
             setSaveClass([]);
           }
         }
-  
-        if (typeCoursesMatch.length > 0) {
-          _l = _l.filter((e) => e.curso.tipo == lastCourseType);
-  
-          if (_l.length > 0) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([]);
-          }
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
-  
-        if (!(_l.length == classMatch.length)) {
-          if (teacherMatch.length > 1) {
-            setSaveClass([...saveClass, ..._l]);
-          } else {
-            setSaveClass([..._l]);
-          }
+      }
+
+      if (typeCoursesMatch.length > 0) {
+        _l = _l.filter((e) => e.curso.tipo == lastCourseType);
+
+        if (_l.length > 0) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([]);
         }
+      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      if (!(_l.length == classMatch.length)) {
+        if (teacherMatch.length > 1) {
+          setSaveClass([...saveClass, ..._l]);
+        } else {
+          setSaveClass([..._l]);
+        }
+      }
     } else if (initialDate != "" || lastDate != "") {
       var _l: AulaTypeSuper[] = [];
 
@@ -853,262 +846,273 @@ export default function AdvancedSearch() {
   }
 
   return (
-    <>
-      <AdvancedContainer>
-        <AdvancedContent>
-          <AdvancedTitleContainer>
-            <h1>Aulas</h1>
-            <p>Faça buscas e aplique filtros para encontrar determinada aula</p>
-          </AdvancedTitleContainer>
-          <form onSubmit={handleSubmit(handleGetPlaces)}>
-            <AdvancedSearchInput>
-              <input
-                type="text"
-                placeholder="Busque uma ou várias aulas..."
-                {...register("busca")}
-                value={inputValue + ""}
-                onChange={(e) => searchCourse(e.target.value)}
-                autoComplete="off"
-              />
-              <button type="submit">Buscar</button>
-            </AdvancedSearchInput>
-          </form>
-          {unidadeMatch &&
-            unidadeMatch.map((unidade) => (
-              <AdvancedSearchAutocomplete
-                onClick={() => handleSetInputValue({ busca: unidade.nome })}
-              >
-                {unidade.nome}
-              </AdvancedSearchAutocomplete>
-            ))}
+    <AdvancedContainer>
+      <AdvancedContent>
+        <AdvancedTitleContainer>
+          <h1>Aulas</h1>
+          <p>
+            Crie, busque e aplique filtros para encontrar determinada aula ou
+            aula(s).
+          </p>
+          <AdvancedButtonContainer>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger asChild>
+                <button>Nova aula</button>
+              </Dialog.Trigger>
+              <ModalCreateNewClass name={undefined} closeModal={closeModal} />
+            </Dialog.Root>
+          </AdvancedButtonContainer>
+        </AdvancedTitleContainer>
+        <form onSubmit={handleSubmit(handleGetPlaces)}>
+          <AdvancedSearchInput>
+            <input
+              type="text"
+              placeholder="Busque uma ou várias aulas..."
+              {...register("busca")}
+              value={inputValue + ""}
+              onChange={(e) => searchCourse(e.target.value)}
+              autoComplete="off"
+            />
+            <button type="submit">Buscar</button>
+          </AdvancedSearchInput>
+        </form>
+        {unidadeMatch &&
+          unidadeMatch.map((unidade) => (
+            <AdvancedSearchAutocomplete
+              onClick={() => handleSetInputValue({ busca: unidade.nome })}
+            >
+              {unidade.nome}
+            </AdvancedSearchAutocomplete>
+          ))}
 
-          <AdvancedFilterLabel>
-            <Sliders color="#0031B0" size={25} />
-            <p>Filtrar por:</p>
-          </AdvancedFilterLabel>
+        <AdvancedFilterLabel>
+          <Sliders color="#0031B0" size={25} />
+          <p>Filtrar por:</p>
+        </AdvancedFilterLabel>
 
-          <AdvancedTableContent>
-            <aside>
-              <AdvancedFilterContainer
-                type="multiple"
-                defaultValue={["1", "2", "3", "4"]}
-              >
-                <Accordion.Item value="1">
-                  <AdvancedContentTitle>
-                    <p>Tipo de curso</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      <span>
-                        {" "}
-                        <input
-                          type="checkbox"
-                          value="REGULAR"
-                          onChange={(checked) =>
-                            handleCreateArrayCoursesType(checked.target.value)
-                          }
-                        />{" "}
-                        Regular
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          type="checkbox"
-                          value="FIC"
-                          onChange={(checked) =>
-                            handleCreateArrayCoursesType(checked.target.value)
-                          }
-                        />{" "}
-                        FIC
-                      </span>
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="2">
-                  <AdvancedContentTitle>
-                    <p> Periodo</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      <span>
-                        <input
-                          type="checkbox"
-                          value="MANHA"
-                          onChange={(checked) =>
-                            handleCreateArrayDayType(checked.target.value)
-                          }
-                        />{" "}
-                        Manhã
-                      </span>
-                      <span>
-                        <input
-                          type="checkbox"
-                          value="TARDE"
-                          onChange={(checked) =>
-                            handleCreateArrayDayType(checked.target.value)
-                          }
-                        />{" "}
-                        Tarde
-                      </span>
-                      <span>
-                        <input
-                          type="checkbox"
-                          value="NOITE"
-                          onChange={(checked) =>
-                            handleCreateArrayDayType(checked.target.value)
-                          }
-                        />{" "}
-                        Noite
-                      </span>
-                      <span>
-                        <input
-                          type="checkbox"
-                          value="INTEGRAL"
-                          onChange={(checked) =>
-                            handleCreateArrayDayType(checked.target.value)
-                          }
-                        />{" "}
-                        Integral
-                      </span>
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="3">
-                  <AdvancedContentTitle>
-                    <p>Intervalo</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      <span> Data de início</span>
+        <AdvancedTableContent>
+          <aside>
+            <AdvancedFilterContainer
+              type="multiple"
+              defaultValue={["1", "2", "3", "4"]}
+            >
+              <Accordion.Item value="1">
+                <AdvancedContentTitle>
+                  <p>Tipo de curso</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    <span>
+                      {" "}
                       <input
-                        type="date"
+                        type="checkbox"
+                        value="REGULAR"
                         onChange={(checked) =>
-                          handleCreateInitAndFinalDateFns(
-                            "init-" + checked.target.value
-                          )
+                          handleCreateArrayCoursesType(checked.target.value)
                         }
-                      />
-                      <span> Data final</span>
+                      />{" "}
+                      Regular
+                    </span>
+                    <span>
+                      {" "}
                       <input
-                        type="date"
+                        type="checkbox"
+                        value="FIC"
                         onChange={(checked) =>
-                          handleCreateInitAndFinalDateFns(
-                            "finl-" + checked.target.value
-                          )
+                          handleCreateArrayCoursesType(checked.target.value)
                         }
-                      />
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="4">
-                  <AdvancedContentTitle>
-                    <p>Dias</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      <span>
-                        {" "}
-                        <input
-                          value="3"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Segunda-Feira
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="4"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Terça-Feira
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="5"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Quarta-Feira
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="6"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Quinta-Feira
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="0"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Sexta-Feira
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="1"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Sábado
-                      </span>
-                      <span>
-                        {" "}
-                        <input
-                          value="2"
-                          onChange={(checked) =>
-                            handleCreateSemanaArray(checked.target.value)
-                          }
-                          type="checkbox"
-                        />{" "}
-                        Domingo
-                      </span>
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="5">
-                  <AdvancedContentTitle>
-                    <p>Professores</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      {teachers &&
-                        teachers.map((teacher) => {
+                      />{" "}
+                      FIC
+                    </span>
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+              <Accordion.Item value="2">
+                <AdvancedContentTitle>
+                  <p> Periodo</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    <span>
+                      <input
+                        type="checkbox"
+                        value="MANHA"
+                        onChange={(checked) =>
+                          handleCreateArrayDayType(checked.target.value)
+                        }
+                      />{" "}
+                      Manhã
+                    </span>
+                    <span>
+                      <input
+                        type="checkbox"
+                        value="TARDE"
+                        onChange={(checked) =>
+                          handleCreateArrayDayType(checked.target.value)
+                        }
+                      />{" "}
+                      Tarde
+                    </span>
+                    <span>
+                      <input
+                        type="checkbox"
+                        value="NOITE"
+                        onChange={(checked) =>
+                          handleCreateArrayDayType(checked.target.value)
+                        }
+                      />{" "}
+                      Noite
+                    </span>
+                    <span>
+                      <input
+                        type="checkbox"
+                        value="INTEGRAL"
+                        onChange={(checked) =>
+                          handleCreateArrayDayType(checked.target.value)
+                        }
+                      />{" "}
+                      Integral
+                    </span>
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+              <Accordion.Item value="3">
+                <AdvancedContentTitle>
+                  <p>Intervalo</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    <span> Data de início</span>
+                    <input
+                      type="date"
+                      onChange={(checked) =>
+                        handleCreateInitAndFinalDateFns(
+                          "init-" + checked.target.value
+                        )
+                      }
+                    />
+                    <span> Data final</span>
+                    <input
+                      type="date"
+                      onChange={(checked) =>
+                        handleCreateInitAndFinalDateFns(
+                          "finl-" + checked.target.value
+                        )
+                      }
+                    />
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+              <Accordion.Item value="4">
+                <AdvancedContentTitle>
+                  <p>Dias</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    <span>
+                      {" "}
+                      <input
+                        value="3"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Segunda-Feira
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="4"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Terça-Feira
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="5"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Quarta-Feira
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="6"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Quinta-Feira
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="0"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Sexta-Feira
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="1"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Sábado
+                    </span>
+                    <span>
+                      {" "}
+                      <input
+                        value="2"
+                        onChange={(checked) =>
+                          handleCreateSemanaArray(checked.target.value)
+                        }
+                        type="checkbox"
+                      />{" "}
+                      Domingo
+                    </span>
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+              <Accordion.Item value="5">
+                <AdvancedContentTitle>
+                  <p>Professores</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    {!teachers.length
+                      ? "Não há professores cadastrados."
+                      : teachers.map((teacher) => {
                           if ((teacher.ativo = true)) {
                             return (
                               <span key={teacher.id}>
@@ -1126,20 +1130,21 @@ export default function AdvancedSearch() {
                             );
                           }
                         })}
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-                <Accordion.Item value="6">
-                  <AdvancedContentTitle>
-                    <p>Ambientes</p>
-                    <Accordion.Trigger>
-                      <CaretDown color="#25B5E9" size={20} />
-                    </Accordion.Trigger>
-                  </AdvancedContentTitle>
-                  <Accordion.Content>
-                    <AdvancedFilterItens>
-                      {placesList &&
-                        placesList.map((place) => {
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+              <Accordion.Item value="6">
+                <AdvancedContentTitle>
+                  <p>Ambientes</p>
+                  <Accordion.Trigger>
+                    <CaretDown color="#25B5E9" size={20} />
+                  </Accordion.Trigger>
+                </AdvancedContentTitle>
+                <Accordion.Content>
+                  <AdvancedFilterItens>
+                    {!placesList.length
+                      ? "Não há ambientes cadastrados."
+                      : placesList.map((place) => {
                           if ((place.ativo = true)) {
                             return (
                               <span key={place.id}>
@@ -1155,21 +1160,21 @@ export default function AdvancedSearch() {
                             );
                           }
                         })}
-                    </AdvancedFilterItens>
-                  </Accordion.Content>
-                </Accordion.Item>
-              </AdvancedFilterContainer>
-            </aside>
-            <AdvancedSeachTable classItem={classMatch} />
-          </AdvancedTableContent>
-          <AdvancedFilterTotal>
-            <p>
-              {classMatch.length == 0 ? "0" : classMatch.length} resultados
-              encontrados
-            </p>
-          </AdvancedFilterTotal>
-        </AdvancedContent>
-      </AdvancedContainer>
-    </>
+                  </AdvancedFilterItens>
+                </Accordion.Content>
+              </Accordion.Item>
+            </AdvancedFilterContainer>
+          </aside>
+          <AdvancedSeachTable classItem={classMatch} />
+        </AdvancedTableContent>
+        <AdvancedFilterTotal>
+          <p>
+            {classMatch.length > 0 &&
+              `${classMatch.length} resultados
+              encontrados.`}
+          </p>
+        </AdvancedFilterTotal>
+      </AdvancedContent>
+    </AdvancedContainer>
   );
 }

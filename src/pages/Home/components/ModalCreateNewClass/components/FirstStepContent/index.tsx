@@ -20,7 +20,7 @@ import {
 } from "../../style";
 
 interface firstStepContentProps {
-  name: string;
+  name: string | undefined;
   handleNextStep: (step: number) => void;
 }
 
@@ -58,10 +58,11 @@ export function FirstStepContent({
 
   //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
-    if (course.tipo.toLowerCase() == name.toLowerCase()) {
+    if (name == "Customizável" || name == undefined) {
       return course;
     }
-    if (name == "Customizável") {
+
+    if (course.tipo.toLowerCase() == name.toLowerCase()) {
       return course;
     }
   });

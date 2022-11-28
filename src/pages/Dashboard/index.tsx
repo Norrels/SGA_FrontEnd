@@ -9,6 +9,7 @@ import { ClassGraph } from "./components/ClassesGraph";
 import { InClassGraph } from "./components/InClassGraph";
 
 export function Dashboard() {
+  document.title = "Dashboard | SGA";
   return (
     <DashContainer>
       <DashContent>
@@ -24,7 +25,7 @@ export function Dashboard() {
           </div>
 
           <div>
-           <InClassGraph/>
+            <InClassGraph />
           </div>
         </DashboardContent>
       </DashContent>

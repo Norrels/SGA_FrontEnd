@@ -36,27 +36,44 @@ export const HeaderNavBar = styled.nav`
   display: flex;
   justify-content: space-evenly;
 
-  a {
-    color: ${(props) => props.theme["black"]};
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-decoration: none;
-
-    &.active {
-      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
-      color: ${(props) => props.theme["blue-300"]};
-    }
-  }
-
+  a,
   p {
     color: ${(props) => props.theme["black"]};
     font-weight: bold;
     font-size: 1.25rem;
     text-decoration: none;
 
+    position: relative;
+
+    transition-duration: 0.4s;
+
+    &::before {
+      content: "";
+      width: 0;
+      height: 4px;
+
+      position: absolute;
+      top: 25px;
+
+      background-color: ${(props) => props.theme["blue-300"]};
+
+      transition-duration: 0.4s;
+    }
+
+    &:hover {
+      &::before {
+        width: 100%;
+      }
+    }
+
     &.active {
-      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
       color: ${(props) => props.theme["blue-300"]};
+
+      &:hover {
+        &::before {
+          width: 0;
+        }
+      }
     }
   }
 `;
@@ -77,6 +94,13 @@ export const HeaderUser = styled.span`
     display: flex;
     align-items: center;
   }
+
+  svg {
+    transition-duration: 0.2s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]} !important;
+    }
+  }
 `;
 
 export const HeaderNavMenu = styled.span`
@@ -87,6 +111,11 @@ export const HeaderNavMenu = styled.span`
 
   svg {
     cursor: pointer;
+    transition-duration: 0.2s;
+
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 
   :has(a.active) {
@@ -115,6 +144,9 @@ export const HeaderNavMenuContent = styled(DropdownMenu.Content)`
   border-radius: 8px;
   margin-top: 1rem;
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${fadeIn} 0.4s ease-in-out forwards;
 
   a {
     &.active {
@@ -145,6 +177,9 @@ export const HeaderNavMenuItem = styled(DropdownMenu.Item)`
     transition: color, background-color 0.1s;
 
     &:hover {
+      &::before {
+        width: 0;
+      }
       color: ${(props) => props.theme["white"]};
     }
   }

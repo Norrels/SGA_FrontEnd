@@ -32,12 +32,12 @@ export const aulaInput = z.object({
 export type AulaType = z.infer<typeof aulaInput>;
 
 //Propriedades da Modal
-interface EditClassModalProps {
+interface ViewClassModalProps {
   classItem: AulaTypeSuper;
   closeModal(): void;
 }
 
-export function EditClassModal({ classItem, closeModal }: EditClassModalProps) {
+export function ViewClassModal({ classItem, closeModal }: ViewClassModalProps) {
   return (
     <Dialog.Portal>
       <Overlay />

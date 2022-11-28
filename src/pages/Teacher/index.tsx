@@ -16,6 +16,8 @@ import { NewVacation } from "./components/NewVacation";
 import { API } from "../../lib/axios";
 
 export function Teacher() {
+  document.title = "Professores | SGA";
+
   const { teachers } = useContext(ObjectsContext);
   const [teachersMatch, setTeachersMatch] = useState<TeacherProps[]>([]);
   const [open, setOpen] = useState(false);
@@ -39,7 +41,7 @@ export function Teacher() {
 
   async function handleChangeList(value: Boolean) {
     setOn(value);
-    if(value) {
+    if (value) {
       setTeachersMatch(teachers.filter((e) => e.ativo == false));
     } else {
       setTeachersMatch(teachers.filter((e) => e.ativo == true));
@@ -60,7 +62,7 @@ export function Teacher() {
       <TeacherContent>
         <TeacherTitleContainer>
           <h1>Professores</h1>
-          <p>Selecione um Professor ou crie um novo!</p>
+          <p>Selecione um professor ou crie um novo!</p>
           <TeacherButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
@@ -92,15 +94,18 @@ export function Teacher() {
         />
         <Toggle>
           <label>Desativados</label>
-          <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
+          <input
+            onChange={(e) => handleChangeList(e.target.checked)}
+            type="checkbox"
+          />
         </Toggle>
         <TeacherList>
           {teachersMatch.map((teacher) => {
-              if(teacher.ativo && on == false) {
-                return <TeacherItem key={teacher.id} teacherItem={teacher} />;
-              } else if(teacher.ativo == false && on == true) {
-                return <TeacherItem key={teacher.id} teacherItem={teacher} />;
-              }
+            if (teacher.ativo && on == false) {
+              return <TeacherItem key={teacher.id} teacherItem={teacher} />;
+            } else if (teacher.ativo == false && on == true) {
+              return <TeacherItem key={teacher.id} teacherItem={teacher} />;
+            }
           })}
         </TeacherList>
       </TeacherContent>
