@@ -1,16 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
-  HeaderContainer,
-  HeaderContent,
-  HeaderNavBar,
-  HeaderNavMenu,
-  HeaderNavMenuArrow,
-  HeaderNavMenuContent,
-  HeaderNavMenuItem,
-  HeaderUser,
+
   Toggle,
   UsersButtonContainer,
   UsersContainer,
@@ -18,9 +10,6 @@ import {
   UsersList,
   UsersTitleContainer,
 } from "./style";
-import { NavLink } from "react-router-dom";
-import { CaretDown, CaretUp } from "phosphor-react";
-import Logo from "../../assets/Logo.svg";
 import { UserItem } from "./components/UserItem";
 import { NewUserModal } from "./components/NewUserModal";
 import { Header } from "../../components/Header";
@@ -37,6 +26,8 @@ export interface UserProps {
 [];
 
 export function User() {
+  document.title = "Usuários | SGA";
+
   const [user, setUser] = useState<UserProps[]>([]);
   const [userMatches, setUserMatches] = useState<UserProps[]>([]);
   const [open, setOpen] = useState(false);
@@ -59,7 +50,7 @@ export function User() {
 
   async function handleChangeList(value: Boolean) {
     setOn(value);
-    if(value) {
+    if (value) {
       setUserMatches(user.filter((e) => e.ativo == false));
     } else {
       setUserMatches(user.filter((e) => e.ativo == true));
@@ -100,7 +91,10 @@ export function User() {
           />
           <Toggle>
             <label>Desativados</label>
-            <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
+            <input
+              onChange={(e) => handleChangeList(e.target.checked)}
+              type="checkbox"
+            />
           </Toggle>
           <UsersList>
             {userMatches.map((user) => {

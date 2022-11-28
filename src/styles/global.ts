@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
     * {
@@ -12,8 +12,12 @@ export const GlobalStyle = createGlobalStyle`
      }
     }
     body {
-        background: ${(props) => props.theme['background']};
-        color: ${(props) => props.theme['black']};
+        background-image: url('src/assets/background.svg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: top;
+        background-color: ${(props) => props.theme["background"]};
+        color: ${(props) => props.theme["black"]};
         -webkit-font-smoothing: antialiased;
         margin: 0
     }
@@ -27,4 +31,4 @@ export const GlobalStyle = createGlobalStyle`
         cursor: pointer;
         transition: background-color color 0.5s ease;
     }
-`
+`;

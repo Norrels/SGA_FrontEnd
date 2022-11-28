@@ -14,6 +14,8 @@ import { CourseProps, ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Course() {
+  document.title = "Cursos | SGA";
+
   const { courses } = useContext(ObjectsContext);
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
   const [on, setOn] = useState<Boolean>(false);
@@ -37,7 +39,7 @@ export function Course() {
 
   async function handleChangeList(value: Boolean) {
     setOn(value);
-    if(value) {
+    if (value) {
       setCourseMatchs(courses.filter((e) => e.ativo == false));
     } else {
       setCourseMatchs(courses.filter((e) => e.ativo == true));
@@ -59,12 +61,12 @@ export function Course() {
         <CourseTitleContainer>
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger asChild>
-                <CourseButtonContainer>Novo Curso</CourseButtonContainer>
-              </Dialog.Trigger>
-              <NewCourseModal closeModal={closeModal} />
-            </Dialog.Root>
+          <Dialog.Root open={open} onOpenChange={setOpen}>
+            <Dialog.Trigger asChild>
+              <CourseButtonContainer>Novo Curso</CourseButtonContainer>
+            </Dialog.Trigger>
+            <NewCourseModal closeModal={closeModal} />
+          </Dialog.Root>
         </CourseTitleContainer>
         <input
           type="text"
@@ -73,16 +75,19 @@ export function Course() {
         />
         <Toggle>
           <label>Desativados</label>
-          <input onChange={(e) => handleChangeList(e.target.checked)} type="checkbox" />
+          <input
+            onChange={(e) => handleChangeList(e.target.checked)}
+            type="checkbox"
+          />
         </Toggle>
         <CourseList>
           {courseMatchs.map((course) => {
             if (course.ativo && on == false) {
               return <CourseItem key={course.id} course={course} />;
-            } else if(course.ativo == false && on == true) {
+            } else if (course.ativo == false && on == true) {
               return <CourseItem key={course.id} course={course} />;
             }
-           })}
+          })}
         </CourseList>
       </CourseContent>
     </CourseContainer>

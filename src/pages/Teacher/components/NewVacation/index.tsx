@@ -3,12 +3,15 @@ import { NotePencil, X } from "phosphor-react";
 import React, { useContext, useState } from "react";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import {
+  CheckContent,
+  CheckIndividual,
   Content,
   FinalButton,
   HeaderButtons,
   InputContainer,
   InputContent,
   InputIndividual,
+  InputScroll,
   ModalHeader,
   Overlay,
 } from "./style";
@@ -168,14 +171,6 @@ export function NewVacation() {
     },
   ];
 
-  let checkIndividual = [];
-  let checkContent = [];
-  let checkContainer = [];
-
-  let controlador = 0;
-
-  const teachersArray = new Array(teachers.length);
-
   return (
     <Dialog.Portal>
       <Overlay />
@@ -188,151 +183,39 @@ export function NewVacation() {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <InputContainer>
-          <InputContent>
-            <InputIndividual>
-              <label>Data de início</label>
-              <input type="date" placeholder="dd/MM/yyyy" />
-            </InputIndividual>
-            <InputIndividual>
-              <label>Data de fim</label>
-              <input type="date" placeholder="dd/MM/yyyy" />
-            </InputIndividual>
-          </InputContent>
-          <InputContent>
-            <h1>Professores</h1>
-            <hr />
-            {/* <CheckIndividual>
-              <input type={"checkbox"} />
-              <label>Selecionar Todos</label>
-            </CheckIndividual>
-            {teachers.map((teacher) => {
-              if (checkContainer.length < 5) {
-                if (checkContent.length < 5) {
-                  if (checkIndividual.length < 5) {
-                    checkIndividual.push(teacher.nome);
-                    return <h1>teste</h1>;
-                  }
-                }
-              }
-            })}
-             <CheckContainer>
-              <CheckContent>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>André</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Antonio</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Beatriz</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruna</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruno</label>
-                </CheckIndividual>
-              </CheckContent>
-              <CheckContent>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>André</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Antonio</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Beatriz</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruna</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruno</label>
-                </CheckIndividual>
-              </CheckContent>
-              <CheckContent>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>André</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Antonio</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Beatriz</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruna</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruno</label>
-                </CheckIndividual>
-              </CheckContent>
-              <CheckContent>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>André</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Antonio</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Beatriz</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruna</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruno</label>
-                </CheckIndividual>
-              </CheckContent>
-              <CheckContent>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>André</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Antonio</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Beatriz</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruna</label>
-                </CheckIndividual>
-                <CheckIndividual>
-                  <input type={"checkbox"} />
-                  <label>Bruno</label>
-                </CheckIndividual>
-              </CheckContent>
-            </CheckContainer> */}
-          </InputContent>
-        </InputContainer>
-        <FinalButton>
-          <button>Criar</button>
-        </FinalButton>
+        <form>
+          <InputScroll>
+            <InputContainer>
+              <InputContent>
+                <InputIndividual>
+                  <label>Data de início</label>
+                  <input type="date" placeholder="dd/MM/yyyy" />
+                </InputIndividual>
+                <InputIndividual>
+                  <label>Data de fim</label>
+                  <input type="date" placeholder="dd/MM/yyyy" />
+                </InputIndividual>
+              </InputContent>
+              <InputContent>
+                <h1>Professores</h1>
+                <hr />
+                <CheckContent>
+                  {teachers.map((teacher) => {
+                    return (
+                      <CheckIndividual>
+                        <input type="checkbox" value={teacher.id} />
+                        <p>{teacher.nome}</p>
+                      </CheckIndividual>
+                    );
+                  })}
+                </CheckContent>
+              </InputContent>
+            </InputContainer>
+            <FinalButton>
+              <button>Criar</button>
+            </FinalButton>
+          </InputScroll>
+        </form>
       </Content>
     </Dialog.Portal>
   );

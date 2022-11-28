@@ -1,19 +1,41 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(Dialog.Overlay)`
   width: 100w;
   height: 100w;
+  z-index: 2;
 
   position: fixed;
   inset: 0;
 
   background: rgba(0, 0, 0, 0.4);
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(Dialog.Content)`
   width: 750px;
-  padding: 3.75rem 4.688rem;
+  padding: 3.75rem 2.344rem 3.75rem 0;
 
   display: flex;
   flex-direction: column;
@@ -23,15 +45,20 @@ export const Content = styled(Dialog.Content)`
   position: fixed;
   top: 50%;
   left: 50%;
+  z-index: 3;
 
   border-radius: 20px;
   background: ${(props) => props.theme["white"]};
   transform: translate(-50%, -50%);
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
 `;
 
 export const ModalHeader = styled.div`
   width: 100%;
+  padding: 0 2.344rem 0 4.688rem;
 
   display: flex;
   flex-direction: row;
@@ -57,11 +84,39 @@ export const HeaderButtons = styled.div`
   button {
     background: none;
     border: none;
-    margin-left: 1.25rem;
-  }
+    margin-left: 20px;
+    transition-duration: 0.3s;
 
-  svg {
-    cursor: pointer;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`;
+
+export const InputScroll = styled.div`
+  width: 100%;
+  max-height: 600px;
+  padding: 0 2.344rem 1rem 4.688rem;
+
+  overflow-y: none;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
   }
 `;
 
@@ -120,6 +175,30 @@ export const InputIndividual = styled.div`
       color: rgba(109, 109, 109, 0.5);
       background-color: #efefef;
     }
+  }
+`;
+
+export const CheckContent = styled.div`
+  width: 100%;
+  margin: 0 0 20px 0;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+`;
+
+export const CheckIndividual = styled.div`
+  width: 100%;
+  margin-bottom: 5px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  input {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
   }
 `;
 

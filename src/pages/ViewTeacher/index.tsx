@@ -24,47 +24,46 @@ import {
 } from "./style";
 
 export interface AbsenseProps {
-  id: number
-  dataFinal: Date
-  dataInicio: Date
-  tipo: string
+  id: number;
+  dataFinal: Date;
+  dataInicio: Date;
+  tipo: string;
 }
 
 export function ViewTeacher() {
-  const { teacherId } = useParams()
-  const [inClass, setInClass] = useState<Boolean>()
-  const [teacher, setTeachers] = useState<TeacherProps>(
-    {
-      id: 0,
-      ativo: true,
-      cargaSemanal: 1,
-      nome: "",
-      email: "",
-      competencia: []
-    }
-  )
+  const { teacherId } = useParams();
+  const [inClass, setInClass] = useState<Boolean>();
+  const [teacher, setTeachers] = useState<TeacherProps>({
+    id: 0,
+    ativo: true,
+    cargaSemanal: 1,
+    nome: "",
+    email: "",
+    competencia: [],
+  });
 
   const [absenseList, setAbsenseList] = useState<AbsenseProps[]>([
     {
       id: 0,
       dataFinal: new Date(),
       dataInicio: new Date(),
-      tipo: ""
-    }
-  ])
+      tipo: "",
+    },
+  ]);
 
   async function fetchUser() {
-    const response = await API.get(`/professor/${teacherId}`)
-    console.log(response.data)
-    setTeachers(response.data[0])
-    setAbsenseList(response.data[1])
-    setInClass(true)
+    const response = await API.get(`/professor/${teacherId}`);
+    console.log(response.data);
+    setTeachers(response.data[0]);
+    setAbsenseList(response.data[1]);
+    setInClass(true);
   }
 
   useEffect(() => {
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
+  document.title = `${teacher?.nome} | SGA`;
   return (
     <Main>
       <TeacherMain>
@@ -85,7 +84,7 @@ export function ViewTeacher() {
           </Dialog.Root>
           <TeacherProfileContent>
             <TeacherProfileLeft disponibilidade={inClass ? "emAula" : "livre"}>
-              <TeacherProfileLeftPhoto >
+              <TeacherProfileLeftPhoto>
                 <span>{inClass ? "Em aula" : "Livre"}</span>
                 <img />
               </TeacherProfileLeftPhoto>
@@ -94,22 +93,40 @@ export function ViewTeacher() {
             <TeacherProfileSeparator></TeacherProfileSeparator>
             <TeacherProfileSkills>
               <h3>Competências:</h3>
-              {
-                teacher.competencia.map((competencia) => {
-                  return (
-                    <TeacherSkillsIndividual>
-                      <p>{competencia.unidadeCurricular.nome}</p>
-                      <TeacherIndividualStars>
-                        <Star size={35} weight="fill" color={competencia.nivel > 1 ? " #25B5E9" : "#E8E8E8"} />
-                        <Star size={35} weight="fill" color={competencia.nivel > 2 ? " #25B5E9" : "#E8E8E8"} />
-                        <Star size={35} weight="fill" color={competencia.nivel > 3 ? " #25B5E9" : "#E8E8E8"} />
-                        <Star size={35} weight="fill" color={competencia.nivel > 4 ? " #25B5E9" : "#E8E8E8"} />
-                        <Star size={35} weight="fill" color={competencia.nivel == 5 ? " #25B5E9" : "#E8E8E8"} />
-                      </TeacherIndividualStars>
-                    </TeacherSkillsIndividual>
-                  )
-                })
-              }
+              {teacher.competencia.map((competencia) => {
+                return (
+                  <TeacherSkillsIndividual>
+                    <p>{competencia.unidadeCurricular.nome}</p>
+                    <TeacherIndividualStars>
+                      <Star
+                        size={35}
+                        weight="fill"
+                        color={competencia.nivel > 1 ? " #25B5E9" : "#E8E8E8"}
+                      />
+                      <Star
+                        size={35}
+                        weight="fill"
+                        color={competencia.nivel > 2 ? " #25B5E9" : "#E8E8E8"}
+                      />
+                      <Star
+                        size={35}
+                        weight="fill"
+                        color={competencia.nivel > 3 ? " #25B5E9" : "#E8E8E8"}
+                      />
+                      <Star
+                        size={35}
+                        weight="fill"
+                        color={competencia.nivel > 4 ? " #25B5E9" : "#E8E8E8"}
+                      />
+                      <Star
+                        size={35}
+                        weight="fill"
+                        color={competencia.nivel == 5 ? " #25B5E9" : "#E8E8E8"}
+                      />
+                    </TeacherIndividualStars>
+                  </TeacherSkillsIndividual>
+                );
+              })}
             </TeacherProfileSkills>
           </TeacherProfileContent>
         </TeacherMainProfile>
@@ -118,14 +135,11 @@ export function ViewTeacher() {
         <input type="text" placeholder="Buscar ausência..." />
 
         <AbsenseList>
-          {
-            absenseList.map((absenseList) => {
-              return (
-                <AbsenseItem key={absenseList.id} absenceList={absenseList} />
-              )
-            })
-          }
-
+          {absenseList.map((absenseList) => {
+            return (
+              <AbsenseItem key={absenseList.id} absenceList={absenseList} />
+            );
+          })}
         </AbsenseList>
       </Absense>
     </Main>

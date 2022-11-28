@@ -29,6 +29,8 @@ interface Usuario {
 }
 
 export function Call() {
+  document.title = "Chamados | SGA";
+
   const [calls, setCalls] = useState<CallInterface[]>([]);
   const [callMatches, setCallMatches] = useState<CallInterface[]>([]);
 
@@ -57,7 +59,7 @@ export function Call() {
 
   return (
     <>
-      <Header/>
+      <Header />
       <CallContainer>
         <CallContent>
           <CallTitleContainer>

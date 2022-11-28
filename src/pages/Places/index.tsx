@@ -15,17 +15,12 @@ import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 
 export function Places() {
+  document.title = "Ambientes | SGA";
+
   const { placesList } = useContext(ObjectsContext);
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
-  const [animation, setAnimation] = useState(true);
   const [on, setOn] = useState<Boolean>(false);
-
-  /* let animationDelay = 1;
-
-  if (!animation) {
-    animationDelay = 0;
-  } */
 
   function closeModal() {
     setOpen(false);
@@ -52,7 +47,6 @@ export function Places() {
   }
 
   async function searchPlace(value: String) {
-    setAnimation(false);
     if (!value) {
       setPlaceMatchs(placesList);
     } else {
@@ -66,7 +60,7 @@ export function Places() {
       <PlacesContent>
         <PlacesTitleContainer>
           <h1>Ambientes</h1>
-          <p>Selecione um Ambiente ou crie um novo!</p>
+          <p>Selecione um ambiente ou crie um novo!</p>
           <PlacesButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
@@ -97,23 +91,9 @@ export function Places() {
         <PlacesList>
           {placeMatchs.map((place, index) => {
             if (place.ativo && on == false) {
-              return (
-                <Place
-                  key={place.id}
-                  placeItem={
-                    place
-                  } /* placeAnimationDelay={animationDelay+=0.2} */
-                />
-              );
+              return <Place key={place.id} placeItem={place} />;
             } else if (place.ativo == false && on == true) {
-              return (
-                <Place
-                  key={place.id}
-                  placeItem={
-                    place
-                  } /* placeAnimationDelay={animationDelay+=0.2} */
-                />
-              );
+              return <Place key={place.id} placeItem={place} />;
             }
           })}
         </PlacesList>

@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { z } from "zod";
 import { AulaTypeSuper } from "../..";
 import { API } from "../../../../lib/axios";
-import { TableContaine } from "./style";
+import { TableContaine, Nothing } from "./style";
 import * as Dialog from "@radix-ui/react-dialog";
-import { EditClassModal } from "../EditClassModal";
+import { ViewClassModal } from "../ViewClassModal";
+import NotFound from "../../../../assets/404.svg";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -72,9 +73,9 @@ export function AdvancedSeachTable(classItem: AulaProps) {
             <th>Ver mais</th>
           </tr>
         </thead>
-        <tbody>
-          {(classItem.classItem.length > 0 &&
-            classItem.classItem.map((value) => (
+        {classItem.classItem.length > 0 && (
+          <tbody>
+            {classItem.classItem.map((value) => (
               <tr key={value.id}>
                 <td>{value.curso?.nome}</td>
                 <td>{value.professor?.nome}</td>
@@ -85,30 +86,23 @@ export function AdvancedSeachTable(classItem: AulaProps) {
                     <Dialog.Trigger>
                       <DotsThreeOutline size={20} />
                     </Dialog.Trigger>
-                    <EditClassModal classItem={value} closeModal={closeModal} />
+                    <ViewClassModal classItem={value} closeModal={closeModal} />
                   </Dialog.Root>
                 </td>
               </tr>
-            ))) || (
-            /* aula.map((value) => (
-              <tr key={value.id}>
-                <td>{value.curso?.nome}</td>
-                <td>{value.professor.nome}</td>
-                <td>{value.ambiente.nome}</td>
-                <td>{value.data}</td>
-                <td>
-                  <DotsThreeOutline size={20} />
-                </td>
-              </tr>
-            )) */
-            <tr>
-              <td>
-                <h1>Infelizmente não encontramos nada</h1>
-              </td>
-            </tr>
-          )}
-        </tbody>
+            ))}
+          </tbody>
+        )}
       </table>
+      {classItem.classItem.length < 1 && (
+        <Nothing>
+          <p>
+            <span>Nenhum resultado encontrado</span>, tente alterar seu filtro
+            ou refaça a busca.
+          </p>
+          <img src={NotFound} />
+        </Nothing>
+      )}
     </TableContaine>
   );
 }

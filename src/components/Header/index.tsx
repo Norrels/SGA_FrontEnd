@@ -135,7 +135,7 @@ export function Header() {
             <p>Odair</p>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
-                <CaretDown weight="fill" />
+                <CaretDown weight="fill" style={{ cursor: "pointer" }} />
               </DropdownMenu.Trigger>
 
               <HeaderNavMenuContent>

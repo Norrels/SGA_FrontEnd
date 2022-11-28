@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo.svg";
 import Mockup from "../../assets/Mockup.svg";
@@ -13,6 +12,8 @@ import {
 } from "./style";
 
 export function Login() {
+  document.title = "Login | SGA";
+
   const navigate = useNavigate();
 
   function handleLogin() {
