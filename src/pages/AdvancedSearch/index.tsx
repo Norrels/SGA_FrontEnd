@@ -9,7 +9,9 @@ import {
   AdvancedFilterLabel,
   AdvancedFilterTotal,
   AdvancedSearchAutocomplete,
+  AdvancedSearchAutocompleteScroll,
   AdvancedSearchInput,
+  AdvancedSearchInputContent,
   AdvancedTableContent,
   AdvancedTitleContainer,
 } from "./style";
@@ -864,25 +866,28 @@ export default function AdvancedSearch() {
             </Dialog.Root>
           </AdvancedButtonContainer>
         </AdvancedTitleContainer>
+
         <form onSubmit={handleSubmit(handleGetPlaces)}>
           <AdvancedSearchInput>
-            <input
-              type="text"
-              placeholder="Busque uma ou várias aulas..."
-              {...register("busca")}
-              value={inputValue + ""}
-              onChange={(e) => searchCourse(e.target.value)}
-              autoComplete="off"
-            />
+            <AdvancedSearchInputContent>
+              <input
+                type="text"
+                placeholder="Busque uma ou várias aulas..."
+                {...register("busca")}
+                value={inputValue + ""}
+                onChange={(e) => searchCourse(e.target.value)}
+                autoComplete="off"
+              />
+              <AdvancedSearchAutocompleteScroll>
+                <AdvancedSearchAutocomplete>
+                  {unidadeMatch &&
+                    unidadeMatch.map((unidade) => <p>{unidade.nome}</p>)}
+                </AdvancedSearchAutocomplete>
+              </AdvancedSearchAutocompleteScroll>
+            </AdvancedSearchInputContent>
             <button type="submit">Buscar</button>
           </AdvancedSearchInput>
         </form>
-        <AdvancedSearchAutocomplete>
-          {unidadeMatch &&
-            unidadeMatch.map((unidade) => (
-              <h1></h1>
-            ))}
-        </AdvancedSearchAutocomplete>
         <AdvancedFilterLabel>
           <Sliders color="#0031B0" size={25} />
           <p>Filtrar por:</p>

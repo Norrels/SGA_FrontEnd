@@ -103,38 +103,27 @@ export const AdvancedButtonContainer = styled.div`
 `;
 
 export const AdvancedSearchInput = styled.div`
+  margin-top: 4.313rem;
+
   display: flex;
   flex-direction: row;
+  align-items: top;
   justify-content: center;
-  margin-top: 4.313rem;
-  gap: 1.938rem;
+
+  position: relative;
+
+  gap: 1.8rem;
 
   opacity: 0;
   animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
 
-  input {
-    width: 70%;
-    height: 3.75rem;
-
-    padding-left: 1.813rem;
-
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-
-    color: ${(props) => props.theme["black"]};
-    font-weight: 700;
-    font-size: 1rem;
-
-    &:placeholder {
-      font-weight: 500;
-      color: ${(props) => props.theme["sub-title"]};
-    }
-  }
+  z-index: 1000;
 
   button {
     width: 6.25rem;
+    height: fit-content;
+    padding: 15px 0px;
+
     border-radius: 8px;
     border: 2px solid ${(props) => props.theme["blue-600"]};
     font-size: 1rem;
@@ -150,28 +139,96 @@ export const AdvancedSearchInput = styled.div`
   }
 `;
 
+export const AdvancedSearchInputContent = styled.div`
+  width: 70%;
+  input {
+    width: 100%;
+    height: 3.75rem;
+
+    padding-left: 1.813rem;
+
+    border: none;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+    color: ${(props) => props.theme["black"]};
+    font-weight: 700;
+    font-size: 1rem;
+
+    z-index: 1000;
+
+    &:placeholder {
+      font-weight: 500;
+      color: ${(props) => props.theme["sub-title"]};
+    }
+  }
+`;
+
 // ARRUMAR ISSO AQUI QUANDO EU TIVER ACESSO AO BACKEND
 // Minha idéia é tentar fazer o mais parecido com o yt possivel
 // mas acho que vou colocar um overflowY: scroll se passar de determinada altura(height)
-export const AdvancedSearchAutocomplete = styled.div`
-  width: 70%;
-  height: 15rem;
+export const AdvancedSearchAutocompleteScroll = styled.div`
+  width: 784px;
   max-height: 15rem;
 
-  transform: translate(102px, -10px);
-
-  text-align: center;
-  display: flex;
-  align-items: center;
+  position: absolute;
+  transform: translateY(-10px);
 
   border: none;
   border-radius: 0 0 8px 8px;
-  background: rgba(255, 255, 255, 0.5);
+  background-color: #f9f9f9;
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
 
   color: ${(props) => props.theme["black"]};
   font-weight: 700;
   font-size: 1rem;
+
+  overflow: auto;
+
+  z-index: -1;
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  ::-webkit-scrollbar-thumb:active {
+    background: rgba(0, 0, 0, 0.9);
+  }
+`;
+
+export const AdvancedSearchAutocomplete = styled.div`
+  width: 100%;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: left;
+
+  gap: 0.6rem;
+
+  p {
+    margin-left: 30px;
+
+    :first-child {
+      margin-top: 30px;
+    }
+
+    :last-child {
+      margin-bottom: 20px;
+    }
+  }
 `;
 
 export const AdvancedTableContent = styled.main`
@@ -182,6 +239,8 @@ export const AdvancedTableContent = styled.main`
 
   opacity: 0;
   animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
+
+  z-index: 0;
 
   aside {
     width: 25%;
@@ -298,6 +357,8 @@ export const AdvancedFilterLabel = styled.span`
 
   opacity: 0;
   animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
+
+  z-index: 0;
 `;
 
 export const AdvancedFilterTotal = styled.span`
