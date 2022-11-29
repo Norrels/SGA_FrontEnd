@@ -51,6 +51,8 @@ export function TeacherGraph() {
     setLabelss(semestreAtual), setTitle("");
   }
 
+  // professor/emAula
+
   function handleSelectSemestre(event: ChangeEvent<HTMLSelectElement>) {
     if (event.target.value === "1") {
       setLabelss(["Janeiro", "Fevereiro", "Março", "Abril", "Março", "Junho"]);
@@ -137,9 +139,13 @@ export function TeacherGraph() {
         </TeacherGraphLabel>
         <TeacherGraphSelects>
           <select>
-            {teachers.map((teacher) => {
-              return <option key={teacher.id}>{teacher.nome}</option>;
-            })}
+            {teachers.map((teacher) =>
+              teacher.ativo ? (
+                <option key={teacher.id}>{teacher.nome}</option>
+              ) : (
+                <></>
+              )
+            )}
           </select>
 
           <select onChange={handleSelectSemestre}>

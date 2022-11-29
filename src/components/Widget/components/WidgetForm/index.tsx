@@ -1,9 +1,7 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import {
-  ButtonLeftContainer,
   ButtonRightContainer,
-  ContainerClose,
   ContainerSelect,
   Content,
   ContentBody,
@@ -11,21 +9,13 @@ import {
   ContentHeader,
   TextContent,
 } from "./style";
-import {
-  ArrowLeft,
-  BugBeetle,
-  Camera,
-  CloudMoon,
-  Lightbulb,
-  X,
-} from "phosphor-react";
+import { ArrowLeft, X } from "phosphor-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
 import Cobrinha from "../../../../assets/Cobrinha.svg";
 import Idea from "../../../../assets/Idea.svg";
 import Thought from "../../../../assets/Thought.svg";
-import { ScreenshotButton } from "./ScreenshotButton";
 
 const newCallInput = z.object({
   tipoChamado: z.string(),
@@ -33,9 +23,13 @@ const newCallInput = z.object({
   foto: z.string().optional(),
 });
 
+interface CloseModalProps {
+  closeModal: () => void;
+}
+
 export type NewCallType = z.infer<typeof newCallInput>;
 
-export function WidgetForm() {
+export function WidgetForm({ closeModal }: CloseModalProps) {
   const [type, setType] = useState("inicio");
   const { register, handleSubmit, reset } = useForm<NewCallType>();
 
@@ -60,6 +54,9 @@ export function WidgetForm() {
 
     if (res.status == 200) {
       // 200
+      setType("inicio");
+      reset();
+      closeModal();
     }
     // }
   }
@@ -133,6 +130,7 @@ export function WidgetForm() {
                     onScreenshotTook={setScreenshot}
                   />
                 </ButtonLeftContainer> */}
+
                 <ButtonRightContainer>
                   <button type="submit">Enviar Feedback</button>
                 </ButtonRightContainer>

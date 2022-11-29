@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import React, { useContext, useState } from "react";
+import { useForm } from "react-hook-form";
+import React, { useContext, useEffect, useState } from "react";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import {
   CheckContent,
@@ -15,10 +16,22 @@ import {
   ModalHeader,
   Overlay,
 } from "./style";
+import { z } from "zod";
+
+export const vacationInput = z.object({
+  id: z.number().optional().array(),
+});
+
+//Transformando a variavel de validação em uma interface
+export type VacationType = z.infer<typeof vacationInput>;
 
 export function NewVacation() {
-  /* const { teachers } = useContext(ObjectsContext); */
-  const teachers = [
+  const { teachers } = useContext(ObjectsContext);
+
+  const [teachersSelected, setTeachersSelected] = useState<String[]>([]);
+  const { register, handleSubmit, reset } = useForm();
+
+  /* const teachers = [
     {
       id: "1",
       nome: "André",
@@ -169,7 +182,24 @@ export function NewVacation() {
       nif: "4342215",
       cargaSemanal: "40",
     },
-  ];
+  ]; */
+
+  useEffect(() => {
+    console.log(teachersSelected);
+  }, [teachersSelected]);
+
+  function handleCreateArrayTeachers(value: String) {
+    if (teachersSelected.some((v) => v == value)) {
+      setTeachersSelected(teachersSelected.filter((c) => c !== value));
+    } else {
+      setTeachersSelected([...teachersSelected, value]);
+    }
+  }
+
+  // Cria Ausência
+  async function handleCreateVacation() {
+    
+  }
 
   return (
     <Dialog.Portal>
@@ -183,7 +213,7 @@ export function NewVacation() {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form>
+        <form onSubmit={handleSubmit(handleCreateVacation)}>
           <InputScroll>
             <InputContainer>
               <InputContent>
@@ -203,7 +233,13 @@ export function NewVacation() {
                   {teachers.map((teacher) => {
                     return (
                       <CheckIndividual>
-                        <input type="checkbox" value={teacher.id} />
+                        <input
+                          onChange={(checked) =>
+                            handleCreateArrayTeachers(checked.target.value)
+                          }
+                          type="checkbox"
+                          value={teacher.id}
+                        />
                         <p>{teacher.nome}</p>
                       </CheckIndividual>
                     );
@@ -212,7 +248,7 @@ export function NewVacation() {
               </InputContent>
             </InputContainer>
             <FinalButton>
-              <button>Criar</button>
+              <button type="submit">Criar</button>
             </FinalButton>
           </InputScroll>
         </form>
