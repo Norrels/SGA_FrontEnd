@@ -136,7 +136,7 @@ export const InputContent = styled.div`
   display: flex;
   justify-content: space-between;
 
-  &:nth-child(2) {
+  &:nth-child(1) {
     flex-direction: row;
   }
 

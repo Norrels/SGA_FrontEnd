@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background-image: url('src/assets/background.svg');
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: 2000px;
         background-position: top;
         background-color: ${(props) => props.theme["background"]};
         color: ${(props) => props.theme["black"]};

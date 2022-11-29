@@ -1,8 +1,10 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
-import { DotsThree, Pencil, Trash, User } from "phosphor-react";
-import React, { useState } from "react";
+import { CheckCircle, DotsThree, Trash, User } from "phosphor-react";
+import { useState } from "react";
 import { z } from "zod";
 import { UserProps } from "../..";
+import { ReactivateAlert } from "../../../../components/ReactivateAlert";
 import { API } from "../../../../lib/axios";
 import { EditUserModal } from "../EditUserModal";
 import {
@@ -39,8 +41,16 @@ export function UserItem({ user }: NewUserModalProps) {
 
   async function handleDisableUserAPI(data: UserType) {
     const res = await API.put(`usuario/desativar/${data.id}`);
-    // console.log(res);
-    window.location.reload();
+    if (res.status == 200) {
+      window.location.reload();
+    }
+  }
+
+  async function handleUpdateStatusUserAPI() {
+    const res = await API.put(`/usuario/alterarStatus/${user.id}`);
+    if (res.status == 200) {
+      window.location.reload();
+    }
   }
 
   return (
@@ -63,28 +73,45 @@ export function UserItem({ user }: NewUserModalProps) {
         </UserItemInfoContent>
       </UserItemInfoContainer>
       <UserItemButtonContainer>
-        <Dialog.Root open={open} onOpenChange={setOpen}>
-          <Dialog.Trigger
-            style={{
-              backgroundColor: "transparent",
-              border: "none",
-              display: "flex",
-            }}
-          >
-            <UserItemButton buttonColor="edit">
-              <DotsThree color="#fff" size={32} />
-            </UserItemButton>
-          </Dialog.Trigger>
-          <EditUserModal closeModal={closeModal} user={user} key={user.id} />
-        </Dialog.Root>
+        {user.ativo ? (
+          <>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  display: "flex",
+                }}
+              >
+                <UserItemButton buttonColor="edit">
+                  <DotsThree color="#fff" size={32} />
+                </UserItemButton>
+              </Dialog.Trigger>
+              <EditUserModal
+                closeModal={closeModal}
+                user={user}
+                key={user.id}
+              />
+            </Dialog.Root>
 
-        <UserItemButton buttonColor="delete">
-          <Trash
-            color="#fff"
-            size={26}
-            onClick={() => handleDisableUserAPI(user)}
-          />
-        </UserItemButton>
+            <UserItemButton buttonColor="delete">
+              <Trash
+                color="#fff"
+                size={26}
+                onClick={() => handleDisableUserAPI(user)}
+              />
+            </UserItemButton>
+          </>
+        ) : (
+          <AlertDialog.Root>
+            <AlertDialog.Trigger asChild>
+              <UserItemButton buttonColor="delete">
+                <CheckCircle color="#fff" size={26} />
+              </UserItemButton>
+            </AlertDialog.Trigger>
+            <ReactivateAlert reactivateById={handleUpdateStatusUserAPI} />
+          </AlertDialog.Root>
+        )}
       </UserItemButtonContainer>
     </UserItemContainer>
   );

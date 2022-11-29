@@ -72,11 +72,11 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
     <>
       <ContextMenu.Portal>
         <RightClickContainer>
-          {/* <RightClickItem onClick={closeViewAula}>
+          <RightClickItem onClick={closeViewAula}>
             Detalhes da aula
           </RightClickItem>
           <RightClickSeperator />
-          <RightClickItem onClick={closePostponeClasses}>
+          {/* <RightClickItem onClick={closePostponeClasses}>
             Adiar aulas
           </RightClickItem>
           <RightClickSeperator /> */}
@@ -91,9 +91,9 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
         </RightClickContainer>
       </ContextMenu.Portal>
 
-      {/* <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
+      <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
         <ViewClassModal classItem={aulas} closeModal={closeViewAula}/>
-      </Dialog.Root> */}
+      </Dialog.Root>
 
       {/* <Dialog.Root open={openPostponeClasses} onOpenChange={setOpenPostponeClasses}>
         <PostponeClassesModal/>
