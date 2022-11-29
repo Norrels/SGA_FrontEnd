@@ -2,18 +2,12 @@ import { InclassTeacherProps } from "../InClassGraph";
 import { TeacherCardContainer, TeacherCardText } from "./style";
 import UserPicture from "../../../../assets/User.png"
 
-export function TeacherCard({ professor, emAula, ambiente } : InclassTeacherProps) {
-  return (
-    <TeacherCardContainer disponibilidade={emAula ? 'emAula' : 'livre'}>
-      <TeacherCardText>
-        <img src={UserPicture} />
-        <div>
-          <strong>{professor.nome}</strong>
-          <p>{ambiente? ambiente.nome : 'Disponível'}</p>
-        </div>
-      </TeacherCardText>
+export function TeacherCard({ professor } : InclassTeacherProps) {
+  console.log(professor)
 
-      <span>{emAula ? "Em Aula" : "Livre"}</span>
+  return (
+    <TeacherCardContainer  disponibilidade={professor ? 'emAula' : 'livre'} >
+      <>{professor}</>
     </TeacherCardContainer>
   );
 }
