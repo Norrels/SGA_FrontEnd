@@ -5,6 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { AulaTypeSuper } from "../..";
 import { API } from "../../../../lib/axios";
+import { AulaProps } from "../../../Home/components/Calenders/TeacherCalender";
 import {
   Content,
   HeaderButtons,
@@ -33,7 +34,7 @@ export type AulaType = z.infer<typeof aulaInput>;
 
 //Propriedades da Modal
 interface ViewClassModalProps {
-  classItem: AulaTypeSuper;
+  classItem: AulaProps;
   closeModal(): void;
 }
 

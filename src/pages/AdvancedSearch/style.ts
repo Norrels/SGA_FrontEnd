@@ -154,21 +154,18 @@ export const AdvancedSearchInput = styled.div`
 // Minha idéia é tentar fazer o mais parecido com o yt possivel
 // mas acho que vou colocar um overflowY: scroll se passar de determinada altura(height)
 export const AdvancedSearchAutocomplete = styled.div`
-  z-index: 1000px;
+  width: 70%;
+  height: 15rem;
+  max-height: 15rem;
 
-  margin-left: 105px;
+  transform: translate(102px, -10px);
 
   text-align: center;
   display: flex;
   align-items: center;
 
-  width: 70%;
-  height: 3.75rem;
-
-  padding-left: 1.813rem;
-
   border: none;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   background: rgba(255, 255, 255, 0.5);
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
 
@@ -222,18 +219,29 @@ export const AdvancedFilterItens = styled.article`
   gap: 0.4rem;
 
   opacity: 0;
-  animation: ${fadeIn} .3s ease-in-out forwards;
+  animation: ${fadeIn} 0.3s ease-in-out forwards;
+
+  input[type="date"] {
+    padding: 5px 20px;
+
+    background: ${(props) => props.theme["white-500"]};
+    border: none;
+    border-radius: 5px;
+  }
+`;
+
+export const AdvancedFilterItensIndividual = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
 
   span {
+    margin: 0 5px;
+
     font-weight: 400;
     font-size: 0.938rem;
     color: ${(props) => props.theme["gray-700"]};
-  }
-
-  input[type="date"] {
-    background: ${(props) => props.theme["white-500"]};
-    border: none;
-    height: 1.875rem;
   }
 `;
 

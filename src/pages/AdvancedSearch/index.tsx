@@ -5,6 +5,7 @@ import {
   AdvancedContentTitle,
   AdvancedFilterContainer,
   AdvancedFilterItens,
+  AdvancedFilterItensIndividual,
   AdvancedFilterLabel,
   AdvancedFilterTotal,
   AdvancedSearchAutocomplete,
@@ -876,15 +877,12 @@ export default function AdvancedSearch() {
             <button type="submit">Buscar</button>
           </AdvancedSearchInput>
         </form>
-        {unidadeMatch &&
-          unidadeMatch.map((unidade) => (
-            <AdvancedSearchAutocomplete
-              onClick={() => handleSetInputValue({ busca: unidade.nome })}
-            >
-              {unidade.nome}
-            </AdvancedSearchAutocomplete>
-          ))}
-
+        <AdvancedSearchAutocomplete>
+          {unidadeMatch &&
+            unidadeMatch.map((unidade) => (
+              <h1></h1>
+            ))}
+        </AdvancedSearchAutocomplete>
         <AdvancedFilterLabel>
           <Sliders color="#0031B0" size={25} />
           <p>Filtrar por:</p>
@@ -905,80 +903,78 @@ export default function AdvancedSearch() {
                 </AdvancedContentTitle>
                 <Accordion.Content>
                   <AdvancedFilterItens>
-                    <span>
-                      {" "}
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="REGULAR"
                         onChange={(checked) =>
                           handleCreateArrayCoursesType(checked.target.value)
                         }
-                      />{" "}
-                      Regular
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Regular</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="FIC"
                         onChange={(checked) =>
                           handleCreateArrayCoursesType(checked.target.value)
                         }
-                      />{" "}
-                      FIC
-                    </span>
+                      />
+                      <span>FIC</span>
+                    </AdvancedFilterItensIndividual>
                   </AdvancedFilterItens>
                 </Accordion.Content>
               </Accordion.Item>
               <Accordion.Item value="2">
                 <AdvancedContentTitle>
-                  <p> Periodo</p>
+                  <p>Periodo</p>
                   <Accordion.Trigger>
                     <CaretDown color="#25B5E9" size={20} />
                   </Accordion.Trigger>
                 </AdvancedContentTitle>
                 <Accordion.Content>
                   <AdvancedFilterItens>
-                    <span>
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="MANHA"
                         onChange={(checked) =>
                           handleCreateArrayDayType(checked.target.value)
                         }
-                      />{" "}
-                      Manhã
-                    </span>
-                    <span>
+                      />
+                      <span>Manhã</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="TARDE"
                         onChange={(checked) =>
                           handleCreateArrayDayType(checked.target.value)
                         }
-                      />{" "}
-                      Tarde
-                    </span>
-                    <span>
+                      />
+                      <span>Tarde</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="NOITE"
                         onChange={(checked) =>
                           handleCreateArrayDayType(checked.target.value)
                         }
-                      />{" "}
-                      Noite
-                    </span>
-                    <span>
+                      />
+                      <span>Noite</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         type="checkbox"
                         value="INTEGRAL"
                         onChange={(checked) =>
                           handleCreateArrayDayType(checked.target.value)
                         }
-                      />{" "}
-                      Integral
-                    </span>
+                      />
+                      <span>Integral</span>
+                    </AdvancedFilterItensIndividual>
                   </AdvancedFilterItens>
                 </Accordion.Content>
               </Accordion.Item>
@@ -991,7 +987,7 @@ export default function AdvancedSearch() {
                 </AdvancedContentTitle>
                 <Accordion.Content>
                   <AdvancedFilterItens>
-                    <span> Data de início</span>
+                    <span>Data de início</span>
                     <input
                       type="date"
                       onChange={(checked) =>
@@ -1000,7 +996,7 @@ export default function AdvancedSearch() {
                         )
                       }
                     />
-                    <span> Data final</span>
+                    <span>Data final</span>
                     <input
                       type="date"
                       onChange={(checked) =>
@@ -1021,83 +1017,76 @@ export default function AdvancedSearch() {
                 </AdvancedContentTitle>
                 <Accordion.Content>
                   <AdvancedFilterItens>
-                    <span>
-                      {" "}
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="3"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Segunda-Feira
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Segunda-Feira</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="4"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Terça-Feira
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Terça-Feira</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="5"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Quarta-Feira
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Quarta-Feira</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="6"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Quinta-Feira
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Quinta-Feira</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="0"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Sexta-Feira
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Sexta-Feira</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="1"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Sábado
-                    </span>
-                    <span>
-                      {" "}
+                      />
+                      <span>Sábado</span>
+                    </AdvancedFilterItensIndividual>
+                    <AdvancedFilterItensIndividual>
                       <input
                         value="2"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
                         type="checkbox"
-                      />{" "}
-                      Domingo
-                    </span>
+                      />
+                      <span>Domingo</span>
+                    </AdvancedFilterItensIndividual>
                   </AdvancedFilterItens>
                 </Accordion.Content>
               </Accordion.Item>
@@ -1115,7 +1104,7 @@ export default function AdvancedSearch() {
                       : teachers.map((teacher) => {
                           if ((teacher.ativo = true)) {
                             return (
-                              <span key={teacher.id}>
+                              <AdvancedFilterItensIndividual key={teacher.id}>
                                 <input
                                   value={teacher.nome}
                                   onChange={(checked) =>
@@ -1124,9 +1113,9 @@ export default function AdvancedSearch() {
                                     )
                                   }
                                   type="checkbox"
-                                />{" "}
-                                {teacher.nome}
-                              </span>
+                                />
+                                <span>{teacher.nome}</span>
+                              </AdvancedFilterItensIndividual>
                             );
                           }
                         })}
@@ -1147,16 +1136,16 @@ export default function AdvancedSearch() {
                       : placesList.map((place) => {
                           if ((place.ativo = true)) {
                             return (
-                              <span key={place.id}>
+                              <AdvancedFilterItensIndividual key={place.id}>
                                 <input
                                   value={place.nome}
                                   onChange={(checked) =>
                                     handleCreateArrayPlace(checked.target.value)
                                   }
                                   type="checkbox"
-                                />{" "}
-                                {place.nome}
-                              </span>
+                                />
+                                <span>{place.nome}</span>
+                              </AdvancedFilterItensIndividual>
                             );
                           }
                         })}

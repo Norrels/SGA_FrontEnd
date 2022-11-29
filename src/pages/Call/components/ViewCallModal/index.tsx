@@ -54,10 +54,10 @@ export function ViewCallModal({ call }: ViewCallModal) {
         <form>
           <InputContainerContent>
             <InputContainer>
-              <InputContent>
-                {/* <label>Foto</label>
-                <a href={call.foto} target="blank" title="Abrir imagem em outra guia"><img src={call.foto} /></a> */}
-              </InputContent>
+              {/* <InputContent>
+                <label>Foto</label>
+                <a href={call.foto} target="blank" title="Abrir imagem em outra guia"><img src={call.foto} /></a>
+              </InputContent> */}
               <InputContent>
                 <InputIndividual>
                   <label>Usuário</label>
