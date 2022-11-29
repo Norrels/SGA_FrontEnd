@@ -24,7 +24,7 @@ interface EditUserModalProps {
 }
 
 export const userInput = z.object({
-  id: z.number(),
+  id: z.string(),
   nome: z
     .string()
     .min(3, { message: "*** O Nome deve ser maior que 3 caracteres... " })
@@ -38,7 +38,6 @@ export const userInput = z.object({
     .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
     .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
   tipo: z.enum(["ADMINISTRADOR", "SUPORTE"]),
-  senha: z.string(),
 });
 
 export type UserType = z.infer<typeof userInput>;
@@ -55,6 +54,7 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
     resolver: zodResolver(userInput),
   });
 
+  console.log(errors)
   function handleUpdateUser(data: UserType) {
     handleUpdateUserAPI(data);
     reset();
@@ -69,8 +69,9 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
       email: data.email,
       tipo: data.tipo,
       ativo: "true",
-      senha: user.email.slice(0, user.email.search("@")),
     });
+
+    console.log(res)
 
     if (res.status == 200) {
       window.location.reload();
@@ -99,6 +100,11 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
           </HeaderButtons>
         </ModalHeader>
         <form onSubmit={handleSubmit(handleUpdateUser)}>
+          <input
+            type="hidden"
+              value={user.id}
+            {...register("id")}
+          />
           <InputScroll>
             <InputContainer>
               <InputContent disabled={"on"}>
@@ -148,7 +154,7 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
               </InputContent>
               {editable ? (
                 <FinalButton>
-                  <button>Salvar</button>
+                  <button type="submit">Salvar</button>
                 </FinalButton>
               ) : (
                 <></>

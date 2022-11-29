@@ -1,5 +1,5 @@
 import * as Toast from "@radix-ui/react-toast";
-import { Info, X } from "phosphor-react";
+import { Prohibit, X } from "phosphor-react";
 import {
   NotificationCloseButton,
   NotificationContainer,
@@ -13,6 +13,7 @@ interface NotificationProps {
   openNotificationMethod: () => void;
   title?: string;
   description?: string;
+  tipe: "Error" | "Criado"
 }
 
 export function Notification({
@@ -28,7 +29,8 @@ export function Notification({
         onOpenChange={openNotificationMethod}
         duration={3000}
       >
-        <Info size={30} />
+        
+        <Prohibit size={30} color="#B50000"/>
         <NotificationTitle asChild>
           <strong>{title}</strong>
         </NotificationTitle>

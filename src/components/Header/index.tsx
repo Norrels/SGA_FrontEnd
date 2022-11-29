@@ -15,11 +15,12 @@ import Logo from "../../assets/Logo.svg";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { EditUserModal } from "./components/EditProfileModal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Header() {
-  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const { logout } = useContext(AuthContext)
 
   const location = useLocation();
 
@@ -148,7 +149,7 @@ export function Header() {
                 </HeaderNavMenuItem>
                 <HeaderNavMenuItem>
                   <HeaderEditUserButton
-                    onClick={() => navigate("/", { replace: true })}
+                    onClick={() => logout()}
                   >
                     Sair <SignOut />
                   </HeaderEditUserButton>

@@ -1,6 +1,12 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { NavLink } from "react-router-dom";
 import Logo from "../../assets/Logo.svg";
 import Mockup from "../../assets/Mockup.svg";
+import { useForm } from "react-hook-form";
+import { AuthContext, LoginProps } from "../../contexts/AuthContext";
+import * as HoverCard from "@radix-ui/react-hover-card";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
+import * as Dialog from "@radix-ui/react-dialog";
 import {
   LoginHeaderContainer,
   LoginHeaderContent,
@@ -10,53 +16,79 @@ import {
   LoginLittleDivider,
   LittleDividerContent,
 } from "./style";
+import { Notification } from "../../components/Notification";
+import { FirstAcessAlert } from "./components/DeleteAlert";
+import { ArrowClockwise } from "phosphor-react";
+
+
+
 
 export function Login() {
   document.title = "Login | SGA";
 
-  const navigate = useNavigate();
+  const { login } = useContext(AuthContext)
+  const { register, handleSubmit } = useForm<LoginProps>();
+  const [open, setOpen] = useState(false)
+  const [isSubmiting, setIsSubmiting] = useState(false)
 
-  function handleLogin() {
-    navigate("/inicio", { replace: true });
+  function handleLogin(data: LoginProps) {
+    login(data)
+    setIsSubmiting(true)
+    setTimeout(() => setOpen(true), 2000)
+    setTimeout(() => setIsSubmiting(false), 2000)
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false)
   }
 
   return (
-    <div style={{}}>
-      <LoginHeaderContainer>
-        <LoginHeaderContent>
-          <img src={Logo} alt="" />
-          <HeaderNavBar>
-            <NavLink to="/login">Login</NavLink>
-            <NavLink to="/sobre">Sobre</NavLink>
-          </HeaderNavBar>
-        </LoginHeaderContent>
-      </LoginHeaderContainer>
+    <>
+      <div style={{}}>
+        <LoginHeaderContainer>
+          <LoginHeaderContent>
+            <img src={Logo} alt="" />
+            <HeaderNavBar>
+              <NavLink to="/">Login</NavLink>
+              <NavLink to="/sobre">Sobre</NavLink>
+            </HeaderNavBar>
+          </LoginHeaderContent>
+        </LoginHeaderContainer>
 
-      <LoginFormContainer>
-        <LoginFormContent>
-          <form>
-            <LoginLittleDivider>
-              <LittleDividerContent />
-              <LittleDividerContent />
-            </LoginLittleDivider>
-            <h1>
-              Gerencie e controle os <br /> espaços da escola
-            </h1>
+        <LoginFormContainer>
+          <LoginFormContent>
+            <form onSubmit={handleSubmit(handleLogin)}>
+              <LoginLittleDivider>
+                <LittleDividerContent />
+                <LittleDividerContent />
+              </LoginLittleDivider>
+              <h1>
+                Gerencie e controle os <br /> espaços da escola
+              </h1>
 
-            <input type="text" name="" id="" placeholder="Insira seu nif" />
-            <input type="password" placeholder="Digite sua senha" />
-            <sup>
-              O login só ira se realizado novamente em 7 dias <br /> após o
-              login, ou ao seu deslogar
-            </sup>
-            <button type="button" onClick={handleLogin}>
-              Entrar
-            </button>
-          </form>
-
-          <img src={Mockup} alt="" />
-        </LoginFormContent>
-      </LoginFormContainer>
-    </div>
+              <input type="text" id="" placeholder="Insira seu nif" {...register("nif")} />
+              <input type="password" placeholder="Digite sua senha" {...register("senha")} />
+              <sup>
+                O login só ira se realizado novamente em 7 dias <br /> após o
+                login, ou ao seu deslogar
+              </sup>
+              <AlertDialog.Root>
+                <AlertDialog.Trigger asChild>
+                  <p>Primeiro acesso?</p>
+                </AlertDialog.Trigger>
+                <FirstAcessAlert />
+              </AlertDialog.Root>
+              <button type="submit" disabled={isSubmiting}>
+                {
+                  isSubmiting ? <ArrowClockwise size={24} weight="bold"/> : "Entrar"
+                }
+              </button>
+            </form>
+            <img src={Mockup} alt="" />
+          </LoginFormContent>
+        </LoginFormContainer>
+      </div>
+      <Notification tipe="Error" description="Usuário ou senha incorretos" title="Ocorreu um erro" openNotification={open} openNotificationMethod={openNotificantionMethod} />
+    </>
   );
 }

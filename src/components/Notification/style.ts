@@ -5,7 +5,7 @@ export const NotificationContainer = styled(Toast.Root)`
   background-color: white;
   border-radius: 10px;
   box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
-  padding: 20px;
+  padding: 30px 20px;
 
   display: grid;
   grid-template-areas: "tagImage title action" "tagImage description action";
@@ -13,6 +13,7 @@ export const NotificationContainer = styled(Toast.Root)`
   row-gap: 0.1rem;
   align-items: center;
   z-index: 100;
+  
 
   div {
     &:first-child{

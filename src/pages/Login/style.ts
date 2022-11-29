@@ -18,6 +18,14 @@ const fadeOut = keyframes`
   } 
 `;
 
+const spin = keyframes`
+ from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
 const swipeRight = keyframes`
   from {
@@ -124,7 +132,6 @@ export const LoginFormContent = styled.div`
     opacity: 0;
   }
 
-  
   form {
     height: 100%;
     padding-top: 4.375rem;
@@ -140,6 +147,17 @@ export const LoginFormContent = styled.div`
       opacity: 0;
     }
 
+    p {
+      margin-top: 1rem;
+      opacity: 0;
+      font-weight: 700;
+      font-size: 0.938rem;
+
+      color: ${(props) => props.theme["blue-400"]};
+      animation: ${swipeRight} 1.5s 0.6s ease-in-out forwards;
+      width: fit-content;
+      cursor: pointer;
+    }
 
     // botão entrar
     button {
@@ -176,6 +194,10 @@ export const LoginFormContent = styled.div`
       &:hover {
         background-position: 100% 50%;
       }
+
+      svg {
+        animation: ${spin} 1s linear infinite;
+      }
     }
   }
 
@@ -204,7 +226,6 @@ export const LoginFormContent = styled.div`
     &:focus {
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
       background: rgba(255, 255, 255, 0.45);
-      
     }
 
     // Alterar o placeholder do input
@@ -228,11 +249,11 @@ export const LoginLittleDivider = styled.div`
   overflow: hidden;
 `;
 
-export const LittleDividerContent = styled.div `
-    height: 100%;
-    margin: 0 10px;
+export const LittleDividerContent = styled.div`
+  height: 100%;
+  margin: 0 10px;
 
-    background: linear-gradient(
+  background: linear-gradient(
     90deg,
     #0f62ab -1.73%,
     #0031b0 -1.72%,
@@ -249,6 +270,6 @@ export const LittleDividerContent = styled.div `
   &:last-child {
     width: 75%;
     transform: translateX(-150%);
-    animation: ${runRightLast} 2s cubic-bezier(.98,0,.03,1) forwards;
+    animation: ${runRightLast} 2s cubic-bezier(0.98, 0, 0.03, 1) forwards;
   }
 `;
