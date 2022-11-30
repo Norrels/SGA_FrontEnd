@@ -27,7 +27,7 @@ export function Course() {
 
   useEffect(() => {
     handleGetCourse();
-  }, [courses]);
+  }, [courseMatchs]);
 
   async function handleGetCourse() {
     const resp = await API.get("/curso");

@@ -34,8 +34,8 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
 
   function handleCreateHoliday(data: HolidayType) {
     handleCreateHolidayAPI(data);
-    reset;
     closeModal();
+    reset();
   }
 
   async function handleCreateHolidayAPI(data: HolidayType) {

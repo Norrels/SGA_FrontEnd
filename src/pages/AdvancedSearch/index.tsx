@@ -881,11 +881,15 @@ export default function AdvancedSearch() {
               <AdvancedSearchAutocompleteScroll>
                 <AdvancedSearchAutocomplete>
                   {unidadeMatch &&
-                    unidadeMatch.map((unidade) => <p>{unidade.nome}</p>)}
+                    unidadeMatch.map((unidade) => <p onClick={() => setInputValue(unidade.nome)}>{unidade.nome}</p>)}
                 </AdvancedSearchAutocomplete>
               </AdvancedSearchAutocompleteScroll>
             </AdvancedSearchInputContent>
-            <button type="submit">Buscar</button>
+            {inputValue == "" ? (
+              <button type="submit" disabled>Buscar</button>
+            ) : (
+              <button type="submit">Buscar</button>
+            )}
           </AdvancedSearchInput>
         </form>
         <AdvancedFilterLabel>

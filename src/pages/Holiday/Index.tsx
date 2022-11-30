@@ -2,6 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import { HolidayItem } from "./components/HolidayItem";
+import { HolidayItemFeriado } from "./components/HolidayItemFeriado";
 import { NewHolidayModal } from "./components/NewHolidayModal";
 import {
   HolidayButtonContainer,
@@ -19,12 +20,21 @@ export interface HolidayProps {
 }
 [];
 
+export interface HolidayProps2 {
+  id: string;
+  date: string;
+  name: string;
+  type: string;
+}
+[];
+
 export function Holiday() {
   document.title = "Dias não letivos | SGA";
 
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
+  const [holiday2, setHoliday2] = useState<HolidayProps2[]>([]);
   const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
-
+  const [holidayMatch2, setHolidayMatches2] = useState<HolidayProps2[]>([]);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -35,6 +45,14 @@ export function Holiday() {
     handleGetHolidays();
   }, []);
 
+  useEffect(() => {
+    console.log(holidayMatch)
+  }, [holidayMatch])
+
+  useEffect(() => {
+    console.log(holidayMatch2)
+  }, [holidayMatch2])
+
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");
 
@@ -42,6 +60,14 @@ export function Holiday() {
       setHolidayMatches(resp.data);
       setHoliday(resp.data);
     }
+
+    const resp2 = await (await API.get("/feriados"));
+
+    if(resp2.status == 200) {
+      setHolidayMatches2(resp2.data);
+      setHoliday2(resp2.data);
+    }
+
   }
 
   const searchHoliday = (text: String) => {
@@ -84,6 +110,9 @@ export function Holiday() {
         <HolidayList>
           {holidayMatch.map((data) => (
             <HolidayItem key={data.id} holiday={data} />
+          ))}
+          {holidayMatch2.map((data) => (
+            <HolidayItemFeriado key={data.id} holiday={data} />
           ))}
         </HolidayList>
       </HolidayContent>

@@ -4,6 +4,7 @@ import React from "react";
 import { z } from "zod";
 import { CallInterface } from "../..";
 import Print from "../../../../assets/testeprintchamado.jpg";
+import { API } from "../../../../lib/axios";
 import {
   Content,
   FinalButton,
@@ -39,6 +40,22 @@ interface ViewCallModal {
 }
 
 export function ViewCallModal({ call }: ViewCallModal) {
+  
+  async function handleUpdateStatusCall(value: number) {
+    console.log(value)
+    const res = await API.put(`${value}`);
+
+    console.log(res)
+
+    if(res.status == 200) {
+
+
+
+      
+    }
+
+  }
+  
   return (
     <Dialog.Portal>
       <Overlay />
@@ -51,7 +68,6 @@ export function ViewCallModal({ call }: ViewCallModal) {
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form>
           <InputContainerContent>
             <InputContainer>
               {/* <InputContent>
@@ -79,12 +95,11 @@ export function ViewCallModal({ call }: ViewCallModal) {
                   readOnly={true}
                 ></textarea>
               </InputContent>
-              <FinalButton>
+              <FinalButton onClick={() => handleUpdateStatusCall(call.id)}>
                 <button>Fechar chamado</button>
               </FinalButton>
             </InputContainer>
           </InputContainerContent>
-        </form>
       </Content>
     </Dialog.Portal>
   );

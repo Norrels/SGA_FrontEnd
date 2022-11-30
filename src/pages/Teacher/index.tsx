@@ -23,13 +23,20 @@ export function Teacher() {
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
 
+  const [open1, setOpen1] = useState(false);
+  const [on1, setOn1] = useState<Boolean>(false);
+
   function closeModal() {
     setOpen(false);
   }
 
+  function closeModal1() {
+    setOpen1(false);
+  }
+
   useEffect(() => {
     handleGetTeachers();
-  }, [teachers]);
+  }, [teachersMatch]);
 
   async function handleGetTeachers() {
     const resp = await API.get("/professor");
@@ -41,6 +48,7 @@ export function Teacher() {
 
   async function handleChangeList(value: Boolean) {
     setOn(value);
+    setOn1(value);
     if (value) {
       setTeachersMatch(teachers.filter((e) => e.ativo == false));
     } else {
@@ -78,11 +86,11 @@ export function Teacher() {
               <AvaliableModal />
             </Dialog.Root>
 
-            <Dialog.Root>
+            <Dialog.Root open={open1} onOpenChange={setOpen1}>
               <Dialog.Trigger asChild>
                 <button>Férias</button>
               </Dialog.Trigger>
-              <NewVacation />
+              <NewVacation closeModal1={closeModal1} />
             </Dialog.Root>
           </TeacherButtonContainer>
         </TeacherTitleContainer>

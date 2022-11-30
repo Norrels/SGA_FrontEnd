@@ -28,6 +28,7 @@ export interface AbsenseProps {
   dataFinal: Date;
   dataInicio: Date;
   tipo: string;
+  children?: JSX.Element|JSX.Element[];
 }
 
 export function ViewTeacher() {
@@ -86,7 +87,7 @@ export function ViewTeacher() {
             <TeacherProfileLeft disponibilidade={inClass ? "emAula" : "livre"}>
               <TeacherProfileLeftPhoto>
                 <span>{inClass ? "Em aula" : "Livre"}</span>
-                <img />
+                <img src={teacher.foto} />
               </TeacherProfileLeftPhoto>
               <p>{teacher?.nome}</p>
             </TeacherProfileLeft>
