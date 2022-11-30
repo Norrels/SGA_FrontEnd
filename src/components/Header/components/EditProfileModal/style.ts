@@ -124,6 +124,10 @@ export const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+
+  p {
+    color: ${(props) => props.theme["red-900"]};
+  }
 `;
 
 export const InputContent = styled.div`

@@ -13,6 +13,7 @@ import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
 import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Places() {
   document.title = "Ambientes | SGA";
@@ -21,6 +22,7 @@ export function Places() {
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
+  const { userToEdit } = useContext(AuthContext)
 
   function closeModal() {
     setOpen(false);
@@ -81,13 +83,15 @@ export function Places() {
           placeholder="Busque um ou vários ambientes..."
           onChange={(e) => searchPlace(e.target.value)}
         />
-        <Toggle>
-          <label>Desativados</label>
-          <input
-            onChange={(e) => handleChangeList(e.target.checked)}
-            type="checkbox"
-          />
-        </Toggle>
+        {userToEdit.tipoUsuario == "SUPORTE" &&
+          <Toggle>
+            <label>Desativados</label>
+            <input
+              onChange={(e) => handleChangeList(e.target.checked)}
+              type="checkbox"
+            />
+          </Toggle>
+        }
         <PlacesList>
           {placeMatchs.map((place, index) => {
             if (place.ativo && on == false) {

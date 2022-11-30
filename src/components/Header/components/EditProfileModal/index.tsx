@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { useEffect, useState } from "react";
@@ -17,11 +18,11 @@ import {
 } from "./style";
 
 export const userInput = z.object({
-  id: z.number(),
-  nif: z.string(),
-  nome: z.string(),
-  email: z.string(),
-  senha: z.string(),
+  id: z.string(),
+  nif: z.string().min(3, { message: "* Deve ter mais de 3 caracteres..." }),
+  nome: z.string().max(30, { message: "* O nome não deve ter mais de 20 caracteres..." }),
+  email: z.string().email({ message: "* Informe um email válido..." }),
+  senha: z.string().optional(),
 })
 
 interface EditUserModal {
@@ -32,22 +33,26 @@ export type UserType = z.infer<typeof userInput>;
 
 export function EditUserModal({ closeModal }: EditUserModal) {
   const [editable, setEditable] = useState(false);
-  const {register, handleSubmit, reset} = useForm<UserType>();  
+  const [userToEdit, setUserToEdit] = useState<UserType>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<UserType>({ resolver: zodResolver(userInput) });
 
-  function handleUpdateUser(data: UserType) {
-    handleUpdateUserAPI(data);
-    reset();
-    closeModal();
-  }
-
-  async function handleUpdateUserAPI(data: UserType) {
-    const res = await API.put('', {});
-
-    if(res.status == 200) {
-
+  async function handleUpdateUser(data: UserType) {
+    const res = await API.put(`usuario/perfil/${userToEdit?.id}`, data);
+    if (res.status == 200) {
+      localStorage.setItem('usuario', JSON.stringify(data))
+      reset();
+      closeModal();
     }
   }
-  
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      const object = JSON.parse(atob(token.split('.')[1]))
+      setUserToEdit(object)
+    }
+  }, [])
+
   return (
     <Dialog.Portal>
       <Overlay />
@@ -57,12 +62,10 @@ export function EditUserModal({ closeModal }: EditUserModal) {
             {!editable ? "Perfil" : "Editar perfil"}
           </Dialog.Title>
           <HeaderButtons>
-            {!editable ? (
+            {!editable && (
               <button onClick={() => setEditable(true)}>
                 <NotePencil size={50} weight="light" />
               </button>
-            ) : (
-              <></>
             )}
             <Dialog.Close>
               <X size={50} weight="light" />
@@ -70,6 +73,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
           </HeaderButtons>
         </ModalHeader>
         <form onSubmit={handleSubmit(handleUpdateUser)}>
+          <input type="hidden" value={userToEdit?.id} {...register("id")}></input>
           <InputScroll>
             <InputContainer>
               <InputContent>
@@ -77,58 +81,57 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                 <input
                   type="text"
                   placeholder="Digite o nome"
+                  defaultValue={userToEdit?.nome}
                   {...register("nome")}
                   readOnly={!editable}
                 />
-                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
+                {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
               <InputContent>
                 <InputIndividual>
                   <label>Nif</label>
                   <input
                     type="text"
+                    defaultValue={userToEdit?.nif}
                     placeholder="Digite nif"
                     {...register("nif")}
                     readOnly={!editable}
                   />
+                  {errors.nif && <p>{errors.nif.message}</p>}
                 </InputIndividual>
                 <InputIndividual>
                   <label>Email</label>
                   <input
                     type="text"
+                    defaultValue={userToEdit?.email}
                     placeholder="Digite o email"
                     {...register("email")}
                     readOnly={!editable}
                   />
+                  {errors.email && <p>{errors.email.message}</p>}
                 </InputIndividual>
               </InputContent>
-              {editable ? (
+              {editable && (
                 <InputContent>
-                  <label>Senha</label>
+                  <label>Nova senha</label>
                   <input
                     type="password"
                     placeholder="Digite a senha"
                     {...register("senha")}
                   />
                 </InputContent>
-              ) : (
-                <></>
               )}
-              {editable ? (
+              {editable && (
                 <InputContent>
                   <label>Repita a senha</label>
                   <input type="text" placeholder="Repita a senha" />
                 </InputContent>
-              ) : (
-                <></>
               )}
 
-              {editable ? (
+              {editable && (
                 <FinalButton>
                   <button>Salvar</button>
                 </FinalButton>
-              ) : (
-                <></>
               )}
             </InputContainer>
           </InputScroll>

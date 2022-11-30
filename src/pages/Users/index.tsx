@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import {
 
@@ -13,6 +13,7 @@ import {
 import { UserItem } from "./components/UserItem";
 import { NewUserModal } from "./components/NewUserModal";
 import { Header } from "../../components/Header";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export interface UserProps {
   id: string;
@@ -32,6 +33,8 @@ export function User() {
   const [userMatches, setUserMatches] = useState<UserProps[]>([]);
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
+
+  const { userToEdit } = useContext(AuthContext)
 
   function closeModal() {
     setOpen(false);
@@ -98,9 +101,9 @@ export function User() {
           </Toggle>
           <UsersList>
             {userMatches.map((user) => {
-              if (user.ativo && on == false) {
+              if (user.ativo && on == false && user.id !=  userToEdit.id) {
                 return <UserItem key={user.id} user={user} />;
-              } else if (user.ativo == false && on == true) {
+              } else if (user.ativo == false && on == true && user.id !=  userToEdit.id) {
                 return <UserItem key={user.id} user={user} />;
               }
             })}

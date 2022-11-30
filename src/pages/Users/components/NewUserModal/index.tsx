@@ -53,7 +53,6 @@ export function NewUserModal({ closeModal }: NewUserModalProps) {
     handleCreateUserAPI(data);
     reset();
     closeModal();
-    window.location.reload();
   }
 
   async function handleCreateUserAPI(user: UserType) {

@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
 import { NewVacation } from "./components/NewVacation";
 import { API } from "../../lib/axios";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Teacher() {
   document.title = "Professores | SGA";
@@ -25,6 +26,7 @@ export function Teacher() {
 
   const [open1, setOpen1] = useState(false);
   const [on1, setOn1] = useState<Boolean>(false);
+  const { userToEdit } = useContext(AuthContext)
 
   function closeModal() {
     setOpen(false);
@@ -100,13 +102,15 @@ export function Teacher() {
           placeholder="Busque um ou vários professores..."
           onChange={(v) => searchTeacher(v.target.value)}
         />
-        <Toggle>
-          <label>Desativados</label>
-          <input
-            onChange={(e) => handleChangeList(e.target.checked)}
-            type="checkbox"
-          />
-        </Toggle>
+       {userToEdit.tipoUsuario == "SUPORTE" &&
+          <Toggle>
+            <label>Desativados</label>
+            <input
+              onChange={(e) => handleChangeList(e.target.checked)}
+              type="checkbox"
+            />
+          </Toggle>
+        }
         <TeacherList>
           {teachersMatch.map((teacher) => {
             if (teacher.ativo && on == false) {

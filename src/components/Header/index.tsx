@@ -21,6 +21,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 export function Header() {
   const [open, setOpen] = useState(false);
   const { logout } = useContext(AuthContext)
+  const { userToEdit } = useContext(AuthContext)
 
   const location = useLocation();
 
@@ -96,44 +97,47 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
-            <HeaderNavMenu>
-              {location.pathname == "/chamados" ? (
-                <p>Chamados</p>
-              ) : location.pathname == "/usuarios" ? (
-                <p>Usuários</p>
-              ) : (
-                <p>Suporte</p>
-              )}
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-                  <HeaderNavMenuItem>
-                    {location.pathname !== "/chamados" && (
-                      <NavLink to="/chamados" title="Chamados">
-                        Chamados
-                      </NavLink>
-                    )}
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    {location.pathname !== "/usuarios" && (
-                      <NavLink to="/usuarios" title="usuarios">
-                        Usuários
-                      </NavLink>
-                    )}
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
+            {userToEdit.tipoUsuario == "SUPORTE" &&
+              <HeaderNavMenu>
+                {location.pathname == "/chamados" ? (
+                  <p>Chamados</p>
+                ) : location.pathname == "/usuarios" ? (
+                  <p>Usuários</p>
+                ) : (
+                  <p>Suporte</p>
+                )}
+                <DropdownMenu.Root>
+                  <DropdownMenu.Trigger asChild>
+                    <CaretDown weight="fill" />
+                  </DropdownMenu.Trigger>
+                  <HeaderNavMenuContent>
+                    <HeaderNavMenuArrow>
+                      <CaretUp weight="fill" size={30} />
+                    </HeaderNavMenuArrow>
+                    <HeaderNavMenuItem>
+                      {location.pathname !== "/chamados" && (
+                        <NavLink to="/chamados" title="Chamados">
+                          Chamados
+                        </NavLink>
+                      )}
+                    </HeaderNavMenuItem>
+                    <HeaderNavMenuItem>
+                      {location.pathname !== "/usuarios" && (
+                        <NavLink to="/usuarios" title="usuarios">
+                          Usuários
+                        </NavLink>
+                      )}
+                    </HeaderNavMenuItem>
+                  </HeaderNavMenuContent>
+                </DropdownMenu.Root>
+              </HeaderNavMenu>
+            }
           </HeaderNavBar>
+
 
           <HeaderUser>
             <User size={23} />
-            <p>Odair</p>
+            <p>Usuário</p>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <CaretDown weight="fill" style={{ cursor: "pointer" }} />

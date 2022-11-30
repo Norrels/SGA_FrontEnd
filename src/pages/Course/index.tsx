@@ -12,6 +12,7 @@ import {
 } from "./style";
 import { CourseProps, ObjectsContext } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function Course() {
   document.title = "Cursos | SGA";
@@ -19,6 +20,7 @@ export function Course() {
   const { courses } = useContext(ObjectsContext);
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
   const [on, setOn] = useState<Boolean>(false);
+  const { userToEdit } = useContext(AuthContext)
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
   function closeModal() {
@@ -73,13 +75,15 @@ export function Course() {
           placeholder="Busque um ou vários cursos..."
           onChange={(e) => searchCourse(e.target.value)}
         />
-        <Toggle>
-          <label>Desativados</label>
-          <input
-            onChange={(e) => handleChangeList(e.target.checked)}
-            type="checkbox"
-          />
-        </Toggle>
+        {userToEdit.tipoUsuario == "SUPORTE" &&
+          <Toggle>
+            <label>Desativados</label>
+            <input
+              onChange={(e) => handleChangeList(e.target.checked)}
+              type="checkbox"
+            />
+          </Toggle>
+        }
         <CourseList>
           {courseMatchs.map((course) => {
             if (course.ativo && on == false) {

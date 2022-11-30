@@ -220,7 +220,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
        
       </Dialog.Portal>
 
-      <Notification description="Criado com sucesso" title="Usuário criado" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
+      <Notification tipe="Criado" description="Criado com sucesso" title="Usuário criado" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
     </>
   );
 }
