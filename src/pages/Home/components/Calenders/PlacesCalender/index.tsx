@@ -31,12 +31,21 @@ interface CalenderProps {
   today: Date;
 }
 
+export interface EditClassModalProps {
+  professor: number;
+  ambientes: number;
+  data: string;
+  id: number;
+}
+
 export interface AulaProps {
   id: number;
+  dataFinal: string;
   professor: TeacherProps;
   ambiente: PlaceProps;
   cargaDiaria: number;
-  data: Date;
+  data: string;
+  dataInicio: string;
   unidadeCurricular: {
     id: number;
     nome: string;
@@ -65,6 +74,24 @@ export function Calender({ days, today }: CalenderProps) {
   useEffect(() => {
     fetchAulas();
   }, [days]);
+
+  function handleEditClass(data: EditClassModalProps) {
+    const teacherName = teachers.find(
+      (element) => element.id == data.professor
+    );
+    console.log(data.professor);
+    const aulasEditadas = aulas.map((aula) => {
+      if (aula.id === data.id) {
+        aula.ambiente.id = data.ambientes;
+        aula.professor.id = data.professor;
+        aula.dataInicio = data.data;
+        aula.professor.nome = teacherName!.nome;
+      }
+      return aula;
+    });
+
+    setAulas(aulasEditadas);
+  }
 
   return (
     <HomeCalenderContainer>
@@ -132,7 +159,10 @@ export function Calender({ days, today }: CalenderProps) {
                                   <sup>{aula.unidadeCurricular.nome}</sup>
                                 </HomeClass>
                               </HomeButtonClickRoot>
-                              <RightClick aulas={aula} />
+                              <RightClick
+                                aulas={aula}
+                                handleEditClass={handleEditClass}
+                              />
                             </ContextMenu.Root>
                           )
                         );

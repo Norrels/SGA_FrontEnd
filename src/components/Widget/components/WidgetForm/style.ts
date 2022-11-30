@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const Content = styled.div`
   width: 350px;
@@ -9,6 +18,9 @@ export const Content = styled.div`
   border-radius: 20px;
   background: ${(props) => props.theme["white"]};
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+  
+  opacity: 0;
+  animation: ${fadeIn} 0.4s ease-in-out forwards;
 `;
 
 export const TextContent = styled.div`

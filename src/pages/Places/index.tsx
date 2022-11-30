@@ -28,9 +28,10 @@ export function Places() {
     setOpen(false);
   }
 
+  // se colocar o corseMatch ta dando loop de requisicao no back
   useEffect(() => {
     handleGetPlaces();
-  }, [placeMatchs]);
+  }, [placesList]);
 
   async function handleGetPlaces() {
     const resp = await API.get("/ambiente");

@@ -2,6 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
 import { AbsenseProps } from "../..";
 import { AbsenseInfoType } from "../../components/AbsenseItem/style";
+import { AbsenseList } from "../../style";
 import { EditAbsenceTeacherModal } from "../EditAbsenceTeacherModal";
 
 import {
@@ -26,12 +27,15 @@ export function AbsenseItem({ absenceList }: AbsenseItemProps) {
         </AbsenseItemIcon>
 
         <AbsenseItemInfoContent>
-          <AbsenseInfoType>{absenceList.tipo}</AbsenseInfoType>
+          <AbsenseInfoType>
+            {absenceList.tipo == "FERIAS"
+              ? "Férias"
+              : absenceList.tipo.toLowerCase()}
+          </AbsenseInfoType>
           <p>
-            {" "}
             Data:
             <span>
-              {" " + absenceList.dataInicio + ""} - {absenceList.dataFinal + ""}
+              {" " + absenceList.dataInicio + " - " + absenceList.dataFinal}
             </span>
           </p>
         </AbsenseItemInfoContent>
@@ -51,7 +55,7 @@ export function AbsenseItem({ absenceList }: AbsenseItemProps) {
             </AbsenseItemButton>
           </Dialog.Trigger>
 
-          <EditAbsenceTeacherModal />
+          {/* <EditAbsenceTeacherModal absence={} closeModal={closeModal}/> */}
         </Dialog.Root>
         <AbsenseItemButton buttonColor="delete">
           <Trash color="white" size={26} />

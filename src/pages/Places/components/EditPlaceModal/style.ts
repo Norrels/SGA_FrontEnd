@@ -202,6 +202,10 @@ export const InputContent = styled.div<DisabledProps>`
     pointer-events: ${(props) => [DISABLED[props.disabled].display]};
     background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
   }
+
+  p {
+    color: #8d0000;
+  }
 `;
 
 export const InputIndividual = styled.div`

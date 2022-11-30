@@ -27,9 +27,10 @@ export function Course() {
     setOpen(false);
   }
 
+  // se colocar o corseMatch ta dando loop de requisicao no back
   useEffect(() => {
     handleGetCourse();
-  }, [courseMatchs]);
+  }, [courses]);
 
   async function handleGetCourse() {
     const resp = await API.get("/curso");

@@ -20,101 +20,97 @@ import {
 
 const presencialValidation = z.object({
   id: z.number().optional(),
-  tipo: z.literal("PRESENCIAL"),
   nome: z
     .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipo: z.literal("PRESENCIAL"),
   capacidade: z
-    .number({ invalid_type_error: "* Informe um valor" })
-    .min(3, { message: "* Deve ser maior que 1 caracter" }),
-  ativo: z.boolean().optional(),
+    .number({ invalid_type_error: "* Informe a capacidade..." })
+    .min(1, { message: "* A capacidade deve ser maior que 1..." }),
   cep: z.string().optional(),
   endereco: z.string().optional(),
   complemento: z.string().optional(),
+  ativo: z.boolean().optional(),
 });
 
 const unidadeMovelValidation = z.object({
   id: z.number().optional(),
-  tipo: z.literal("UNIDADE_MOVEL"),
-  capacidade: z
-    .number({ invalid_type_error: "* Informe um valor" })
-    .min(3, { message: "* Deve ser maior que 1 caracter" }),
   nome: z
     .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
-  ativo: z.boolean().optional(),
+    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipo: z.literal("UNIDADE_MOVEL"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe a capacidade..." })
+    .min(1, { message: "* A capacidade deve ser maior que 1..." }),
   cep: z.string().optional(),
   endereco: z.string().optional(),
   complemento: z.string().optional(),
-});
-
-const empresalValidation = z.object({
-  id: z.number().optional(),
-  tipo: z.literal("EMPRESA"),
-  capacidade: z
-    .number({ invalid_type_error: "* Informe um valor" })
-    .min(1, { message: "* Deve ser maior que 1 caracter" }),
-  complemento: z.string().optional(),
-  nome: z
-    .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(8, { message: "* O nome deve ser maior que 3 caracteres..." }),
-  cep: z
-    .string()
-    .max(10, { message: "* O CEP deve ter 8 caracteres..." })
-    .min(8, { message: "* O CEP deve ter 8 caracteres......" })
-    .length(8),
-  endereco: z
-    .string({ required_error: "* Digite um CEP ou informe um endeço" })
-    .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O endereço deve ser maior que 3 caracteres..." }),
   ativo: z.boolean().optional(),
 });
 
-const entidadelValidation = z.object({
+const empresaValidation = z.object({
   id: z.number().optional(),
-  tipo: z.literal("ENTIDADE"),
-  capacidade: z
-    .number({ invalid_type_error: "* Informe um valor" })
-    .min(1, { message: "* Deve ser maior que 1 caracter" }),
-  complemento: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipo: z.literal("EMPRESA"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe a capacidade..." })
+    .min(1, { message: "* A capacidade deve ser maior que 1..." }),
   cep: z
-    .string()
-    .max(10, { message: "* O CEP deve ter 8 caracteres..." })
-    .min(8, { message: "* O CEP deve ter 8 caracteres......" })
-    .length(8),
+    .string({ invalid_type_error: "* Informe um cep..." })
+    .length(8, { message: "* O CEP deve ter 8 caracteres..." }),
   endereco: z
-    .string({ required_error: "* Digite um CEP ou informe um endeço" })
-    .max(35, { message: "* O endereço não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O endereço deve ser maior que 3 caracteres..." }),
+    .string({ required_error: "* Insira um CEP ou informe um endereço..." })
+    .max(50, { message: "* O endereço deve ser menor que 50 caracteres..." })
+    .min(4, { message: "* O endereço deve ser maior que 3 caracteres..." }),
+  complemento: z.string().optional(),
+  ativo: z.boolean().optional(),
+});
+
+const entidadeValidation = z.object({
+  id: z.number().optional(),
+  nome: z
+    .string()
+    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipo: z.literal("ENTIDADE"),
+  capacidade: z
+    .number({ invalid_type_error: "* Informe a capacidade..." })
+    .min(1, { message: "* A capacidade deve ser maior que 1..." }),
+  cep: z
+    .string({ invalid_type_error: "* Informe um cep..." })
+    .length(8, { message: "* O CEP deve ter 8 caracteres..." }),
+  endereco: z
+    .string({ required_error: "* Insira um CEP ou informe um endereço..." })
+    .max(50, { message: "* O endereço deve ser menor que 50 caracteres..." })
+    .min(4, { message: "* O endereço deve ser maior que 3 caracteres..." }),
+  complemento: z.string().optional(),
   ativo: z.boolean().optional(),
 });
 
 const remotoValidation = z.object({
   id: z.number().optional(),
-  tipo: z.literal("REMOTO"),
   nome: z
     .string()
-    .max(20, { message: "* O nome não deve ter mais de 20 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
-  ativo: z.boolean().optional(),
+    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
+  tipo: z.literal("REMOTO"),
+  capacidade: z.number().optional(),
   cep: z.string().optional(),
   endereco: z.string().optional(),
   complemento: z.string().optional(),
-  capacidade: z.number().optional(),
+  ativo: z.boolean().optional(),
 });
 
 export const allValidation = z.discriminatedUnion("tipo", [
   presencialValidation,
   unidadeMovelValidation,
-  entidadelValidation,
-  empresalValidation,
+  entidadeValidation,
+  empresaValidation,
   remotoValidation,
 ]);
 
@@ -156,11 +152,12 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setTipoAmbiente("");
     setAdress("");
     createPlacesAPI(data);
-    reset();
     closeModal();
   }
 
   async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.value);
+    setAdress("");
     const cepRaw = e.target.value.replace(/_/g, "").replace("-", "");
     setCep(cepRaw);
     if (cepRaw.length >= 8) {
@@ -168,12 +165,11 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
         (response) => {
           if (response.status >= 200 && response.status < 299) {
             response.json().then((data) => {
-              console.log(data)
+              console.log(data);
               if (!adress && data.logradouro !== undefined) {
-                const endereco = `${data.logradouro} - ${data.localidade}, ${data.uf}`
-              
+                const endereco = `${data.logradouro} - ${data.localidade}, ${data.uf}`;
+
                 setValue("endereco", endereco);
-                
                 setAdress(endereco);
               }
             });
@@ -189,10 +185,17 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     return value;
   }
 
+  function onCloseModalPlaces() {
+    reset();
+    setTipoAmbiente("");
+    setCep("");
+    setAdress("");
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => onCloseModalPlaces()}>
         <ModalHeader>
           <Dialog.Title>Novo ambiente</Dialog.Title>
           <HeaderButtons>
@@ -213,6 +216,9 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     required: true,
                     setValueAs: (v) => firstLetterUppercase(v),
                   })}
+                  minLength={4}
+                  maxLength={20}
+                  required
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -223,6 +229,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   {...register("tipo")}
                   onChange={handleSelectTipoAmbiente}
                   defaultValue=""
+                  required
                 >
                   <option value="" disabled>
                     Selecione o tipo do ambiente
@@ -249,12 +256,13 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   <input
                     type="number"
                     placeholder="Digite a capacidade"
+                    min="1"
                     {...register("capacidade", {
                       valueAsNumber: true,
                       required: true,
-                      setValueAs: (v) => firstLetterUppercase(v),
                     })}
                     disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
+                    required={tipoAmbiente !== "REMOTO"}
                   />
                   {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
@@ -280,6 +288,9 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     disabled={
                       tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
                     }
+                    required={
+                      tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
+                    }
                   />
                   {errors.cep && <p>{errors.cep.message}</p>}
                 </InputIndividual>
@@ -301,6 +312,11 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   {...register("endereco")}
                   onChange={(event) => setAdress(event.target.value)}
                   disabled={cep.length < 7}
+                  required={
+                    tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
+                  }
+                  minLength={4}
+                  maxLength={50}
                 />
                 {errors.endereco && <p>{errors.endereco.message}</p>}
               </InputContent>

@@ -27,7 +27,7 @@ export const TeacherMain = styled.div`
 `;
 
 export const TeacherMainProfile = styled.div`
-  width: 40.625rem;
+  width: 43.75rem;
   padding: 1rem 2.8rem 1.563rem 2.8rem;
   display: flex;
   flex-direction: column;
@@ -37,6 +37,13 @@ export const TeacherMainProfile = styled.div`
   background: ${(props) => props.theme["white"]};
   box-shadow: 0px 4px 10px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+
+  svg {
+    transition-duration: 0.3s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]}
+    }
+  }
 `;
 
 export const TeacherProfileContent = styled.div`
@@ -113,11 +120,13 @@ export const TeacherProfileSeparator = styled.div`
 `;
 
 export const TeacherProfileSkills = styled.div`
-  width: 21.875rem;
+  width: 25rem;
+  height: 300px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 300px;
+  
   overflow-y: auto;
 
   h3 {
@@ -128,7 +137,7 @@ export const TeacherProfileSkills = styled.div`
   }
 
   p {
-    width: 40%;
+    width: 50%;
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;

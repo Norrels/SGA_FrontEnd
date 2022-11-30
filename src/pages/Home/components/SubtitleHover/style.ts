@@ -1,5 +1,14 @@
 import * as HoverCard from "@radix-ui/react-hover-card";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const HoverCardContainer = styled(HoverCard.Content)`
   background: ${(props) => props.theme["white"]};
@@ -11,6 +20,8 @@ export const HoverCardContainer = styled(HoverCard.Content)`
   position: relative;
   margin-top: 1rem;
   z-index: 2;
+
+  animation: ${fadeIn} .4s ease-in-out forwards;
 
   h4 {
     width: 100%;

@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import React, { useState } from "react";
+import { AbsenseProps } from "../..";
 import {
   Buttons,
   Content,
@@ -13,7 +14,12 @@ import {
   Overlay,
 } from "./style";
 
-export function EditAbsenceTeacherModal() {
+interface AbsenseItemProps {
+  absence: AbsenseProps;
+  closeModal: () => void;
+}
+
+export function EditAbsenceTeacherModal({ absence, closeModal }: AbsenseItemProps) {
   const [inativation, setInativation] = useState("aus");
   const [editable, setEditable] = useState(false);
 

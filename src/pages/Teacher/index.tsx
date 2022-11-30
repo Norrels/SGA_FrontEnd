@@ -36,9 +36,10 @@ export function Teacher() {
     setOpen1(false);
   }
 
+  // se colocar o corseMatch ta dando loop de requisicao no back
   useEffect(() => {
     handleGetTeachers();
-  }, [teachersMatch]);
+  }, [teachers]);
 
   async function handleGetTeachers() {
     const resp = await API.get("/professor");

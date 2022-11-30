@@ -1,10 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { allValidation, NewPlaceType } from "../NewPlaceModal";
+import InputMask from "react-input-mask";
 import {
   Content,
   FinalButton,
@@ -26,9 +27,14 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
   const {
     register,
     handleSubmit,
+    reset,
+    setValue,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const [editable, setEditable] = useState(false);
+  const [tipoAmbiente, setTipoAmbiente] = useState("");
+  const [adress, setAdress] = useState("");
+  const [cep, setCep] = useState("");
   const { updatePlaces } = useContext(ObjectsContext);
 
   async function handleUpdatePlace(data: NewPlaceType) {
@@ -36,12 +42,37 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
     updatePlaces(data);
     closeModal();
   }
- 
- 
+
+  function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
+    if (tipoAmbiente == "" || tipoAmbiente != event.target.value) {
+      reset(
+        { capacidade: undefined, complemento: "", cep: "", endereco: "" },
+        {
+          keepDirty: false,
+          keepValues: false,
+        }
+      );
+    }
+    setTipoAmbiente(event.target.value);
+  }
+
+  function firstLetterUppercase(value: string) {
+    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    return value;
+  }
+
+  function onCloseModalPlaces() {
+    reset();
+    setTipoAmbiente("");
+    setCep("");
+    setAdress("");
+    setEditable(false)
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content onCloseAutoFocus={() => setEditable(false)}>
+      <Content onCloseAutoFocus={() => onCloseModalPlaces()}>
         <ModalHeader>
           <Dialog.Title>
             {!editable ? "Ambiente" : "Editar ambiente"}
@@ -66,7 +97,11 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   type="text"
                   placeholder="Digite o nome do ambiente"
                   defaultValue={place.nome}
-                  {...register("nome")}
+                  {...register("nome", {
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
+                  minLength={4}
+                  maxLength={20}
                   readOnly={!editable}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
@@ -99,37 +134,40 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   <input
                     type="text"
                     placeholder="Digite a capacidade"
+                    min="1"
                     defaultValue={place?.capacidade}
                     {...register("capacidade", { valueAsNumber: true })}
                     readOnly={place.tipo !== "REMOTO" && !editable}
                     disabled={place.tipo === "REMOTO"}
+                    
                   />
                   {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
                 <InputIndividual>
                   <label
                     style={
-                      place.tipo === "EMPRESA" ||
-                      place.tipo === "ENTIDADE"
+                      place.tipo === "EMPRESA" || place.tipo === "ENTIDADE"
                         ? { opacity: "100%" }
                         : { opacity: "30%" }
                     }
                   >
                     CEP
                   </label>
-                  <input
+                  <InputMask
+                    mask="99999-999"
                     type="text"
-                    placeholder="Digite o cep"
+                    placeholder="Digite um CEP"
                     defaultValue={place?.cep}
-                    {...register("cep")}
+                    {...register("cep", {
+                      setValueAs: (v) =>
+                        (v = v.replace(/_/g, "").replace("-", "").trim()),
+                    })}
                     readOnly={
-                      (place.tipo === "EMPRESA" ||
-                        place.tipo === "ENTIDADE") &&
+                      (place.tipo === "EMPRESA" || place.tipo === "ENTIDADE") &&
                       !editable
                     }
                     disabled={
-                      place.tipo !== "EMPRESA" &&
-                      place.tipo !== "ENTIDADE"
+                      place.tipo !== "EMPRESA" && place.tipo !== "ENTIDADE"
                     }
                   />
                   {errors.cep && <p>{errors.cep.message}</p>}
@@ -138,8 +176,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
               <InputContent disabled={"on"}>
                 <label
                   style={
-                    place.tipo === "EMPRESA" ||
-                    place.tipo === "ENTIDADE"
+                    place.tipo === "EMPRESA" || place.tipo === "ENTIDADE"
                       ? { opacity: "100%" }
                       : { opacity: "30%" }
                   }
@@ -152,22 +189,21 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   defaultValue={place?.endereco}
                   {...register("endereco")}
                   readOnly={
-                    (place.tipo === "EMPRESA" ||
-                      place.tipo === "ENTIDADE") &&
+                    (place.tipo === "EMPRESA" || place.tipo === "ENTIDADE") &&
                     !editable
                   }
                   disabled={
-                    place.tipo !== "EMPRESA" &&
-                    place.tipo !== "ENTIDADE"
+                    place.tipo !== "EMPRESA" && place.tipo !== "ENTIDADE"
                   }
+                  minLength={4}
+                  maxLength={50}
                 />
                 {errors.endereco && <p>{errors.endereco.message}</p>}
               </InputContent>
               <InputContent disabled={"on"}>
                 <label
                   style={
-                    place.tipo === "EMPRESA" ||
-                    place.tipo === "ENTIDADE"
+                    place.tipo === "EMPRESA" || place.tipo === "ENTIDADE"
                       ? { opacity: "100%" }
                       : { opacity: "30%" }
                   }
@@ -180,13 +216,11 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   defaultValue={place?.complemento}
                   {...register("complemento")}
                   readOnly={
-                    (place.tipo === "EMPRESA" ||
-                      place.tipo === "ENTIDADE") &&
+                    (place.tipo === "EMPRESA" || place.tipo === "ENTIDADE") &&
                     !editable
                   }
                   disabled={
-                    place.tipo !== "EMPRESA" &&
-                    place.tipo !== "ENTIDADE"
+                    place.tipo !== "EMPRESA" && place.tipo !== "ENTIDADE"
                   }
                 />
                 {errors.complemento && <p>{errors.complemento.message}</p>}
