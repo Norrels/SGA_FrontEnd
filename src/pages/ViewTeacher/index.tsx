@@ -28,7 +28,7 @@ export interface AbsenseProps {
   dataFinal: Date;
   dataInicio: Date;
   tipo: string;
-  children?: JSX.Element|JSX.Element[];
+  children?: JSX.Element | JSX.Element[];
 }
 
 export function ViewTeacher() {
@@ -43,14 +43,7 @@ export function ViewTeacher() {
     competencia: [],
   });
 
-  const [absenseList, setAbsenseList] = useState<AbsenseProps[]>([
-    {
-      id: 0,
-      dataFinal: new Date(),
-      dataInicio: new Date(),
-      tipo: "",
-    },
-  ]);
+  const [absenseList, setAbsenseList] = useState<AbsenseProps[]>([]);
 
   async function fetchUser() {
     const response = await API.get(`/professor/${teacherId}`);

@@ -26,7 +26,7 @@ interface SearchInputProps {
   nextDayWeek: () => void;
   choiceDayWeek: (data: Date) => void;
   referenceDay: Date;
-  choiceTypeOfViewCalender: (type: string) => void
+  choiceTypeOfViewCalender: (type: string) => void;
 }
 
 export function HomeSearchInput({
@@ -34,7 +34,7 @@ export function HomeSearchInput({
   nextDayWeek,
   choiceDayWeek,
   referenceDay,
-  choiceTypeOfViewCalender
+  choiceTypeOfViewCalender,
 }: SearchInputProps) {
   const firstWeekDay = startOfWeek(referenceDay);
   const lastWeekDay = endOfWeek(referenceDay);
@@ -48,14 +48,23 @@ export function HomeSearchInput({
   }
 
   function handleChangeCalenderView(event: ChangeEvent<HTMLSelectElement>) {
-    choiceTypeOfViewCalender(event.target.value)
+    choiceTypeOfViewCalender(event.target.value);
   }
 
   function handleChoiceDay(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.value == "") {
+      return undefined;
+    }
+    console.log(event.target.value)
     const dayChoiced = startOfWeek(new Date(event.target.value));
     choiceDayWeek(dayChoiced);
   }
-  
+
+  function teste(event: ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value == 'MANHA') {
+      console.log('passou ak')
+    }
+  }
 
   return (
     <HomeSearchInputContainer>
@@ -90,7 +99,10 @@ export function HomeSearchInput({
       </HomeUpContentSearchInput>
 
       <HomeDownContentSearchInput>
-        <input type="text" placeholder="Busque uma ou várias aulas dessa semana..." />
+        <input
+          type="text"
+          placeholder="Busque uma ou várias aulas dessa semana..."
+        />
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>
@@ -103,7 +115,7 @@ export function HomeSearchInput({
 
         <HomeSelectFilterOptionSearch>
           <InputCheckbox colorsColor={1}>
-            <HomeCheckBox>
+            <HomeCheckBox onCheckedChange={(checked) => {console.log("Checked")}}>
               <HomeCheckBoxIndicator>
                 <Check size={30} weight="bold" />
               </HomeCheckBoxIndicator>

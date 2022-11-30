@@ -31,6 +31,8 @@ export const Overlay = styled(Dialog.Overlay)`
 
   background: rgba(0, 0, 0, 0.4);
   animation: ${fadeIn} 0.5s ease-in-out forwards;
+
+  z-index: 1000;
 `;
 
 export const Content = styled(Dialog.Content)`
@@ -54,6 +56,8 @@ export const Content = styled(Dialog.Content)`
 
   opacity: 0;
   animation: ${swipeTop} 0.5s ease-in-out forwards;
+
+  z-index: 1000;
 `;
 
 export const ModalHeader = styled.div`

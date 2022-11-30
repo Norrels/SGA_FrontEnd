@@ -1,10 +1,22 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import * as ContextMenu from "@radix-ui/react-context-menu";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const HomeCalenderContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
 `;
 
 export const HomeCalenderHeader = styled.header`
@@ -16,16 +28,12 @@ export const HomeCalenderHeader = styled.header`
   padding-bottom: 1rem;
   top: 0;
   z-index: 1;
-
-  background: ${(props) => props.theme["background"]};
 `;
 
 export const HomeCalenderOrderBy = styled.span`
-  width: 15rem;
-
+  width: 12.5rem;
   background: ${(props) => props.theme["white-400"]};
   border-radius: 9px;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,7 +43,6 @@ export const HomeCalenderOrderBy = styled.span`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-
     font-family: "Inter";
     font-weight: 700;
     font-size: 1.25rem;
@@ -46,7 +53,7 @@ export const HomeCalenderHeaderDays = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
-  gap: 1.25rem;
+  gap: 1.5rem;
 `;
 
 const DAY = {
@@ -59,9 +66,9 @@ interface DayProps {
 }
 
 export const HomeCalenderDay = styled.span<DayProps>`
+  width: 7.188rem;
   height: 6rem;
   background: ${(props) => props.theme["white-400"]};
-
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -80,7 +87,6 @@ export const HomeCalenderDay = styled.span<DayProps>`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-
     font-weight: 600;
     font-size: 2rem;
   }
@@ -99,19 +105,16 @@ export const HomeCalenderContent = styled.main`
 `;
 
 export const HomePlaces = styled.span`
-  width: 15rem;
+  width: 12.5rem;
   height: 10.3rem;
-
   background: rgba(255, 255, 255, 0.5);
   border-radius: 9px;
-
   display: flex;
   justify-content: center;
   align-items: center;
 
   p {
     color: ${(props) => props.theme["blue-500"]};
-
     font-family: "Inter";
     font-weight: 700;
     font-size: 1.25rem;
@@ -122,7 +125,7 @@ export const HomeClassesContainer = styled.article`
   display: grid;
   grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
-  gap: 1.25rem;
+  gap: 1.5rem;
 `;
 
 const PERIOD = {
@@ -136,39 +139,33 @@ interface ClassProps {
 }
 
 export const HomeClasses = styled.div`
+  width: 7.188rem;
   height: 10.3rem;
   background: rgba(255, 255, 255, 0.5);
-
   border-radius: 9px;
-
   display: grid;
   grid-template-rows: repeat(3, 1fr);
   grid-template-areas: "manha" "tarde" "noite";
-
   gap: 0.5rem;
 `;
 
 export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
-
-
   ${(props) =>
     props.theme[PERIOD[props.period]] == "#5AADD1" &&
     css`
-       grid-area: manha;
+      grid-area: manha;
       div {
         border-radius: 8px 8px 0px 0px;
       }
     `}
-
   ${(props) =>
     props.theme[PERIOD[props.period]] == "#367FBF" &&
     css`
-       grid-area: tarde;
-      div {     
+      grid-area: tarde;
+      div {
         border-radius: 0px 0px 0px 0px;
       }
     `}
-
   ${(props) =>
     props.theme[PERIOD[props.period]] == "#0031B0" &&
     css`
@@ -180,17 +177,21 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
 `;
 
 export const HomeClass = styled.div<ClassProps>`
-  display: flex;
+  width: 7.188rem;
   height: 100%;
-  width: 105px;
+  padding: 0.4rem;
+
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0.4rem;
+  
   border-radius: 0;
   grid-area: tarde;
-
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
+
+  opacity: 0;
+  animation: ${fadeIn} 0.4s ease-in-out forwards;
 
   &:not(:has(p)) {
     background: transparent;

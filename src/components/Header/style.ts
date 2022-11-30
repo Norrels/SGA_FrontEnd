@@ -135,6 +135,9 @@ export const HeaderNavMenuArrow = styled.span`
 
   svg {
     color: ${(props) => props.theme["white"]} !important;
+    &:hover {
+      color: ${(props) => props.theme["white"]} !important;
+    }
   }
 `;
 

@@ -1,5 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import * as ContextMenu from "@radix-ui/react-context-menu";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
 
 export const RightClickContainer = styled(ContextMenu.Content)`
   width: 12rem;
@@ -12,6 +21,9 @@ export const RightClickContainer = styled(ContextMenu.Content)`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 0.3s ease-in-out forwards;
 `;
 
 export const RightClickSeperator = styled(ContextMenu.Separator)`
@@ -39,7 +51,7 @@ export const RightClickItem = styled(ContextMenu.Item)`
       color: ${(props) => props.theme["white"]};
     }
   }
-  
+
   &:hover {
     background: ${(props) => props.theme["blue-500"]};
     color: ${(props) => props.theme["white"]};

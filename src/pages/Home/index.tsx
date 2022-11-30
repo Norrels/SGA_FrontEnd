@@ -4,11 +4,9 @@ import { Calender } from "./components/Calenders/PlacesCalender";
 import { HomeSearchInput } from "./components/SearchInputHome";
 import {
   HomeButtonContainer,
-  HomeButtonCreate,
   HomeContainer,
   HomeContent,
   HomeTitleContainer,
-  Load,
 } from "./style";
 import {
   addDays,
@@ -73,35 +71,29 @@ export function Home() {
           <h1>Bem Vindo</h1>
           <p>Selecione um tipo de curso e crie uma nova aula</p>
           <HomeButtonContainer>
-            <HomeButtonCreate buttonsColor={1}>
-              <Dialog.Root open={openRegular} onOpenChange={setOpenRegular}>
-                <Dialog.Trigger asChild>
-                  <button onClick={() => setTitle("regular")}>Regular</button>
-                </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name={title} />
-              </Dialog.Root>
-            </HomeButtonCreate>
-            <HomeButtonCreate buttonsColor={2}>
-              <Dialog.Root open={openFic} onOpenChange={setOpenFic}>
-                <Dialog.Trigger asChild>
-                  <button onClick={() => setTitle("FIC")}>FIC</button>
-                </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name={title} />
-              </Dialog.Root>
-            </HomeButtonCreate>
-            <HomeButtonCreate buttonsColor={3}>
-              <Dialog.Root
-                open={openCustomizavel}
-                onOpenChange={setOpenCustomizavel}
-              >
-                <Dialog.Trigger asChild>
-                  <button onClick={() => setTitle("customizável")}>
-                    Customizável
-                  </button>
-                </Dialog.Trigger>
-                <ModalCreateNewClass closeModal={closeModal} name={title} />
-              </Dialog.Root>
-            </HomeButtonCreate>
+            <Dialog.Root open={openRegular} onOpenChange={setOpenRegular}>
+              <Dialog.Trigger asChild>
+                <button onClick={() => setTitle("regular")}>Regular</button>
+              </Dialog.Trigger>
+              <ModalCreateNewClass closeModal={closeModal} name={title} />
+            </Dialog.Root>
+            <Dialog.Root open={openFic} onOpenChange={setOpenFic}>
+              <Dialog.Trigger asChild>
+                <button onClick={() => setTitle("FIC")}>FIC</button>
+              </Dialog.Trigger>
+              <ModalCreateNewClass closeModal={closeModal} name={title} />
+            </Dialog.Root>
+            <Dialog.Root
+              open={openCustomizavel}
+              onOpenChange={setOpenCustomizavel}
+            >
+              <Dialog.Trigger asChild>
+                <button onClick={() => setTitle("customizável")}>
+                  Customizável
+                </button>
+              </Dialog.Trigger>
+              <ModalCreateNewClass closeModal={closeModal} name={title} />
+            </Dialog.Root>
           </HomeButtonContainer>
         </HomeTitleContainer>
 
