@@ -32,9 +32,7 @@ export function Holiday() {
   document.title = "Dias não letivos | SGA";
 
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
-  const [holiday2, setHoliday2] = useState<HolidayProps2[]>([]);
   const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
-  const [holidayMatch2, setHolidayMatches2] = useState<HolidayProps2[]>([]);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -46,12 +44,8 @@ export function Holiday() {
   }, []);
 
   useEffect(() => {
-    console.log(holidayMatch)
-  }, [holidayMatch])
-
-  useEffect(() => {
-    console.log(holidayMatch2)
-  }, [holidayMatch2])
+    console.log(holiday);
+  }, [holiday]);
 
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");
@@ -61,13 +55,20 @@ export function Holiday() {
       setHoliday(resp.data);
     }
 
-    const resp2 = await (await API.get("/feriados"));
+    const resp2 = await API.get("/feriados");
 
-    if(resp2.status == 200) {
-      setHolidayMatches2(resp2.data);
-      setHoliday2(resp2.data);
+    if (resp2.status == 200) {
+      let ___: HolidayProps[] = [];
+
+      resp2.data.map((v: any) => {
+        ___.push({ id: v.id, nome: v.name, data: v.date, tipo: v.type });
+      });
+
+      ___.map((v) => {
+        setHolidayMatches((state) => [...state, v]);
+        setHoliday((state) => [...state, v]);
+      });
     }
-
   }
 
   const searchHoliday = (text: String) => {
@@ -109,10 +110,7 @@ export function Holiday() {
 
         <HolidayList>
           {holidayMatch.map((data) => (
-            <HolidayItem key={data.id} holiday={data} />
-          ))}
-          {holidayMatch2.map((data) => (
-            <HolidayItemFeriado key={data.id} holiday={data} />
+            <HolidayItem holiday={data} />
           ))}
         </HolidayList>
       </HolidayContent>

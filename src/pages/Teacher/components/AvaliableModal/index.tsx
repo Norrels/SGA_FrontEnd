@@ -93,6 +93,7 @@ export function AvaliableModal() {
   );
 
   async function handleGetTeachers(data: DispProps) {
+    console.log(data);
     const res = await API.post("/professor/disponibilidadeProf/periodo", data);
     console.log(res)
     if (res.status == 200) {

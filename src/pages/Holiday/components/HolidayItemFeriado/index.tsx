@@ -1,4 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
 import React, { useState } from "react";
 import { z } from "zod";
@@ -16,6 +17,7 @@ import {
   HolidayItemInfoContent,
   ItemInfoContentHeader,
 } from "./style";
+import { DeleteAlertCall } from "../../../../components/DeleteAlertCall";
 
 interface HolidayItem2 {
   holiday: HolidayProps2;
@@ -37,13 +39,13 @@ export function HolidayItemFeriado({ holiday }: HolidayItem2) {
     setOpen(false);
   }
 
-  async function handleDeleteHoliday(data: HolidayType) {
-    const resp = await API.delete(`dnl/${data.id}`);
-
-    if (resp.status == 200) {
-      console.log("deletou !");
+    async function handleDeleteHoliday() {
+      const resp = await API.delete(`feriados/${holiday.id}`);
+  
+      if (resp.status == 200) {
+        window.location.reload();
+      }
     }
-  }
 
   return (
     <HolidayItemContainer>
@@ -77,13 +79,14 @@ export function HolidayItemFeriado({ holiday }: HolidayItem2) {
           /> */}
         </Dialog.Root>
 
-        <HolidayItemButton buttonColor="delete">
-          <Trash
-            color="#fff"
-            size={26}
-            onClick={() => handleDeleteHoliday(holiday)}
-          />
-        </HolidayItemButton>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild>
+            <HolidayItemButton buttonColor="delete">
+              <Trash color="#fff" size={26} />
+            </HolidayItemButton>
+          </AlertDialog.Trigger>
+          <DeleteAlertCall deleteById={handleDeleteHoliday} />
+        </AlertDialog.Root>
       </HolidayItemButtonContainer>
     </HolidayItemContainer>
   );
