@@ -14,11 +14,10 @@ import {
 } from "./style";
 
 interface AbsenseItemProps {
- absenceList: AbsenseProps
+  absenceList: AbsenseProps;
 }
 
-export function AbsenseItem({absenceList} : AbsenseItemProps) {
-
+export function AbsenseItem({ absenceList }: AbsenseItemProps) {
   return (
     <AbsenseItemContainer>
       <AbsenseItemInfoContainer>
@@ -28,7 +27,13 @@ export function AbsenseItem({absenceList} : AbsenseItemProps) {
 
         <AbsenseItemInfoContent>
           <AbsenseInfoType>{absenceList.tipo}</AbsenseInfoType>
-          <p> Data: <span>07/09/2022 - 09/09/2022</span></p>
+          <p>
+            {" "}
+            Data:
+            <span>
+              {" " + absenceList.dataInicio + ""} - {absenceList.dataFinal + ""}
+            </span>
+          </p>
         </AbsenseItemInfoContent>
       </AbsenseItemInfoContainer>
 

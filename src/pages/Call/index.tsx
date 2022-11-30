@@ -36,8 +36,11 @@ export function Call() {
 
   async function fetchCalls() {
     const res = await API.get("chamado");
-    setCalls(res.data);
-    setCallMatches(res.data);
+
+    if (res.status == 200) {
+      setCalls(res.data);
+      setCallMatches(res.data);
+    }
   }
 
   useEffect(() => {

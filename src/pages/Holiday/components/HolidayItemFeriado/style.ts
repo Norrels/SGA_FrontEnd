@@ -1,6 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export const AbsenseItemContainer = styled.article`
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+export const HolidayItemContainer = styled.div`
   width: 100%;
   padding: 2rem;
   margin-bottom: 1rem;
@@ -13,15 +22,25 @@ export const AbsenseItemContainer = styled.article`
   border-radius: 8px;
   background: ${(props) => props.theme["white"]};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
-export const AbsenseItemInfoContainer = styled.div`
+export const HolidayItemInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
+
+  img {
+    width: 50px;
+    height: 50px;
+
+    border-radius: 8px;
+  }
 `;
 
-export const AbsenseItemIcon = styled.span`
+export const HolidayItemIcon = styled.span`
   width: 3.125rem;
   height: 3.125rem;
 
@@ -34,10 +53,14 @@ export const AbsenseItemIcon = styled.span`
   background: ${(props) => props.theme["white-300"]};
 `;
 
-export const AbsenseItemInfoContent = styled.span`
+export const HolidayItemInfoContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  :has(:not(p)) {
+    justify-content: center;
+  }
 
   p {
     span {
@@ -46,10 +69,17 @@ export const AbsenseItemInfoContent = styled.span`
   }
 `;
 
-export const AbsenseInfoType = styled.div`
-  width: 100px;
+export const ItemInfoContentHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const HolidayInfoType = styled.div`
+  width: 110px;
   height: 20px;
   padding: 5px;
+  margin-left: 15px;
 
   display: flex;
   align-items: center;
@@ -74,13 +104,13 @@ interface ButtonProps {
   buttonColor: keyof typeof BUTTONS;
 }
 
-export const AbsenseItemButtonContainer = styled.div`
+export const HolidayItemButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 1rem;
 `;
 
-export const AbsenseItemButton = styled.div<ButtonProps>`
+export const HolidayItemButton = styled.button<ButtonProps>`
   width: 40px;
   height: 40px;
 
@@ -92,8 +122,8 @@ export const AbsenseItemButton = styled.div<ButtonProps>`
   border-radius: 8px;
   outline: none;
 
-  cursor: pointer;
   background: ${(props) => props.theme[BUTTONS[props.buttonColor]]};
+  cursor: pointer;
 
   transition-duration: 0.3s;
 

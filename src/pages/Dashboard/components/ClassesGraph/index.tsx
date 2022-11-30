@@ -44,7 +44,6 @@ export function ClassGraph() {
     const res = await API.get(`aula/analise/${getMonth(result)}`);
 
     if (res.status == 200) {
-      console.log("passou aqui");
       setData(res.data);
     }
   }

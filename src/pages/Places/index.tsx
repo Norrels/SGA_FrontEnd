@@ -28,7 +28,7 @@ export function Places() {
 
   useEffect(() => {
     handleGetPlaces();
-  }, [placesList]);
+  }, [placeMatchs]);
 
   async function handleGetPlaces() {
     const resp = await API.get("/ambiente");

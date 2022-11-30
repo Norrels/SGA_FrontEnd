@@ -136,6 +136,12 @@ export const AdvancedSearchInput = styled.div`
       background: ${(props) => props.theme["blue-600"]};
       color: ${(props) => props.theme["white"]};
     }
+
+    :disabled {
+      opacity: 30%;
+      background: ${(props) => props.theme["blue-600"]};
+      color: ${(props) => props.theme["white"]};
+    }
   }
 `;
 
