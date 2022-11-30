@@ -1,7 +1,9 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
 import React, { useState } from "react";
 import { z } from "zod";
+import { DeleteAlertCall } from "../../../../components/DeleteAlertCall";
 import { API } from "../../../../lib/axios";
 import { PlaceInfoType } from "../../../Places/components/PlacesItem/style";
 import { HolidayProps } from "../../Index";
@@ -37,11 +39,11 @@ export function HolidayItem({ holiday }: HolidayItem) {
     setOpen(false);
   }
 
-  async function handleDeleteHoliday(data: HolidayType) {
-    const resp = await API.delete(`dnl/${data.id}`);
+  async function handleDeleteHoliday() {
+    const resp = await API.delete(`dnl/${holiday.id}`);
 
     if (resp.status == 200) {
-      console.log("deletou !");
+      window.location.reload();
     }
   }
 
@@ -54,11 +56,11 @@ export function HolidayItem({ holiday }: HolidayItem) {
         <HolidayItemInfoContent>
           <ItemInfoContentHeader>
             <h3>{holiday.nome}</h3>
-            <PlaceInfoType>{holiday.tipo}</PlaceInfoType>
+            <PlaceInfoType>{holiday.tipo.toUpperCase() == "NATIONAL" ? "NACIONAL" : holiday.tipo.toUpperCase()}</PlaceInfoType>
           </ItemInfoContentHeader>
 
           <p>
-            Data: <span>{holiday.data}</span>
+            Data: <span>{holiday.data.replaceAll("-", "/")}</span>
           </p>
         </HolidayItemInfoContent>
       </HolidayItemInfoContainer>
@@ -77,13 +79,14 @@ export function HolidayItem({ holiday }: HolidayItem) {
           />
         </Dialog.Root>
 
-        <HolidayItemButton buttonColor="delete">
-          <Trash
-            color="#fff"
-            size={26}
-            onClick={() => handleDeleteHoliday(holiday)}
-          />
-        </HolidayItemButton>
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild>
+            <HolidayItemButton buttonColor="delete">
+              <Trash color="#fff" size={26} />
+            </HolidayItemButton>
+          </AlertDialog.Trigger>
+          <DeleteAlertCall deleteById={handleDeleteHoliday} />
+        </AlertDialog.Root>
       </HolidayItemButtonContainer>
     </HolidayItemContainer>
   );
