@@ -44,8 +44,8 @@ export function Holiday() {
   }, []);
 
   useEffect(() => {
-    console.log(holiday);
-  }, [holiday]);
+    console.log(holidayMatch);
+  }, [holidayMatch]);
 
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");

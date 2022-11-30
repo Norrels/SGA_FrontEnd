@@ -72,6 +72,10 @@ export function User() {
     }
   };
 
+  function handleAddInMatchs() {
+    fetchUser();
+  }
+
   return (
     <>
       <Header />
@@ -83,7 +87,7 @@ export function User() {
             <UsersButtonContainer>
               <Dialog.Root open={open} onOpenChange={setOpen}>
                 <Dialog.Trigger>Novo usuário</Dialog.Trigger>
-                <NewUserModal closeModal={closeModal} />
+                <NewUserModal handleAddInMatchs={handleAddInMatchs} closeModal={closeModal} />
               </Dialog.Root>
             </UsersButtonContainer>
           </UsersTitleContainer>

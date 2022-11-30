@@ -76,9 +76,15 @@ export const disponibilidadeInput = z.object({
 
 export type DispProps = z.infer<typeof disponibilidadeInput>;
 
+interface Object {
+  nome: string;
+  tamanho: string;
+}
+
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
   const [aula, setAula] = useState<AulaType[]>([]);
+  const [object, setObject] = useState<Object>();
 
   const { placesList } = useContext(ObjectsContext);
 
@@ -91,11 +97,14 @@ export function AvaliableModal() {
   );
 
   async function handleGetPlaces(data: DispProps) {
-    console.log(data)
     const res = await API.post("/ambiente/disponibilidade/periodo", data);
-    console.log(res)
+
     if (res.status == 200) {
       setAula(res.data);
+
+      res.data.map((v: AulaType) => {
+        setObject({ tamanho: res.data.length + '', nome: v.professor.nome });
+      })
     }
   }
 
@@ -288,7 +297,7 @@ export function AvaliableModal() {
                 <InfoBusca>
                   <p>
                     {searched
-                      ? `{aula.nome} possui {aulas.length} aulas durante o intervalo de datas e os dias da semana selecionados...`
+                      ? `${object?.nome} possui ${object?.tamanho} aulas durante o intervalo de datas e os dias da semana selecionados...`
                       : "Verifique a disponibilidade do ambiente..."}
                   </p>
                 </InfoBusca>
@@ -327,7 +336,7 @@ export function AvaliableModal() {
                     O ambiente está disponivel no intervalo de datas e dias
                     selecionados
                   </p>
-                  <p>Clique aqui para cadastrar sua aula!</p>
+                  {/* <p>Clique aqui para cadastrar sua aula!</p> */}
                 </AvailableContainer>
               ) : (
                 <></>

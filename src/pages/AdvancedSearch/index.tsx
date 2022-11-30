@@ -111,6 +111,7 @@ export default function AdvancedSearch() {
   const searchCourse = (text: String) => {
     setInputValue(text);
     if (!text) {
+      handleGet();
       setUnidadeMatch([]);
     } else {
       let matches = unidade.filter((unCurricular) => {

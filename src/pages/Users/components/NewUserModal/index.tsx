@@ -19,6 +19,7 @@ import {
 
 interface NewUserModalProps {
   closeModal: () => void;
+  handleAddInMatchs: () => void;
 }
 
 export const userInput = z.object({
@@ -39,7 +40,7 @@ export const userInput = z.object({
 
 export type UserType = z.infer<typeof userInput>;
 
-export function NewUserModal({ closeModal }: NewUserModalProps) {
+export function NewUserModal({ closeModal, handleAddInMatchs }: NewUserModalProps) {
   const {
     register,
     handleSubmit,
@@ -64,6 +65,8 @@ export function NewUserModal({ closeModal }: NewUserModalProps) {
       tipo: user.tipo,
       ativo: true,
     });
+
+    handleAddInMatchs();
   }
 
   return (

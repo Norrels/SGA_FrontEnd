@@ -6,6 +6,7 @@ import styled, { keyframes } from "styled-components";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { API } from "../../../../lib/axios";
 import { EditPlaceModal } from "../EditPlaceModal";
 import { NewPlaceType } from "../NewPlaceModal";
 import {
@@ -32,8 +33,12 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
     setOpen(false);
   }
 
-  function handleUpdateStatusPlace() {
-    updateStatusPlace(placeItem.id!);
+  async function handleUpdateStatusPlace() {
+    const res = await API.put(`/ambiente/alterarStatus/${placeItem.id}`);
+
+    if (res.status == 200) {
+      window.location.reload();
+    }
   }
 
   return (

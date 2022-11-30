@@ -3,9 +3,9 @@ import { ArrowLeft, X } from "phosphor-react";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
-import { AulaTypeSuper } from "../..";
-import { API } from "../../../../lib/axios";
-import { AulaProps } from "../../../Home/components/Calenders/TeacherCalender";
+import { AulaType } from "../..";
+/* import { API } from "../lib/axios";
+import { AulaProps } from "../../Home/components/Calenders/TeacherCalender"; */
 import {
   Content,
   HeaderButtons,
@@ -19,7 +19,7 @@ import {
   Overlay,
 } from "./style";
 
-export const aulaInput = z.object({
+/* export const aulaInput = z.object({
   periodo: z.string(),
   dataInicio: z.date(),
   professor: z.object({
@@ -30,11 +30,11 @@ export const aulaInput = z.object({
   }),
 });
 
-export type AulaType = z.infer<typeof aulaInput>;
+export type AulaType = z.infer<typeof aulaInput>; */
 
 //Propriedades da Modal
 interface ViewClassModalProps {
-  classItem: AulaTypeSuper;
+  classItem: AulaType;
   closeModal(): void;
 }
 
@@ -93,7 +93,7 @@ export function ViewClassModal({ classItem, closeModal }: ViewClassModalProps) {
                   </InputIndividual>
                   <InputIndividual>
                     <label>Data</label>
-                    <input type="text" defaultValue={classItem.data}/>
+                    <input type="text" defaultValue={classItem.data} />
                   </InputIndividual>
                 </InputContent>
                 <InputContent disabled={"disabled"}>
@@ -115,9 +115,7 @@ export function ViewClassModal({ classItem, closeModal }: ViewClassModalProps) {
                 </InputContent>
                 <InputContent disabled={"disabled"}>
                   <label>Ambiente</label>
-                  <select
-                    placeholder="Selecione um ambiente..."
-                  >
+                  <select placeholder="Selecione um ambiente...">
                     <option>{classItem.ambiente.nome}</option>
                   </select>
                 </InputContent>

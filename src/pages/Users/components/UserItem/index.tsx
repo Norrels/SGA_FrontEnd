@@ -75,31 +75,36 @@ export function UserItem({ user }: NewUserModalProps) {
         </UserItemInfoContent>
       </UserItemInfoContainer>
       <UserItemButtonContainer>
-        <>
-          <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger
-              style={{
-                backgroundColor: "transparent",
-                border: "none",
-                display: "flex",
-              }}
-            >
-              <UserItemButton buttonColor="edit">
-                <DotsThree color="#fff" size={32} />
-              </UserItemButton>
-            </Dialog.Trigger>
-            <EditUserModal closeModal={closeModal} user={user} key={user.id} />
-          </Dialog.Root>
-        </>
         {user.ativo ? (
-          <AlertDialog.Root>
-            <AlertDialog.Trigger asChild>
-              <UserItemButton buttonColor="delete">
-                <Trash color="#fff" size={26} />
-              </UserItemButton>
-            </AlertDialog.Trigger>
-            <DeleteAlert deleteById={handleUpdateStatusUserAPI} />
-          </AlertDialog.Root>
+          <>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  display: "flex",
+                }}
+              >
+                <UserItemButton buttonColor="edit">
+                  <DotsThree color="#fff" size={32} />
+                </UserItemButton>
+              </Dialog.Trigger>
+              <EditUserModal
+                closeModal={closeModal}
+                user={user}
+                key={user.id}
+              />
+            </Dialog.Root>
+
+            <AlertDialog.Root>
+              <AlertDialog.Trigger asChild>
+                <UserItemButton buttonColor="delete">
+                  <Trash color="#fff" size={26} />
+                </UserItemButton>
+              </AlertDialog.Trigger>
+              <DeleteAlert deleteById={handleUpdateStatusUserAPI} />
+            </AlertDialog.Root>
+          </>
         ) : (
           <AlertDialog.Root>
             <AlertDialog.Trigger asChild>

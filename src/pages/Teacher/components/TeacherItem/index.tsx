@@ -20,16 +20,20 @@ import {
 } from "./style";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
+import { API } from "../../../../lib/axios";
 
 interface TeacherItemProps {
   teacherItem: TeacherProps;
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
-  const { updateStatusTeacher } = useContext(ObjectsContext);
 
-  function handleUpdateStatusTeacher() {
-    updateStatusTeacher(teacherItem.id!);
+  async function handleUpdateStatusTeacher() {
+    const res = await API.put(`/professor/alterarStatus/${teacherItem.id}`);
+
+    if (res.status == 200) {
+      window.location.reload();
+    }
   }
 
   return (
