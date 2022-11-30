@@ -46,10 +46,9 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
     );
 
     const res = await API.post("dnl", {
-      dataInicio: format(new Date(data.dataInicio), "MM/dd/yyyy"),
-      dataFinal: format(new Date(data.dataInicio), "MM/dd/yyyy"),
+      data: format(new Date(data.dataInicio), "MM/dd/yyyy"),
       nome: data.nome,
-      tipoDeDia: data.tipoDeDia,
+      tipo: data.tipoDeDia,
     });
 
     if (res.status == 200) {

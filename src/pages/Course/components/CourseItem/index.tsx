@@ -22,6 +22,7 @@ import {
   ItemInfoContentHeader,
 } from "./style";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
+import { API } from "../../../../lib/axios";
 
 interface NewCouserModalProps {
   course: CourseProps;
@@ -51,7 +52,11 @@ export function CourseItem({ course }: NewCouserModalProps) {
   );
 
   async function handleUpdateStatusCourse() {
-    updateStatusCourse(course.id);
+    const res = await API.put(`/curso/alterarStatus/${course?.id}`);
+
+    if (res.status == 200) {
+      window.location.reload();
+    }
   }
 
   const [open, setOpen] = useState(false);

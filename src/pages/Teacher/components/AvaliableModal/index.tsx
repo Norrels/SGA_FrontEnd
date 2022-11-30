@@ -37,6 +37,7 @@ import { CheckboxIndicator } from "@radix-ui/react-checkbox";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
+import { ViewClassModal } from "./components/ViewClassModal";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -80,22 +81,25 @@ export type DispProps = z.infer<typeof teacherInput>;
 
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
+  const [open, setOpen] = useState(false);
   const [aula, setAula] = useState<AulaType[]>([]);
 
   const { teachers } = useContext(ObjectsContext);
 
-  const { register, handleSubmit, reset, setValue } = useForm<DispProps>(
-    {
-      defaultValues: {
-        diasSemana: [false],
-      },
-    }
-  );
+  const { register, handleSubmit, reset, setValue } = useForm<DispProps>({
+    defaultValues: {
+      diasSemana: [false],
+    },
+  });
+
+  function closeModal() {
+    setOpen(false);
+  }
 
   async function handleGetTeachers(data: DispProps) {
     console.log(data);
     const res = await API.post("/professor/disponibilidadeProf/periodo", data);
-    console.log(res)
+    console.log(res);
     if (res.status == 200) {
       setAula(res.data);
     }
@@ -105,23 +109,30 @@ export function AvaliableModal() {
     <Dialog.Portal>
       <Overlay />
       <Content onCloseAutoFocus={() => setSearched(false)}>
-      <form onSubmit={handleSubmit(handleGetTeachers)}>
-        <ModalHeader>
-          <Dialog.Title>Disponibilidade</Dialog.Title>
-          <HeaderButtons>
-            <ButtonIndividual type="submit" title="Busque o professor disponível">
-              <MagnifyingGlass size={40} weight="light" />
-              <p>Buscar</p>
-            </ButtonIndividual>
-            <ButtonIndividual type="button" onClick={() => reset()} title="Limpe os campos do formulário">
-              <ArrowCounterClockwise size={40} weight="light" />
-              <p>Limpar</p>
-            </ButtonIndividual>
-            <Dialog.Close title="Feche a modal">
-              <X onClick={() => setSearched(true)} size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
+        <form onSubmit={handleSubmit(handleGetTeachers)}>
+          <ModalHeader>
+            <Dialog.Title>Disponibilidade</Dialog.Title>
+            <HeaderButtons>
+              <ButtonIndividual
+                type="submit"
+                title="Busque o professor disponível"
+              >
+                <MagnifyingGlass size={40} weight="light" />
+                <p>Buscar</p>
+              </ButtonIndividual>
+              <ButtonIndividual
+                type="button"
+                onClick={() => reset()}
+                title="Limpe os campos do formulário"
+              >
+                <ArrowCounterClockwise size={40} weight="light" />
+                <p>Limpar</p>
+              </ButtonIndividual>
+              <Dialog.Close title="Feche a modal">
+                <X onClick={() => setSearched(true)} size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
           <ContentScroll>
             <div id="up" style={{ display: "none" }}></div>
             <ContentContainer>
@@ -140,7 +151,9 @@ export function AvaliableModal() {
                           Selecione o professor
                         </option>
                         {teachers.map((value) => (
-                          <option key={value.id} value={value.id}>{value.nome}</option>
+                          <option key={value.id} value={value.id}>
+                            {value.nome}
+                          </option>
                         ))}
                       </select>
                     </InputIndividual>
@@ -305,9 +318,15 @@ export function AvaliableModal() {
                       <p>{value.professor.nome}</p>
                       <p>{value.periodo}</p>
                       <p>{value.data}</p>
-                      <button>
-                        <DotsThreeOutline size={32} />
-                      </button>
+                      <Dialog.Root>
+                        <Dialog.Trigger>
+                          <DotsThreeOutline size={20} />
+                        </Dialog.Trigger>
+                        <ViewClassModal
+                          classItem={value}
+                          closeModal={closeModal}
+                        />
+                      </Dialog.Root>
                     </TableRow>
                   ))}
                 </TableContainer>
@@ -321,7 +340,7 @@ export function AvaliableModal() {
                     O ambiente está disponivel no intervalo de datas e dias
                     selecionados
                   </p>
-                  <p>Clique aqui para cadastrar sua aula!</p>
+                  {/* <p>Clique aqui para cadastrar sua aula!</p> */}
                 </AvailableContainer>
               ) : (
                 <></>
@@ -332,7 +351,7 @@ export function AvaliableModal() {
               <div id="down" style={{ display: "none" }}></div>
             </ContentContainer>
           </ContentScroll>
-        <Dialog.Description />
+          <Dialog.Description />
         </form>
       </Content>
     </Dialog.Portal>
