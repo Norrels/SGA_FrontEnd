@@ -1,8 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Plus, Star, Upload, X } from "phosphor-react";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { z } from "zod";
-import { Rating } from "./components/Rating";
 import { useForm } from "react-hook-form";
 import {
   ButtonNewCompetencia,
@@ -166,9 +165,9 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
                       id="file"
                       multiple={false}
                       accept="image/*"
-                      /* onChange={uploadImage} */
-                      // required
-                      // {...register("foto")}
+                    /* onChange={uploadImage} */
+                    // required
+                    // {...register("foto")}
                     />
                   </InputFile>
                 </InputIndividual>
@@ -185,14 +184,18 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
               {/* REVISAR ISSO AQUI QUE EU FIZ */}
               {/* REVISAR ISSO AQUI QUE EU FIZ */}
               {teacherItem.competencia.map((index) => (
-                <InputContent disabled={!editable ? "disabled" : "on"}>
+                <InputContent key={teacherItem.id} disabled={!editable ? "disabled" : "on"}>
                   <InputIndividual>
                     <label>Competência</label>
                     {/* REVISAR ISSO AQUI QUE EU FIZ */}
                     <select>
-                      <option value={index?.unidadeCurricular?.id} selected disabled>
-                      {index?.unidadeCurricular?.nome}
-                      </option>
+                      {
+                        
+                        <option value={index?.unidadeCurricular?.id} selected disabled>
+                          {index?.unidadeCurricular?.nome}
+                        </option>
+                      }
+
                     </select>
                   </InputIndividual>
                   <InputIndividual>
@@ -216,7 +219,7 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
                 </InputContent>
               ))}
               {editable ? (
-                <ButtonNewCompetencia onClick={() => {}} type="button">
+                <ButtonNewCompetencia onClick={() => { }} type="button">
                   <Plus size={32} />
                   <p>Adicionar competência</p>
                 </ButtonNewCompetencia>

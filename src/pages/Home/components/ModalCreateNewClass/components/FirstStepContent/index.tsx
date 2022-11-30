@@ -37,6 +37,7 @@ export function FirstStepContent({
   const [sexSelected, setSexSelected] = useState(false);
   const [sabSelected, setSabSelected] = useState(false);
   const [domSelected, setDomSelected] = useState(false);
+  const [lastSelected, setLastSelected] = useState("")
   const { courses } = useContext(ObjectsContext);
   const {
     register,
@@ -69,9 +70,13 @@ export function FirstStepContent({
 
   function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
     const diaSelecionado = event.target.value;
+    setValue(`diaSemana.${lastSelected}`, false )
     diaSelecionado.replace("-", ", ");
+    //Descobrindo o dia da semana
     const selecionadoDia = format(new Date(diaSelecionado), "i");
     setSelectedDay(selecionadoDia);
+    setValue(`diaSemana.${selecionadoDia}`, true )
+    setLastSelected(selecionadoDia)
     console.log(selectedDay);
   }
 
@@ -89,6 +94,7 @@ export function FirstStepContent({
 
   async function createClassFirstStep() {
     const res = await API.post("/aula/criar", data);
+    console.log(data)
     console.log(res);
   }
 
