@@ -56,11 +56,11 @@ export function HolidayItem({ holiday }: HolidayItem) {
         <HolidayItemInfoContent>
           <ItemInfoContentHeader>
             <h3>{holiday.nome}</h3>
-            <PlaceInfoType>{holiday.tipo.toUpperCase() == "NATIONAL" ? "NACIONAL" : holiday.tipo.toUpperCase()}</PlaceInfoType>
+            <PlaceInfoType>{holiday.tipo.toUpperCase() == "NATIONAL" ? "FERIADO" : holiday.tipo.toUpperCase()}</PlaceInfoType>
           </ItemInfoContentHeader>
 
           <p>
-            Data: <span>{holiday.data.replaceAll("-", "/")}</span>
+            Data: <span>{holiday.data.match("-") ? holiday.data.split("-")[2] + "/" + holiday.data.split("-")[1] + "/" + holiday.data.split("-")[0] : holiday.data}</span>
           </p>
         </HolidayItemInfoContent>
       </HolidayItemInfoContainer>
