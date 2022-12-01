@@ -292,6 +292,8 @@ export const CheckboxIndicator = styled(Checkbox.Indicator)`
 
 export const InfoBusca = styled.div`
   width: 100%;
+
+  animation: ${fadeIn} .5s ease-in-out forwards;
   p {
     text-align: left;
     font-style: italic;
@@ -309,6 +311,8 @@ export const TableContainer = styled.div`
   align-items: center;
 
   gap: 1.25rem;
+
+  animation: ${fadeIn} .5s ease-in-out forwards;
 `;
 
 export const TableRow = styled.div`
@@ -328,6 +332,8 @@ export const TableRow = styled.div`
     font-weight: 600;
     font-size: 20px;
     color: rgba(0, 0, 0, 0.6);
+
+    text-transform: capitalize;
   }
 
   button {
@@ -338,6 +344,13 @@ export const TableRow = styled.div`
     border: none;
     outline: none;
     color: rgba(0, 0, 0, 0.6);
+  }
+
+  svg {
+    transition-duration: 0.3s;
+    &:hover {
+      color: ${(props) => props.theme["blue-300"]};
+    }
   }
 
   &:first-child {
@@ -363,6 +376,7 @@ export const AvailableContainer = styled.div`
   align-items: center;
   justify-content: center;
 
+  animation: ${fadeIn} .5s ease-in-out forwards;
   svg {
     color: ${(props) => props.theme["gray-500"]};
     margin-bottom: 1.25rem;
