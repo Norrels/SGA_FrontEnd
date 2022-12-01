@@ -33,7 +33,7 @@ export function SecondStepContent({ handleNextStep }: firstStepContentProps) {
           <div style={{ backgroundColor: "#B6B6B6" }}></div>
         </Steps>
       </InputContent>
-      <InputContent style={{ flexDirection: "row" }}>
+      <InputContent>
         <label>Professor</label>
         <select
           placeholder="Selecione um professor..."

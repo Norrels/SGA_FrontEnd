@@ -31,7 +31,7 @@ import {
   TableRow,
 } from "./style";
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
@@ -83,10 +83,15 @@ interface Object {
 
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
+  const [dataFinal, setDataFinal] = useState("");
   const [aula, setAula] = useState<AulaType[]>([]);
   const [object, setObject] = useState<Object>();
-
   const { placesList } = useContext(ObjectsContext);
+
+  // pegando a data de hoje e formatando pro estilo americano para validar o input date
+  const hoje = new Date()
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
   const { register, handleSubmit, reset, setValue } = useForm<DispProps>(
     {
@@ -106,6 +111,10 @@ export function AvaliableModal() {
         setObject({ tamanho: res.data.length + '', nome: v.professor.nome });
       })
     }
+  }
+
+  function onChangeDataInicio(event: ChangeEvent<HTMLInputElement>) {
+    setDataFinal(event.target.value);
   }
 
   return (
@@ -181,12 +190,15 @@ export function AvaliableModal() {
                     <hr />
                   </InputSeparator>
                   <InputContent>
-                    <InputIndividual>
+                  <InputIndividual>
                       <label>Data de Inicio</label>
                       <input
                         {...register("dataInicio")}
                         type="date"
                         placeholder="dd/MM/yyyy"
+                        onChange={onChangeDataInicio}
+                        min={hoje}
+                        required
                       />
                     </InputIndividual>
                     <InputIndividual>
@@ -195,6 +207,9 @@ export function AvaliableModal() {
                         {...register("dataFinal")}
                         type="date"
                         placeholder="dd/MM/yyyy"
+                        min={dataFinal == "" ? hoje : dataFinal}
+                        defaultValue={dataFinal}
+                        required
                       />
                     </InputIndividual>
                   </InputContent>

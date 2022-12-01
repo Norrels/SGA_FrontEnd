@@ -328,6 +328,8 @@ export const TableRow = styled.div`
     font-weight: 600;
     font-size: 20px;
     color: rgba(0, 0, 0, 0.6);
+
+    text-transform: capitalize;
   }
 
   button {

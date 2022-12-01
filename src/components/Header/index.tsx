@@ -83,9 +83,9 @@ export function Header() {
                 </HeaderNavMenuContent>
               </DropdownMenu.Root>
             </HeaderNavMenu>
-            <NavLink to="/dashboard" title="Dashboard">
+            {/* <NavLink to="/dashboard" title="Dashboard">
               Dashboard
-            </NavLink>
+            </NavLink> */}
             <HeaderNavMenu>
               <NavLink to="/professores" title="Professor">
                 Professores

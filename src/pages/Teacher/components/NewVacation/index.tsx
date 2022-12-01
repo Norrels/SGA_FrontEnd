@@ -1,7 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import {
   ObjectsContext,
   TeacherProps,
@@ -40,6 +40,17 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
   const [teachersSelected, setTeachersSelected] = useState<TeacherProps[]>([]);
 
   const { register, handleSubmit, reset } = useForm<VacationType>();
+
+  const [selecionarTodos, setSelecionarTodos] = useState(false);
+  const [selecionarTodosPrimeiraVez, setSelecionarTodosPrimeiraVez] =
+    useState(false);
+
+  const [dataFinal, setDataFinal] = useState("");
+
+  // pegando a data de hoje e formatando pro estilo americano para validar o input date
+  const hoje = new Date()
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
   useEffect(() => {
     console.log(teachersSelected);
@@ -84,10 +95,29 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
     }
   }
 
+  function onChangeDataInicio(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.value != "") {
+      setDataFinal(event.target.value);
+    } else {
+      setDataFinal("");
+    }
+  }
+
+  function onChangeCheckSelecionarTodos(e: ChangeEvent<HTMLInputElement>) {
+    !selecionarTodosPrimeiraVez && setSelecionarTodosPrimeiraVez(true);
+    e.target.checked ? setSelecionarTodos(false) : setSelecionarTodos(true);
+  }
+
+  function onCloseAvaliableModal() {
+    reset();
+    setDataFinal("");
+    setSelecionarTodosPrimeiraVez(false);
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => onCloseAvaliableModal()}>
         <ModalHeader>
           <Dialog.Title>Férias</Dialog.Title>
           <HeaderButtons>
@@ -106,6 +136,9 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
                     {...register("dataInicio")}
                     type="date"
                     placeholder="dd/MM/yyyy"
+                    onChange={onChangeDataInicio}
+                    min={hoje}
+                    required
                   />
                 </InputIndividual>
                 <InputIndividual>
@@ -114,28 +147,39 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
                     {...register("dataFinal")}
                     type="date"
                     placeholder="dd/MM/yyyy"
+                    min={dataFinal == "" ? hoje : dataFinal}
+                    required
                   />
                 </InputIndividual>
               </InputContent>
               <InputContent>
                 <h1>Professores</h1>
                 <hr />
+                {/* <CheckIndividual style={{ marginBottom: "10px" }}>
+                  <input
+                    type="checkbox"
+                    value="check"
+                    onChange={onChangeCheckSelecionarTodos}
+                  />
+                  <label>Selecionar todos</label>
+                </CheckIndividual> */}
+
                 <CheckContent>
-                  {teachers.map((teacher) =>
-                    teacher.ativo ? (
-                      <CheckIndividual key={teacher.id}>
-                        <input
-                          onChange={(checked) =>
-                            handleCreateArrayTeachers(checked.target.value)
-                          }
-                          type="checkbox"
-                          value={teacher.id}
-                        />
-                        <p>{teacher.nome}</p>
-                      </CheckIndividual>
-                    ) : (
-                      <></>
-                    )
+                  {teachers.map(
+                    (teacher) =>
+                      teacher.ativo && (
+                        <CheckIndividual key={teacher.id}>
+                          <input
+                            onChange={(checked) =>
+                              handleCreateArrayTeachers(checked.target.value)
+                            }
+                            type="checkbox"
+                            value={teacher.id}
+                            name="teachers"
+                          />
+                          <p>{teacher.nome}</p>
+                        </CheckIndividual>
+                      )
                   )}
                 </CheckContent>
               </InputContent>

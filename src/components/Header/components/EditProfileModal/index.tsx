@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
@@ -19,11 +19,17 @@ import {
 
 export const userInput = z.object({
   id: z.string(),
-  nif: z.string().min(3, { message: "* Deve ter mais de 3 caracteres..." }),
-  nome: z.string().max(30, { message: "* O nome não deve ter mais de 20 caracteres..." }),
+  nome: z
+    .string()
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." })
+    .max(29, { message: "* O nome deve ser menor que 30 caracteres..." }),
+  nif: z
+    .string()
+    .min(4, { message: "* O nif deve ser maior que 3 caracteres..." })
+    .max(14, { message: "* O nif deve ser menor que 15 caracteres..." }),
   email: z.string().email({ message: "* Informe um email válido..." }),
   senha: z.string().optional(),
-})
+});
 
 interface EditUserModal {
   closeModal: () => void;
@@ -34,33 +40,41 @@ export type UserType = z.infer<typeof userInput>;
 export function EditUserModal({ closeModal }: EditUserModal) {
   const [editable, setEditable] = useState(false);
   const [userToEdit, setUserToEdit] = useState<UserType>();
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<UserType>({ resolver: zodResolver(userInput) });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UserType>({ resolver: zodResolver(userInput) });
+  const [validaSenha, setValidaSenha] = useState(false);
 
   async function handleUpdateUser(data: UserType) {
     const res = await API.put(`usuario/perfil/${userToEdit?.id}`, data);
     if (res.status == 200) {
-      localStorage.setItem('usuario', JSON.stringify(data))
+      localStorage.setItem("usuario", JSON.stringify(data));
       reset();
       closeModal();
     }
   }
 
   useEffect(() => {
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
     if (token) {
-      const object = JSON.parse(atob(token.split('.')[1]))
-      setUserToEdit(object)
+      const object = JSON.parse(atob(token.split(".")[1]));
+      setUserToEdit(object);
     }
-  }, [])
+  }, []);
+
+  function onChangeSenha(e: ChangeEvent<HTMLInputElement>) {
+    e.target.value == "" ? setValidaSenha(false) : setValidaSenha(true); 
+  }
 
   return (
     <Dialog.Portal>
       <Overlay />
       <Content onCloseAutoFocus={() => setEditable(false)}>
         <ModalHeader>
-          <Dialog.Title>
-            {!editable ? "Perfil" : "Editar perfil"}
-          </Dialog.Title>
+          <Dialog.Title>{!editable ? "Perfil" : "Editar perfil"}</Dialog.Title>
           <HeaderButtons>
             {!editable && (
               <button onClick={() => setEditable(true)}>
@@ -73,7 +87,11 @@ export function EditUserModal({ closeModal }: EditUserModal) {
           </HeaderButtons>
         </ModalHeader>
         <form onSubmit={handleSubmit(handleUpdateUser)}>
-          <input type="hidden" value={userToEdit?.id} {...register("id")}></input>
+          <input
+            type="hidden"
+            value={userToEdit?.id}
+            {...register("id")}
+          ></input>
           <InputScroll>
             <InputContainer>
               <InputContent>
@@ -84,6 +102,9 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   defaultValue={userToEdit?.nome}
                   {...register("nome")}
                   readOnly={!editable}
+                  minLength={4}
+                  maxLength={30}
+                  required
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -96,6 +117,9 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                     placeholder="Digite nif"
                     {...register("nif")}
                     readOnly={!editable}
+                    minLength={4}
+                    maxLength={15}
+                    required
                   />
                   {errors.nif && <p>{errors.nif.message}</p>}
                 </InputIndividual>
@@ -107,6 +131,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                     placeholder="Digite o email"
                     {...register("email")}
                     readOnly={!editable}
+                    required
                   />
                   {errors.email && <p>{errors.email.message}</p>}
                 </InputIndividual>
@@ -118,16 +143,12 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                     type="password"
                     placeholder="Digite a senha"
                     {...register("senha")}
+                    onChange={onChangeSenha}
+                    required={validaSenha}
+                    minLength={4}
                   />
                 </InputContent>
               )}
-              {editable && (
-                <InputContent>
-                  <label>Repita a senha</label>
-                  <input type="text" placeholder="Repita a senha" />
-                </InputContent>
-              )}
-
               {editable && (
                 <FinalButton>
                   <button>Salvar</button>

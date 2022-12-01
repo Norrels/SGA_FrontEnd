@@ -27,23 +27,23 @@ export const coursesInputs = z.object({
   id: z.number().optional(),
   nome: z
     .string()
-    .max(30, { message: "* O nome não deve ter mais de 30 caracteres..." })
-    .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.enum(["FIC", "REGULAR"]),
-  ativo: z.boolean().optional(),
   unidadeCurricular: z
     .object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(30, { message: "* O nome não deve ter mais de 30 caracteres..." })
-        .min(3, { message: "* O nome deve ser maior que 3 caracteres..." }),
+        .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+        .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
-        .number({ invalid_type_error: "" })
-        .positive({ message: "* Deve ser maior que 6" })
-        .gte(6, { message: "* Deve ser maior que 6" }),
+        .number({ invalid_type_error: "Insira as horas..." })
+        .positive({ message: "* As horas devem sem maior que 3..." })
+        .gte(4, { message: "* As horas devem sem maior que 3..." }),
     })
     .array(),
+  ativo: z.boolean().optional(),
 });
 
 //Transformando a variavel de validação em uma interface
@@ -64,7 +64,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     reset,
     control,
     //Variavel utilizada para acessar os erros do formulario
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
     defaultValues: {
@@ -73,8 +73,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   });
 
   //Variavel para usado para exibir a notificaçãp
-  const [open, setOpen] = useState(false)
-  const [statusRes, setStatusRes] = useState("")
+  const [open, setOpen] = useState(false);
 
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
@@ -96,23 +95,20 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
     createCourseAPI(data);
-    /* reset();
-    closeModal(); */
-    setOpen(true)
+    reset();
+    closeModal();
+    setOpen(true);
   }
 
-  function openNotificantionMethod(){
-    setOpen(false)
+  function openNotificantionMethod() {
+    setOpen(false);
   }
-
-  console.log(isSubmitSuccessful)
-  const onErros = (errors: any) => console.error("ASDSKAOIDJPASIDJSAOJUOISADJUOAIDA");
 
   return (
     <>
       <Dialog.Portal>
         <Overlay />
-        <Content>
+        <Content onCloseAutoFocus={() => reset()}>
           <ModalHeader>
             <Dialog.Title>Novo curso</Dialog.Title>
             <HeaderButtons>
@@ -122,7 +118,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
             </HeaderButtons>
           </ModalHeader>
 
-          <form onSubmit={handleSubmit(handleCreateNewCourse, onErros)}>
+          <form onSubmit={handleSubmit(handleCreateNewCourse)}>
             <InputScroll>
               <InputContainer>
                 <InputContent>
@@ -130,11 +126,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <input
                     type="text"
                     placeholder="Digite seu nome"
-                    required
                     {...register("nome", {
                       required: true,
                       setValueAs: (v) => firstLetterUppercase(v),
                     })}
+                    minLength={4}
+                    maxLength={30}
+                    required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
                 </InputContent>
@@ -143,12 +141,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <select
                     {...register("tipo", { required: true })}
                     defaultValue={""}
+                    required
                   >
                     <option value="" disabled>
                       Selecione o tipo do ambiente
                     </option>
-                    <option value="FIC">FIC</option>
                     <option value="REGULAR">Regular</option>
+                    <option value="FIC">FIC</option>
                   </select>
                   {errors.tipo && <p>* Selecione um valor válido...</p>}
                 </InputContent>
@@ -162,11 +161,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         <input
                           type="text"
                           placeholder="Digite a unidade curricular"
-                          required
                           {...register(`unidadeCurricular.${index}.nome`, {
                             required: true,
                             setValueAs: (v) => firstLetterUppercase(v),
                           })}
+                          minLength={4}
+                          maxLength={30}
+                          required
                         />
                         {errors.unidadeCurricular && (
                           <p>
@@ -180,11 +181,12 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                         <input
                           type="number"
                           placeholder="Digite as horas"
-                          required
                           {...register(`unidadeCurricular.${index}.horas`, {
                             valueAsNumber: true,
                             required: true,
                           })}
+                          min="4"
+                          required
                         />
                         {errors.unidadeCurricular && (
                           <p>
@@ -206,7 +208,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   onClick={() => {
                     append({
                       nome: "",
-                      horas: 6,
+                      horas: 4,
                     });
                   }}
                   type="button"
@@ -215,16 +217,21 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
                 <FinalButton>
-                  <button type="submit">Criar</button>
+                  <button>Criar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
           </form>
         </Content>
-       
       </Dialog.Portal>
 
-      <Notification tipe={isSubmitSuccessful ? 'Sucesso' : 'Erro'} description={isSubmitSuccessful ? "Criado com sucesso!" : "DEU ERRADO"} title="Curso" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
+      {/* <Notification
+        tipe="Criado"
+        description="Criado com sucesso"
+        title="Usuário criado"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      /> */}
     </>
   );
 }
