@@ -33,6 +33,7 @@ export function Holiday() {
 
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
   const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
+  const [holidayMatch2, setHolidayMatches2] = useState<HolidayProps[]>([]);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -65,7 +66,7 @@ export function Holiday() {
       });
 
       ___.map((v) => {
-        setHolidayMatches((state) => [...state, v]);
+        setHolidayMatches2((state) => [...state, v]);
         setHoliday((state) => [...state, v]);
       });
     }
@@ -110,6 +111,9 @@ export function Holiday() {
 
         <HolidayList>
           {holidayMatch.map((data) => (
+            <HolidayItem holiday={data} />
+          ))}
+          {holidayMatch2.map((data) => (
             <HolidayItem holiday={data} />
           ))}
         </HolidayList>

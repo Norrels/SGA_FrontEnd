@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { format } from "date-fns";
+import { format, getDate } from "date-fns";
 import { NotePencil, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -25,7 +25,8 @@ interface EditAdminModalProps {
 export const holidayInput = z.object({
   id: z.number(),
   nome: z.string(),
-  tipo: z.date(),
+  tipo: z.string(),
+  type: z.string(),
   data: z.date(),
 });
 
@@ -33,7 +34,7 @@ export type HolidayType = z.infer<typeof holidayInput>;
 
 export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   const [editable, setEditable] = useState(false);
-
+  const [date, setDate] = useState<String>();
   // const [datat, setDatat] = useState(format(new Date(holiday.dataInicio), "dd-MM-yyyy"))
 
   const { handleSubmit, register, reset } = useForm<HolidayType>();
@@ -45,15 +46,29 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   }
 
   async function handleUpdateHolidayAPI(data: HolidayType) {
+    if(data.type == "FERIADO" || data.type == "EMENDA") {
+      const resp = await API.put(`dnl/${holiday.id}`, {
+        id: holiday.id,
+        nome: data.nome,
+        data: data.data,
+        tipo: data.tipo,
+      })
 
-    console.log(data)
+      if(resp.status  == 200) {
+        location.reload();
+      }
+    }  else {
+      const resp = await API.put(`feriados/${holiday.id}`, {
+        id: holiday.id,
+        name: data.nome,
+        date: data.data,
+        type: data.tipo,
+      })
 
-    /* const resp = await API.put(`dnl/${holiday.id}`, {
-      id: holiday.id,
-      nome: data.nome,
-      data: format(new Date(data.data), "dd/MM/yyyy"),
-      tipo: data.tipo,
-    }); */
+      if(resp.status  == 200) {
+        location.reload();
+      }
+    }
   }
 
   return (
@@ -78,6 +93,8 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
         <form onSubmit={handleSubmit(handleUpdateHoliday)}>
           <InputScroll>
             <InputContainer>
+              <input type="hidden" {...register("id")} value={holiday.id} />
+              <input type="hidden" {...register("type")} value={holiday.tipo} />
               <InputContent disabled={"on"}>
                 <label>Nome</label>
                 <input
@@ -109,7 +126,7 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
                 <input
                   type="date"
                   placeholder="dd/MM/yyyy"
-                  defaultValue={holiday.data}
+                  defaultValue={holiday.data.match("/") ? holiday.data.split("/")[2] + "-" + holiday.data.split("/")[1] + "-" + holiday.data.split("/")[0] : holiday.data}
                   {...register("data")}
                   readOnly={!editable}
                 />
