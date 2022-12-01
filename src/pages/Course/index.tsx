@@ -58,7 +58,7 @@ export function Course() {
     }
   }
 
-  console.log(userToEdit)
+
 
   return (
     <CourseContainer>
