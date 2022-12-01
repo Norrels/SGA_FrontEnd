@@ -79,10 +79,16 @@ export const teacherInput = z.object({
 
 export type DispProps = z.infer<typeof teacherInput>;
 
+interface Object {
+  nome: string;
+  tamanho: string;
+}
+
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
   const [open, setOpen] = useState(false);
   const [dataFinal, setDataFinal] = useState("");
+  const [object, setObject] = useState<Object>();
   const [aula, setAula] = useState<AulaType[]>([]);
 
   // pegando a data de hoje e formatando pro estilo americano para validar o input date
@@ -92,13 +98,7 @@ export function AvaliableModal() {
 
   const { teachers } = useContext(ObjectsContext);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    formState: { isSubmitted },
-  } = useForm<DispProps>({
+  const { register, handleSubmit, reset, setValue } = useForm<DispProps>({
     defaultValues: {
       diasSemana: [false],
     },
@@ -109,11 +109,16 @@ export function AvaliableModal() {
   }
 
   async function handleGetTeachers(data: DispProps) {
-    console.log(data);
     const res = await API.post("/professor/disponibilidadeProf/periodo", data);
-    console.log(res);
     if (res.status == 200) {
       setAula(res.data);
+      setSearched(true);
+
+      res.data.map((v: AulaType) => {
+        setObject({ tamanho: res.data.length + "", nome: v.professor.nome });
+      });
+    } else {
+      setSearched(false);
     }
   }
 
@@ -328,8 +333,11 @@ export function AvaliableModal() {
               <InfoBusca>
                 <p>
                   {!searched
-                    ? 'Verifique a disponibilidade do professor...'
-                    : aula.length !== 0 && `{professor.nome} possui ${aula.length} aulas durante o intervalo de datas e os dias da semana selecionados...`}
+                    ? "Verifique a disponibilidade do ambiente..."
+                    : aula.length !== 0 &&
+                      `${object?.nome} possui ${object?.tamanho} ${
+                        aula.length == 1 ? "aula" : "aulas"
+                      } durante o intervalo de datas e os dias da semana selecionados...`}
                 </p>
               </InfoBusca>
 
@@ -382,9 +390,11 @@ export function AvaliableModal() {
               <FinalButton>
                 <button
                   type="submit"
-                  onClick={() =>
-                    isSubmitted ? setSearched(true) : setSearched(false)
-                  }
+                  /* onClick={() => {
+                    setTimeout(() => {
+                       ? setSearched(true) : setSearched(false);
+                    }, 10000);
+                  }} */
                 >
                   Buscar
                 </button>

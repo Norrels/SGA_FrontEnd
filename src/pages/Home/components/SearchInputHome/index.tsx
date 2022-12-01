@@ -9,6 +9,7 @@ import {
   HomeDownContentSearchInput,
   HomeDownFilterContentSearchInput,
   HomeSearchInputContainer,
+  HomeSelectAndLegenda,
   HomeSelectFilterOptionSearch,
   HomeSelectOptionSearch,
   HomeTextContentSearchInput,
@@ -72,36 +73,6 @@ export function HomeSearchInput({
 
   return (
     <HomeSearchInputContainer>
-      <HomeUpContentSearchInput>
-        <button onClick={handlePreviousDay}>
-          <ArrowLeft size={30} />
-        </button>
-
-        <HomeTextContentSearchInput>
-          {format(referenceDay, "LLLL", {
-            locale: ptBR,
-          })}{" "}
-          {format(firstWeekDay, "d", {
-            locale: ptBR,
-          })}{" "}
-          -{" "}
-          {format(lastWeekDay, "LLLL", {
-            locale: ptBR,
-          })}{" "}
-          {format(lastWeekDay, "d", {
-            locale: ptBR,
-          })}
-        </HomeTextContentSearchInput>
-        <button onClick={handleNextWeekDay}>
-          <ArrowRight size={30} />
-        </button>
-
-        <HomeCalenderBox>
-          <Calendar size={32} />
-          <input type="date" onChange={handleChoiceDay} />
-        </HomeCalenderBox>
-      </HomeUpContentSearchInput>
-
       <HomeDownContentSearchInput>
         {/* <input
           type="text"
@@ -110,14 +81,51 @@ export function HomeSearchInput({
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>
-        <HomeSelectOptionSearch>
-          <select onChange={handleChangeCalenderView}>
-            <option>Salas</option>
-            <option>Professores</option>
-          </select>
-        </HomeSelectOptionSearch>
+        <HomeUpContentSearchInput>
+          <button onClick={handlePreviousDay}>
+            <ArrowLeft size={30} />
+          </button>
 
-         <HomeSelectFilterOptionSearch>
+          <HomeTextContentSearchInput>
+            {format(referenceDay, "LLLL", {
+              locale: ptBR,
+            })}{" "}
+            {format(firstWeekDay, "d", {
+              locale: ptBR,
+            })}{" "}
+            -{" "}
+            {format(lastWeekDay, "LLLL", {
+              locale: ptBR,
+            })}{" "}
+            {format(lastWeekDay, "d", {
+              locale: ptBR,
+            })}
+          </HomeTextContentSearchInput>
+          <button onClick={handleNextWeekDay}>
+            <ArrowRight size={30} />
+          </button>
+
+          <HomeCalenderBox>
+            <Calendar size={32} />
+            <input type="date" onChange={handleChoiceDay} />
+          </HomeCalenderBox>
+        </HomeUpContentSearchInput>
+        <HomeSelectAndLegenda>
+          <HomeSelectOptionSearch>
+            <select onChange={handleChangeCalenderView}>
+              <option>Salas</option>
+              <option>Professores</option>
+            </select>
+          </HomeSelectOptionSearch>
+          <HoverCard.Root openDelay={2}>
+            <HoverCard.Trigger asChild>
+              <Info size={30} opacity={0.5} />
+            </HoverCard.Trigger>
+            <SubtitlteHover />
+          </HoverCard.Root>
+        </HomeSelectAndLegenda>
+
+        <HomeSelectFilterOptionSearch>
           {/* <InputCheckbox colorsColor={1}>
             <HomeCheckBox
               value=""
@@ -161,14 +169,7 @@ export function HomeSearchInput({
             </HomeCheckBox>
             <span>Noite</span>
           </InputCheckbox> */}
-
-          <HoverCard.Root openDelay={2}>
-            <HoverCard.Trigger asChild>
-              <Info size={30} opacity={0.5} />
-            </HoverCard.Trigger>
-            <SubtitlteHover />
-          </HoverCard.Root>
-        </HomeSelectFilterOptionSearch> 
+        </HomeSelectFilterOptionSearch>
       </HomeDownFilterContentSearchInput>
     </HomeSearchInputContainer>
   );
