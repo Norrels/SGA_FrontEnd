@@ -26,7 +26,7 @@ export const HomeCalenderHeader = styled.header`
   z-index: 1;
 `;
 export const HomeCalenderOrderBy = styled.span`
-  width: 15rem;
+  width: 12.5rem;
   background: ${(props) => props.theme["white-400"]};
   border-radius: 9px;
   display: flex;
@@ -46,7 +46,7 @@ export const HomeCalenderHeaderDays = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
-  gap: 1.25rem;
+  gap: 1.5rem;
 `;
 const DAY = {
   today: "today",
@@ -56,6 +56,7 @@ interface DayProps {
   days: keyof typeof DAY;
 }
 export const HomeCalenderDay = styled.span<DayProps>`
+  width: 7.188rem;
   height: 6rem;
   background: ${(props) => props.theme["white-400"]};
   display: flex;
@@ -90,7 +91,7 @@ export const HomeCalenderContent = styled.main`
   justify-content: space-between;
 `;
 export const HomePlaces = styled.span`
-  width: 15rem;
+  width: 12.5rem;
   height: 10.3rem;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 9px;
@@ -108,7 +109,7 @@ export const HomeClassesContainer = styled.article`
   display: grid;
   grid-template-columns: repeat(7, 6.6rem);
   flex-direction: row;
-  gap: 1.25rem;
+  gap: 1.5rem;
 `;
 const PERIOD = {
   MANHA: "blue-400",
@@ -119,6 +120,7 @@ interface ClassProps {
   period: keyof typeof PERIOD;
 }
 export const HomeClasses = styled.div`
+  width: 7.188rem;
   height: 10.3rem;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 9px;
@@ -156,7 +158,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
 export const HomeClass = styled.div<ClassProps>`
   display: flex;
   height: 100%;
-  width: 105px;
+  width: 115px;
   flex-direction: column;
   justify-content: center;
   padding: 0.4rem;

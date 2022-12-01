@@ -69,8 +69,8 @@ export function Login() {
               <input type="text" id="" placeholder="Insira seu nif" {...register("nif")} />
               <input type="password" placeholder="Digite sua senha" {...register("senha")} />
               <sup>
-                O login só ira se realizado novamente em 7 dias <br /> após o
-                login, ou ao seu deslogar
+                Após 7 dias o login deverá ser realizado novamente,<br/> ou quando for feito o logout.
+
               </sup>
               <AlertDialog.Root>
                 <AlertDialog.Trigger asChild>
@@ -88,7 +88,7 @@ export function Login() {
           </LoginFormContent>
         </LoginFormContainer>
       </div>
-      <Notification tipe="Error" description="Usuário ou senha incorretos" title="Ocorreu um erro" openNotification={open} openNotificationMethod={openNotificantionMethod} />
+      <Notification tipe="Erro" description="Usuário ou senha incorretos" title="Ocorreu um erro" openNotification={open} openNotificationMethod={openNotificantionMethod} />
     </>
   );
 }

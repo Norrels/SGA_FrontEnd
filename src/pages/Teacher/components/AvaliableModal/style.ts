@@ -292,6 +292,8 @@ export const CheckboxIndicator = styled(Checkbox.Indicator)`
 
 export const InfoBusca = styled.div`
   width: 100%;
+
+  animation: ${fadeIn} .3s ease-in-out forwards;
   p {
     text-align: left;
     font-style: italic;
@@ -309,6 +311,8 @@ export const TableContainer = styled.div`
   align-items: center;
 
   gap: 1.25rem;
+
+  animation: ${fadeIn} .5s ease-in-out forwards;
 `;
 
 export const TableRow = styled.div`
@@ -364,6 +368,8 @@ export const AvailableContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  animation: ${fadeIn} .5s ease-in-out forwards;
 
   svg {
     color: ${(props) => props.theme["gray-500"]};

@@ -9,8 +9,8 @@ const fadeIn = keyframes`
   } 
 `;
 export const HomeSearchInputContainer = styled.section`
-  margin-top: 5.188rem;
-  margin-bottom: 3.188rem;
+  margin-top: 5rem;
+
   opacity: 0;
   animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
 `;
@@ -41,14 +41,14 @@ export const HomeDownContentSearchInput = styled.div`
   }
 `;
 export const HomeDownFilterContentSearchInput = styled.div`
-  margin-top: 1.5rem;
   display: flex;
+  align-items: center;
   justify-content: space-between;
 `;
 export const HomeSelectOptionSearch = styled.div`
   select {
     border-radius: 8px;
-    width: 12.5rem;
+    width: 10rem;
     height: 2.5rem;
     padding-left: 1.313rem;
     font-weight: 600;
@@ -89,7 +89,6 @@ export const InputCheckbox = styled.div<ColorsProps>`
   }
 `;
 export const HomeUpContentSearchInput = styled.div`
-  margin-bottom: 10px;
   display: flex;
   gap: 1rem;
   button {
@@ -140,4 +139,15 @@ export const HomeCalenderBox = styled.div`
     right: 9;
     top: -0;
   }
+`;
+
+export const HomeSelectAndLegenda = styled.div`
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+
+  gap: 1rem;
 `;
