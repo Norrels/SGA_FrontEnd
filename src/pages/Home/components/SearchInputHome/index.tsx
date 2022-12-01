@@ -27,6 +27,7 @@ interface SearchInputProps {
   choiceDayWeek: (data: Date) => void;
   referenceDay: Date;
   choiceTypeOfViewCalender: (type: string) => void;
+  handleCreateArrayDayType: (type: string) => void;
 }
 
 export function HomeSearchInput({
@@ -35,6 +36,7 @@ export function HomeSearchInput({
   choiceDayWeek,
   referenceDay,
   choiceTypeOfViewCalender,
+  handleCreateArrayDayType,
 }: SearchInputProps) {
   const firstWeekDay = startOfWeek(referenceDay);
   const lastWeekDay = endOfWeek(referenceDay);
@@ -55,15 +57,19 @@ export function HomeSearchInput({
     if (event.target.value == "") {
       return undefined;
     }
-    console.log(event.target.value)
+    console.log(event.target.value);
     const dayChoiced = startOfWeek(new Date(event.target.value));
     choiceDayWeek(dayChoiced);
   }
 
   function teste(event: ChangeEvent<HTMLSelectElement>) {
-    if (event.target.value == 'MANHA') {
-      console.log('passou ak')
+    if (event.target.value == "MANHA") {
+      console.log("passou ak");
     }
+  }
+
+  function handleClickInTypeDay(value: any) {
+    handleCreateArrayDayType(value);
   }
 
   return (
@@ -115,15 +121,22 @@ export function HomeSearchInput({
 
         <HomeSelectFilterOptionSearch>
           <InputCheckbox colorsColor={1}>
-            <HomeCheckBox onCheckedChange={(checked) => {console.log("Checked")}}>
-              <HomeCheckBoxIndicator>
+            <HomeCheckBox
+              value=""
+              onChange={(checked) =>
+                handleClickInTypeDay(checked.currentTarget.value)
+              }
+            >
+              <HomeCheckBoxIndicator >
                 <Check size={30} weight="bold" />
               </HomeCheckBoxIndicator>
             </HomeCheckBox>
             <span>Todos</span>
           </InputCheckbox>
           <InputCheckbox colorsColor={2}>
-            <HomeCheckBox>
+            <HomeCheckBox onCheckedChange={() =>
+                handleClickInTypeDay("MANHA")
+              }>
               <HomeCheckBoxIndicator>
                 <Check size={30} weight="bold" />
               </HomeCheckBoxIndicator>
@@ -131,7 +144,9 @@ export function HomeSearchInput({
             <span>Manhã</span>
           </InputCheckbox>
           <InputCheckbox colorsColor={3}>
-            <HomeCheckBox>
+            <HomeCheckBox onCheckedChange={() =>
+                handleClickInTypeDay("TARDE")
+              }>
               <HomeCheckBoxIndicator>
                 <Check size={30} weight="bold" />
               </HomeCheckBoxIndicator>
@@ -139,7 +154,9 @@ export function HomeSearchInput({
             <span>Tarde</span>
           </InputCheckbox>
           <InputCheckbox colorsColor={4}>
-            <HomeCheckBox>
+            <HomeCheckBox onCheckedChange={() =>
+                handleClickInTypeDay("NOITE")
+              }>
               <HomeCheckBoxIndicator>
                 <Check size={30} weight="bold" />
               </HomeCheckBoxIndicator>

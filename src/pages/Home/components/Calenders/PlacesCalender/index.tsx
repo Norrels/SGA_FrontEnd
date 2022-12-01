@@ -25,10 +25,12 @@ import {
   TeacherProps,
 } from "../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../lib/axios";
+import { AulaTypeSuper } from "../../../../AdvancedSearch";
 
 interface CalenderProps {
   days: Date[];
   today: Date;
+  classMatch: AulaTypeSuper[];
 }
 
 export interface EditClassModalProps {
@@ -56,7 +58,7 @@ export interface AulaProps {
   periodo: string;
 }
 
-export function Calender({ days, today }: CalenderProps) {
+export function Calender({ days, today, classMatch }: CalenderProps) {
   const { teachers } = useContext(ObjectsContext);
   const [open, setOpen] = useState(false);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
@@ -132,11 +134,11 @@ export function Calender({ days, today }: CalenderProps) {
                 {days?.map((day) => {
                   return (
                     <HomeClasses key={day.getDate()}>
-                      {aulas?.map((aula) => {
+                      {classMatch?.map((aula) => {
                         return (
                           aula.data.toString() == format(day, "dd/MM/yyyy") &&
                           aula.professor.id == teacher.id && (
-                            <ContextMenu.Root key={aula.id}>
+                            <ContextMenu.Root>
                               <HomeButtonClickRoot
                                 period={
                                   aula.periodo == "MANHA"
@@ -159,10 +161,10 @@ export function Calender({ days, today }: CalenderProps) {
                                   <sup>{aula.unidadeCurricular.nome}</sup>
                                 </HomeClass>
                               </HomeButtonClickRoot>
-                              <RightClick
+                              {/* <RightClick
                                 aulas={aula}
                                 handleEditClass={handleEditClass}
-                              />
+                              /> */}
                             </ContextMenu.Root>
                           )
                         );

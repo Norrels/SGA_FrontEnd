@@ -15,8 +15,10 @@ import {
   previousDay,
   startOfWeek,
 } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
+import { API } from "../../lib/axios";
+import { AulaTypeSuper } from "../AdvancedSearch";
 
 export function Home() {
   document.title = "Início | SGA";
@@ -31,6 +33,12 @@ export function Home() {
 
   const [title, setTitle] = useState("");
   const [isViewClass, setIsViewClass] = useState("");
+
+  const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
+  const [aula, setAula] = useState<AulaTypeSuper[]>([]);
+  const [saveClassMatch, setSaveClassMatch] = useState<AulaTypeSuper[]>([]);
+
+  const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
@@ -62,6 +70,64 @@ export function Home() {
     setOpenRegular(false);
     setOpenFic(false);
     setOpenCustomizavel(false);
+  }
+
+  useEffect(() => {
+    handleGet();
+  }, []);
+
+  useEffect(() => {
+    const saveDup = saveClassMatch.filter(
+      (val, id) => saveClassMatch.indexOf(val) == id
+    );
+
+    setClassMatch(saveDup);
+  }, [saveClassMatch]);
+
+  async function handleGet() {
+    const res = await API.get("aula");
+
+    if (res.status == 200) {
+      setAula(res.data);
+      setClassMatch(res.data);
+    }
+  }
+
+  function handleCreateArrayDayType(value: String) {
+    if (dayTypeMatch.some((v) => v == value)) {
+      setDayTypeMatch(dayTypeMatch.filter((c) => c !== value));
+    } else {
+      setDayTypeMatch([...dayTypeMatch, value]);
+    }
+  }
+
+  useEffect(() => {
+    handleMapArray();
+    console.log(dayTypeMatch);
+  }, [dayTypeMatch]);
+
+  function handleMapArray() {
+    let lastDayType = [...dayTypeMatch].pop();
+
+    if (dayTypeMatch.length > 0) {
+      const regex = new RegExp(`${lastDayType}`);
+      var _l = aula.filter((value) => value.periodo.match(regex));
+
+      if (_l.length == 0) {
+        setSaveClassMatch([]);
+      }
+
+      if (_l.length > 0 && saveClassMatch.length == _l.length) {
+        setSaveClassMatch([...saveClassMatch, ..._l]);
+      }
+
+      if(_l.length > 0) {
+        setSaveClassMatch(_l);
+      }
+
+    } else {
+      setSaveClassMatch(aula);
+    }
   }
 
   return (
@@ -98,6 +164,7 @@ export function Home() {
         </HomeTitleContainer>
 
         <HomeSearchInput
+          handleCreateArrayDayType={handleCreateArrayDayType}
           choiceTypeOfViewCalender={changeView}
           referenceDay={referenceDay}
           previousDayWeek={previousDayWeek}
@@ -105,11 +172,11 @@ export function Home() {
           nextDayWeek={nextDayWeek}
         />
 
-        {isViewClass == "Professores" ? (
-          <Calender today={today} days={daysWeek} />
-        ) : (
+        {/* {isViewClass == "Professores" || classMatch.length > 0 ? ( */}
+        <Calender today={today} days={daysWeek} classMatch={classMatch} />
+        {/* ) : (
           <CalenderTeacher today={today} days={daysWeek} />
-        )}
+        )} */}
       </HomeContent>
     </HomeContainer>
   );
