@@ -27,7 +27,6 @@ interface SearchInputProps {
   choiceDayWeek: (data: Date) => void;
   referenceDay: Date;
   choiceTypeOfViewCalender: (type: string) => void;
-  handleCreateArrayDayType: (type: string) => void;
 }
 
 export function HomeSearchInput({
@@ -36,7 +35,6 @@ export function HomeSearchInput({
   choiceDayWeek,
   referenceDay,
   choiceTypeOfViewCalender,
-  handleCreateArrayDayType,
 }: SearchInputProps) {
   const firstWeekDay = startOfWeek(referenceDay);
   const lastWeekDay = endOfWeek(referenceDay);
@@ -62,7 +60,7 @@ export function HomeSearchInput({
     choiceDayWeek(dayChoiced);
   }
 
-  function teste(event: ChangeEvent<HTMLSelectElement>) {
+  /* function teste(event: ChangeEvent<HTMLSelectElement>) {
     if (event.target.value == "MANHA") {
       console.log("passou ak");
     }
@@ -70,7 +68,7 @@ export function HomeSearchInput({
 
   function handleClickInTypeDay(value: any) {
     handleCreateArrayDayType(value);
-  }
+  } */
 
   return (
     <HomeSearchInputContainer>
@@ -105,10 +103,10 @@ export function HomeSearchInput({
       </HomeUpContentSearchInput>
 
       <HomeDownContentSearchInput>
-        <input
+        {/* <input
           type="text"
           placeholder="Busque uma ou várias aulas dessa semana..."
-        />
+        /> */}
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>
@@ -119,8 +117,8 @@ export function HomeSearchInput({
           </select>
         </HomeSelectOptionSearch>
 
-        <HomeSelectFilterOptionSearch>
-          <InputCheckbox colorsColor={1}>
+         <HomeSelectFilterOptionSearch>
+          {/* <InputCheckbox colorsColor={1}>
             <HomeCheckBox
               value=""
               onChange={(checked) =>
@@ -162,7 +160,7 @@ export function HomeSearchInput({
               </HomeCheckBoxIndicator>
             </HomeCheckBox>
             <span>Noite</span>
-          </InputCheckbox>
+          </InputCheckbox> */}
 
           <HoverCard.Root openDelay={2}>
             <HoverCard.Trigger asChild>
@@ -170,7 +168,7 @@ export function HomeSearchInput({
             </HoverCard.Trigger>
             <SubtitlteHover />
           </HoverCard.Root>
-        </HomeSelectFilterOptionSearch>
+        </HomeSelectFilterOptionSearch> 
       </HomeDownFilterContentSearchInput>
     </HomeSearchInputContainer>
   );
