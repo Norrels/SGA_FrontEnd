@@ -311,7 +311,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   value={adress}
                   {...register("endereco")}
                   onChange={(event) => setAdress(event.target.value)}
-                  disabled={cep.length < 7}
+                  disabled={cep.length < 8}
                   required={
                     tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
                   }
@@ -334,9 +334,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                   type="text"
                   placeholder="Digite o complemento"
                   {...register("complemento")}
-                  disabled={
-                    tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
-                  }
+                  disabled={cep.length < 8}
                 />
               </InputContent>
 

@@ -337,8 +337,8 @@ export function AvaliableModal() {
                 <AvailableContainer>
                   <Confetti size={60} weight="light" />
                   <p>
-                    O ambiente está disponivel no intervalo de datas e dias
-                    selecionados
+                    O professor está disponível no intervalo de datas e dias
+                    selecionados!
                   </p>
                   {/* <p>Clique aqui para cadastrar sua aula!</p> */}
                 </AvailableContainer>

@@ -64,7 +64,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     reset,
     control,
     //Variavel utilizada para acessar os erros do formulario
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
     defaultValues: {
@@ -74,6 +74,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
   //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false)
+  const [statusRes, setStatusRes] = useState("")
 
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
@@ -95,14 +96,17 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
     createCourseAPI(data);
-    reset();
-    closeModal();
+    /* reset();
+    closeModal(); */
     setOpen(true)
   }
 
   function openNotificantionMethod(){
     setOpen(false)
   }
+
+  console.log(isSubmitSuccessful)
+  const onErros = (errors: any) => console.error("ASDSKAOIDJPASIDJSAOJUOISADJUOAIDA");
 
   return (
     <>
@@ -118,7 +122,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
             </HeaderButtons>
           </ModalHeader>
 
-          <form onSubmit={handleSubmit(handleCreateNewCourse)}>
+          <form onSubmit={handleSubmit(handleCreateNewCourse, onErros)}>
             <InputScroll>
               <InputContainer>
                 <InputContent>
@@ -211,7 +215,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
                 <FinalButton>
-                  <button>Criar</button>
+                  <button type="submit">Criar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
@@ -220,9 +224,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
        
       </Dialog.Portal>
 
-      <Notification tipe="Criado" description="Criado com sucesso" title="Usuário criado" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
+      <Notification tipe={isSubmitSuccessful ? 'Sucesso' : 'Erro'} description={isSubmitSuccessful ? "Criado com sucesso!" : "DEU ERRADO"} title="Curso" openNotification={open} openNotificationMethod={openNotificantionMethod}/>
     </>
   );
 }
-
-// 25/10/2022 - Adicionar focus ao dar erro nos inputs...

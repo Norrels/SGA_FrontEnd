@@ -60,7 +60,6 @@ export function EditClassModal({
     event: ChangeEvent<HTMLInputElement>
   ) {
     fetchPadrao(event.target.value);
-    console.log(format(new Date(aulas.data), "yyyy-MM-dd"));
   }
 
   async function fetchPadrao(value: string) {

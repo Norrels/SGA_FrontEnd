@@ -27,33 +27,16 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
   const {
     register,
     handleSubmit,
-    reset,
-    setValue,
+    reset,  
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const [editable, setEditable] = useState(false);
-  const [tipoAmbiente, setTipoAmbiente] = useState("");
-  const [adress, setAdress] = useState("");
-  const [cep, setCep] = useState("");
   const { updatePlaces } = useContext(ObjectsContext);
 
   async function handleUpdatePlace(data: NewPlaceType) {
     data.id = place.id;
     updatePlaces(data);
     closeModal();
-  }
-
-  function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
-    if (tipoAmbiente == "" || tipoAmbiente != event.target.value) {
-      reset(
-        { capacidade: undefined, complemento: "", cep: "", endereco: "" },
-        {
-          keepDirty: false,
-          keepValues: false,
-        }
-      );
-    }
-    setTipoAmbiente(event.target.value);
   }
 
   function firstLetterUppercase(value: string) {
@@ -63,10 +46,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
 
   function onCloseModalPlaces() {
     reset();
-    setTipoAmbiente("");
-    setCep("");
-    setAdress("");
-    setEditable(false)
+    setEditable(false);
   }
 
   return (
@@ -102,16 +82,18 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                   })}
                   minLength={4}
                   maxLength={20}
+                  required
                   readOnly={!editable}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
-              <InputContent disabled={editable ? "on" : "disabled"}>
+              <InputContent disabled={"disabled"}>
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do ambiente"
                   defaultValue={place.tipo}
                   {...register("tipo")}
+                  
                 >
                   <option value="UNIDADE_MOVEL">Unidade Movel</option>
                   <option value="PRESENCIAL">Presencial</option>
@@ -132,14 +114,14 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     Capacidade
                   </label>
                   <input
-                    type="text"
+                    type="number"
                     placeholder="Digite a capacidade"
                     min="1"
-                    defaultValue={place?.capacidade}
+                    defaultValue={place.capacidade}
                     {...register("capacidade", { valueAsNumber: true })}
                     readOnly={place.tipo !== "REMOTO" && !editable}
                     disabled={place.tipo === "REMOTO"}
-                    
+                    required={place.tipo != "REMOTO"}
                   />
                   {errors.capacidade && <p>{errors.capacidade.message}</p>}
                 </InputIndividual>
