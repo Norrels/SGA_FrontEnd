@@ -34,11 +34,11 @@ export function Home() {
   const [title, setTitle] = useState("");
   const [isViewClass, setIsViewClass] = useState("");
 
-  const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
+/*   const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [saveClassMatch, setSaveClassMatch] = useState<AulaTypeSuper[]>([]);
 
-  const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]);
+  const [classMatch, setClassMatch] = useState<AulaTypeSuper[]>([]); */
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
@@ -72,7 +72,7 @@ export function Home() {
     setOpenCustomizavel(false);
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     handleGet();
   }, []);
 
@@ -128,7 +128,7 @@ export function Home() {
     } else {
       setSaveClassMatch(aula);
     }
-  }
+  } */
 
   return (
     <HomeContainer>
@@ -164,7 +164,7 @@ export function Home() {
         </HomeTitleContainer>
 
         <HomeSearchInput
-          handleCreateArrayDayType={handleCreateArrayDayType}
+          /* handleCreateArrayDayType={handleCreateArrayDayType} */
           choiceTypeOfViewCalender={changeView}
           referenceDay={referenceDay}
           previousDayWeek={previousDayWeek}
@@ -172,11 +172,11 @@ export function Home() {
           nextDayWeek={nextDayWeek}
         />
 
-        {/* {isViewClass == "Professores" || classMatch.length > 0 ? ( */}
-        <Calender today={today} days={daysWeek} classMatch={classMatch} />
-        {/* ) : (
+        {isViewClass == "Professores" ? (
+          <Calender today={today} days={daysWeek} />
+         ) : (
           <CalenderTeacher today={today} days={daysWeek} />
-        )} */}
+        )}
       </HomeContent>
     </HomeContainer>
   );

@@ -45,12 +45,15 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   }
 
   async function handleUpdateHolidayAPI(data: HolidayType) {
-    const resp = await API.put(`dnl/${holiday.id}`, {
+
+    console.log(data)
+
+    /* const resp = await API.put(`dnl/${holiday.id}`, {
       id: holiday.id,
       nome: data.nome,
       data: format(new Date(data.data), "dd/MM/yyyy"),
       tipo: data.tipo,
-    });
+    }); */
   }
 
   return (
