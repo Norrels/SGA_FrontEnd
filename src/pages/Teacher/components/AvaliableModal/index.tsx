@@ -31,7 +31,7 @@ import {
 } from "./style";
 
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
@@ -82,11 +82,23 @@ export type DispProps = z.infer<typeof teacherInput>;
 export function AvaliableModal() {
   const [searched, setSearched] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataFinal, setDataFinal] = useState("");
   const [aula, setAula] = useState<AulaType[]>([]);
+
+  // pegando a data de hoje e formatando pro estilo americano para validar o input date
+  const hoje = new Date()
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
   const { teachers } = useContext(ObjectsContext);
 
-  const { register, handleSubmit, reset, setValue } = useForm<DispProps>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    formState: { isSubmitted },
+  } = useForm<DispProps>({
     defaultValues: {
       diasSemana: [false],
     },
@@ -105,10 +117,24 @@ export function AvaliableModal() {
     }
   }
 
+  function onChangeDataInicio(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.value != "") {
+      setDataFinal(event.target.value);
+    } else {
+      setDataFinal("");
+    }
+  }
+
+  function onCloseAvaliableModal() {
+    reset();
+    setSearched(false);
+    setDataFinal("");
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content onCloseAutoFocus={() => setSearched(false)}>
+      <Content onCloseAutoFocus={() => onCloseAvaliableModal()}>
         <form onSubmit={handleSubmit(handleGetTeachers)}>
           <ModalHeader>
             <Dialog.Title>Disponibilidade</Dialog.Title>
@@ -122,7 +148,7 @@ export function AvaliableModal() {
               </ButtonIndividual>
               <ButtonIndividual
                 type="button"
-                onClick={() => reset()}
+                onClick={() => onCloseAvaliableModal()}
                 title="Limpe os campos do formulário"
               >
                 <ArrowCounterClockwise size={40} weight="light" />
@@ -144,10 +170,11 @@ export function AvaliableModal() {
                       <label>Professor</label>
                       <select
                         placeholder="Selecione o professor"
-                        defaultValue="default"
+                        defaultValue=""
                         {...register("professor.id")}
+                        required
                       >
-                        <option value="default" disabled>
+                        <option value="" disabled>
                           Selecione o professor
                         </option>
                         {teachers.map((value) => (
@@ -161,10 +188,11 @@ export function AvaliableModal() {
                       <label>Periodo</label>
                       <select
                         placeholder="Selecione o periodo"
-                        defaultValue="default"
+                        defaultValue=""
                         {...register("periodo")}
+                        required
                       >
-                        <option value="default" disabled>
+                        <option value="" disabled>
                           Selecione o periodo
                         </option>
                         <option value="MANHA">Manhã</option>
@@ -186,6 +214,9 @@ export function AvaliableModal() {
                         {...register("dataInicio")}
                         type="date"
                         placeholder="dd/MM/yyyy"
+                        onChange={onChangeDataInicio}
+                        min={hoje}
+                        required
                       />
                     </InputIndividual>
                     <InputIndividual>
@@ -194,6 +225,8 @@ export function AvaliableModal() {
                         {...register("dataFinal")}
                         type="date"
                         placeholder="dd/MM/yyyy"
+                        min={dataFinal == "" ? hoje : dataFinal}
+                        required
                       />
                     </InputIndividual>
                   </InputContent>
@@ -292,17 +325,14 @@ export function AvaliableModal() {
                   </ChecksContent>
                 </InputContainer>
               </Main>
-              {aula.length !== 0 ? (
-                <InfoBusca>
-                  <p>
-                    {searched
-                      ? `{professor.nome} possui {aulas.length} aulas durante o intervalo de datas e os dias da semana selecionados...`
-                      : "Verifique a disponibilidade do professor..."}
-                  </p>
-                </InfoBusca>
-              ) : (
-                <></>
-              )}
+              <InfoBusca>
+                <p>
+                  {!searched
+                    ? 'Verifique a disponibilidade do professor...'
+                    : aula.length !== 0 && `{professor.nome} possui ${aula.length} aulas durante o intervalo de datas e os dias da semana selecionados...`}
+                </p>
+              </InfoBusca>
+
               {searched && aula.length !== 0 ? (
                 <TableContainer>
                   <TableRow>
@@ -315,8 +345,12 @@ export function AvaliableModal() {
                   {aula.map((value) => (
                     <TableRow key={value.id}>
                       <p>{value.curso.nome}</p>
-                      <p>{value.professor.nome}</p>
-                      <p>{value.periodo}</p>
+                      <p>{value.ambiente.nome}</p>
+                      <p>
+                        {value.periodo.toLowerCase() == "manha"
+                          ? "manhã"
+                          : value.periodo.toLowerCase()}
+                      </p>
                       <p>{value.data}</p>
                       <Dialog.Root>
                         <Dialog.Trigger>
@@ -346,7 +380,14 @@ export function AvaliableModal() {
                 <></>
               )}
               <FinalButton>
-                <button onClick={() => setSearched(true)}>Buscar</button>
+                <button
+                  type="submit"
+                  onClick={() =>
+                    isSubmitted ? setSearched(true) : setSearched(false)
+                  }
+                >
+                  Buscar
+                </button>
               </FinalButton>
               <div id="down" style={{ display: "none" }}></div>
             </ContentContainer>

@@ -96,13 +96,15 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                 <input
                   type="text"
                   placeholder="Digite seu nome"
-                  required
                   defaultValue={course.nome}
                   {...register("nome", {
                     required: true,
                     setValueAs: (v) => firstLetterUppercase(v),
                   })}
                   readOnly={!editable}
+                  minLength={4}
+                  maxLength={30}
+                  required
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -111,6 +113,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                 <select
                   defaultValue={course.tipo}
                   {...register("tipo", { required: true })}
+                  required
                 >
                   <option value="FIC">FIC</option>
                   <option value="REGULAR">Regular</option>
@@ -125,13 +128,15 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                       <input
                         type="text"
                         placeholder="Digite a unidade curricular"
-                        required
                         defaultValue={course.unidadeCurricular[index]?.nome}
                         {...register(`unidadeCurricular.${index}.nome`, {
                           required: true,
                           setValueAs: (v) => firstLetterUppercase(v),
                         })}
                         readOnly={!editable}
+                        minLength={4}
+                        maxLength={30}
+                        required
                       />
                       {errors.unidadeCurricular && (
                         <p>{errors.unidadeCurricular[index]?.nome?.message}</p>
@@ -142,18 +147,19 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                       <input
                         type="number"
                         placeholder="Digite as horas"
-                        required
                         {...register(`unidadeCurricular.${index}.horas`, {
                           valueAsNumber: true,
                           required: true,
                         })}
                         readOnly={!editable}
+                        min="4"
+                        required
                       />
                       {errors.unidadeCurricular && (
                         <p>{errors.unidadeCurricular[index]?.horas?.message}</p>
                       )}
                     </InputIndividual>
-                    {index > 0 && editable && (
+                    {index >= course.unidadeCurricular.length && editable && (
                       <Trash
                         size={40}
                         weight="light"

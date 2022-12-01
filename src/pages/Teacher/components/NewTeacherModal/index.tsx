@@ -2,11 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, Trash, Upload, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import {
-  useFieldArray,
-  useForm,
-  FormProvider,
-} from "react-hook-form";
+import { useFieldArray, useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
@@ -31,23 +27,26 @@ export const teacherInput = z.object({
   id: z.number().optional(),
   nome: z
     .string()
-    .min(3, { message: "* O nome não deve ser menor que 3 carecteres" }),
+    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .min(3, { message: "* O nome deve ser maior que 3 carecteres..." }),
+  email: z.string().email({ message: "* Informe um email válido..." }),
   cargaSemanal: z
-    .number({ invalid_type_error: "* Informe um valor" })
-    .gte(10, { message: "* Deve ser no minimo 10 horas" })
-    .lte(40, { message: "* Não deve passar de 40 horas" }),
-  foto:  z.string().optional(),
-  ativo: z.boolean().optional(),
-  email: z.string().email({ message: "* Informe um email válido" }),
+    .number({ invalid_type_error: "* Informe um valor..." })
+    .gte(10, { message: "* Deve ser no mínimo 20 horas..." })
+    .lte(40, { message: "* Deve ser no máximo 40 horas..." }),
+  foto: z.string().optional(),
   competencia: z
     .object({
       nivel: z.number(),
       unidadeCurricular: z.object({
-        id: z.number().positive({ message: "* Selecione uma UC" }),
+        id: z
+          .number()
+          .positive({ message: "* Selecione uma unidade curricular..." }),
         nome: z.string().optional(),
       }),
     })
     .array(),
+  ativo: z.boolean().optional(),
 });
 
 export type TeacherType = z.infer<typeof teacherInput>;
@@ -55,7 +54,6 @@ export type TeacherType = z.infer<typeof teacherInput>;
 interface NewTeacherModalProps {
   closeModal: () => void;
 }
-
 
 interface CurricularUnit {
   id: number;
@@ -104,7 +102,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     formState: { errors },
   } = newTeacherForm;
 
-
   const { fields, append, remove } = useFieldArray({
     name: "competencia",
     control,
@@ -112,7 +109,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
       required: "O curso deve ter pelo menos uma unidade curricular",
     },
   });
-
 
   //Pwgando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
@@ -126,7 +122,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
-    console.log(file)
+    console.log(file);
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
     console.log(String(base64).length);
@@ -148,23 +144,24 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   function isValidOption(id: number) {
-    const options = watch("competencia").map((value) => value.unidadeCurricular.id)
-    if (options.find(ids => ids == id)) {
-      return true
+    const options = watch("competencia").map(
+      (value) => value.unidadeCurricular.id
+    );
+    if (options.find((ids) => ids == id)) {
+      return true;
     }
     return false;
   }
 
   function firstLetterUppercase(value: string) {
     value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value
+    return value;
   }
-
 
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => reset()}>
         <ModalHeader>
           <Dialog.Title>Novo professor</Dialog.Title>
           <HeaderButtons>
@@ -181,8 +178,12 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 <input
                   type="text"
                   placeholder="Digite o nome do professor"
+                  {...register("nome", {
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
+                  minLength={4}
+                  maxLength={30}
                   required
-                  {...register("nome", { setValueAs: v => firstLetterUppercase(v) })}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
@@ -191,8 +192,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                 <input
                   type="email"
                   placeholder="Digite o email do professor"
+                  {...register("email", {
+                    setValueAs: (v) => firstLetterUppercase(v),
+                  })}
                   required
-                  {...register("email", { setValueAs: v => firstLetterUppercase(v) })}
                 />
                 {errors.email && <p>{errors.email.message}</p>}
               </InputContent>
@@ -202,8 +205,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   <input
                     type="number"
                     placeholder="Digite as horas"
-                    required
                     {...register("cargaSemanal", { valueAsNumber: true })}
+                    min="20"
+                    max="40"
+                    required
                   />
                   {errors.cargaSemanal && <p>{errors.cargaSemanal.message}</p>}
                 </InputIndividual>
@@ -233,13 +238,14 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     <InputIndividual>
                       <label>Competência</label>
                       <select
-                        defaultValue={0}
                         {...register(
                           `competencia.${index}.unidadeCurricular.id`,
-                          { valueAsNumber: true }
+                          { valueAsNumber: true, required: true}
                         )}
+                        defaultValue=""
+                        required
                       >
-                        <option value={0} disabled>
+                        <option value="" disabled>
                           Selecione uma unidade curricular
                         </option>
                         {unidadeCurricular.map((value, index) => {
@@ -251,12 +257,17 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                             >
                               {value.nome}
                             </option>
-                          )
+                          );
                         })}
                       </select>
 
                       {errors.competencia && (
-                        <p>{errors.competencia[index]?.unidadeCurricular?.id?.message}</p>
+                        <p>
+                          {
+                            errors.competencia[index]?.unidadeCurricular?.id
+                              ?.message
+                          }
+                        </p>
                       )}
                     </InputIndividual>
                     <InputIndividual>
@@ -280,9 +291,9 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     nivel: 1,
                     unidadeCurricular: {
                       nome: "",
-                      id: 0
+                      id: 0,
                     },
-                  })
+                  });
                 }}
                 type="button"
               >

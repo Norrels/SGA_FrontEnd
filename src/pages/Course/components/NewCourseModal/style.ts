@@ -131,6 +131,9 @@ export const InputContent = styled.div`
   flex-direction: column;
   gap: 0.625rem;
 
+  opacity: 0;
+  animation: ${fadeIn} .4s ease-in-out forwards;
+
   &:not(:nth-child(1), :nth-child(2)) {
     flex-direction: row;
   }
@@ -194,6 +197,7 @@ export const InputContent = styled.div`
     }
   }
   svg {
+    /* margin-top: 1.7rem; */
     margin-top: 3.7rem;
     transition-duration: 0.2s;
     &:hover {

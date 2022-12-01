@@ -60,7 +60,7 @@ export function ThirdStepContent() {
             <p>{course?.nome}</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>falta arrumar</p>
+            <p>{unidadeCurricular?.horas}h</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>
@@ -88,7 +88,7 @@ export function ThirdStepContent() {
             <p>{periodo?.toLowerCase()}</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>Seg, Qua, Qui, Sex</p>
+            <p>Quinta e Sexta</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>
@@ -99,10 +99,10 @@ export function ThirdStepContent() {
         </SummaryHeader>
         <SummaryContent>
           <SummaryDetails>
-            <p>09/11/2022</p>
+            <p>01/12/2022</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>20/11/2022</p>
+            <p>27/01/2023</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>
