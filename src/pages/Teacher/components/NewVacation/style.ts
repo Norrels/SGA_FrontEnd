@@ -204,6 +204,8 @@ export const CheckIndividual = styled.div`
 
 export const FinalButton = styled.div`
   width: 100%;
+
+  transition-duration: .4s;
   button {
     width: 100%;
     height: 4.688rem;
@@ -215,5 +217,10 @@ export const FinalButton = styled.div`
     color: ${(props) => props.theme["white"]};
     font-size: 1.25rem;
     font-weight: bold;
+
+    transition-duration: .4s;
+    &:disabled {
+      opacity: 30%;
+    }
   }
 `;

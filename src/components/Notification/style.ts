@@ -1,5 +1,25 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import * as Toast from "@radix-ui/react-toast";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(75px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0);
+  } 
+`;
 
 export const NotificationContainer = styled(Toast.Root)`
   background-color: white;
@@ -13,6 +33,8 @@ export const NotificationContainer = styled(Toast.Root)`
   row-gap: 0.1rem;
   align-items: center;
   z-index: 100;
+
+  animation: ${swipeTop} .6s ease-in-out forwards;
   
 
   div {

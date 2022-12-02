@@ -227,6 +227,9 @@ export const AdvancedSearchAutocomplete = styled.div`
 
   p {
     margin-left: 30px;
+    &:hover {
+      cursor: pointer;
+    }
 
     cursor: pointer;
     :first-child {

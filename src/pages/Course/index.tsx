@@ -58,8 +58,6 @@ export function Course() {
     }
   }
 
-
-
   return (
     <CourseContainer>
       <CourseContent>
