@@ -291,6 +291,27 @@ export default function AdvancedSearch() {
       }
 
       if (semanaMatch.length > 0) {
+        _l.map((v) => {
+          console.log(
+            getDay(
+              setDay(
+                new Date(
+                  Number(v.data.split("/")[2]),
+                  Number(v.data.split("/")[1]),
+                  Number(v.data.split("/")[0])
+                ),
+                getDay(
+                  new Date(
+                    Number(v.data.split("/")[2]),
+                    Number(v.data.split("/")[1]),
+                    Number(v.data.split("/")[0])
+                  )
+                )
+              )
+            )
+          );
+        });
+
         _l = _l.filter(
           (v) =>
             getDay(
@@ -308,7 +329,8 @@ export default function AdvancedSearch() {
                   )
                 )
               )
-            ) == Number(lastSemana) && v.professor.nome == lastTeacher
+            )
+          // == Number(lastSemana) && v.professor.nome == lastTeacher
         );
 
         if (dayTypeMatch.length > 0) {
@@ -625,22 +647,28 @@ export default function AdvancedSearch() {
       var _l = aula.filter(
         (v) =>
           getDay(
-            setDay(
+            new Date(
+              Number(v.data.split("/")[2]),
+              Number(v.data.split("/")[0]),
+              Number(v.data.split("/")[1])
+            )
+          ) == Number(lastSemana)
+      );
+
+      _l.map((v) => {
+        console.log(Number(v.data.split("/")[2]),
+        Number(v.data.split("/")[0]),
+        Number(v.data.split("/")[1])),
+        console.log(
+            getDay(
               new Date(
                 Number(v.data.split("/")[2]),
                 Number(v.data.split("/")[1]),
                 Number(v.data.split("/")[0])
-              ),
-              getDay(
-                new Date(
-                  Number(v.data.split("/")[2]),
-                  Number(v.data.split("/")[1]),
-                  Number(v.data.split("/")[0])
-                )
               )
             )
-          ) == Number(lastSemana)
-      );
+          )
+      });
 
       if (initialDate != "" || lastDate != "") {
         _l = revealDateLogic(_l);
@@ -882,12 +910,21 @@ export default function AdvancedSearch() {
               <AdvancedSearchAutocompleteScroll>
                 <AdvancedSearchAutocomplete>
                   {unidadeMatch &&
-                    unidadeMatch.map((unidade) => <p onClick={() => setInputValue(unidade.nome)}>{unidade.nome}</p>)}
+                    unidadeMatch.map((unidade) => (
+                      <>
+                        <p onClick={() => setInputValue(unidade.nome)}>
+                          {unidade.nome}
+                        </p>
+                        <hr style={{ color: "aqua" }} />
+                      </>
+                    ))}
                 </AdvancedSearchAutocomplete>
               </AdvancedSearchAutocompleteScroll>
             </AdvancedSearchInputContent>
             {inputValue == "" ? (
-              <button type="submit" disabled>Buscar</button>
+              <button type="submit" disabled>
+                Buscar
+              </button>
             ) : (
               <button type="submit">Buscar</button>
             )}
@@ -1029,7 +1066,7 @@ export default function AdvancedSearch() {
                   <AdvancedFilterItens>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="3"
+                        value="7"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1039,7 +1076,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="4"
+                        value="5"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1049,7 +1086,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="5"
+                        value="2"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1059,7 +1096,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="6"
+                        value="3"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1069,7 +1106,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="0"
+                        value="4"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1079,7 +1116,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="1"
+                        value=""
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }
@@ -1089,7 +1126,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                     <AdvancedFilterItensIndividual>
                       <input
-                        value="2"
+                        value="6"
                         onChange={(checked) =>
                           handleCreateSemanaArray(checked.target.value)
                         }

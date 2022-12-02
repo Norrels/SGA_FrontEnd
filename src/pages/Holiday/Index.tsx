@@ -17,6 +17,7 @@ export interface HolidayProps {
   data: string;
   nome: string;
   tipo: string;
+  type: string;
 }
 [];
 
@@ -62,7 +63,7 @@ export function Holiday() {
       let ___: HolidayProps[] = [];
 
       resp2.data.map((v: any) => {
-        ___.push({ id: v.id, nome: v.name, data: v.date, tipo: v.type });
+        ___.push({ id: v.id, nome: v.name, data: v.date, tipo: v.type, type: v.type });
       });
 
       ___.map((v) => {

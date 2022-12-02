@@ -223,6 +223,7 @@ export const AdvancedSearchAutocomplete = styled.div`
   justify-content: left;
 
   gap: 0.6rem;
+  cursor: pointer;
 
   p {
     margin-left: 30px;
@@ -230,6 +231,7 @@ export const AdvancedSearchAutocomplete = styled.div`
       cursor: pointer;
     }
 
+    cursor: pointer;
     :first-child {
       margin-top: 30px;
     }
@@ -237,6 +239,12 @@ export const AdvancedSearchAutocomplete = styled.div`
     :last-child {
       margin-bottom: 20px;
     }
+
+  }
+
+  hr {
+    border-color: ${(props) => props.theme["gray-400"]};
+    opacity: 6%;
   }
 `;
 
