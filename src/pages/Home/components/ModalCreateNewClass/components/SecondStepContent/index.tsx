@@ -1,7 +1,8 @@
 import { ArrowRight } from "phosphor-react";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { ObjectsContext } from "../../../../../../contexts/ObjectsContext";
+import { ObjectsContext, TeacherProps } from "../../../../../../contexts/ObjectsContext";
+import { API } from "../../../../../../lib/axios";
 import {
   FinalButton,
   InputContainer,
@@ -12,11 +13,13 @@ import {
 
 interface firstStepContentProps {
   handleNextStep: (step: number) => void;
+  teachers: TeacherProps[] | undefined;
 }
 
-export function SecondStepContent({ handleNextStep }: firstStepContentProps) {
+export function SecondStepContent({ handleNextStep, teachers  }: firstStepContentProps) {
   const { register } = useFormContext();
-  const { teachers, placesList } = useContext(ObjectsContext);
+  const { placesList } = useContext(ObjectsContext);
+
   return (
     <InputContainer>
       <InputContent>
@@ -43,7 +46,7 @@ export function SecondStepContent({ handleNextStep }: firstStepContentProps) {
           <option value="" disabled>
             Selecione um professor...
           </option>
-          {teachers.map((teacher) => {
+          {teachers?.map((teacher) => {
             return (
               <option key={teacher.id} value={teacher.id}>
                 {teacher.nome}

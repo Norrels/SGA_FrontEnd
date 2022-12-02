@@ -1,10 +1,11 @@
 import { format } from "date-fns";
 import { ArrowRight, Check } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
-import { Controller, useForm, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import {
   CourseProps,
   ObjectsContext,
+  TeacherProps,
 } from "../../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../../lib/axios";
 import {
@@ -30,7 +31,7 @@ export function FirstStepContent({
 }: firstStepContentProps) {
   const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
   const [selectedDay, setSelectedDay] = useState("");
-  const [selecionado, setSelecionado] = useState(false)
+  const [dia, setDia] = useState("")
   const [segundaSelected, setSegundaSelected] = useState(false);
   const [terSelected, setTerSelected] = useState(false);
   const [quaSelected, setQuaSelected] = useState(false);
@@ -59,12 +60,15 @@ export function FirstStepContent({
     setSelectedCourse(course);
   }
 
-  const isValidForm = (
+  console.log(watch("periodo"))
+
+  const isValidForm = 
   watch("curso.id") != undefined &&
-  watch("unidadeCurricular.id") != undefined && 
+  watch("unidadeCurricular.id") != undefined  &&
+  selectedDay != "" &&
   watch("codTurma") != "" &&
-  watch("periodo") != undefined &&
-  watch("cargaDiaria") != undefined )
+  watch("periodo") != "" &&
+  watch("cargaDiaria") != ""
 
   //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
@@ -81,7 +85,7 @@ export function FirstStepContent({
 
   function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
     const diaSelecionado = event.target.value;
-    setSelecionado(true)
+    setDia(diaSelecionado)
     diaSelecionado.replace("-", ", ");
     //Descobrindo o dia da semana
     const selecionadoDia = format(new Date(diaSelecionado), "i");
@@ -149,24 +153,14 @@ export function FirstStepContent({
     unidadeCurricular: getValues("unidadeCurricular"),
     codTurma: getValues("codTurma"),
     periodo: getValues("periodo"),
-    dataInicio: getValues("dataInicio"),
+    dataInicio: dia,
     diaSemana: [domSelected, segundaSelected, terSelected, quaSelected, quiSelected, sexSelected, sabSelected],
     cargaDiaria: getValues("cargaDiaria"),
   };
 
   async function createClassFirstStep() {
-    const res = await API.post("/aula/criar", data);
-    console.log(data)
-    console.log(res);
+    const res = await API.get("aula/criar");
   }
-  console.log((watch("dataInicio") == null)  + (" Null"))
-  console.log((watch("dataInicio") == "")  + (" vazio"))
-
-  console.log(watch("dataInicio"))
-
-
-    // selectedDay != "";
-
 
   return (
     <InputContainer>
@@ -395,7 +389,7 @@ export function FirstStepContent({
           }}
           type="button"
         >
-          {!isValidForm && watch("dataInicio") != "" ? "Ainda há informações pendentes" : "Próximo passo "}
+          {!isValidForm ? "Ainda há informações pendentes" : "Próximo passo "}
           <ArrowRight size={30} />
         </button>
       </FinalButton>

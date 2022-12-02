@@ -1,8 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ArrowLeft, X } from "phosphor-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { TeacherProps } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { FirstStepContent } from "./components/FirstStepContent";
 import { SecondStepContent } from "./components/SecondStepContent";
@@ -56,11 +57,19 @@ export function ModalCreateNewClass({
   });
 
   const { handleSubmit, reset, getValues } = CreateNewClassForm;
-
+  const [avaliableTeacher, setAvalibleTeachers] = useState<TeacherProps[]>();
   const [step, setStep] = useState(0);
 
   function handleNextStep(step: number) {
     setStep(step);
+    getAvailableInfo()
+  }
+
+
+  async function getAvailableInfo(){
+    const res = await API.get("aula/valoresLivres")
+      console.log(res)
+      setAvalibleTeachers(res.data[0])
   }
 
   async function handleCreateNewAula(datas: AulaType) {
@@ -75,6 +84,7 @@ export function ModalCreateNewClass({
 
     const res = await API.post("aula", data);
     reset();
+    console.log(res);
     closeModal();
     setStep(0);
   }
@@ -82,7 +92,7 @@ export function ModalCreateNewClass({
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content onCloseAutoFocus={() => reset}>
+      <Content onCloseAutoFocus={() => reset()}>
         <ModalHeader>
           <Dialog.Title>Nova aula {name}</Dialog.Title>
           <HeaderButtons>
@@ -117,7 +127,7 @@ export function ModalCreateNewClass({
               </InputScroll>
               <InputScroll step={step}>
                 <FormProvider {...CreateNewClassForm}>
-                  <SecondStepContent handleNextStep={handleNextStep} />
+                  <SecondStepContent teachers={avaliableTeacher}  handleNextStep={handleNextStep} />
                 </FormProvider>
               </InputScroll>
               <InputScroll step={step}>

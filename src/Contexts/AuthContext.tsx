@@ -62,7 +62,6 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
       localStorage.setItem('token', JSON.stringify(token))
       setAutheticated(true)
       API.defaults.headers.common['Authorization'] = token;
-      
       navigate('/inicio', { replace: true })
     } 
 }
