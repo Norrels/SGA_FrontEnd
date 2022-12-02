@@ -28,6 +28,8 @@ export const holidayInput = z.object({
   nome: z.string(),
   tipo: z.string(),
   data: z.string(),
+  type: z.string(),
+  date: z.string(),
 });
 
 export type HolidayType = z.infer<typeof holidayInput>;
@@ -44,6 +46,20 @@ export function HolidayItem({ holiday }: HolidayItem) {
 
     if (resp.status == 200) {
       window.location.reload();
+    }
+
+    if(holiday.tipo == "FERIADO" || holiday.tipo == "EMENDA") {
+      const resp = await API.delete(`dnl/${holiday.id}`);
+
+      if(resp.status  == 200) {
+        location.reload();
+      }
+    }  else {
+      const resp = await API.delete(`feriados/${holiday.id}`);
+
+      if(resp.status  == 200) {
+        location.reload();
+      }
     }
   }
 

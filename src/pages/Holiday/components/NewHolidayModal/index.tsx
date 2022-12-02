@@ -46,13 +46,13 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
     );
 
     const res = await API.post("dnl", {
-      data: format(new Date(data.dataInicio), "MM/dd/yyyy"),
+      data: format(new Date(data.dataInicio), "yyyy-MM-dd"),
       nome: data.nome,
       tipo: data.tipoDeDia,
     });
 
     if (res.status == 200) {
-      console.log("deu certo");
+      location.reload();
     }
   }
 
