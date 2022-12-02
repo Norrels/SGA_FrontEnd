@@ -12,7 +12,7 @@ export function DeleteAlert({deleteById} : DeleteAlertProps) {
 
       <Content>
         <AlertDialog.Title>
-          Tem certeza que deseja excluir-lo?
+          Tem certeza que deseja exclui-lo?
         </AlertDialog.Title>
 
         <DescriptionAlert>

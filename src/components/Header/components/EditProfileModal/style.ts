@@ -169,6 +169,10 @@ export const InputContent = styled.div`
     &:focus {
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
       transform: translateY(-5px);
+      &:read-only {
+        transform: none;
+        box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
+      }
     }
 
     &:read-only {

@@ -41,6 +41,7 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
 
   const { register, handleSubmit, reset } = useForm<VacationType>();
 
+  const [isChecked, setIsChecked] = useState(false);
   const [selecionarTodos, setSelecionarTodos] = useState(false);
   const [selecionarTodosPrimeiraVez, setSelecionarTodosPrimeiraVez] =
     useState(false);
@@ -112,6 +113,7 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
     reset();
     setDataFinal("");
     setSelecionarTodosPrimeiraVez(false);
+    setIsChecked(false);
   }
 
   return (
@@ -170,9 +172,10 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
                       teacher.ativo && (
                         <CheckIndividual key={teacher.id}>
                           <input
-                            onChange={(checked) =>
-                              handleCreateArrayTeachers(checked.target.value)
-                            }
+                            onChange={(checked) => {
+                              handleCreateArrayTeachers(checked.target.value);
+                              checked.target.checked ? setIsChecked(true) : setIsChecked(false);
+                            }}
                             type="checkbox"
                             value={teacher.id}
                             name="teachers"
@@ -185,7 +188,9 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
               </InputContent>
             </InputContainer>
             <FinalButton>
-              <button type="submit">Criar</button>
+              <button type="submit" disabled={!isChecked}>
+                {!isChecked ? 'Selecione um professor...': 'Criar'}
+              </button>
             </FinalButton>
           </InputScroll>
         </form>

@@ -16,6 +16,7 @@ import { API } from "../../../../lib/axios";
 import Cobrinha from "../../../../assets/Cobrinha.svg";
 import Idea from "../../../../assets/Idea.svg";
 import Thought from "../../../../assets/Thought.svg";
+import { Notification } from "../../../Notification";
 
 const newCallInput = z.object({
   tipoChamado: z.string(),
@@ -32,6 +33,9 @@ export type NewCallType = z.infer<typeof newCallInput>;
 export function WidgetForm({ closeModal }: CloseModalProps) {
   const [type, setType] = useState("inicio");
   const { register, handleSubmit, reset } = useForm<NewCallType>();
+
+  const [open, setOpen] = useState(false);
+  const [notification, setNotification] = useState(false);
 
   // const [screenshot, setScreenshot] = useState<string | null>(null);
   // const [screenshotSave, setScreenShotSave] = useState<string | null>(null);
@@ -53,92 +57,108 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
     });
 
     if (res.status == 200) {
-      // 200
+      setNotification(true);
       setType("inicio");
       reset();
       closeModal();
+      setOpen(true);
+    } else {
+      setNotification(true);
+      setOpen(true);
     }
-    // }
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
   }
 
   return (
-    <Popover.Portal>
-      <Popover.Content style={{ zIndex: 1000 }} side={"top"}>
-        {type == "inicio" ? (
-          <Content>
-            <TextContent>
-              <p>Deixe seu feedback! :D</p>
-              <Popover.Close>
-                <X size={25} />
-              </Popover.Close>
-            </TextContent>
-            <ContainerSelect>
-              <div onClick={() => setType("PROBLEMA")}>
-                <img src={Cobrinha} />
-                <p>Problema</p>
-              </div>
-              <div onClick={() => setType("IDEIA")}>
-                <img src={Idea} />
-                <p>Ideia</p>
-              </div>
-              <div onClick={() => setType("OUTRO")}>
-                <img src={Thought} />
-                <p>Outro</p>
-              </div>
-            </ContainerSelect>
-          </Content>
-        ) : (
-          <form onSubmit={handleSubmit(handleCreateNewCall)}>
+    <>
+      <Popover.Portal>
+        <Popover.Content style={{ zIndex: 1000 }} side={"top"}>
+          {type == "inicio" ? (
             <Content>
-              <ContentHeader>
-                <ArrowLeft onClick={() => setType("inicio")} size={25} />
-                <div>
-                  <img
-                    src={
-                      type === "PROBLEMA"
-                        ? Cobrinha
-                        : type === "IDEIA"
-                        ? Idea
-                        : Thought
-                    }
-                  />
-                  <p>
-                    {type === "PROBLEMA"
-                      ? "Problema"
-                      : type === "IDEIA"
-                      ? "Ideia"
-                      : "Outro"}
-                  </p>
-                </div>
+              <TextContent>
+                <p>Deixe seu feedback! :D</p>
                 <Popover.Close>
                   <X size={25} />
                 </Popover.Close>
-              </ContentHeader>
-              <ContentBody>
-                <textarea
-                  {...register("descricao")}
-                  cols={10}
-                  maxLength={228}
-                  rows={6}
-                  placeholder="Nos conte o que está acontecendo..."
-                ></textarea>
-              </ContentBody>
-              <ContentFooter>
-                {/* <ButtonLeftContainer>
+              </TextContent>
+              <ContainerSelect>
+                <div onClick={() => setType("PROBLEMA")}>
+                  <img src={Cobrinha} />
+                  <p>Problema</p>
+                </div>
+                <div onClick={() => setType("IDEIA")}>
+                  <img src={Idea} />
+                  <p>Ideia</p>
+                </div>
+                <div onClick={() => setType("OUTRO")}>
+                  <img src={Thought} />
+                  <p>Outro</p>
+                </div>
+              </ContainerSelect>
+            </Content>
+          ) : (
+            <form onSubmit={handleSubmit(handleCreateNewCall)}>
+              <Content>
+                <ContentHeader>
+                  <ArrowLeft onClick={() => setType("inicio")} size={25} />
+                  <div>
+                    <img
+                      src={
+                        type === "PROBLEMA"
+                          ? Cobrinha
+                          : type === "IDEIA"
+                          ? Idea
+                          : Thought
+                      }
+                    />
+                    <p>
+                      {type === "PROBLEMA"
+                        ? "Problema"
+                        : type === "IDEIA"
+                        ? "Ideia"
+                        : "Outro"}
+                    </p>
+                  </div>
+                  <Popover.Close>
+                    <X size={25} />
+                  </Popover.Close>
+                </ContentHeader>
+                <ContentBody>
+                  <textarea
+                    {...register("descricao")}
+                    cols={10}
+                    maxLength={228}
+                    rows={6}
+                    placeholder="Nos conte o que está acontecendo..."
+                  ></textarea>
+                </ContentBody>
+                <ContentFooter>
+                  {/* <ButtonLeftContainer>
                   <ScreenshotButton
                     screenshot={screenshot}
                     onScreenshotTook={setScreenshot}
                   />
                 </ButtonLeftContainer> */}
 
-                <ButtonRightContainer>
-                  <button type="submit">Enviar Feedback</button>
-                </ButtonRightContainer>
-              </ContentFooter>
-            </Content>
-          </form>
-        )}
-      </Popover.Content>
-    </Popover.Portal>
+                  <ButtonRightContainer>
+                    <button type="submit">Enviar Feedback</button>
+                  </ButtonRightContainer>
+                </ContentFooter>
+              </Content>
+            </form>
+          )}
+        </Popover.Content>
+      </Popover.Portal>
+      <Notification
+        tipe={notification ? 'Sucesso' : 'Erro'}
+        description={notification ? 'Criado com sucesso.' : 'Falha ao criar.'}
+        title="Chamado"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
+    </>
   );
 }

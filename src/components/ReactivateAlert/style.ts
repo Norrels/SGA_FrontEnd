@@ -1,5 +1,25 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  } 
+`;
+
+const swipeTop = keyframes`
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  } 
+`;
 
 export const Overlay = styled(AlertDialog.Overlay)`
   width: 100w;
@@ -10,6 +30,8 @@ export const Overlay = styled(AlertDialog.Overlay)`
   z-index: 90;
 
   background: rgba(0, 0, 0, 0.4);
+
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const Content = styled(AlertDialog.Content)`
@@ -30,6 +52,9 @@ export const Content = styled(AlertDialog.Content)`
   background: ${(props) => props.theme["white"]};
   transform: translate(-50%, -50%);
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  opacity: 0;
+  animation: ${swipeTop} 0.5s ease-in-out forwards;
 `;
 
 export const DescriptionAlert = styled(AlertDialog.Description)`
@@ -53,12 +78,18 @@ export const ButtonContainer = styled.div`
     font-weight: 600;
     background-color: ${(props) => props.theme["blue-100"]};
     color: ${(props) => props.theme["blue-500"]};
-    background-color: #C8E6C9;
-    color: #4CAF50;
+    background-color: #c8e6c9;
+    color: #4caf50;
 
     &:first-child {
       background-color: ${(props) => props.theme["blue-100"]};
       color: ${(props) => props.theme["blue-500"]};
+    }
+    transition-duration: 0.3s;
+
+    &:hover {
+      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.1);
+      transform: translateY(-5px);
     }
   }
 `;
