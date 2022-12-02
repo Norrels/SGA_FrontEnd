@@ -9,7 +9,6 @@ export function DeleteAlert({deleteById} : DeleteAlertProps) {
   return (
     <AlertDialog.Portal>
       <Overlay />
-
       <Content>
         <AlertDialog.Title>
           Tem certeza que deseja exclui-lo?
