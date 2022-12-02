@@ -12,12 +12,12 @@ export function DeleteAlertCall({deleteById} : DeleteAlertProps) {
 
       <Content>
         <AlertDialog.Title>
-          Tem certeza que deseja excluir-lo?
+          Tem certeza que deseja exclui-lo?
         </AlertDialog.Title>
 
         <DescriptionAlert>
           Essa ação não pode ser desfeita, você não
-          conseguira referenciar nem visualizar esse item.
+          conseguirá referenciar e nem visualizar esse item.
         </DescriptionAlert>
 
         <ButtonContainer>

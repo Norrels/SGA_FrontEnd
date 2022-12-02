@@ -24,11 +24,11 @@ export function Notification({
   tipe,
 }: NotificationProps) {
   return (
-    <Toast.Provider duration={3000} swipeDirection="right">
+    <Toast.Provider duration={5000} swipeDirection="right">
       <NotificationContainer
         open={openNotification}
         onOpenChange={openNotificationMethod}
-        duration={3000}
+        duration={5000}
       >
         {tipe == "Sucesso" ? (
           <CheckCircle size={35} color="#00d10a" />

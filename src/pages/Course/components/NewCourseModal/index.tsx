@@ -75,6 +75,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false);
 
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificacao, setNotificacao] = useState("");
+
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
 

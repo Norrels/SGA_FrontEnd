@@ -262,6 +262,9 @@ export const InputIndividual = styled.div`
 
 export const FinalButton = styled.div`
   width: 100%;
+
+  opacity: 0;
+  animation: ${fadeIn} .4s ease-in-out forwards;
   button {
     width: 100%;
     height: 4.688rem;
