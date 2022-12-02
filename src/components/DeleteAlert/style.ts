@@ -60,6 +60,11 @@ export const DescriptionAlert = styled(AlertDialog.Description)`
   text-align: justify;
   line-height: 1.6;
   font-size: 1.1rem;
+
+  span {
+    color: ${(props) => props.theme["blue-300"]};
+    font-weight: bold;
+  }
 `;
 
 export const ButtonContainer = styled.div`

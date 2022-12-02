@@ -107,12 +107,14 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
   function onChangeCheckSelecionarTodos(e: ChangeEvent<HTMLInputElement>) {
     !selecionarTodosPrimeiraVez && setSelecionarTodosPrimeiraVez(true);
     e.target.checked ? setSelecionarTodos(false) : setSelecionarTodos(true);
+    e.target.checked ? setIsChecked(true) : setIsChecked(false);
   }
 
   function onCloseAvaliableModal() {
     reset();
     setDataFinal("");
     setSelecionarTodosPrimeiraVez(false);
+    setSelecionarTodos(false);
     setIsChecked(false);
   }
 
@@ -179,6 +181,7 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
                             type="checkbox"
                             value={teacher.id}
                             name="teachers"
+                            /* checked={!selecionarTodos} */
                           />
                           <p>{teacher.nome}</p>
                         </CheckIndividual>

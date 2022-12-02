@@ -16,7 +16,7 @@ export function DeleteAlert({deleteById} : DeleteAlertProps) {
         </AlertDialog.Title>
 
         <DescriptionAlert>
-          Essa ação pode ser desfeita a qualquer momento, no entanto, você não
+          Essa ação pode ser desfeita a qualquer momento por um <span>Administrador</span>, no entanto, você não
           conseguira referenciar nem visualizar esse item, até ele ser
           novamente ativado.
         </DescriptionAlert>

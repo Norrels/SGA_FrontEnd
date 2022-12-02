@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
-import { AbsenseProps } from "../..";
+import { useState } from "react";
+import { AbsenceProps } from "../..";
 import { AbsenseInfoType } from "../../components/AbsenseItem/style";
 import { AbsenseList } from "../../style";
 import { EditAbsenceTeacherModal } from "../EditAbsenceTeacherModal";
@@ -14,11 +15,17 @@ import {
   AbsenseItemInfoContent,
 } from "./style";
 
-interface AbsenseItemProps {
-  absenceList: AbsenseProps;
+interface AbsenceItemProps {
+  absence: AbsenceProps;
 }
 
-export function AbsenseItem({ absenceList }: AbsenseItemProps) {
+export function AbsenseItem({ absence }: AbsenceItemProps) {
+  const [open, setOpen] = useState(false);
+
+  function closeModal() {
+    setOpen(false);
+  }
+
   return (
     <AbsenseItemContainer>
       <AbsenseItemInfoContainer>
@@ -28,21 +35,21 @@ export function AbsenseItem({ absenceList }: AbsenseItemProps) {
 
         <AbsenseItemInfoContent>
           <AbsenseInfoType>
-            {absenceList.tipo == "FERIAS"
+            {absence.tipo == "FERIAS"
               ? "Férias"
-              : absenceList.tipo.toLowerCase()}
+              : absence.tipo.toLowerCase()}
           </AbsenseInfoType>
           <p>
             Data:
             <span>
-              {" " + absenceList.dataInicio + " - " + absenceList.dataFinal}
+              {" " + absence.dataInicio + " - " + absence.dataFinal}
             </span>
           </p>
         </AbsenseItemInfoContent>
       </AbsenseItemInfoContainer>
 
       <AbsenseItemButtonContainer>
-        <Dialog.Root>
+        <Dialog.Root open={open}>
           <Dialog.Trigger
             style={{
               backgroundColor: "transparent",
@@ -55,7 +62,7 @@ export function AbsenseItem({ absenceList }: AbsenseItemProps) {
             </AbsenseItemButton>
           </Dialog.Trigger>
 
-          {/* <EditAbsenceTeacherModal absence={} closeModal={closeModal}/> */}
+          <EditAbsenceTeacherModal absence={absence} closeModal={closeModal}/>
         </Dialog.Root>
         <AbsenseItemButton buttonColor="delete">
           <Trash color="white" size={26} />

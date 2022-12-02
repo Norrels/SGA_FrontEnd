@@ -97,14 +97,14 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
-            {userToEdit.tipoUsuario == "SUPORTE" &&
+            {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
               <HeaderNavMenu>
                 {location.pathname == "/chamados" ? (
                   <p>Chamados</p>
                 ) : location.pathname == "/usuarios" ? (
                   <p>Usuários</p>
                 ) : (
-                  <p>Suporte</p>
+                  <p>Administrador</p>
                 )}
                 <DropdownMenu.Root>
                   <DropdownMenu.Trigger asChild>
@@ -137,7 +137,7 @@ export function Header() {
 
           <HeaderUser>
             <User size={23} />
-            <p>Usuário</p>
+            <p>Perfil</p>
             <DropdownMenu.Root>
               <DropdownMenu.Trigger asChild>
                 <CaretDown weight="fill" style={{ cursor: "pointer" }} />

@@ -66,7 +66,7 @@ export function UserItem({ user }: NewUserModalProps) {
           <ItemInfoContentHeader>
             <h3>{user.nome}</h3>
             <UserInfoType>
-              <p>{user.tipo.toLowerCase()}</p>
+              <p>{user.tipo.toLowerCase() == 'usuario' ? 'usuário' : user.tipo.toLowerCase()}</p>
             </UserInfoType>
           </ItemInfoContentHeader>
           <p>
