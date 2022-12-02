@@ -37,7 +37,7 @@ export const userInput = z.object({
     .string()
     .min(6, { message: "*** O Email deve ser maior que 6 caracteres... " })
     .max(36, { message: "*** O Email deve ser menor que 36 caracteres... " }),
-  tipo: z.enum(["ADMINISTRADOR", "SUPORTE"]),
+  tipo: z.enum(["USUARIO", "ADMINISTRADOR"]),
 });
 
 export type UserType = z.infer<typeof userInput>;
@@ -147,8 +147,8 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
                   defaultValue={user.tipo}
                   {...register("tipo")}
                 >
+                  <option value="USUARIO">Usuário</option>
                   <option value="ADMINISTRADOR">Administrador</option>
-                  <option value="SUPORTE">Suporte</option>
                 </select>
                 {errors.tipo && <p>* Selecione o tipo do usuário...</p>}
               </InputContent>

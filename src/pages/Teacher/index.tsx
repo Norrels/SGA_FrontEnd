@@ -103,7 +103,7 @@ export function Teacher() {
           placeholder="Busque um ou vários professores..."
           onChange={(v) => searchTeacher(v.target.value)}
         />
-       {userToEdit.tipoUsuario == "SUPORTE" &&
+       {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
           <Toggle>
             <label>Desativados</label>
             <input

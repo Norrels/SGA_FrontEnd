@@ -61,11 +61,10 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
       setType("inicio");
       reset();
       closeModal();
-      setOpen(true);
     } else {
-      setNotification(true);
-      setOpen(true);
+      setNotification(false);
     }
+    setOpen(true);
   }
 
   function openNotificantionMethod() {

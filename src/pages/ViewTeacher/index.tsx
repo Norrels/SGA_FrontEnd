@@ -23,18 +23,20 @@ import {
   TeacherSkillsIndividual,
 } from "./style";
 
-export interface AbsenseProps {
-  id: number;
-  dataFinal: Date;
-  dataInicio: Date;
+export interface AbsenceProps {
+  id: number | undefined;
+  dataInicio: string;
+  dataFinal: string;
   tipo: string;
-  children?: JSX.Element | JSX.Element[];
+  professor: {
+    id: number | undefined;
+  };
 }
 
 export function ViewTeacher() {
   const { teacherId } = useParams();
   const [inClass, setInClass] = useState<Boolean>();
-  const [teacher, setTeachers] = useState<TeacherProps>({
+  const [teacher, setTeacher] = useState<TeacherProps>({
     id: 0,
     ativo: true,
     cargaSemanal: 1,
@@ -43,14 +45,14 @@ export function ViewTeacher() {
     competencia: [],
   });
 
-  const [absenseList, setAbsenseList] = useState<AbsenseProps[]>([]);
+  const [absenseList, setAbsenseList] = useState<AbsenceProps[]>([]);
 
   async function fetchUser() {
     const response = await API.get(`/professor/${teacherId}`);
-    console.log(response.data);
-    setTeachers(response.data[0]);
+
+    setTeacher(response.data[0]);
     setAbsenseList(response.data[1]);
-    setInClass(true);
+    response.data[2] ? setInClass(true) : setInClass(false)
   }
 
   useEffect(() => {
@@ -126,12 +128,11 @@ export function ViewTeacher() {
         </TeacherMainProfile>
       </TeacherMain>
       <Absense>
-        <input type="text" placeholder="Buscar ausência..." />
-
         <AbsenseList>
-          {absenseList.map((absenseList) => {
+          {absenseList.map((absense) => {
+            console.log(absense)
             return (
-              <AbsenseItem key={absenseList.id} absenceList={absenseList} />
+              <AbsenseItem key={absense.id} absence={absense} />
             );
           })}
         </AbsenseList>

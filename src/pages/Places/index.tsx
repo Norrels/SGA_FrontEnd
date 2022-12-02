@@ -83,7 +83,7 @@ export function Places() {
           placeholder="Busque um ou vários ambientes..."
           onChange={(e) => searchPlace(e.target.value)}
         />
-        {userToEdit.tipoUsuario == "SUPORTE" &&
+        {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
           <Toggle>
             <label>Desativados</label>
             <input

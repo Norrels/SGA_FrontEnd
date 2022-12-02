@@ -126,45 +126,7 @@ export const Buttons = styled.div`
 export const InputContent = styled.div`
   display: flex;
   justify-content: space-between;
-
-  &:nth-child(3) {
-    flex-direction: column;
-    gap: 0.625rem;
-
-    label {
-      font-weight: 800;
-      font-size: 1.25rem;
-      color: ${(props) => props.theme["gray-700"]};
-    }
-
-    input {
-      height: 5.313rem;
-      padding: 1.25rem;
-
-      border: none;
-      box-shadow: 0px 4px 4px 2px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: ${(props) => props.theme["gray-700"]};
-
-      transition-duration: 0.15s;
-
-      &:read-only {
-        background-color: #efefef;
-        color: rgba(109, 109, 109, 0.5);
-        &::placeholder {
-          color: rgba(109, 109, 109, 0.5);
-        }
-      }
-
-      &:focus:not(:read-only) {
-        box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
-        transform: translateY(-5px);
-      }
-    }
-  }
+  align-items: center;
 `;
 
 export const InputIndividual = styled.div`
@@ -211,6 +173,7 @@ export const InputIndividual = styled.div`
 
 export const FinalButton = styled.div`
   width: 100%;
+  margin-top: 2rem;
   button {
     width: 100%;
     height: 4.688rem;
@@ -222,5 +185,8 @@ export const FinalButton = styled.div`
     color: ${(props) => props.theme["white"]};
     font-size: 1.25rem;
     font-weight: bold;
+    
+    opacity: 0;
+    animation: ${fadeIn} .4s ease-in-out forwards;
   }
 `;

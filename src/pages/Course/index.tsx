@@ -76,7 +76,7 @@ export function Course() {
           placeholder="Busque um ou vários cursos..."
           onChange={(e) => searchCourse(e.target.value)}
         />
-        {userToEdit.tipoUsuario == "SUPORTE" &&
+        {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
           <Toggle>
             <label>Desativados</label>
             <input
