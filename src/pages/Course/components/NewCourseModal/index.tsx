@@ -64,7 +64,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     reset,
     control,
     //Variavel utilizada para acessar os erros do formulario
-    formState: { errors },
+    formState: { errors, isSubmitSuccessful },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
     defaultValues: {
@@ -76,7 +76,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   const [open, setOpen] = useState(false);
 
   // Váriavel para controlar oque vai ser exibido na notificação
-  const [notificacao, setNotificacao] = useState("");
+  const [error, setError] = useState(false);
 
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
@@ -97,9 +97,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
-    createCourseAPI(data);
-    reset();
-    closeModal();
+    createCourseAPI(data)
+    .then(() => {
+      reset();
+      closeModal();
+    }).catch(() => 
+    setError(true))
+
     setOpen(true);
   }
 
@@ -220,7 +224,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
                 <FinalButton>
-                  <button>Criar</button>
+                  <button type="submit" onClick={() => setError(false)}>Criar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
@@ -228,13 +232,13 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
         </Content>
       </Dialog.Portal>
 
-      {/* <Notification
-        tipe="Criado"
-        description="Criado com sucesso"
-        title="Usuário criado"
+      <Notification
+        tipe={error ? "Erro" : "Sucesso"}
+        description={error ? "Não foi possível criar o curso" : "Curso criado com sucesso"}
+        title={error ? "Ocorreu um erro" : "Criado com sucesso"}
         openNotification={open}
         openNotificationMethod={openNotificantionMethod}
-      /> */}
+      />
     </>
   );
 }
