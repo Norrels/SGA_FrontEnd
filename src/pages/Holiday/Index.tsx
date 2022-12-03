@@ -2,7 +2,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
 import { HolidayItem } from "./components/HolidayItem";
-import { HolidayItemFeriado } from "./components/HolidayItemFeriado";
 import { NewHolidayModal } from "./components/NewHolidayModal";
 import {
   HolidayButtonContainer,
@@ -73,6 +72,7 @@ export function Holiday() {
     }
   }
 
+  
   const searchHoliday = (text: String) => {
     if (!text) {
       setHolidayMatches(holiday);
@@ -112,10 +112,10 @@ export function Holiday() {
 
         <HolidayList>
           {holidayMatch.map((data) => (
-            <HolidayItem holiday={data} />
+            <HolidayItem key={data.data} holiday={data} />
           ))}
           {holidayMatch2.map((data) => (
-            <HolidayItem holiday={data} />
+            <HolidayItem key={data.data} holiday={data} />
           ))}
         </HolidayList>
       </HolidayContent>

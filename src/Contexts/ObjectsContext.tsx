@@ -52,15 +52,15 @@ interface ObjectsContextType {
   teachers: TeacherProps[];
   courses: CourseProps[];
   placesList: NewPlaceType[];
-  updateStatusTeacher: (id: number) => void;
-  updateStatusCourse: (id: number | undefined) => void;
-  updateStatusPlace: (id: number) => void;
-  updateTeaches: (data: TeacherProps) => void;
-  updatePlaces: (data: NewPlaceType) => void;
-  updateCourses: (data: CourseProps) => void;
-  createTeacherAPI: (data: TeacherProps) => void;
+  updateStatusTeacher: (id: number) => Promise<string>;
+  updateStatusCourse: (id: number) => Promise<string>;
+  updateStatusPlace: (id: number) => Promise<string>;
+  updateTeachers: (data: TeacherProps) => Promise<string>;
+  updatePlaces: (data: NewPlaceType) => Promise<string>;
+  updateCourses: (data: CourseProps) => Promise<string>;
+  createTeacherAPI: (data: TeacherProps) => Promise<string>;
   createCourseAPI: (data: CourseProps) => Promise<string>;
-  createPlacesAPI: (data: NewPlaceType) => void;
+  createPlacesAPI: (data: NewPlaceType) => Promise<string>;
 }
 
 export const ObjectsContext = createContext({} as ObjectsContextType);
@@ -87,11 +87,11 @@ export function ObjectsContextProvider({
     const res = await API.post("/professor", data);
     if (res.status == 200) {
       data.id = res.data[1];
-      
       setTeachers([...teachers, data]);
-    } 
-    throw new Error('Required')
-    
+      return "success";
+    } else {
+      return "erro";
+    }
   }
 
   async function createCourseAPI(data: CourseProps) {
@@ -99,9 +99,10 @@ export function ObjectsContextProvider({
     if (res.status == 200) {
       data.id = res.data[1];
       setCourses([...courses, data]);
-      return 'success';
+      return "success";
+    } else {
+      return "erro";
     }
-    return 'success';
   }
 
   async function createPlacesAPI(data: NewPlaceType) {
@@ -109,8 +110,10 @@ export function ObjectsContextProvider({
     if (res.status == 200) {
       data.id = res.data[1];
       setPlacesList([...placesList, data]);
+      return "success";
+    } else {
+      return "erro";
     }
-    
   }
 
   async function fetchCourses() {
@@ -131,6 +134,9 @@ export function ObjectsContextProvider({
         return place.id != id;
       });
       setPlacesList(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
@@ -142,6 +148,9 @@ export function ObjectsContextProvider({
         return course.id != id;
       });
       setCourses(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
@@ -153,6 +162,9 @@ export function ObjectsContextProvider({
         return professor.id != id;
       });
       setTeachers(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
@@ -167,6 +179,9 @@ export function ObjectsContextProvider({
         return course;
       });
       setCourses(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
@@ -183,10 +198,13 @@ export function ObjectsContextProvider({
         return place;
       });
       setPlacesList(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
-  async function updateTeaches(data: TeacherProps) {
+  async function updateTeachers(data: TeacherProps) {
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true;
     const res = await API.put(`/professor/${data.id}`, data);
@@ -199,6 +217,9 @@ export function ObjectsContextProvider({
         return teacher;
       });
       setTeachers(valorAtualizado);
+      return "success";
+    } else {
+      return "erro";
     }
   }
 
@@ -206,7 +227,7 @@ export function ObjectsContextProvider({
     <ObjectsContext.Provider
       value={{
         updateStatusTeacher,
-        updateTeaches,
+        updateTeachers,
         updateStatusCourse,
         updateCourses,
         updateStatusPlace,

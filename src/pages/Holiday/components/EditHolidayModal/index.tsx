@@ -46,26 +46,26 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   }
 
   async function handleUpdateHolidayAPI(data: HolidayType) {
-    if(data.type == "FERIADO" || data.type == "EMENDA") {
+    if (data.type == "FERIADO" || data.type == "EMENDA") {
       const resp = await API.put(`dnl/${holiday.id}`, {
         id: holiday.id,
         nome: data.nome,
         data: data.data,
         tipo: data.tipo,
-      })
+      });
 
-      if(resp.status  == 200) {
+      if (resp.status == 200) {
         location.reload();
       }
-    }  else {
+    } else {
       const resp = await API.put(`feriados/${holiday.id}`, {
         id: holiday.id,
         name: data.nome,
         date: data.data,
         type: data.tipo,
-      })
+      });
 
-      if(resp.status  == 200) {
+      if (resp.status == 200) {
         location.reload();
       }
     }
@@ -113,11 +113,9 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
                   {...register("tipo")}
                   defaultValue={holiday.tipo}
                 >
-                  <option value="" disabled>
-                    Selecione o tipo do dia
-                  </option>
                   <option value="FERIADO">Feriado</option>
                   <option value="EMENDA">Emenda</option>
+                  <option value="RECORRENTE">Recorrente</option>
                 </select>
                 {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
               </InputContent>
@@ -126,7 +124,15 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
                 <input
                   type="date"
                   placeholder="dd/MM/yyyy"
-                  defaultValue={holiday.data.match("/") ? holiday.data.split("/")[2] + "-" + holiday.data.split("/")[1] + "-" + holiday.data.split("/")[0] : holiday.data}
+                  defaultValue={
+                    holiday.data.match("/")
+                      ? holiday.data.split("/")[2] +
+                        "-" +
+                        holiday.data.split("/")[1] +
+                        "-" +
+                        holiday.data.split("/")[0]
+                      : holiday.data
+                  }
                   {...register("data")}
                   readOnly={!editable}
                 />
@@ -136,7 +142,7 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
                 <FinalButton>
                   <button>Salvar</button>
                 </FinalButton>
-              )}  
+              )}
             </InputContainer>
           </InputScroll>
         </form>

@@ -76,7 +76,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   const [open, setOpen] = useState(false);
 
   // Váriavel para controlar oque vai ser exibido na notificação
-  const [error, setError] = useState(false);
+  const [notificationStataus, setNotificationStataus] = useState(false);
 
   //Método do context que faz a requisição para API e adiciona o valor no state
   const { createCourseAPI } = useContext(ObjectsContext);
@@ -102,7 +102,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
       reset();
       closeModal();
     }).catch(() => 
-    setError(true))
+    setNotificationStataus(true))
 
     setOpen(true);
   }
@@ -224,7 +224,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
                 <FinalButton>
-                  <button type="submit" onClick={() => setError(false)}>Criar</button>
+                  <button type="submit" onClick={() => setNotificationStataus(false)}>Criar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
@@ -233,9 +233,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
       </Dialog.Portal>
 
       <Notification
-        tipe={error ? "Erro" : "Sucesso"}
-        description={error ? "Não foi possível criar o curso" : "Curso criado com sucesso"}
-        title={error ? "Ocorreu um erro" : "Criado com sucesso"}
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={notificationStataus ? "Falha ao criar." : "Criado com sucesso."}
+        title="Curso"
         openNotification={open}
         openNotificationMethod={openNotificantionMethod}
       />

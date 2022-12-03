@@ -24,7 +24,8 @@ const swipeTop = keyframes`
 export const NotificationContainer = styled(Toast.Root)`
   background-color: white;
   border-radius: 10px;
-  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
+  box-shadow: hsl(206 22% 7% / 35%) 0px 10px 38px -10px,
+    hsl(206 22% 7% / 20%) 0px 10px 20px -15px;
   padding: 30px 20px;
 
   display: grid;
@@ -32,55 +33,53 @@ export const NotificationContainer = styled(Toast.Root)`
   column-gap: 25px;
   row-gap: 0.1rem;
   align-items: center;
-  z-index: 100;
 
-  animation: ${swipeTop} .6s ease-in-out forwards;
-  
+  animation: ${swipeTop} 0.6s ease-in-out forwards;
 
   div {
-    &:first-child{
-        color: red;
+    &:first-child {
+      color: red;
     }
   }
-  
 
   svg {
-        grid-area: tagImage;
-        align-items: center;
-        height: 100%;
-    }
+    grid-area: tagImage !important;
+    align-items: center !important;
+    height: 100% !important;
+    border: none !important;
+    background: transparent !important;
+  }
 
-    button {
-        border: none;
-        background-color: transparent;
-    }
-`
-
+  button {
+    width: fit-content !important;
+    border: none !important;
+    background-color: transparent !important;
+  }
+`;
 
 export const NotificationTitle = styled(Toast.Title)`
-    grid-area: title;
-`
+  grid-area: title;
+`;
 
 export const NotificationDescription = styled(Toast.Description)`
-    grid-area: description;
-`
+  grid-area: description;
+`;
 
 export const NotificationCloseButton = styled(Toast.Close)`
-    grid-area: action;
-`
-
+  grid-area: action;
+`;
 
 export const ViewPortContainer = styled(Toast.Viewport)`
-    position: fixed;
-    top: 3rem;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    padding: 25;
-    gap: 10;
-    width: 390;
-    max-width: 100vw;
-    margin: 0;
-    outline: 'none';
-    z-index: 100;
-`
+  position: fixed;
+  top: 3rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 25;
+  gap: 10;
+  width: 390;
+  max-width: 100vw;
+  margin: 0;
+  outline: "none";
+  z-index: 100;
+`;

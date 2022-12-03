@@ -83,27 +83,25 @@ export const CourseTitleContainer = styled.div`
   }
 `;
 
-
 export const CourseButtonContainer = styled.button`
-    margin-top: 2rem;
-    width: 12.5rem;
-    height: 3.75rem;
+  margin-top: 2rem;
+  width: 12.5rem;
+  height: 3.75rem;
 
-    border: none;
-    border-radius: 8px;
+  border: none;
+  border-radius: 8px;
 
-    background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
-    color: ${(props) => props.theme["white"]};
-    font-size: 1.125rem;
-    font-weight: bold;
+  background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+  color: ${(props) => props.theme["white"]};
+  font-size: 1.125rem;
+  font-weight: bold;
 
-    transition-duration: 0.3s;
+  transition-duration: 0.3s;
 
-    &:hover {
-      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
-      transform: translateY(-5px);
-    }
-  
+  &:hover {
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+  }
 `;
 
 export const Toggle = styled.div`
