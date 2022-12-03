@@ -145,13 +145,11 @@ export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 2rem;
+  gap: 0.625rem ;
 
   &:not(:nth-child(1), :nth-child(2)) {
     flex-direction: row;
-  }
-
-  &:nth-child(3) {
+    gap: 1.25rem;
     input[type="number"] {
       width: 15rem !important;
     }
@@ -162,6 +160,7 @@ export const InputContent = styled.div<DisabledProps>`
   }
 
   &:not(:nth-child(1), :nth-child(2), :nth-child(3)) {
+    align-items: center;
     justify-content: space-between;
 
     select {
@@ -177,11 +176,10 @@ export const InputContent = styled.div<DisabledProps>`
     }
 
     div {
-      width: 13.75rem;
+      &:last-child {
+        width: 13.125rem;
+      }
     }
-
-    
-
   }
 
   header {
@@ -253,6 +251,9 @@ export const InputIndividual = styled.div`
   align-items: left;
   gap: 0.625rem;
 
+  opacity: 0;
+  animation: ${fadeIn} 0.4s ease-in-out forwards;
+
   label {
     font-weight: 800;
     font-size: 1.25rem;
@@ -279,7 +280,6 @@ export const InputIndividual = styled.div`
       }
     }
   }
-
 
   input[type="file"] {
     width: 100%;
@@ -336,19 +336,6 @@ export const InputFileContent = styled.div`
     font-weight: 800;
     font-size: 1.1rem;
     color: ${(props) => props.theme["gray-700"]};
-  }
-`;
-
-export const NivelStars = styled.div`
-  width: 100%;
-  height: 5.313rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  svg {
-    color: ${(props) => props.theme["gray-400"]};
   }
 `;
 
@@ -450,6 +437,44 @@ export const NewCompt = styled.div`
   }
 `; */
 
+export const TeacherPhotoInput = styled.div`
+  width: 21.25rem !important;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+
+  gap: 0.625rem;
+
+  p {
+    font-weight: 700;
+    font-size: 16px;
+    color: ${(props) => props.theme["gray-500"]};
+  }
+
+  svg {
+    transition-duration: 0.3s;
+    &:hover {
+      cursor: pointer;
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`;
+
+export const TeacherPhotoInputImage = styled.div`
+  width: 85px;
+  height: 85px;
+
+  img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+  }
+`;
+
 export const ButtonNewCompetencia = styled.button`
   width: 100%;
   padding: 0.625rem;
@@ -490,24 +515,3 @@ export const FinalButton = styled.div`
     font-weight: bold;
   }
 `;
-
-export const TeacherPhotoInput = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-
-  p {
-    width: 80%;
-    font-weight: 700;
-    font-size: 16px;
-    color: ${(props) => props.theme["gray-500"]};
-    margin-left: 20px;
-  }
-
-  svg {
-    width: 20%;
-    margin-left: 80px;
-    cursor: pointer;
-  }
-`

@@ -47,6 +47,7 @@ export const TeacherItemIcon = styled.span`
 
   img {
     width: 100%; 
+    height: 100%;
     border-radius: 3.125rem;
   }
 `;

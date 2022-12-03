@@ -17,7 +17,7 @@ import {
   LittleDividerContent,
 } from "./style";
 import { Notification } from "../../components/Notification";
-import { FirstAcessAlert } from "./components/DeleteAlert";
+import { FirstAcessAlert } from "./components/FirstAcessAlert";
 import { ArrowClockwise } from "phosphor-react";
 
 

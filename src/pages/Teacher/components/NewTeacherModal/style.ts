@@ -313,6 +313,20 @@ export const NivelStars = styled.div`
   }
 `;
 
+export const PhotoRecommendation = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  span {
+    font-style: italic;
+    font-size: 1.5rem;
+    strong {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+`;
+
 /* export const ContentSelect = styled.div`
   width: 60%;
 

@@ -96,7 +96,7 @@ export const InputScroll = styled.div`
   max-height: 600px;
   padding: 0 2.344rem 1rem 4.688rem;
 
-  overflow-y: scroll;
+  overflow-y: none;
 
   ::-webkit-scrollbar {
     width: 6px;

@@ -48,7 +48,7 @@ export function TeacherItem({ teacherItem }: TeacherItemProps) {
             <h3>{teacherItem.nome}</h3>
             <TeacherInfoType>Nada</TeacherInfoType>
           </ItemInfoContentHeader>
-          <p>Carga horária: {teacherItem.cargaSemanal}hs</p>
+          <p>Carga horária semanal: <strong>{teacherItem.cargaSemanal}h</strong></p>
         </TeacherItemInfoContent>
       </TeacherItemInfoContainer>
 

@@ -1,7 +1,10 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CalendarX, DotsThree, Trash } from "phosphor-react";
 import { useState } from "react";
 import { AbsenceProps } from "../..";
+import { DeleteAlertCall } from "../../../../components/DeleteAlertCall";
+import { API } from "../../../../lib/axios";
 import { AbsenseInfoType } from "../../components/AbsenseItem/style";
 import { AbsenseList } from "../../style";
 import { EditAbsenceTeacherModal } from "../EditAbsenceTeacherModal";
@@ -14,7 +17,6 @@ import {
   AbsenseItemInfoContainer,
   AbsenseItemInfoContent,
 } from "./style";
-
 interface AbsenceItemProps {
   absence: AbsenceProps;
 }
@@ -26,6 +28,13 @@ export function AbsenseItem({ absence }: AbsenceItemProps) {
     setOpen(false);
   }
 
+  async function handleDeleteAbsence() {
+    const res = await API.delete(`/ausencia/${absence.id}`);
+    if (res.status == 200) {
+      window.location.reload();
+    }
+  }
+
   return (
     <AbsenseItemContainer>
       <AbsenseItemInfoContainer>
@@ -35,21 +44,17 @@ export function AbsenseItem({ absence }: AbsenceItemProps) {
 
         <AbsenseItemInfoContent>
           <AbsenseInfoType>
-            {absence.tipo == "FERIAS"
-              ? "Férias"
-              : absence.tipo.toLowerCase()}
+            {absence.tipo == "FERIAS" ? "Férias" : absence.tipo.toLowerCase()}
           </AbsenseInfoType>
           <p>
             Data:
-            <span>
-              {" " + absence.dataInicio + " - " + absence.dataFinal}
-            </span>
+            <span>{" " + absence.dataInicio + " - " + absence.dataFinal}</span>
           </p>
         </AbsenseItemInfoContent>
       </AbsenseItemInfoContainer>
 
       <AbsenseItemButtonContainer>
-        <Dialog.Root open={open}>
+        <Dialog.Root open={open} onOpenChange={setOpen}>
           <Dialog.Trigger
             style={{
               backgroundColor: "transparent",
@@ -62,11 +67,17 @@ export function AbsenseItem({ absence }: AbsenceItemProps) {
             </AbsenseItemButton>
           </Dialog.Trigger>
 
-          <EditAbsenceTeacherModal absence={absence} closeModal={closeModal}/>
+          <EditAbsenceTeacherModal absence={absence} closeModal={closeModal} />
         </Dialog.Root>
-        <AbsenseItemButton buttonColor="delete">
-          <Trash color="white" size={26} />
-        </AbsenseItemButton>
+
+        <AlertDialog.Root>
+          <AlertDialog.Trigger asChild>
+            <AbsenseItemButton buttonColor="delete">
+              <Trash color="white" size={26} />
+            </AbsenseItemButton>
+          </AlertDialog.Trigger>
+          <DeleteAlertCall deleteById={handleDeleteAbsence} />
+        </AlertDialog.Root>
       </AbsenseItemButtonContainer>
     </AbsenseItemContainer>
   );

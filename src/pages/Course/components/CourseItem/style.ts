@@ -103,12 +103,12 @@ interface ButtonProps {
 export const CourseItemButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 1rem;
 `;
 
 export const CourseItemButton = styled.div<ButtonProps>`
   width: 40px;
   height: 40px;
+  margin: 0 0.5rem;
 
   display: flex;
   align-items: center;

@@ -77,12 +77,12 @@ interface ButtonProps {
 export const AbsenseItemButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 1rem;
 `;
 
 export const AbsenseItemButton = styled.div<ButtonProps>`
   width: 40px;
   height: 40px;
+  margin: 0 0.5rem;
 
   display: flex;
   align-items: center;
