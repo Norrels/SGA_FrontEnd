@@ -12,7 +12,7 @@ export const GlobalStyle = createGlobalStyle`
      }
     }
     body {
-        background-image: url('src/assets/background.svg');
+        background-image: url('/src/assets/background.svg');
         background-repeat: no-repeat;
         background-size: 2000px;
         background-position: top;

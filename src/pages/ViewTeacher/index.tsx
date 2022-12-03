@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Star } from "phosphor-react";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { date } from "zod";
+import { boolean } from "zod";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
 import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
@@ -44,12 +44,12 @@ export function ViewTeacher() {
     email: "",
     competencia: [],
   });
-
+  const [closeModal, setCloseModal] = useState(false)
   const [absenseList, setAbsenseList] = useState<AbsenceProps[]>([]);
+  const { updateTeachers } = useContext(ObjectsContext)
 
   async function fetchUser() {
     const response = await API.get(`/professor/${teacherId}`);
-
     setTeacher(response.data[0]);
     setAbsenseList(response.data[1]);
     response.data[2] ? setInClass(true) : setInClass(false)
@@ -59,13 +59,37 @@ export function ViewTeacher() {
     fetchUser();
   }, []);
 
+  async function teacherUpdate(data: TeacherProps) {
+   updateTeachers(data)
+   setTeacher(data)
+   setCloseModal(false)
+  }
+
+  function handlecloseModal(){
+    setCloseModal(false)
+  }
+
+  function removeFoto() {
+    const teacherToUpdate : TeacherProps = {
+      cargaSemanal: teacher.cargaSemanal,
+      competencia: teacher.competencia,
+      email: teacher.email,
+      nome: teacher.nome,
+      ativo: teacher.ativo,
+      foto: undefined,
+      id: teacher.id
+    }
+    setTeacher(teacherToUpdate)
+  }
+
+
   document.title = `${teacher?.nome} | SGA`;
   return (
     <Main>
       <TeacherMain>
         <img src={VisualzacaoProfessores} />
         <TeacherMainProfile>
-          <Dialog.Root>
+          <Dialog.Root open={closeModal} onOpenChange={setCloseModal}>
             <Dialog.Trigger
               style={{
                 backgroundColor: "transparent",
@@ -76,7 +100,7 @@ export function ViewTeacher() {
               <NotePencil size={32} opacity={0.5} />
             </Dialog.Trigger>
 
-            <EditTeacherModal teacherItem={teacher} />
+            <EditTeacherModal closeModal={handlecloseModal} removeFoto={removeFoto} teacherUpdate={teacherUpdate} teacherItem={teacher} />
           </Dialog.Root>
           <TeacherProfileContent>
             <TeacherProfileLeft disponibilidade={inClass ? "emAula" : "livre"}>
@@ -89,9 +113,9 @@ export function ViewTeacher() {
             <TeacherProfileSeparator></TeacherProfileSeparator>
             <TeacherProfileSkills>
               <h3>Competências:</h3>
-              {teacher.competencia.map((competencia) => {
+              {teacher.competencia?.map((competencia) => {
                 return (
-                  <TeacherSkillsIndividual>
+                  <TeacherSkillsIndividual key={competencia.nivel}>
                     <p>{competencia.unidadeCurricular.nome}</p>
                     <TeacherIndividualStars>
                       <Star

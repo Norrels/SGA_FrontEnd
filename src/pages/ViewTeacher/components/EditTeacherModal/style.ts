@@ -145,7 +145,7 @@ export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 2rem;
 
   &:not(:nth-child(1), :nth-child(2)) {
     flex-direction: row;
@@ -179,6 +179,9 @@ export const InputContent = styled.div<DisabledProps>`
     div {
       width: 13.75rem;
     }
+
+    
+
   }
 
   header {
@@ -236,6 +239,12 @@ export const InputContent = styled.div<DisabledProps>`
   p {
     color: #8d0000;
   }
+
+  img {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 8px;
+  }
 `;
 
 export const InputIndividual = styled.div`
@@ -270,6 +279,7 @@ export const InputIndividual = styled.div`
       }
     }
   }
+
 
   input[type="file"] {
     width: 100%;
@@ -480,3 +490,24 @@ export const FinalButton = styled.div`
     font-weight: bold;
   }
 `;
+
+export const TeacherPhotoInput = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+
+  p {
+    width: 80%;
+    font-weight: 700;
+    font-size: 16px;
+    color: ${(props) => props.theme["gray-500"]};
+    margin-left: 20px;
+  }
+
+  svg {
+    width: 20%;
+    margin-left: 80px;
+    cursor: pointer;
+  }
+`

@@ -1,8 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { NotePencil, Plus, Star, Upload, X } from "phosphor-react";
-import { useContext, useState } from "react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { NotePencil, Plus, Star, Trash, Upload, Watch, X } from "phosphor-react";
+import { ChangeEvent, useEffect, useState } from "react";
+import { string, z } from "zod";
+import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import {
   ButtonNewCompetencia,
   Content,
@@ -17,61 +17,99 @@ import {
   ModalHeader,
   NivelStars,
   Overlay,
+  TeacherPhotoInput,
 } from "./style";
 import {
   ObjectsContext,
   TeacherProps,
 } from "../../../../contexts/ObjectsContext";
+import { API } from "../../../../lib/axios";
+import { StarsSection } from "../../../Teacher/components/NewTeacherModal/components/StarsSection";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { teacherInput } from "../../../Teacher/components/NewTeacherModal";
 
-export interface IInput {
-  id?: number;
-  nome?: string;
-  horas?: number;
-  unidade?: string;
-}
-
-export const teacherInput = z.object({
-  id: z.number(),
-  nome: z
-    .string()
-    .min(3, { message: "O nome não deve ser menor que 3 carecteres" }),
-  cargaSemanal: z.number(),
-  foto: z.string(),
-  ativo: z.boolean(),
-  email: z.string(),
-  competencia: z
-    .object({
-      id: z.number(),
-      professor: z.object({
-        id: z.number(),
-        nome: z.string(),
-      }),
-      unidadeCurricular: z.object({
-        id: z.number(),
-        nome: z.string(),
-        horas: z.string(),
-      }),
-      nivel: z.number(),
-    })
-    .array(),
-});
 
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface EdiTeacherModalProps {
   teacherItem: TeacherProps;
+  teacherUpdate: (data: TeacherProps) => void
+  removeFoto: () => void
+  closeModal: () => void
 }
 
-export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
-  const [editable, setEditable] = useState(false);
-  const { register, reset, handleSubmit } = useForm<TeacherType>();
-  const { updateTeaches } = useContext(ObjectsContext);
+interface CurricularUnit {
+  id: number;
+  nome: string;
+  horas: string;
+}
 
-  async function handleUpdateTeacher(data: TeacherType) {
-    //Coloca um input hiden no form
-    /* data.id = teacherItem.id; */
-    /* updateTeaches(data); */
+
+export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, closeModal }: EdiTeacherModalProps) {
+  const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
+    []
+  );
+  const [editable, setEditable] = useState(false);
+  const teacherForm = useForm<TeacherType>({
+    resolver: zodResolver(teacherInput),
+    defaultValues: {
+      competencia: [
+        {
+          nivel: 1,
+          unidadeCurricular: {
+            nome: "",
+          },
+        },
+      ],
+    },
+  });
+  const { register, reset, handleSubmit, control, watch, formState: { errors }, setValue } = teacherForm
+
+  const [foto, setFoto] = useState(teacherItem.foto)
+
+  console.log(errors)
+  async function handleGetUnidadeCurricular() {
+    const response = await API.get("/unidade");
+    if (response.status == 200) {
+      setUnidadeCurricular(response.data);
+    }
   }
+
+  useEffect(() => {
+    handleGetUnidadeCurricular();
+  }, []);
+
+  const { fields, append, remove } = useFieldArray({
+    name: "competencia",
+    control,
+    rules: {
+      required: "O curso deve ter pelo menos uma unidade curricular",
+    },
+  });
+
+  const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files![0];
+    const base64 = await convertBase64(file);
+    setValue("foto", String(base64));
+   
+    console.log(String(base64).length);
+  };
+
+  function convertBase64(file: Blob) {
+    return new Promise((resolve, reject) => {
+      const fileRender = new FileReader();
+      fileRender.readAsDataURL(file);
+
+      fileRender.onload = function () {
+        resolve(fileRender.result);
+      };
+
+      fileRender.onerror = function (error) {
+        reject(error);
+      };
+    });
+  }
+
 
   return (
     <Dialog.Portal>
@@ -82,19 +120,18 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
             {!editable ? "Professor" : "Editar professor"}
           </Dialog.Title>
           <HeaderButtons>
-            {!editable ? (
+            {!editable && (
               <button onClick={() => setEditable(true)}>
                 <NotePencil size={50} weight="light" />
               </button>
-            ) : (
-              <></>
             )}
             <Dialog.Close>
               <X size={50} weight="light" />
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form>
+        <form onSubmit={handleSubmit(teacherUpdate)}>
+          <input type="hidden" defaultValue={teacherItem.id} {...register("id", { valueAsNumber: true })} />
           <InputScroll>
             <InputContainer>
               <InputContent disabled={"on"}>
@@ -129,272 +166,145 @@ export function EditTeacherModal({ teacherItem }: EdiTeacherModalProps) {
                     placeholder="Digite as horas"
                     required
                     defaultValue={teacherItem.cargaSemanal}
-                    {...register("cargaSemanal")}
+                    {...register("cargaSemanal", { valueAsNumber: true })}
                     readOnly={!editable}
                   />
                 </InputIndividual>
-                <InputIndividual>
-                  <label>Foto</label>
-                  <InputFile disabled={!editable ? "disabled" : "on"}>
-                    <InputFileContent
-                      style={
-                        !editable
-                          ? { backgroundColor: "#efefef" }
-                          : { backgroundColor: "transparent" }
-                      }
-                    >
-                      <span
-                        style={
-                          !editable
-                            ? { color: "rgba(109, 109, 109, 0.5)" }
-                            : { color: "#6D6D6D" }
+                {
+                  foto != undefined || teacherItem.foto ?
+                    <InputIndividual>
+                      <label>Foto</label>
+                      <TeacherPhotoInput>
+                        <img src={teacherItem.foto ? teacherItem.foto : foto} alt="" />
+                        <p>Foto de perfil <br /> {teacherItem.nome}</p>
+                        {
+                          editable && <Trash size={30} onClick={() => {
+                            removeFoto()
+                          }} />
                         }
-                      >
-                        {teacherItem.foto}
-                      </span>
-                      <div
-                        style={
-                          !editable ? { opacity: "30%" } : { opacity: "100%" }
-                        }
-                      >
-                        <Upload size={40} weight="light" />
-                      </div>
-                    </InputFileContent>
-                    <input
-                      type="file"
-                      id="file"
-                      multiple={false}
-                      accept="image/*"
-                    /* onChange={uploadImage} */
-                    // required
-                    // {...register("foto")}
-                    />
-                  </InputFile>
-                </InputIndividual>
+
+                      </TeacherPhotoInput>
+                    </InputIndividual> :
+                    <InputIndividual>
+                      <label>Foto</label>
+                      <InputFile disabled={!editable ? "disabled" : "on"}>
+                        <InputFileContent
+                          style={
+                            !editable
+                              ? { backgroundColor: "#efefef" }
+                              : { backgroundColor: "transparent" }
+                          }
+                        >
+                          <span
+                            style={
+                              !editable
+                                ? { color: "rgba(109, 109, 109, 0.5)" }
+                                : { color: "#6D6D6D" }
+                            }
+                          >
+                          </span>
+                          <div
+                            style={
+                              !editable ? { opacity: "30%" } : { opacity: "100%" }
+                            }
+                          >
+                            <Upload size={40} weight="light" />
+                          </div>
+                        </InputFileContent>
+                        <input
+                          type="file"
+                          id="file"
+
+                          accept="image/*"
+
+                          // required
+
+                          onChange={uploadImage}
+                        />
+                      </InputFile>
+                    </InputIndividual>
+                }
               </InputContent>
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {/* REVISAR ISSO AQUI QUE EU FIZ */}
-              {teacherItem.competencia.map((index) => (
-                <InputContent key={teacherItem.id} disabled={!editable ? "disabled" : "on"}>
-                  <InputIndividual>
-                    <label>Competência</label>
-                    {/* REVISAR ISSO AQUI QUE EU FIZ */}
-                    <select>
-                      {
-                        
-                        <option value={index?.unidadeCurricular?.id} selected disabled>
-                          {index?.unidadeCurricular?.nome}
-                        </option>
-                      }
 
-                    </select>
-                  </InputIndividual>
-                  <InputIndividual>
-                    <header>
-                      <label>Nível</label>
-                      {/* quando fizer a logica descomentar codigo abaixo :D */}
-                      {/* {index !== 0 ? <Trash size={24} /> : <></>} */}
-                    </header>
-                    <NivelStars
-                      style={
-                        !editable ? { opacity: "30%" } : { opacity: "100%" }
-                      }
-                    >
-                      <Star size={37} weight="fill" />
-                      <Star size={37} weight="fill" />
-                      <Star size={37} weight="fill" />
-                      <Star size={37} weight="fill" />
-                      <Star size={37} weight="fill" />
-                    </NivelStars>
-                  </InputIndividual>
-                </InputContent>
-              ))}
-              {editable ? (
-                <ButtonNewCompetencia onClick={() => { }} type="button">
-                  <Plus size={32} />
-                  <p>Adicionar competência</p>
-                </ButtonNewCompetencia>
-              ) : (
-                <></>
-              )}
+              {fields.map((field, index) => {
+                return (
+                  <InputContent disabled={"on"} key={field.id}>
+                    <InputIndividual>
+                      <label>Competência</label>
+                      <select
+                        {...register(
+                          `competencia.${index}.unidadeCurricular.id`,
+                          { valueAsNumber: true, required: true }
+                        )}
+                        defaultValue={teacherItem?.competencia[index]?.unidadeCurricular?.nome}
+                        required
+                      >
+                        {unidadeCurricular.map((value, index) => {
+                          return (
+                            <option
+                              key={value.id}
+                              value={value.id}
+                            >
+                              {value.nome}
+                            </option>
+                          );
+                        })}
+                      </select>
 
-              {editable ? (
+                      {errors.competencia && (
+                        <p>
+                          {
+                            errors.competencia[index]?.unidadeCurricular?.id
+                              ?.message
+                          }
+                        </p>
+                      )}
+                    </InputIndividual>
+                    <InputIndividual>
+                      <header>
+                        <label>Nível</label>
+                        {index !== 0 && (
+                          <Trash size={24} onClick={() => remove(index)} />
+                        )}
+                      </header>
+                      <FormProvider {...teacherForm}>
+                        <StarsSection index={index} />
+                      </FormProvider>
+                    </InputIndividual>
+                  </InputContent>
+                );
+
+              })}
+
+              <ButtonNewCompetencia
+                onClick={() => {
+                  append({
+                    nivel: 1,
+                    unidadeCurricular: {
+                      nome: "",
+                      id: 0,
+                    },
+
+                  });
+                }}
+                type="button"
+              >
+                <Plus size={32} />
+                <p>Adicionar competência</p>
+              </ButtonNewCompetencia>
+
+
+
+              {editable && (
                 <FinalButton>
                   <button>Salvar</button>
                 </FinalButton>
-              ) : (
-                <></>
               )}
+
             </InputContainer>
           </InputScroll>
         </form>
       </Content>
-      {/* DEIXEI AQUI PRA QUANDO FOR FAZER A VALIDACAO, CODIGO ANTIGO ABAIXO vvvvvvv */}
-      {/* <Dialog.Portal>
-      <Overlay />
-      <Content>
-        {disabled ? (
-          <>
-            <NoteButton>
-              <NotePencil onClick={() => setDisabled(false)} size={32} />
-            </NoteButton>
-          </>
-        ) : (
-          <></>
-        )}
-        <CloseButton>
-          <X onClick={() => setDisabled(true)} size={24} />
-        </CloseButton>
-
-        <Dialog.Title>
-          {disabled ? "Professor" : "Editar Professor"}
-        </Dialog.Title>
-
-        <form onSubmit={handleSubmit(handleUpdateTeacher)}>
-          <InputContainer>
-            <InputContent>
-              <label>Nome</label>
-              <input
-                defaultValue={teacherItem.nome}
-                type="text"
-                placeholder="digite o nome do professor"
-                {...register("nome")}
-               
-              />
-            </InputContent>
-            <InputContentDupo>
-              <div>
-                <label>Carga horária Semanal</label>
-                <input
-                 defaultValue={teacherItem.cargaSemanal}
-                  type="text"
-                  placeholder="digite as horas"
-                  {...register("cargaSemanal")}
-                
-                />
-              </div>
-              <div>
-                <label>Foto</label>
-                <input
-                 
-                  defaultValue={teacherItem.foto}
-                  type="file"
-                  id="file"
-                  accept="image/*"
-                  placeholder="envie uma foto do professor"
-                />
-              </div>
-            </InputContentDupo>
-
-            <InputContent>
-              <label>Email</label>
-              <input
-                defaultValue={teacherItem.email}
-                type="text"
-                placeholder="digite o nome do professor"
-                {...register("email")}
-                readOnly={disabled}
-              />
-            </InputContent>
-
-            <InputContentScroll>
-               {disabled
-              ? listaCompetencia?.map((v) => (
-                  <>
-                    <ContainerInputStar key={v.id}>
-                      <ContentSelect>
-                        <label>Competência</label>
-                        <select disabled>
-                          <option>{v.unidadeCurricular?.nome}</option>
-                          <option>Java</option>
-                        </select>
-                      </ContentSelect>
-                      <Rating
-                        edit_={false}
-                        nivelHabilidade={Number(v.nivelHabilidade)}
-                      />
-                    </ContainerInputStar>
-                  </>
-                ))
-              : listaCompetencia?.map((v) => (
-                  <>
-                    <>
-                      <ContainerInputStar key={v.id}>
-                        <ContentSelect>
-                          <label>Competência</label>
-                          <select>
-                            <option>{v.unidadeCurricular?.nome}</option>
-                            <option>Java</option>
-                          </select>
-                        </ContentSelect>
-                        <Rating
-                          edit_={true}
-                          nivelHabilidade={Number(v.nivelHabilidade)}
-                        />
-                      </ContainerInputStar>
-                    </>
-                    <>
-                      {input.map((v) => (
-                        <ContainerInputStar>
-                          <ContentSelect>
-                            <label>{v.nome}</label>
-                            <select>
-                              <option>{v.unidade}</option>
-                              <option>Java</option>
-                            </select>
-                          </ContentSelect>
-                          <Rating edit_={true} nivelHabilidade={0} />
-                        </ContainerInputStar>
-                      ))}
-                    </>
-                  </>
-                ))} 
-            </InputContentScroll>
-             {disabled ? (
-            <></>
-          ) : (
-            <ContainerNewCompt
-              onClick={(e) => {
-                setInput([
-                  ...input,
-                  {
-                    id: 0,
-                    nome: "Competência",
-                    unidade: "Selecione uma unidade curricular",
-                    horas: 0,
-                  },
-                ]);
-              }}
-            >
-              <NewCompt>
-                <div>
-                  <Plus size={32} />
-                  <br />
-                  <span>Adicionar Competência</span>
-                </div>
-              </NewCompt>
-            </ContainerNewCompt>
-          )} 
-          </InputContainer>
-          {disabled ? (
-            <></>
-          ) : (
-            <ContainerButtonCreate>
-              <button>Editar</button>
-            </ContainerButtonCreate>
-          )}
-        </form>
-      </Content>
-    </Dialog.Portal> */}
     </Dialog.Portal>
   );
 }
