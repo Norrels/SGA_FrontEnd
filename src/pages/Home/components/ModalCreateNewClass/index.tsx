@@ -3,6 +3,7 @@ import { ArrowLeft, X } from "phosphor-react";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
+import { Notification } from "../../../../components/Notification";
 import { TeacherProps } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { FirstStepContent } from "./components/FirstStepContent";
@@ -59,17 +60,21 @@ export function ModalCreateNewClass({
   const { handleSubmit, reset, getValues } = CreateNewClassForm;
   const [avaliableTeacher, setAvalibleTeachers] = useState<TeacherProps[]>();
   const [step, setStep] = useState(0);
+  //Variavel para usado para exibir a notificaçãp
+  const [open, setOpen] = useState(false);
+
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificationStataus, setNotificationStataus] = useState(false);
 
   function handleNextStep(step: number) {
     setStep(step);
-    getAvailableInfo()
+    getAvailableInfo();
   }
 
-
-  async function getAvailableInfo(){
-    const res = await API.get("aula/valoresLivres")
-      console.log(res)
-      setAvalibleTeachers(res.data[0])
+  async function getAvailableInfo() {
+    const res = await API.get("aula/valoresLivres");
+    console.log(res);
+    setAvalibleTeachers(res.data[0]);
   }
 
   async function handleCreateNewAula(datas: AulaType) {
@@ -83,62 +88,88 @@ export function ModalCreateNewClass({
     };
 
     const res = await API.post("aula", data);
+    if (res.status == 200) {
+      setNotificationStataus(true);
+    } else {
+      setNotificationStataus(false);
+    }
+    setOpen(true);
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
+  }
+
+  function onCloseModalCLasses() {
     reset();
-    console.log(res);
     closeModal();
     setStep(0);
   }
 
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content onCloseAutoFocus={() => reset()}>
-        <ModalHeader>
-          <Dialog.Title>Nova aula {name}</Dialog.Title>
-          <HeaderButtons>
-            {step !== 0 && (
-              <ArrowLeft
+    <>
+      <Dialog.Portal>
+        <Overlay />
+        <Content onCloseAutoFocus={() => reset()}>
+          <ModalHeader>
+            <Dialog.Title>Nova aula {name}</Dialog.Title>
+            <HeaderButtons>
+              {step !== 0 && (
+                <ArrowLeft
+                  onClick={() => {
+                    step == 2 ? setStep(1) : step == 1 && setStep(0);
+                  }}
+                  size={50}
+                  weight="light"
+                />
+              )}
+              <Dialog.Close
                 onClick={() => {
-                  step == 2 ? setStep(1) : step == 1 && setStep(0);
+                  setStep(0);
                 }}
-                size={50}
-                weight="light"
-              />
-            )}
-            <Dialog.Close
-              onClick={() => {
-                setStep(0);
-              }}
-            >
-              <X size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
-        <form onSubmit={handleSubmit(handleCreateNewAula)}>
-          <InputMain>
-            <InputOverflow>
-              <InputScroll step={step}>
-                <FormProvider {...CreateNewClassForm}>
-                  <FirstStepContent
-                    name={name}
-                    handleNextStep={handleNextStep}
-                  />
-                </FormProvider>
-              </InputScroll>
-              <InputScroll step={step}>
-                <FormProvider {...CreateNewClassForm}>
-                  <SecondStepContent teachers={avaliableTeacher}  handleNextStep={handleNextStep} />
-                </FormProvider>
-              </InputScroll>
-              <InputScroll step={step}>
-                <FormProvider {...CreateNewClassForm}>
-                  <ThirdStepContent />
-                </FormProvider>
-              </InputScroll>
-            </InputOverflow>
-          </InputMain>
-        </form>
-      </Content>
-    </Dialog.Portal>
+              >
+                <X size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
+          <form onSubmit={handleSubmit(handleCreateNewAula)}>
+            <InputMain>
+              <InputOverflow>
+                <InputScroll step={step}>
+                  <FormProvider {...CreateNewClassForm}>
+                    <FirstStepContent
+                      name={name}
+                      handleNextStep={handleNextStep}
+                    />
+                  </FormProvider>
+                </InputScroll>
+                <InputScroll step={step}>
+                  <FormProvider {...CreateNewClassForm}>
+                    <SecondStepContent
+                      teachers={avaliableTeacher}
+                      handleNextStep={handleNextStep}
+                    />
+                  </FormProvider>
+                </InputScroll>
+                <InputScroll step={step}>
+                  <FormProvider {...CreateNewClassForm}>
+                    <ThirdStepContent />
+                  </FormProvider>
+                </InputScroll>
+              </InputOverflow>
+            </InputMain>
+          </form>
+        </Content>
+      </Dialog.Portal>
+      <Notification
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={
+          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+        }
+        title="Aula"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
+    </>
   );
 }

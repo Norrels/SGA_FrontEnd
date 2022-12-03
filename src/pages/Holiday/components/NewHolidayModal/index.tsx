@@ -17,10 +17,9 @@ import {
 } from "./style";
 
 export const holidayInput = z.object({
-  dataInicio: z.date(),
-  dataFinal: z.date(),
   nome: z.string(),
-  tipoDeDia: z.string(),
+  tipo: z.string(),
+  data: z.date(),
 });
 
 interface holidayProps {
@@ -40,19 +39,14 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
 
   async function handleCreateHolidayAPI(data: HolidayType) {
     console.log(
-      "dataInicio:" + data.dataInicio,
-      "dataFinal:" + data.dataInicio,
-      "nome:" + "tipoDeDia:" + data.tipoDeDia
+      "dataFinal:" + data.data,
+      "nome:" + "tipoDeDia:" + data.tipo
     );
 
-    const res = await API.post("dnl", {
-      data: format(new Date(data.dataInicio), "yyyy-MM-dd"),
-      nome: data.nome,
-      tipo: data.tipoDeDia,
-    });
+    const res = await API.post("dnl", data);
 
     if (res.status == 200) {
-      location.reload();
+      
     }
   }
 
@@ -84,12 +78,13 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
                 <label>Tipo</label>
                 <select
                   placeholder="Selecione o tipo do dia"
-                  {...register("tipoDeDia")}
+                  {...register("tipo")}
                   defaultValue=""
                 >
                   <option value="" disabled>Selecione o tipo do dia</option>
                   <option value="FERIADO">Feriado</option>
                   <option value="EMENDA">Emenda</option>
+                  <option value="RECORRENTE">Recorrente</option>
                 </select>
                 {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
               </InputContent>
@@ -98,7 +93,7 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
                 <input
                   type="date"
                   placeholder="dd/MM/yyyy"
-                  {...register("dataInicio")}
+                  {...register("data")}
                 />
                 {/* {errors.data && <p>{errors.data.message}</p>} */}
               </InputContent>

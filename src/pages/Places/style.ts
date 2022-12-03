@@ -85,35 +85,34 @@ export const PlacesTitleContainer = styled.section`
 
 export const PlacesButtonContainer = styled.div`
   margin-top: 2rem;
-
   display: flex;
-  gap: 2rem;
+`;
 
-  button {
-    width: 12.5rem;
-    height: 3.75rem;
+export const ButtonTitle = styled.button`
+  width: 12.5rem;
+  height: 3.75rem;
+  margin: 0 1rem;
 
-    border: none;
-    border-radius: 8px;
+  border: none;
+  border-radius: 8px;
 
-    color: ${(props) => props.theme["white"]};
-    font-size: 1.125rem;
-    font-weight: bold;
+  color: ${(props) => props.theme["white"]};
+  font-size: 1.125rem;
+  font-weight: bold;
 
-    transition-duration: 0.3s;
+  transition-duration: 0.3s;
 
-    &:first-child {
-      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
-    }
+  &:first-child {
+    background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+  }
 
-    &:last-child {
-      background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
-    }
+  &:last-child {
+    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+  }
 
-    &:hover {
-      box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
-      transform: translateY(-5px);
-    }
+  &:hover {
+    box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
   }
 `;
 

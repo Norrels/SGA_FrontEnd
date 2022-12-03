@@ -3,6 +3,7 @@ import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
 import { Calender } from "./components/Calenders/PlacesCalender";
 import { HomeSearchInput } from "./components/SearchInputHome";
 import {
+  ButtonTitle,
   HomeButtonContainer,
   HomeContainer,
   HomeContent,
@@ -34,7 +35,7 @@ export function Home() {
   const [title, setTitle] = useState("");
   const [isViewClass, setIsViewClass] = useState("");
 
-/*   const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
+  /*   const [dayTypeMatch, setDayTypeMatch] = useState<String[]>([]);
   const [aula, setAula] = useState<AulaTypeSuper[]>([]);
   const [saveClassMatch, setSaveClassMatch] = useState<AulaTypeSuper[]>([]);
 
@@ -139,13 +140,15 @@ export function Home() {
           <HomeButtonContainer>
             <Dialog.Root open={openRegular} onOpenChange={setOpenRegular}>
               <Dialog.Trigger asChild>
-                <button onClick={() => setTitle("regular")}>Regular</button>
+                <ButtonTitle onClick={() => setTitle("regular")}>
+                  Regular
+                </ButtonTitle>
               </Dialog.Trigger>
               <ModalCreateNewClass closeModal={closeModal} name={title} />
             </Dialog.Root>
             <Dialog.Root open={openFic} onOpenChange={setOpenFic}>
               <Dialog.Trigger asChild>
-                <button onClick={() => setTitle("FIC")}>FIC</button>
+                <ButtonTitle onClick={() => setTitle("FIC")}>FIC</ButtonTitle>
               </Dialog.Trigger>
               <ModalCreateNewClass closeModal={closeModal} name={title} />
             </Dialog.Root>
@@ -154,9 +157,9 @@ export function Home() {
               onOpenChange={setOpenCustomizavel}
             >
               <Dialog.Trigger asChild>
-                <button onClick={() => setTitle("customizável")}>
+                <ButtonTitle onClick={() => setTitle("customizável")}>
                   Customizável
-                </button>
+                </ButtonTitle>
               </Dialog.Trigger>
               <ModalCreateNewClass closeModal={closeModal} name={title} />
             </Dialog.Root>
@@ -174,7 +177,7 @@ export function Home() {
 
         {isViewClass == "Professores" ? (
           <Calender today={today} days={daysWeek} />
-         ) : (
+        ) : (
           <CalenderTeacher today={today} days={daysWeek} />
         )}
       </HomeContent>

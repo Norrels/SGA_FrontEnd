@@ -60,8 +60,6 @@ export const HolidayTitleContainer = styled.div`
   opacity: 0;
   animation: ${fadeIn} 1s ease-in-out forwards;
 
-  z-index: -1;
-
   h1 {
     width: 100%;
     margin: 0.5rem;

@@ -5,6 +5,7 @@ import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { z } from "zod";
+import { Notification } from "../../../../components/Notification";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import {
   Content,
@@ -133,6 +134,12 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
   const [adress, setAdress] = useState("");
   const [cep, setCep] = useState("");
 
+  //Variavel para usado para exibir a notificaçãp
+  const [open, setOpen] = useState(false);
+
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificationStataus, setNotificationStataus] = useState(false);
+
   function handleSelectTipoAmbiente(event: ChangeEvent<HTMLSelectElement>) {
     if (tipoAmbiente == "" || tipoAmbiente != event.target.value) {
       reset(
@@ -148,15 +155,21 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
 
   async function handleCreateNewPlace(data: NewPlaceType) {
     data.ativo = true;
-    setCep("");
-    setTipoAmbiente("");
-    setAdress("");
-    createPlacesAPI(data);
-    closeModal();
+    createPlacesAPI(data)
+      .then(() => {
+        reset();
+        closeModal();
+      })
+      .catch(() => setNotificationStataus(true));
+    setOpen(true);
+    onCloseModalPlaces();
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
   }
 
   async function fetchCep(e: ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value);
     setAdress("");
     const cepRaw = e.target.value.replace(/_/g, "").replace("-", "");
     setCep(cepRaw);
@@ -165,7 +178,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
         (response) => {
           if (response.status >= 200 && response.status < 299) {
             response.json().then((data) => {
-              console.log(data);
               if (!adress && data.logradouro !== undefined) {
                 const endereco = `${data.logradouro} - ${data.localidade}, ${data.uf}`;
 
@@ -186,6 +198,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
   }
 
   function onCloseModalPlaces() {
+    closeModal();
     reset();
     setTipoAmbiente("");
     setCep("");
@@ -193,80 +206,114 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
   }
 
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content onCloseAutoFocus={() => onCloseModalPlaces()}>
-        <ModalHeader>
-          <Dialog.Title>Novo ambiente</Dialog.Title>
-          <HeaderButtons>
-            <Dialog.Close>
-              <X size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
-        <form onSubmit={handleSubmit(handleCreateNewPlace)}>
-          <InputScroll>
-            <InputContainer>
-              <InputContent>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  placeholder="Digite o nome do ambiente"
-                  {...register("nome", {
-                    required: true,
-                    setValueAs: (v) => firstLetterUppercase(v),
-                  })}
-                  minLength={4}
-                  maxLength={20}
-                  required
-                />
-                {errors.nome && <p>{errors.nome.message}</p>}
-              </InputContent>
-              <InputContent>
-                <label>Tipo</label>
-                <select
-                  placeholder="Selecione o tipo do ambiente"
-                  {...register("tipo")}
-                  onChange={handleSelectTipoAmbiente}
-                  defaultValue=""
-                  required
-                >
-                  <option value="" disabled>
-                    Selecione o tipo do ambiente
-                  </option>
-                  <option value="UNIDADE_MOVEL">Unidade Movel</option>
-                  <option value="PRESENCIAL">Presencial</option>
-                  <option value="REMOTO">Remoto</option>
-                  <option value="ENTIDADE">Entidade</option>
-                  <option value="EMPRESA">Empresa</option>
-                </select>
-                {errors.tipo && <p>* Selecione um valor</p>}
-              </InputContent>
-              <InputContent>
-                <InputIndividual>
-                  <label
-                    style={
-                      tipoAmbiente === "REMOTO" || tipoAmbiente === ""
-                        ? { opacity: "30%" }
-                        : { opacity: "100%" }
-                    }
-                  >
-                    Capacidade
-                  </label>
+    <>
+      <Dialog.Portal>
+        <Overlay />
+        <Content onCloseAutoFocus={() => onCloseModalPlaces()}>
+          <ModalHeader>
+            <Dialog.Title>Novo ambiente</Dialog.Title>
+            <HeaderButtons>
+              <Dialog.Close>
+                <X size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
+          <form onSubmit={handleSubmit(handleCreateNewPlace)}>
+            <InputScroll>
+              <InputContainer>
+                <InputContent>
+                  <label>Nome</label>
                   <input
-                    type="number"
-                    placeholder="Digite a capacidade"
-                    min="1"
-                    {...register("capacidade", {
-                      valueAsNumber: true,
+                    type="text"
+                    placeholder="Digite o nome do ambiente"
+                    {...register("nome", {
                       required: true,
+                      setValueAs: (v) => firstLetterUppercase(v),
                     })}
-                    disabled={tipoAmbiente === "REMOTO" || tipoAmbiente === ""}
-                    required={tipoAmbiente !== "REMOTO"}
+                    minLength={4}
+                    maxLength={20}
+                    required
                   />
-                  {errors.capacidade && <p>{errors.capacidade.message}</p>}
-                </InputIndividual>
-                <InputIndividual>
+                  {errors.nome && <p>{errors.nome.message}</p>}
+                </InputContent>
+                <InputContent>
+                  <label>Tipo</label>
+                  <select
+                    placeholder="Selecione o tipo do ambiente"
+                    {...register("tipo")}
+                    onChange={handleSelectTipoAmbiente}
+                    defaultValue=""
+                    required
+                  >
+                    <option value="" disabled>
+                      Selecione o tipo do ambiente
+                    </option>
+                    <option value="UNIDADE_MOVEL">Unidade Movel</option>
+                    <option value="PRESENCIAL">Presencial</option>
+                    <option value="REMOTO">Remoto</option>
+                    <option value="ENTIDADE">Entidade</option>
+                    <option value="EMPRESA">Empresa</option>
+                  </select>
+                  {errors.tipo && <p>* Selecione um valor</p>}
+                </InputContent>
+                <InputContent>
+                  <InputIndividual>
+                    <label
+                      style={
+                        tipoAmbiente === "REMOTO" || tipoAmbiente === ""
+                          ? { opacity: "30%" }
+                          : { opacity: "100%" }
+                      }
+                    >
+                      Capacidade
+                    </label>
+                    <input
+                      type="number"
+                      placeholder="Digite a capacidade"
+                      min="1"
+                      {...register("capacidade", {
+                        valueAsNumber: true,
+                        required: true,
+                      })}
+                      disabled={
+                        tipoAmbiente === "REMOTO" || tipoAmbiente === ""
+                      }
+                      required={tipoAmbiente !== "REMOTO"}
+                    />
+                    {errors.capacidade && <p>{errors.capacidade.message}</p>}
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label
+                      style={
+                        tipoAmbiente === "EMPRESA" ||
+                        tipoAmbiente === "ENTIDADE"
+                          ? { opacity: "100%" }
+                          : { opacity: "30%" }
+                      }
+                    >
+                      CEP
+                    </label>
+                    <InputMask
+                      mask="99999-999"
+                      type="text"
+                      placeholder="Digite um CEP"
+                      {...register("cep", {
+                        setValueAs: (v) =>
+                          (v = v.replace(/_/g, "").replace("-", "").trim()),
+                      })}
+                      onChange={fetchCep}
+                      disabled={
+                        tipoAmbiente !== "EMPRESA" &&
+                        tipoAmbiente !== "ENTIDADE"
+                      }
+                      required={
+                        tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
+                      }
+                    />
+                    {errors.cep && <p>{errors.cep.message}</p>}
+                  </InputIndividual>
+                </InputContent>
+                <InputContent>
                   <label
                     style={
                       tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
@@ -274,77 +321,58 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                         : { opacity: "30%" }
                     }
                   >
-                    CEP
+                    Endereço
                   </label>
-                  <InputMask
-                    mask="99999-999"
+                  <input
                     type="text"
-                    placeholder="Digite um CEP"
-                    {...register("cep", {
-                      setValueAs: (v) =>
-                        (v = v.replace(/_/g, "").replace("-", "").trim()),
-                    })}
-                    onChange={fetchCep}
-                    disabled={
-                      tipoAmbiente !== "EMPRESA" && tipoAmbiente !== "ENTIDADE"
-                    }
+                    placeholder="Digite o endereço"
+                    value={adress}
+                    {...register("endereco")}
+                    onChange={(event) => setAdress(event.target.value)}
+                    disabled={cep.length < 8}
                     required={
                       tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
                     }
+                    minLength={4}
+                    maxLength={50}
                   />
-                  {errors.cep && <p>{errors.cep.message}</p>}
-                </InputIndividual>
-              </InputContent>
-              <InputContent>
-                <label
-                  style={
-                    tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
-                      ? { opacity: "100%" }
-                      : { opacity: "30%" }
-                  }
-                >
-                  Endereço
-                </label>
-                <input
-                  type="text"
-                  placeholder="Digite o endereço"
-                  value={adress}
-                  {...register("endereco")}
-                  onChange={(event) => setAdress(event.target.value)}
-                  disabled={cep.length < 8}
-                  required={
-                    tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
-                  }
-                  minLength={4}
-                  maxLength={50}
-                />
-                {errors.endereco && <p>{errors.endereco.message}</p>}
-              </InputContent>
-              <InputContent>
-                <label
-                  style={
-                    tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
-                      ? { opacity: "100%" }
-                      : { opacity: "30%" }
-                  }
-                >
-                  Complemento
-                </label>
-                <input
-                  type="text"
-                  placeholder="Digite o complemento"
-                  {...register("complemento")}
-                  disabled={cep.length < 8}
-                />
-              </InputContent>
+                  {errors.endereco && <p>{errors.endereco.message}</p>}
+                </InputContent>
+                <InputContent>
+                  <label
+                    style={
+                      tipoAmbiente === "EMPRESA" || tipoAmbiente === "ENTIDADE"
+                        ? { opacity: "100%" }
+                        : { opacity: "30%" }
+                    }
+                  >
+                    Complemento
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Digite o complemento"
+                    {...register("complemento")}
+                    disabled={cep.length < 8}
+                  />
+                </InputContent>
 
-              <FinalButton>
-                <button>Criar</button>
-              </FinalButton>
-            </InputContainer>
-          </InputScroll>
-        </form>
-      </Content>
-    </Dialog.Portal>
+                <FinalButton>
+                  <button>Criar</button>
+                </FinalButton>
+              </InputContainer>
+            </InputScroll>
+          </form>
+        </Content>
+      </Dialog.Portal>
+      <Notification
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={
+          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+        }
+        title="Ambiente"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
+    </>
   );
 }

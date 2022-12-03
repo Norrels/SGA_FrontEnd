@@ -6,6 +6,7 @@ import {
   TeacherButtonContainer,
   TeacherList,
   Toggle,
+  ButtonTitle,
 } from "./style";
 import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
@@ -26,7 +27,7 @@ export function Teacher() {
 
   const [open1, setOpen1] = useState(false);
   const [on1, setOn1] = useState<Boolean>(false);
-  const { userToEdit } = useContext(AuthContext)
+  const { userToEdit } = useContext(AuthContext);
 
   function closeModal() {
     setOpen(false);
@@ -77,21 +78,21 @@ export function Teacher() {
           <TeacherButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <button>Novo professor</button>
+                <ButtonTitle>Novo professor</ButtonTitle>
               </Dialog.Trigger>
               <NewTeacherModal closeModal={closeModal} />
             </Dialog.Root>
 
             <Dialog.Root>
               <Dialog.Trigger asChild>
-                <button>Disponibilidade</button>
+                <ButtonTitle>Disponibilidade</ButtonTitle>
               </Dialog.Trigger>
               <AvaliableModal />
             </Dialog.Root>
 
             <Dialog.Root open={open1} onOpenChange={setOpen1}>
               <Dialog.Trigger asChild>
-                <button>Férias</button>
+                <ButtonTitle>Férias</ButtonTitle>
               </Dialog.Trigger>
               <NewVacation closeModal1={closeModal1} />
             </Dialog.Root>
@@ -103,7 +104,7 @@ export function Teacher() {
           placeholder="Busque um ou vários professores..."
           onChange={(v) => searchTeacher(v.target.value)}
         />
-       {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
+        {userToEdit.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input
@@ -111,7 +112,7 @@ export function Teacher() {
               type="checkbox"
             />
           </Toggle>
-        }
+        )}
         <TeacherList>
           {teachersMatch.map((teacher) => {
             if (teacher.ativo && on == false) {

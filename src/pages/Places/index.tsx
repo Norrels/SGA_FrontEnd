@@ -1,6 +1,7 @@
 import { Place } from "./components/PlacesItem";
 import * as Dialog from "@radix-ui/react-dialog";
 import {
+  ButtonTitle,
   PlacesButtonContainer,
   PlacesContainer,
   PlacesContent,
@@ -22,7 +23,7 @@ export function Places() {
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
-  const { userToEdit } = useContext(AuthContext)
+  const { userToEdit } = useContext(AuthContext);
 
   function closeModal() {
     setOpen(false);
@@ -66,13 +67,13 @@ export function Places() {
           <PlacesButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <button>Novo ambiente</button>
+                <ButtonTitle>Novo ambiente</ButtonTitle>
               </Dialog.Trigger>
               <NewPlaceModal closeModal={closeModal} />
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
-                <button>Disponibilidade</button>
+                <ButtonTitle>Disponibilidade</ButtonTitle>
               </Dialog.Trigger>
               <AvaliableModal />
             </Dialog.Root>
@@ -83,7 +84,7 @@ export function Places() {
           placeholder="Busque um ou vários ambientes..."
           onChange={(e) => searchPlace(e.target.value)}
         />
-        {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
+        {userToEdit.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input
@@ -91,7 +92,7 @@ export function Places() {
               type="checkbox"
             />
           </Toggle>
-        }
+        )}
         <PlacesList>
           {placeMatchs.map((place, index) => {
             if (place.ativo && on == false) {

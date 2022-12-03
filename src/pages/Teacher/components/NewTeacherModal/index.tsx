@@ -4,6 +4,7 @@ import { Plus, Trash, Upload, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
+import { Notification } from "../../../../components/Notification";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { StarsSection } from "./components/StarsSection";
@@ -62,7 +63,10 @@ interface CurricularUnit {
 }
 
 export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
-  //Pegando os métodos do UseForm
+  const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
+    []
+  );
+
   const newTeacherForm = useForm<TeacherType>({
     resolver: zodResolver(teacherInput),
     defaultValues: {
@@ -76,21 +80,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
       ],
     },
   });
-
-  useEffect(() => {
-    handleGetUnidadeCurricular();
-  }, []);
-
-  async function handleGetUnidadeCurricular() {
-    const response = await API.get("/unidade");
-    if (response.status == 200) {
-      setUnidadeCurricular(response.data);
-    }
-  }
-
-  const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
-    []
-  );
 
   const {
     register,
@@ -110,14 +99,45 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     },
   });
 
+  //Variavel para usado para exibir a notificaçãp
+  const [open, setOpen] = useState(false);
+
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificationStataus, setNotificationStataus] = useState(false);
+
+  useEffect(() => {
+    handleGetUnidadeCurricular();
+  }, []);
+
+  async function handleGetUnidadeCurricular() {
+    const response = await API.get("/unidade");
+    if (response.status == 200) {
+      setUnidadeCurricular(response.data);
+    }
+  }
+
   //Pwgando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;
-    createTeacherAPI(data);
-    reset();
+    createTeacherAPI(data)
+      .then(() => {
+        reset();
+        closeModal();
+      })
+      .catch(() => setNotificationStataus(true));
+    setOpen(true);
+    onCloseModalTeacher();
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
+  }
+
+  function onCloseModalTeacher() {
     closeModal();
+    reset();
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -159,155 +179,168 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content onCloseAutoFocus={() => reset()}>
-        <ModalHeader>
-          <Dialog.Title>Novo professor</Dialog.Title>
-          <HeaderButtons>
-            <Dialog.Close>
-              <X size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
-        <form onSubmit={handleSubmit(handleCreateNewTeacher)}>
-          <InputScroll>
-            <InputContainer>
-              <InputContent>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  placeholder="Digite o nome do professor"
-                  {...register("nome", {
-                    setValueAs: (v) => firstLetterUppercase(v),
-                  })}
-                  minLength={4}
-                  maxLength={30}
-                  required
-                />
-                {errors.nome && <p>{errors.nome.message}</p>}
-              </InputContent>
-              <InputContent>
-                <label>Email</label>
-                <input
-                  type="email"
-                  placeholder="Digite o email do professor"
-                  {...register("email", {
-                    setValueAs: (v) => firstLetterUppercase(v),
-                  })}
-                  required
-                />
-                {errors.email && <p>{errors.email.message}</p>}
-              </InputContent>
-              <InputContent>
-                <InputIndividual>
-                  <label>Carga horária semanal</label>
+    <>
+      <Dialog.Portal>
+        <Overlay />
+        <Content onCloseAutoFocus={() => onCloseModalTeacher()}>
+          <ModalHeader>
+            <Dialog.Title>Novo professor</Dialog.Title>
+            <HeaderButtons>
+              <Dialog.Close>
+                <X size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
+          <form onSubmit={handleSubmit(handleCreateNewTeacher)}>
+            <InputScroll>
+              <InputContainer>
+                <InputContent>
+                  <label>Nome</label>
                   <input
-                    type="number"
-                    placeholder="Digite as horas"
-                    {...register("cargaSemanal", { valueAsNumber: true })}
-                    min="20"
-                    max="40"
+                    type="text"
+                    placeholder="Digite o nome do professor"
+                    {...register("nome", {
+                      setValueAs: (v) => firstLetterUppercase(v),
+                    })}
+                    minLength={4}
+                    maxLength={30}
                     required
                   />
-                  {errors.cargaSemanal && <p>{errors.cargaSemanal.message}</p>}
-                </InputIndividual>
-                <InputIndividual>
-                  <label>Foto</label>
-                  <InputFile>
-                    <InputFileContent>
-                      <span>Nome do arquivo...</span>
-                      <div>
-                        <Upload size={40} weight="light" />
-                      </div>
-                    </InputFileContent>
+                  {errors.nome && <p>{errors.nome.message}</p>}
+                </InputContent>
+                <InputContent>
+                  <label>Email</label>
+                  <input
+                    type="email"
+                    placeholder="Digite o email do professor"
+                    {...register("email", {
+                      setValueAs: (v) => firstLetterUppercase(v),
+                    })}
+                    required
+                  />
+                  {errors.email && <p>{errors.email.message}</p>}
+                </InputContent>
+                <InputContent>
+                  <InputIndividual>
+                    <label>Carga horária semanal</label>
                     <input
-                      type="file"
-                      id="file"
-                      multiple={false}
-                      accept="image/*"
-                      onChange={uploadImage}
+                      type="number"
+                      placeholder="Digite as horas"
+                      {...register("cargaSemanal", { valueAsNumber: true })}
+                      min="20"
+                      max="40"
+                      required
                     />
-                  </InputFile>
-                </InputIndividual>
-              </InputContent>
+                    {errors.cargaSemanal && (
+                      <p>{errors.cargaSemanal.message}</p>
+                    )}
+                  </InputIndividual>
+                  <InputIndividual>
+                    <label>Foto</label>
+                    <InputFile>
+                      <InputFileContent>
+                        <span>Nome do arquivo...</span>
+                        <div>
+                          <Upload size={40} weight="light" />
+                        </div>
+                      </InputFileContent>
+                      <input
+                        type="file"
+                        id="file"
+                        multiple={false}
+                        accept="image/*"
+                        onChange={uploadImage}
+                      />
+                    </InputFile>
+                  </InputIndividual>
+                </InputContent>
 
-              {fields.map((field, index) => {
-                return (
-                  <InputContent key={field.id}>
-                    <InputIndividual>
-                      <label>Competência</label>
-                      <select
-                        {...register(
-                          `competencia.${index}.unidadeCurricular.id`,
-                          { valueAsNumber: true, required: true}
+                {fields.map((field, index) => {
+                  return (
+                    <InputContent key={field.id}>
+                      <InputIndividual>
+                        <label>Competência</label>
+                        <select
+                          {...register(
+                            `competencia.${index}.unidadeCurricular.id`,
+                            { valueAsNumber: true, required: true }
+                          )}
+                          defaultValue=""
+                          required
+                        >
+                          <option value="" disabled>
+                            Selecione uma unidade curricular
+                          </option>
+                          {unidadeCurricular.map((value, index) => {
+                            return (
+                              <option
+                                key={value.id}
+                                value={value.id}
+                                disabled={isValidOption(value.id)}
+                              >
+                                {value.nome}
+                              </option>
+                            );
+                          })}
+                        </select>
+
+                        {errors.competencia && (
+                          <p>
+                            {
+                              errors.competencia[index]?.unidadeCurricular?.id
+                                ?.message
+                            }
+                          </p>
                         )}
-                        defaultValue=""
-                        required
-                      >
-                        <option value="" disabled>
-                          Selecione uma unidade curricular
-                        </option>
-                        {unidadeCurricular.map((value, index) => {
-                          return (
-                            <option
-                              key={value.id}
-                              value={value.id}
-                              disabled={isValidOption(value.id)}
-                            >
-                              {value.nome}
-                            </option>
-                          );
-                        })}
-                      </select>
+                      </InputIndividual>
+                      <InputIndividual>
+                        <header>
+                          <label>Nível</label>
+                          {index !== 0 && (
+                            <Trash size={24} onClick={() => remove(index)} />
+                          )}
+                        </header>
+                        <FormProvider {...newTeacherForm}>
+                          <StarsSection index={index} />
+                        </FormProvider>
+                      </InputIndividual>
+                    </InputContent>
+                  );
+                })}
 
-                      {errors.competencia && (
-                        <p>
-                          {
-                            errors.competencia[index]?.unidadeCurricular?.id
-                              ?.message
-                          }
-                        </p>
-                      )}
-                    </InputIndividual>
-                    <InputIndividual>
-                      <header>
-                        <label>Nível</label>
-                        {index !== 0 && (
-                          <Trash size={24} onClick={() => remove(index)} />
-                        )}
-                      </header>
-                      <FormProvider {...newTeacherForm}>
-                        <StarsSection index={index} />
-                      </FormProvider>
-                    </InputIndividual>
-                  </InputContent>
-                );
-              })}
+                <ButtonNewCompetencia
+                  onClick={() => {
+                    append({
+                      nivel: 1,
+                      unidadeCurricular: {
+                        nome: "",
+                        id: 0,
+                      },
+                    });
+                  }}
+                  type="button"
+                >
+                  <Plus size={32} />
+                  <p>Adicionar competência</p>
+                </ButtonNewCompetencia>
 
-              <ButtonNewCompetencia
-                onClick={() => {
-                  append({
-                    nivel: 1,
-                    unidadeCurricular: {
-                      nome: "",
-                      id: 0,
-                    },
-                  });
-                }}
-                type="button"
-              >
-                <Plus size={32} />
-                <p>Adicionar competência</p>
-              </ButtonNewCompetencia>
-
-              <FinalButton>
-                <button type="submit">Criar</button>
-              </FinalButton>
-            </InputContainer>
-          </InputScroll>
-        </form>
-      </Content>
-    </Dialog.Portal>
+                <FinalButton>
+                  <button type="submit">Criar</button>
+                </FinalButton>
+              </InputContainer>
+            </InputScroll>
+          </form>
+        </Content>
+      </Dialog.Portal>
+      <Notification
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={
+          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+        }
+        title="Professor"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
+    </>
   );
 }
