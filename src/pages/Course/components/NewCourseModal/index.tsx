@@ -151,7 +151,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                     required
                   >
                     <option value="" disabled>
-                      Selecione o tipo do ambiente
+                      Selecione o tipo do curso
                     </option>
                     <option value="REGULAR">Regular</option>
                     <option value="FIC">FIC</option>

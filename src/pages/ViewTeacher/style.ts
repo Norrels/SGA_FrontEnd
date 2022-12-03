@@ -70,10 +70,11 @@ export const TeacherProfileLeft = styled.div<DisponibilidadeProps>`
   align-items: center;
 
   p {
+    width: 150px;
     margin-top: 1rem;
 
     font-weight: 800;
-    font-size: 30px;
+    font-size: 25px;
     text-align: center;
     color: ${(props) => props.theme[DISPONIBILIDADE[props.disponibilidade]]};
   }
@@ -100,6 +101,10 @@ export const TeacherProfileLeftPhoto = styled.div`
     padding: 0.1rem 1.3rem 0.2rem 1.3rem;
     border-radius: 30px;
     margin-bottom: -6px;
+  }
+
+  p {
+    width: 100px;
   }
 
   img {

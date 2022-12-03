@@ -1,5 +1,13 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { NotePencil, Plus, Star, Trash, Upload, Watch, X } from "phosphor-react";
+import {
+  NotePencil,
+  Plus,
+  Star,
+  Trash,
+  Upload,
+  Watch,
+  X,
+} from "phosphor-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { string, z } from "zod";
 import { useForm, useFieldArray, FormProvider } from "react-hook-form";
@@ -15,9 +23,9 @@ import {
   InputIndividual,
   InputScroll,
   ModalHeader,
-  NivelStars,
   Overlay,
   TeacherPhotoInput,
+  TeacherPhotoInputImage,
 } from "./style";
 import {
   ObjectsContext,
@@ -28,14 +36,13 @@ import { StarsSection } from "../../../Teacher/components/NewTeacherModal/compon
 import { zodResolver } from "@hookform/resolvers/zod";
 import { teacherInput } from "../../../Teacher/components/NewTeacherModal";
 
-
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface EdiTeacherModalProps {
   teacherItem: TeacherProps;
-  teacherUpdate: (data: TeacherProps) => void
-  removeFoto: () => void
-  closeModal: () => void
+  teacherUpdate: (data: TeacherProps) => void;
+  removeFoto: () => void;
+  closeModal: () => void;
 }
 
 interface CurricularUnit {
@@ -44,8 +51,12 @@ interface CurricularUnit {
   horas: string;
 }
 
-
-export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, closeModal }: EdiTeacherModalProps) {
+export function EditTeacherModal({
+  teacherItem,
+  teacherUpdate,
+  removeFoto,
+  closeModal,
+}: EdiTeacherModalProps) {
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
@@ -63,11 +74,19 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
       ],
     },
   });
-  const { register, reset, handleSubmit, control, watch, formState: { errors }, setValue } = teacherForm
+  const {
+    register,
+    reset,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+    setValue,
+  } = teacherForm;
 
-  const [foto, setFoto] = useState(teacherItem.foto)
+  const [foto, setFoto] = useState(teacherItem.foto);
 
-  console.log(errors)
+  console.log(errors);
   async function handleGetUnidadeCurricular() {
     const response = await API.get("/unidade");
     if (response.status == 200) {
@@ -91,7 +110,7 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
     const file = event.target.files![0];
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
-   
+
     console.log(String(base64).length);
   };
 
@@ -109,7 +128,6 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
       };
     });
   }
-
 
   return (
     <Dialog.Portal>
@@ -131,7 +149,11 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
           </HeaderButtons>
         </ModalHeader>
         <form onSubmit={handleSubmit(teacherUpdate)}>
-          <input type="hidden" defaultValue={teacherItem.id} {...register("id", { valueAsNumber: true })} />
+          <input
+            type="hidden"
+            defaultValue={teacherItem.id}
+            {...register("id", { valueAsNumber: true })}
+          />
           <InputScroll>
             <InputContainer>
               <InputContent disabled={"on"}>
@@ -170,65 +192,71 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
                     readOnly={!editable}
                   />
                 </InputIndividual>
-                {
-                  foto != undefined || teacherItem.foto ?
-                    <InputIndividual>
-                      <label>Foto</label>
-                      <TeacherPhotoInput>
-                        <img src={teacherItem.foto ? teacherItem.foto : foto} alt="" />
-                        <p>Foto de perfil <br /> {teacherItem.nome}</p>
-                        {
-                          editable && <Trash size={30} onClick={() => {
-                            removeFoto()
-                          }} />
+                {foto != undefined || teacherItem.foto ? (
+                  <InputIndividual>
+                    <label>Foto</label>
+                    <TeacherPhotoInput>
+                      <TeacherPhotoInputImage>
+                        <img
+                          src={teacherItem.foto ? teacherItem.foto : foto}
+                          alt=""
+                        />
+                      </TeacherPhotoInputImage>
+                      <p>
+                        Foto de perfil do(a) {teacherItem.nome}!
+                      </p>
+                      {editable && (
+                        <Trash
+                          size={30}
+                          onClick={() => {
+                            removeFoto();
+                          }}
+                        />
+                      )}
+                    </TeacherPhotoInput>
+                  </InputIndividual>
+                ) : (
+                  <InputIndividual>
+                    <label>Foto</label>
+                    <InputFile disabled={!editable ? "disabled" : "on"}>
+                      <InputFileContent
+                        style={
+                          !editable
+                            ? { backgroundColor: "#efefef" }
+                            : { backgroundColor: "transparent" }
                         }
-
-                      </TeacherPhotoInput>
-                    </InputIndividual> :
-                    <InputIndividual>
-                      <label>Foto</label>
-                      <InputFile disabled={!editable ? "disabled" : "on"}>
-                        <InputFileContent
+                      >
+                        <span
                           style={
                             !editable
-                              ? { backgroundColor: "#efefef" }
-                              : { backgroundColor: "transparent" }
+                              ? { color: "rgba(109, 109, 109, 0.5)" }
+                              : { color: "#6D6D6D" }
+                          }
+                        >Escolha um arquivo...</span>
+                        <div
+                          style={
+                            !editable ? { opacity: "30%" } : { opacity: "100%" }
                           }
                         >
-                          <span
-                            style={
-                              !editable
-                                ? { color: "rgba(109, 109, 109, 0.5)" }
-                                : { color: "#6D6D6D" }
-                            }
-                          >
-                          </span>
-                          <div
-                            style={
-                              !editable ? { opacity: "30%" } : { opacity: "100%" }
-                            }
-                          >
-                            <Upload size={40} weight="light" />
-                          </div>
-                        </InputFileContent>
-                        <input
-                          type="file"
-                          id="file"
+                          <Upload size={40} weight="light" />
+                        </div>
+                      </InputFileContent>
+                      <input
+                        type="file"
+                        id="file"
+                        accept="image/*"
+                        // required
 
-                          accept="image/*"
-
-                          // required
-
-                          onChange={uploadImage}
-                        />
-                      </InputFile>
-                    </InputIndividual>
-                }
+                        onChange={uploadImage}
+                      />
+                    </InputFile>
+                  </InputIndividual>
+                )}
               </InputContent>
 
               {fields.map((field, index) => {
                 return (
-                  <InputContent disabled={"on"} key={field.id}>
+                  <InputContent disabled={!editable ? "disabled" : "on"} key={field.id}>
                     <InputIndividual>
                       <label>Competência</label>
                       <select
@@ -236,15 +264,15 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
                           `competencia.${index}.unidadeCurricular.id`,
                           { valueAsNumber: true, required: true }
                         )}
-                        defaultValue={teacherItem?.competencia[index]?.unidadeCurricular?.nome}
+                        defaultValue={
+                          teacherItem?.competencia[index]?.unidadeCurricular
+                            ?.nome
+                        }
                         required
                       >
                         {unidadeCurricular.map((value, index) => {
                           return (
-                            <option
-                              key={value.id}
-                              value={value.id}
-                            >
+                            <option key={value.id} value={value.id}>
                               {value.nome}
                             </option>
                           );
@@ -260,7 +288,7 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
                         </p>
                       )}
                     </InputIndividual>
-                    <InputIndividual>
+                    <InputIndividual style={!editable ? {pointerEvents: "none"} : {}}>
                       <header>
                         <label>Nível</label>
                         {index !== 0 && (
@@ -273,10 +301,8 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
                     </InputIndividual>
                   </InputContent>
                 );
-
               })}
-
-              <ButtonNewCompetencia
+              {editable && <ButtonNewCompetencia
                 onClick={() => {
                   append({
                     nivel: 1,
@@ -284,23 +310,19 @@ export function EditTeacherModal({ teacherItem, teacherUpdate, removeFoto, close
                       nome: "",
                       id: 0,
                     },
-
                   });
                 }}
                 type="button"
               >
                 <Plus size={32} />
                 <p>Adicionar competência</p>
-              </ButtonNewCompetencia>
-
-
+              </ButtonNewCompetencia>}
 
               {editable && (
                 <FinalButton>
                   <button>Salvar</button>
                 </FinalButton>
               )}
-
             </InputContainer>
           </InputScroll>
         </form>

@@ -1,6 +1,9 @@
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
+import { DeleteAlertClasses } from "../../../../components/DeleteAlertClasses";
+import { Notification } from "../../../../components/Notification";
+import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "../../../AdvancedSearch/components/ViewClassModal";
 import { AulaProps } from "../Calenders/TeacherCalender";
 
@@ -24,6 +27,12 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
   const [openEditClass, setOpenEditClass] = useState(false);
   const [openEditClasses, setOpenEditClasses] = useState(false);
   const [openDeleteClasses, setOpenDeleteClasses] = useState(false);
+
+  //Variavel para usado para exibir a notificaçãp
+  const [open, setOpen] = useState(false);
+
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificationStataus, setNotificationStataus] = useState(false);
 
   //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
   function closeViewAula() {
@@ -53,19 +62,26 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
     }, 5);
   }
 
-  //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
-  function closeDeleteClasses() {
-    setTimeout(() => {
-      setOpenDeleteClasses(true);
-    }, 5);
-  }
-
   function closeModal() {
     setOpenViewClass(false);
     setOpenPostponeClasses(false);
     setOpenEditClass(false);
     setOpenEditClasses(false);
     setOpenDeleteClasses(false);
+  }
+
+  async function handleDeleteClassesByPartitioKey(partitionKey: number) {
+    const res = await API.delete(`/aula/key/${partitionKey}`);
+    if (res.status == 200) {
+      setNotificationStataus(true);
+    } else {
+      setNotificationStataus(false);
+    }
+    setOpen(true);
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
   }
 
   return (
@@ -111,9 +127,19 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
         <EditAllClassModal aulas={aulas} closeModal={closeModal} />
       </Dialog.Root>
 
-      {/* <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
-        <DeleteClassesModal/>
-      </Dialog.Root> */}
+      <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
+        <DeleteAlertClasses deleteByPartitionKey={handleDeleteClassesByPartitioKey}/>
+      </Dialog.Root>
+
+      <Notification
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={
+          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+        }
+        title="Ambiente"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
     </>
   );
 }

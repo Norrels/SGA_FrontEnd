@@ -1,6 +1,7 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Plus, Trash, Upload, X } from "phosphor-react";
+import { Info, Plus, Trash, Upload, X } from "phosphor-react";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
@@ -22,13 +23,15 @@ import {
   InputScroll,
   ModalHeader,
   Overlay,
+  PhotoRecommendation,
 } from "./style";
+import { PhotoRecommendationAlert } from "./components/PhotoRecommendationAlert";
 
 export const teacherInput = z.object({
   id: z.number().optional(),
   nome: z
     .string()
-    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 30 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 carecteres..." }),
   email: z.string().email({ message: "* Informe um email válido..." }),
   cargaSemanal: z
@@ -116,7 +119,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     }
   }
 
-  //Pwgando os professores do context
+  //Pegando os professores do context
   const { createTeacherAPI } = useContext(ObjectsContext);
 
   function handleCreateNewTeacher(data: TeacherType) {
@@ -203,7 +206,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                       setValueAs: (v) => firstLetterUppercase(v),
                     })}
                     minLength={4}
-                    maxLength={30}
+                    maxLength={25}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -236,7 +239,16 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     )}
                   </InputIndividual>
                   <InputIndividual>
-                    <label>Foto</label>
+                    <header>
+                      <label>Foto</label>
+                      <AlertDialog.Root>
+                        <AlertDialog.Trigger asChild>
+                          <Info size={25} />
+                        </AlertDialog.Trigger>
+                        <PhotoRecommendationAlert />
+                      </AlertDialog.Root>
+                    </header>
+
                     <InputFile>
                       <InputFileContent>
                         <span>Nome do arquivo...</span>
@@ -254,7 +266,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     </InputFile>
                   </InputIndividual>
                 </InputContent>
-
                 {fields.map((field, index) => {
                   return (
                     <InputContent key={field.id}>

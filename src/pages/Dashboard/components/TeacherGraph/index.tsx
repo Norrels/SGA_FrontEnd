@@ -171,11 +171,11 @@ export function TeacherGraph() {
       <footer>
         <TeacherGraphDescription>
           <h5>
-            <Lightbulb size={18} /> Jessica precisa fazer 39h para completar 80h
+            <Lightbulb size={18} /> Bruna precisa fazer 39h para completar 80h
             nesse mês
           </h5>
           <h5>
-            <Warning size={18} /> Jessica não possui aulas o suficiente para
+            <Warning size={18} /> Bruna não possui aulas o suficiente para
             completar 80h
           </h5>
         </TeacherGraphDescription>

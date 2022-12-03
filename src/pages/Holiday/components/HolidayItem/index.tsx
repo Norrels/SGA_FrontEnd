@@ -72,7 +72,7 @@ export function HolidayItem({ holiday }: HolidayItem) {
         <HolidayItemInfoContent>
           <ItemInfoContentHeader>
             <h3>{holiday.nome}</h3>
-            <PlaceInfoType>{holiday.tipo.toUpperCase() == "NATIONAL" ? "FERIADO" : holiday.tipo.toUpperCase()}</PlaceInfoType>
+            <PlaceInfoType>{holiday.tipo.toLowerCase() == 'national' ? 'feriado' : holiday.tipo.toLowerCase()}</PlaceInfoType>
           </ItemInfoContentHeader>
 
           <p>

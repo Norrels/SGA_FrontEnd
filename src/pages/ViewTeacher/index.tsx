@@ -24,7 +24,7 @@ import {
 } from "./style";
 
 export interface AbsenceProps {
-  id: number | undefined;
+  id: string;
   dataInicio: string;
   dataFinal: string;
   tipo: string;
