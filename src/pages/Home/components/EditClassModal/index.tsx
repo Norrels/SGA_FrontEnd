@@ -87,7 +87,7 @@ export function EditClassModal({
     aulas.data = format(new Date(data.data + "T00:00:00"), "dd/MM/yyyy");
 
     const res = await API.put(`aula/${aulas.id}`, aulas);
-    console.log(res.status)
+
     
     if (res.status == 200) {
       EditClass(data);

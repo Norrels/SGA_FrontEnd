@@ -1,7 +1,7 @@
 import { ArrowRight } from "phosphor-react";
 import { useContext, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { ObjectsContext, TeacherProps } from "../../../../../../contexts/ObjectsContext";
+import { ObjectsContext, PlaceProps, TeacherProps } from "../../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../../lib/axios";
 import {
   FinalButton,
@@ -14,11 +14,14 @@ import {
 interface firstStepContentProps {
   handleNextStep: (step: number) => void;
   teachers: TeacherProps[] | undefined;
+  places: PlaceProps[] | undefined;
 }
 
-export function SecondStepContent({ handleNextStep, teachers  }: firstStepContentProps) {
-  const { register } = useFormContext();
+export function SecondStepContent({ handleNextStep, teachers, places }: firstStepContentProps) {
+  const { register, watch } = useFormContext();
   const { placesList } = useContext(ObjectsContext);
+
+  const isValidForm = watch("professor.id") != "" && watch("ambiente.id") != "" && watch("professor.id") != undefined && watch("ambiente.id") != undefined
 
   return (
     <InputContainer>
@@ -54,7 +57,6 @@ export function SecondStepContent({ handleNextStep, teachers  }: firstStepConten
             );
           })}
         </select>
-        {/* {errors.professor && <p>* Selecione um valor...</p>} */}
       </InputContent>
       <InputContent>
         <label>Ambiente</label>
@@ -66,7 +68,7 @@ export function SecondStepContent({ handleNextStep, teachers  }: firstStepConten
           <option value="" disabled>
             Selecione um ambiente...
           </option>
-          {placesList.map((place) => {
+          {places?.map((place) => {
             return (
               <option value={place.id} key={place.id}>
                 {place.nome}
@@ -74,7 +76,6 @@ export function SecondStepContent({ handleNextStep, teachers  }: firstStepConten
             );
           })}
         </select>
-        {/* {errors.ambiente && <p>* Selecione um valor...</p>} */}
       </InputContent>
       <FinalButton>
         <button
@@ -82,6 +83,7 @@ export function SecondStepContent({ handleNextStep, teachers  }: firstStepConten
             handleNextStep(2);
           }}
           type="button"
+          disabled={!isValidForm}
         >
           Próximo passo
           <ArrowRight size={30} />

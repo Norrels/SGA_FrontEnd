@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Notification } from "../../../../components/Notification";
-import { TeacherProps } from "../../../../contexts/ObjectsContext";
+import { PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { FirstStepContent } from "./components/FirstStepContent";
 import { SecondStepContent } from "./components/SecondStepContent";
@@ -18,6 +18,19 @@ import {
   ModalHeader,
   Overlay,
 } from "./style";
+
+
+export interface classPropsFirstStep {
+  curso: {
+    id: any;
+  };
+  unidadeCurricular: any;
+  codTurma: any;
+  periodo: any;
+  dataInicio: string;
+  diaSemana: boolean[];
+  cargaDiaria: any;
+}
 
 export const aulaInput = z.object({
   codTurma: z.string(),
@@ -47,6 +60,8 @@ interface ModalCreateNewClassProps {
   closeModal(): void;
 }
 
+
+
 export function ModalCreateNewClass({
   name,
   closeModal,
@@ -59,6 +74,8 @@ export function ModalCreateNewClass({
 
   const { handleSubmit, reset, getValues } = CreateNewClassForm;
   const [avaliableTeacher, setAvalibleTeachers] = useState<TeacherProps[]>();
+  const [avaliablePlaces, setAvaliblePlaces] = useState<PlaceProps[]>();
+  const [dataFim, setDataFim] = useState("")
   const [step, setStep] = useState(0);
   //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false);
@@ -68,28 +85,22 @@ export function ModalCreateNewClass({
 
   function handleNextStep(step: number) {
     setStep(step);
-    getAvailableInfo();
+
   }
 
-  async function getAvailableInfo() {
-    const res = await API.get("aula/valoresLivres");
-    console.log(res);
-    setAvalibleTeachers(res.data[0]);
+  async function fetchTeacherAndPlacesAvalible(data: classPropsFirstStep ) {
+      const res = await API.post("/aula/criar", data);
+      setDataFim(res.data[0])
+      setAvalibleTeachers(res.data[1])
+      setAvaliblePlaces(res.data[2])
+      
   }
 
   async function handleCreateNewAula(datas: AulaType) {
-    const data = {
-      professor: {
-        id: getValues("professor.id"),
-      },
-      ambiente: {
-        id: getValues("ambiente.id"),
-      },
-    };
-
-    const res = await API.post("aula", data);
+    const res = await API.post("aula", datas);
     if (res.status == 200) {
       setNotificationStataus(true);
+      onCloseModalCLasses()
     } else {
       setNotificationStataus(false);
     }
@@ -138,6 +149,7 @@ export function ModalCreateNewClass({
                 <InputScroll step={step}>
                   <FormProvider {...CreateNewClassForm}>
                     <FirstStepContent
+                      createFirstStep={fetchTeacherAndPlacesAvalible}
                       name={name}
                       handleNextStep={handleNextStep}
                     />
@@ -147,13 +159,14 @@ export function ModalCreateNewClass({
                   <FormProvider {...CreateNewClassForm}>
                     <SecondStepContent
                       teachers={avaliableTeacher}
+                      places={avaliablePlaces}
                       handleNextStep={handleNextStep}
                     />
                   </FormProvider>
                 </InputScroll>
                 <InputScroll step={step}>
                   <FormProvider {...CreateNewClassForm}>
-                    <ThirdStepContent />
+                    <ThirdStepContent lastDay={dataFim}/>
                   </FormProvider>
                 </InputScroll>
               </InputOverflow>
@@ -162,9 +175,9 @@ export function ModalCreateNewClass({
         </Content>
       </Dialog.Portal>
       <Notification
-        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        tipe={!notificationStataus ? "Erro" : "Sucesso"}
         description={
-          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+          !notificationStataus ? "Falha ao criar." : "Criado com sucesso."
         }
         title="Aula"
         openNotification={open}

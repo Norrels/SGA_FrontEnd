@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Star } from "phosphor-react";
 
 interface SkillsSectionProps {
-  index: number;
+  index: number | undefined;
 }
 
 export function StarsSection({ index }: SkillsSectionProps) {

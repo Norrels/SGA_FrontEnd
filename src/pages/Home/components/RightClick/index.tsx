@@ -107,29 +107,29 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
         </RightClickContainer>
       </ContextMenu.Portal>
 
-      <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
+      {/* <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
         <ViewClassModal classItem={aulas} closeModal={closeViewAula}/>
-      </Dialog.Root>
+      </Dialog.Root> */}
 
       {/* <Dialog.Root open={openPostponeClasses} onOpenChange={setOpenPostponeClasses}>
         <PostponeClassesModal/>
       </Dialog.Root> */}
 
-      <Dialog.Root open={openEditClass} onOpenChange={setOpenEditClass}>
+      {/* <Dialog.Root open={openEditClass} onOpenChange={setOpenEditClass}>
         <EditClassModal
           aulas={aulas}
           closeModal={closeModal}
           EditClass={handleEditClass}
         />
-      </Dialog.Root>
+      </Dialog.Root> */}
 
       <Dialog.Root open={openEditClasses} onOpenChange={setOpenEditClasses}>
         <EditAllClassModal aulas={aulas} closeModal={closeModal} />
       </Dialog.Root>
 
-      <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
+      {/* <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
         <DeleteAlertClasses deleteByPartitionKey={handleDeleteClassesByPartitioKey}/>
-      </Dialog.Root>
+      </Dialog.Root> */}
 
       <Notification
         tipe={notificationStataus ? "Erro" : "Sucesso"}

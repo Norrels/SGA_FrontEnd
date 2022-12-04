@@ -1,12 +1,17 @@
 //Transforma o calculo da carga horaria em um customhook para coloca na info da carga horaria
 
+import { format } from "date-fns";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
 import { ObjectsContext } from "../../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../../lib/axios";
 import { FinalButton, InputContainer, InputContent, Steps, SummaryContainer, SummaryContent, SummaryDetails, SummaryHeader } from "../../style";
 
-export function ThirdStepContent() {
+interface ThirdStepContentProps {
+  lastDay: string
+}
+
+export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
 
   const { getValues } = useFormContext();
 
@@ -17,6 +22,38 @@ export function ThirdStepContent() {
   const teacher = teachers.find(c => c.id == getValues("professor.id"))
   const unidadeCurricular = course?.unidadeCurricular.find(c => c.id == getValues("unidadeCurricular.id"))
   const periodo: string = getValues("periodo")
+  const dataInico = new Date(getValues("dataInicio"))
+  const dataFim = new Date(lastDay)
+  const dias: [] = getValues("diaSemana")
+
+  const diasSemana = dias.map((dia, index) => {
+    if (dia == true) {
+      
+      switch (index) {
+        case 0:
+          return "Dom"
+          break;
+        case 1:
+          return "Seg"
+          break;
+        case 2:
+          return "Ter"
+          break;
+        case 3:
+          return "Qua"
+          break;
+        case 4:
+          return "Qui"
+          break;
+        case 5:
+          return "Sex"
+          break;
+        case 6:
+          return "Sab"
+          break;
+      }
+    }
+  })
 
   return (
     <InputContainer>
@@ -42,7 +79,7 @@ export function ThirdStepContent() {
         <SummaryContent>
           <SummaryDetails>
             <span>{place?.nome}</span>
-            <p>{place?.tipo.toLowerCase()}</p>
+            <p>{place?.tipo == "UNIDADE_MOVEL" ? "Unidade Movel" : place?.tipo.toLowerCase()}</p>
           </SummaryDetails>
           <SummaryDetails>
             <p>{place?.capacidade ? `${place?.capacidade} Alunos` : "Ilimitado"}</p>
@@ -88,7 +125,7 @@ export function ThirdStepContent() {
             <p>{periodo?.toLowerCase()}</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>Quinta e Sexta</p>
+            <p>{diasSemana.filter((dias) => {return dias != undefined}).join(",")}</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>
@@ -99,10 +136,12 @@ export function ThirdStepContent() {
         </SummaryHeader>
         <SummaryContent>
           <SummaryDetails>
-            <p>01/12/2022</p>
+            <p>{
+              getValues("dataInicio") &&
+              format(new Date(dataInico.getFullYear(), dataInico.getMonth(), dataInico.getDate() + 1), "dd/MM/yyyy")}</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>27/01/2023</p>
+            <p>{lastDay && format(new Date(dataFim.getFullYear(), dataFim.getMonth(), dataFim.getDate() + 1), "dd/MM/yyyy")}</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>

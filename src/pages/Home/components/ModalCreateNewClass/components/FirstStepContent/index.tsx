@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { ArrowRight, Check } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { classPropsFirstStep } from "../..";
 import {
   CourseProps,
   ObjectsContext,
@@ -23,11 +24,13 @@ import {
 interface firstStepContentProps {
   name: string | undefined;
   handleNextStep: (step: number) => void;
+  createFirstStep: (data: classPropsFirstStep) => void
 }
 
 export function FirstStepContent({
   name,
   handleNextStep,
+  createFirstStep
 }: firstStepContentProps) {
   const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
   const [selectedDay, setSelectedDay] = useState("");
@@ -56,24 +59,31 @@ export function FirstStepContent({
     const course = courses.find(
       (course) => course?.id?.toString() == event.target.value
     );
-    resetField("unidadeCurricular.id");
+    setValue("unidadeCurricular.id", "");
     setSelectedCourse(course);
   }
+  let codTurmaValidation: string = watch("codTurma")
 
-  console.log(watch("periodo"))
+  const hoje = new Date()
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
-  const isValidForm = 
-  watch("curso.id") != undefined &&
-  watch("unidadeCurricular.id") != undefined  &&
-  selectedDay != "" &&
-  watch("codTurma") != "" &&
-  watch("periodo") != "" &&
-  watch("cargaDiaria") != ""
+  const isValidForm =
+    watch("curso.id") != undefined &&
+    watch("unidadeCurricular.id") != undefined &&
+    selectedDay != "" &&
+    watch("codTurma") != "" &&
+    watch("periodo") != "" &&
+    watch("cargaDiaria") != "" &&
+    codTurmaValidation?.length >= 2 &&
+    watch("cargaDiaria") <= 8 &&
+    watch("cargaDiaria") >= 2 &&
+    codTurmaValidation?.length <= 15  
 
   //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
   const courseFiltedByType = courses.filter((course) => {
-    if (name == "customizável" || name == undefined ) {
-      if(course.ativo){
+    if (name == "customizável" || name == undefined) {
+      if (course.ativo) {
         return course;
       }
     }
@@ -116,7 +126,6 @@ export function FirstStepContent({
     }
     setSelectedDay(selecionadoDia)
     setLastSelected(selecionadoDia)
-    console.log(selecionadoDia)
     switch (selecionadoDia) {
       case "6":
         setDomSelected(true)
@@ -142,7 +151,7 @@ export function FirstStepContent({
       default:
         break;
     }
-    
+
 
   }
 
@@ -158,8 +167,11 @@ export function FirstStepContent({
     cargaDiaria: getValues("cargaDiaria"),
   };
 
-  async function createClassFirstStep() {
-    const res = await API.get("aula/criar");
+  function createClassFirstStep() {
+    setValue("diaSemana", data.diaSemana)
+    createFirstStep(data)
+    resetField("professor.id")
+    resetField("ambiente.id")
   }
 
   return (
@@ -226,16 +238,20 @@ export function FirstStepContent({
             {...register("codTurma")}
             placeholder="Digite o código da turma..."
           />
-          {/* {errors.codTurma && <p>{errors.codTurma.message}</p>} */}
+          {codTurmaValidation?.length >= 15 && <p> * Deve se menor que 15</p>}
+          {codTurmaValidation?.length < 2 && watch("codTurma") != "" && <p> * Deve se maior que 2</p>}
         </InputIndividual>
         <InputIndividual>
           <label>Hora(s) por dia</label>
           <input
             type="number"
+            max={8}
+            required
             placeholder="Digite as horas..."
             {...register("cargaDiaria")}
           />
-          {/* {errors.horas && <p>{errors.horas.message}</p>} */}
+          {watch("cargaDiaria") > 8 && <p> * Deve se menor que 8h</p>}
+          {watch("cargaDiaria") < 2 && watch("cargaDiaria") != "" && <p> * Deve se maior que 2h</p>}
         </InputIndividual>
       </InputContent>
       <InputContent style={{ flexDirection: "row" }}>
@@ -260,6 +276,7 @@ export function FirstStepContent({
           <label>Data de início</label>
           <input
             type="date"
+            min={hoje}
             {...register("dataInicio")}
             onChange={onChangeDataWithWeek}
           />

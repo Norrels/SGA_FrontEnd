@@ -8,6 +8,7 @@ import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
 import { API } from "../../lib/axios";
 import { AbsenseItem } from "./components/AbsenseItem";
 import { EditTeacherModal } from "./components/EditTeacherModal";
+import UserPicture from "../../assets/User.png";
 import {
   Absense,
   AbsenseList,
@@ -55,33 +56,29 @@ export function ViewTeacher() {
     response.data[2] ? setInClass(true) : setInClass(false)
   }
 
+
+  const { teachers } = useContext(ObjectsContext)
+  const teacherItem = teachers.find((teacher) => teacher.id == teacherId)
+
   useEffect(() => {
     fetchUser();
   }, []);
 
   async function teacherUpdate(data: TeacherProps) {
-   updateTeachers(data)
-   setTeacher(data)
-   setCloseModal(false)
-  }
-
-  function handlecloseModal(){
+    if (data.foto = "") {
+      data.foto = undefined
+    }
+    
+    updateTeachers(data)
+    setTeacher(data)
     setCloseModal(false)
   }
 
-  function removeFoto() {
-    const teacherToUpdate : TeacherProps = {
-      cargaSemanal: teacher.cargaSemanal,
-      competencia: teacher.competencia,
-      email: teacher.email,
-      nome: teacher.nome,
-      ativo: teacher.ativo,
-      foto: undefined,
-      id: teacher.id
-    }
-    setTeacher(teacherToUpdate)
+  function handlecloseModal() {
+    setCloseModal(false)
   }
 
+  console.log(teacherItem)
 
   document.title = `${teacher?.nome} | SGA`;
   return (
@@ -100,13 +97,13 @@ export function ViewTeacher() {
               <NotePencil size={32} opacity={0.5} />
             </Dialog.Trigger>
 
-            <EditTeacherModal closeModal={handlecloseModal} removeFoto={removeFoto} teacherUpdate={teacherUpdate} teacherItem={teacher} />
+            <EditTeacherModal teacherUpdate={teacherUpdate} teacherItem={teacherItem} />
           </Dialog.Root>
           <TeacherProfileContent>
             <TeacherProfileLeft disponibilidade={inClass ? "emAula" : "livre"}>
               <TeacherProfileLeftPhoto>
                 <span>{inClass ? "Em aula" : "Livre"}</span>
-                <img src={teacher.foto} />
+                <img src={teacher.foto ? teacher.foto : UserPicture} />
               </TeacherProfileLeftPhoto>
               <p>{teacher?.nome}</p>
             </TeacherProfileLeft>
@@ -121,12 +118,12 @@ export function ViewTeacher() {
                       <Star
                         size={35}
                         weight="fill"
-                        color={competencia.nivel > 1 ? " #25B5E9" : "#E8E8E8"}
+                        color={competencia.nivel >= 1 ? " #25B5E9" : "#E8E8E8"}
                       />
                       <Star
                         size={35}
                         weight="fill"
-                        color={competencia.nivel > 2 ? " #25B5E9" : "#E8E8E8"}
+                        color={competencia.nivel >= 2 ? " #25B5E9" : "#E8E8E8"}
                       />
                       <Star
                         size={35}

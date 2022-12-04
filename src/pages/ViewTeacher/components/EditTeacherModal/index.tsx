@@ -8,7 +8,7 @@ import {
   Watch,
   X,
 } from "phosphor-react";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { string, z } from "zod";
 import { useForm, useFieldArray, FormProvider } from "react-hook-form";
 import {
@@ -39,10 +39,8 @@ import { teacherInput } from "../../../Teacher/components/NewTeacherModal";
 export type TeacherType = z.infer<typeof teacherInput>;
 
 interface EdiTeacherModalProps {
-  teacherItem: TeacherProps;
+  teacherItem: TeacherProps | undefined;
   teacherUpdate: (data: TeacherProps) => void;
-  removeFoto: () => void;
-  closeModal: () => void;
 }
 
 interface CurricularUnit {
@@ -52,46 +50,44 @@ interface CurricularUnit {
 }
 
 export function EditTeacherModal({
-  teacherItem,
   teacherUpdate,
-  removeFoto,
-  closeModal,
+  teacherItem
 }: EdiTeacherModalProps) {
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
   const [editable, setEditable] = useState(false);
+ 
   const teacherForm = useForm<TeacherType>({
     resolver: zodResolver(teacherInput),
     defaultValues: {
-      competencia: [
-        {
-          nivel: 1,
-          unidadeCurricular: {
-            nome: "",
-          },
-        },
-      ],
+      competencia: teacherItem?.competencia
     },
   });
   const {
     register,
-    reset,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
     setValue,
   } = teacherForm;
 
-  const [foto, setFoto] = useState(teacherItem.foto);
+  const [foto, setFoto] = useState(teacherItem?.foto);
+  const [fotoNome, setFotoNome] = useState("")
 
-  console.log(errors);
   async function handleGetUnidadeCurricular() {
     const response = await API.get("/unidade");
     if (response.status == 200) {
       setUnidadeCurricular(response.data);
     }
+  }
+  
+  function handleUpdateTeacher(data: TeacherProps){
+    data.competencia.map((comp) => {
+      unidadeCurricular.find((un) => comp.unidadeCurricular.nome = un.nome)
+      return comp
+    })
+    teacherUpdate(data)
   }
 
   useEffect(() => {
@@ -108,9 +104,10 @@ export function EditTeacherModal({
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
+    setFotoNome(file.name)
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
-
+    setFoto(String(base64))
     console.log(String(base64).length);
   };
 
@@ -128,6 +125,7 @@ export function EditTeacherModal({
       };
     });
   }
+
 
   return (
     <Dialog.Portal>
@@ -151,7 +149,7 @@ export function EditTeacherModal({
         <form onSubmit={handleSubmit(teacherUpdate)}>
           <input
             type="hidden"
-            defaultValue={teacherItem.id}
+            defaultValue={teacherItem?.id}
             {...register("id", { valueAsNumber: true })}
           />
           <InputScroll>
@@ -162,7 +160,7 @@ export function EditTeacherModal({
                   type="text"
                   placeholder="Digite o nome do professor"
                   required
-                  defaultValue={teacherItem.nome}
+                  defaultValue={teacherItem?.nome}
                   {...register("nome")}
                   readOnly={!editable}
                 />
@@ -174,7 +172,7 @@ export function EditTeacherModal({
                   type="email"
                   placeholder="Digite o email do professor"
                   required
-                  defaultValue={teacherItem.email}
+                  defaultValue={teacherItem?.email}
                   {...register("email")}
                   readOnly={!editable}
                 />
@@ -187,29 +185,29 @@ export function EditTeacherModal({
                     type="number"
                     placeholder="Digite as horas"
                     required
-                    defaultValue={teacherItem.cargaSemanal}
+                    defaultValue={teacherItem?.cargaSemanal}
                     {...register("cargaSemanal", { valueAsNumber: true })}
                     readOnly={!editable}
                   />
                 </InputIndividual>
-                {foto != undefined || teacherItem.foto ? (
+                {foto == undefined && teacherItem?.foto ? (
                   <InputIndividual>
                     <label>Foto</label>
                     <TeacherPhotoInput>
                       <TeacherPhotoInputImage>
                         <img
-                          src={teacherItem.foto ? teacherItem.foto : foto}
+                          src={teacherItem?.foto ? teacherItem?.foto : foto}
                           alt=""
                         />
                       </TeacherPhotoInputImage>
                       <p>
-                        Foto de perfil do(a) {teacherItem.nome}!
+                        Foto de perfil do(a) {teacherItem?.nome}!
                       </p>
                       {editable && (
                         <Trash
                           size={30}
                           onClick={() => {
-                            removeFoto();
+                            setFoto("")
                           }}
                         />
                       )}
@@ -232,7 +230,7 @@ export function EditTeacherModal({
                               ? { color: "rgba(109, 109, 109, 0.5)" }
                               : { color: "#6D6D6D" }
                           }
-                        >Escolha um arquivo...</span>
+                        >{fotoNome == "" ? "Escolha um arquivo..." : fotoNome}</span>
                         <div
                           style={
                             !editable ? { opacity: "30%" } : { opacity: "100%" }
@@ -296,7 +294,7 @@ export function EditTeacherModal({
                         )}
                       </header>
                       <FormProvider {...teacherForm}>
-                        <StarsSection index={index} />
+                        <StarsSection index={teacherItem?.competencia[index]?.nivel} />
                       </FormProvider>
                     </InputIndividual>
                   </InputContent>
