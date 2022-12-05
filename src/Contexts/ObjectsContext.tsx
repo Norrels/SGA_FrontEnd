@@ -8,7 +8,7 @@ interface ObjectsContextProviderProps {
 
 export interface TeacherProps {
   id?: number;
-  nome: string;
+  nome?: string;
   cargaSemanal: number;
   ativo?: boolean;
   foto?: string;

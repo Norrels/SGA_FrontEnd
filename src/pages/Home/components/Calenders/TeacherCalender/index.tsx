@@ -89,21 +89,30 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   }
 
   function handleEditAllClass(data: EditAllClassModalProps) {
-    const teacherName = teachers.find(
-      (element) => element.id == data.professor
-    );
+  
     const aulasEditadas = aulas.map((aula) => {
       if (aula.id === data.id) {
         aula.ambiente.id = data.ambiente;
         aula.professor.id = data.professor;
         aula.dataInicio = data.dataInicio;
-        aula.professor.nome = teacherName!.nome;
+        aula.professor.nome = data.professorNome
       }
       return aula;
     });
 
     setAulas(aulasEditadas);
   }
+
+  // const placesInClass = aulas.filter((place) => {return place.ambiente.id})
+
+  // const placesAvaliable = placesList.map((place) => {
+    
+    
+  //   if(placesInClass.toString() == place?.id){
+
+  //   }
+  //   return place
+  // })
 
   return (
     <HomeCalenderContainer>

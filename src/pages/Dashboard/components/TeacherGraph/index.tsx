@@ -1,5 +1,5 @@
-import { ArrowClockwise, Lightbulb, Warning } from "phosphor-react";
-import { ChangeEvent, useContext } from "react";
+import { ArrowClockwise, Confetti, Lightbulb, Warning, WarningOctagon } from "phosphor-react";
+import { ChangeEvent, useContext, useEffect } from "react";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import NotFound from "../../../../assets/bro.svg";
 import {
@@ -23,28 +23,45 @@ import {
 } from "chart.js";
 import { useState } from "react";
 import { Bar } from "react-chartjs-2";
+import { Await } from "react-router-dom";
+import { API } from "../../../../lib/axios";
+import { endOfMonth, format } from "date-fns";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
-export function TeacherGraph() {
-  const today = new Date();
-  let semestreAtual = [
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Março",
-    "Junho",
-  ];
 
-  const [labels, setLabelss] = useState([
-    "Janeiro",
-    "Fevereiro",
-    "Março",
-    "Abril",
-    "Março",
-    "Junho",
-  ]);
+export function TeacherGraph() {
+  const { teachers } = useContext(ObjectsContext);
+  const [hoursThisMounth, setHoursThisMounth] = useState(0)
+  const [teacherName, setTeacherName] = useState<any>()
+  const [teacherId, setTeacherId] = useState(0)
+  const today = new Date();
+  let semestreAtual = [""]
+
+  if (today.getMonth() <= 6) {
+    semestreAtual = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Março",
+      "Junho",
+    ];
+  } else {
+    semestreAtual = [
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+  }
+
+
+
+  const [labels, setLabelss] = useState(semestreAtual);
+
   const [title, setTitle] = useState("");
 
   function handleBackToSemester() {
@@ -53,41 +70,80 @@ export function TeacherGraph() {
 
   // professor/emAula
 
-  function handleSelectSemestre(event: ChangeEvent<HTMLSelectElement>) {
-    if (event.target.value === "1") {
-      setLabelss(["Janeiro", "Fevereiro", "Março", "Abril", "Março", "Junho"]);
-      setTitle("");
-      semestreAtual = [
-        "Janeiro",
-        "Fevereiro",
-        "Março",
-        "Abril",
-        "Março",
-        "Junho",
-      ];
+
+
+
+
+  const [horasContratuais, setHorasContratuais] = useState([0])
+  const [horasCadastradas, setHorasCadastradas] = useState([0])
+
+  async function fetchHoras(semestre: number, teacherId: string) {
+    let arrayToSave = []
+    let arrayTosave2 = []
+
+    const ultimaDataPriSemestre = [
+      endOfMonth(new Date(today.getFullYear(), 0, 1)),
+      endOfMonth(new Date(today.getFullYear(), 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 2, 1)),
+      endOfMonth(new Date(today.getFullYear(), 3, 1)),
+      endOfMonth(new Date(today.getFullYear(), 4, 1)),
+      endOfMonth(new Date(today.getFullYear(), 5, 1)),
+    ]
+
+    const ultimaDataSegSemestre = [
+      endOfMonth(new Date(today.getFullYear(), 7 - 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 8 - 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 9 - 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 10 - 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 11 - 1, 1)),
+      endOfMonth(new Date(today.getFullYear(), 12 - 1, 1)),
+    ]
+
+
+    for (let index = 0; index < semestreAtual.length; index++) {
+      if (semestre == 1) {
+        const res = await API.get(`/professor/diaria?id=${teacherId}&data_inicio=01/${index + 1}/${today.getFullYear()}&data_final=${format((ultimaDataPriSemestre[index]), "dd/MM/yyyy")}`)
+        arrayToSave[index] = res.data[0]
+        arrayTosave2[index] = res.data[1] * 4
+
+      } else {
+        const res = await API.get(`/professor/diaria?id=${teacherId}&data_inicio=01/0${index + 7}/${today.getFullYear()}&data_final=${format((ultimaDataSegSemestre[index]), "dd/MM/yyyy")}`)
+        console.log(res.data)
+        arrayToSave[index] = res.data[0]
+        arrayTosave2[index] = res.data[1] * 4
+        if (today.getMonth() == (index + 6)) {
+          console.log("pasou")
+          setHoursThisMounth(index)
+        }
+
+      }
+
+
     }
-    if (event.target.value === "2") {
-      setLabelss([
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-      ]);
-      setTitle("");
-      semestreAtual = [
-        "Julho",
-        "Agosto",
-        "Setembro",
-        "Outubro",
-        "Novembro",
-        "Dezembro",
-      ];
+    setHorasCadastradas(arrayToSave)
+    setHorasContratuais(arrayTosave2)
+  }
+
+  function onChageSelectProfessor(event: ChangeEvent<HTMLSelectElement>) {
+    setTeacherId(parseInt(event.target.value))
+    const TeacherName = teachers.find((teacher) => {
+      if (teacher.id == parseInt(event.target.value)) {
+        return teacher
+      }
+    })
+    setTeacherName(TeacherName?.nome)
+    console.log(TeacherName)
+
+    today.getMonth()
+    if (today.getMonth() <= 6) {
+      fetchHoras(1, event.target.value)
+    } else {
+      fetchHoras(2, event.target.value)
     }
   }
 
-  const datas = [35, 56, 60, 4, 5, 6, 7, 8];
+
+
 
   const options = {
     responsive: true,
@@ -100,10 +156,10 @@ export function TeacherGraph() {
     },
     scales: {
       y: {
-        max: 100,
+        max: 200,
         min: 0,
         ticks: {
-          stepSize: 20,
+          stepSize: 40,
         },
       },
     },
@@ -114,18 +170,18 @@ export function TeacherGraph() {
     datasets: [
       {
         label: "Horas Cadastradas",
-        data: datas.map((dataset) => dataset),
+        data: horasCadastradas.map((dataset) => dataset),
         backgroundColor: "#25B5E9",
       },
       {
-        label: "Horas Feitas",
-        data: datas.map((dataset) => dataset),
+        label: "Horas Contratuais",
+        data: horasContratuais.map((dataset) => dataset),
         backgroundColor: "#D9D9D9",
       },
     ],
   };
 
-  const { teachers } = useContext(ObjectsContext);
+
 
   return (
     <TeacherGraphContainer>
@@ -138,23 +194,16 @@ export function TeacherGraph() {
           </p>
         </TeacherGraphLabel>
         <TeacherGraphSelects>
-          <select>
+          <select
+            onChange={onChageSelectProfessor}
+            defaultValue=""
+          >
+            <option value={""}>Selecione</option>
             {teachers.map((teacher) =>
-              teacher.ativo ? (
-                <option key={teacher.id}>{teacher.nome}</option>
-              ) : (
-                <></>
+              teacher.ativo && (
+                <option key={teacher.id} value={teacher.id}>{teacher.nome}</option>
               )
             )}
-          </select>
-
-          <select onChange={handleSelectSemestre}>
-            <option value="1">1º Semestre</option>
-            <option value="2">2º Semestre</option>
-          </select>
-
-          <select>
-            <option value="1">{today.getFullYear()}</option>
           </select>
         </TeacherGraphSelects>
       </TeacherGraphTextContainer>
@@ -169,28 +218,59 @@ export function TeacherGraph() {
       </TeacherGraphs>
 
       <footer>
-        <TeacherGraphDescription>
-          <h5>
-            <Lightbulb size={18} /> Bruna precisa fazer 39h para completar 80h
-            nesse mês
-          </h5>
-          <h5>
-            <Warning size={18} /> Bruna não possui aulas o suficiente para
-            completar 80h
-          </h5>
-        </TeacherGraphDescription>
+        {
+          teacherId != 0 ?
+          <>
+            <TeacherGraphDescription>
+              {
+                horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
+                <h5>
+                  <Lightbulb size={18} /> {teacherName} precisa fazer {horasContratuais[hoursThisMounth] - horasCadastradas[hoursThisMounth]}h para completar {horasContratuais[hoursThisMounth]}h
+                  nesse mês
+                </h5>
+              }
+              {
+                horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
+                <h5>
+                  <Warning size={18} /> {teacherName} não possui aulas o suficiente para
+                  completar {horasContratuais[hoursThisMounth]}h
+                </h5>
+              }
+              {
+                horasContratuais[hoursThisMounth] == horasCadastradas[hoursThisMounth] &&
+                <h5>
+                  <Confetti size={18} /> Uuuhuu! O professor(a) bateu a meta a diária de {horasContratuais[hoursThisMounth]}h esse mês
+                </h5>
+              }
+              {
+                horasContratuais[hoursThisMounth] <= horasCadastradas[hoursThisMounth] &&
+                <strong>
+                  <WarningOctagon size={25} /> O professor possui mais aulas cadastradas do que deveria esse mês
+                </strong>
+              }
+            </TeacherGraphDescription>
 
-        <TeacherGraphSubtitles>
-          <TeacherGraphSubtitle>
-            <p>Horas cadastradas</p>
-            <p>Horas contratuais</p>
-          </TeacherGraphSubtitle>
 
-          <TeacherGraphSubtitleSpan>
-            <span></span>
-            <span></span>
-          </TeacherGraphSubtitleSpan>
-        </TeacherGraphSubtitles>
+
+            <TeacherGraphSubtitles>
+              <TeacherGraphSubtitle>
+                <p>Horas cadastradas</p>
+                <p>Horas contratuais</p>
+              </TeacherGraphSubtitle>
+
+              <TeacherGraphSubtitleSpan>
+                <span></span>
+                <span></span>
+              </TeacherGraphSubtitleSpan>
+            </TeacherGraphSubtitles>
+          </>
+          :
+          <>
+            
+          <h4><Lightbulb size={18} /> Selecione um(a) professor(a)...</h4>
+          </>
+        
+        }
       </footer>
     </TeacherGraphContainer>
   );

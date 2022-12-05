@@ -37,14 +37,14 @@ export function InClassGraph() {
       <InclassTeacherCards>
         {teacherInClass.map((teacher) => {
           return (
-            <>
-              <TeacherCard
-                key={teacher.professor.id}
-                ambiente={teacher.ambiente}
-                emAula={teacher.emAula}
-                professor={teacher.professor}
-              />
-            </>
+
+            <TeacherCard
+              key={teacher.professor.id}
+              ambiente={teacher.ambiente}
+              emAula={teacher.emAula}
+              professor={teacher.professor}
+            />
+
           );
         })}
       </InclassTeacherCards>

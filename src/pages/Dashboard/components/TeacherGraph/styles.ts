@@ -21,6 +21,13 @@ export const TeacherGraphContainer = styled.section`
       flex-direction: row;
     }
   }
+
+  h4 {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    color: ${(props) => props.theme["blue-500"]};
+  }
 `;
 
 export const TeacherGraphTextContainer = styled.div`
@@ -105,6 +112,14 @@ export const TeacherGraphDescription = styled.article`
     :last-child {
       color: ${(props) => props.theme["gray-500"]}
     }
+  }
+
+  strong{
+    width: 26rem;
+    display: flex;
+    align-items: center;
+    font-size: 0.83em;
+    color: ${(props) => props.theme["blue-400"]}
   }
 
  svg {

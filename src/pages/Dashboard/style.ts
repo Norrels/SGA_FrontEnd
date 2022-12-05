@@ -70,4 +70,5 @@ export const DashboardContent = styled.div`
   gap: 1.563rem;
 
   margin-top: 50px;
+  margin-bottom: 10px;
 `;

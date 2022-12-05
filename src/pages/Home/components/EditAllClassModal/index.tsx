@@ -1,7 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
 import { EditClassModalProps } from "../EditClassModal";
@@ -32,6 +33,7 @@ export interface EditAllClassModalProps {
   ambiente: number
   dataFinal: string
   dataInicio: string
+  professorNome?: string
 }
 
 interface AvalibleTeachers {
@@ -50,6 +52,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
   );
   const [avaliblePlaces, setAvaliblePlaces] = useState<AvaliblePlaces[]>([]);
   const { register, handleSubmit, reset } = useForm<EditAllClassModalProps>();
+  const { teachers } = useContext(ObjectsContext);
 
   
   useEffect(() => {
@@ -67,10 +70,14 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
 
 
   async function handleEditAllClass(data: EditAllClassModalProps) {
+    const teacherName = teachers.find(
+      (element) => element.id == data.professor
+    );
     aulas.ambiente.id = data.ambiente
     aulas.dataInicio = data.dataInicio
     aulas.professor.id = data.professor
     aulas.dataFinal = data.dataFinal
+    data.professorNome = teacherName?.nome
     const res = await API.put(`aula/key/${aulas.partitionKey}`, aulas);
     console.log(res)
     handleEditAllClasses(data)
