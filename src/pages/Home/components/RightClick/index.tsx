@@ -7,7 +7,7 @@ import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "../../../AdvancedSearch/components/ViewClassModal";
 import { AulaProps } from "../Calenders/TeacherCalender";
 
-import { EditAllClassModal } from "../EditAllClassModal";
+import { EditAllClassModal, EditAllClassModalProps } from "../EditAllClassModal";
 import { EditClassModal, EditClassModalProps } from "../EditClassModal";
 import { AulaType } from "../ModalCreateNewClass";
 import {
@@ -19,9 +19,10 @@ import {
 interface RightClickProps {
   aulas: AulaProps;
   handleEditClass: (data: EditClassModalProps) => void;
+  handleEditAllClasses: (data: EditAllClassModalProps) => void;
 }
 
-export function RightClick({ aulas, handleEditClass }: RightClickProps) {
+export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: RightClickProps) {
   const [openViewClass, setOpenViewClass] = useState(false);
   const [openPostponeClasses, setOpenPostponeClasses] = useState(false);
   const [openEditClass, setOpenEditClass] = useState(false);
@@ -107,39 +108,29 @@ export function RightClick({ aulas, handleEditClass }: RightClickProps) {
         </RightClickContainer>
       </ContextMenu.Portal>
 
-      {/* <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
+      <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
         <ViewClassModal classItem={aulas} closeModal={closeViewAula}/>
-      </Dialog.Root> */}
+      </Dialog.Root>
 
       {/* <Dialog.Root open={openPostponeClasses} onOpenChange={setOpenPostponeClasses}>
         <PostponeClassesModal/>
       </Dialog.Root> */}
 
-      {/* <Dialog.Root open={openEditClass} onOpenChange={setOpenEditClass}>
+      <Dialog.Root open={openEditClass} onOpenChange={setOpenEditClass}>
         <EditClassModal
           aulas={aulas}
           closeModal={closeModal}
           EditClass={handleEditClass}
         />
-      </Dialog.Root> */}
+      </Dialog.Root>
 
       <Dialog.Root open={openEditClasses} onOpenChange={setOpenEditClasses}>
-        <EditAllClassModal aulas={aulas} closeModal={closeModal} />
+        <EditAllClassModal aulas={aulas} closeModal={closeModal} handleEditAllClasses={handleEditAllClasses}  />
       </Dialog.Root>
 
       {/* <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
         <DeleteAlertClasses deleteByPartitionKey={handleDeleteClassesByPartitioKey}/>
       </Dialog.Root> */}
-
-      <Notification
-        tipe={notificationStataus ? "Erro" : "Sucesso"}
-        description={
-          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
-        }
-        title="Ambiente"
-        openNotification={open}
-        openNotificationMethod={openNotificantionMethod}
-      />
     </>
   );
 }

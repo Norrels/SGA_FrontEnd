@@ -40,6 +40,7 @@ export interface EditClassModalProps {
 
 export interface AulaProps {
   id: number;
+  partitionKey?: number
   dataFinal: string;
   professor: TeacherProps;
   ambiente: PlaceProps;
@@ -68,6 +69,7 @@ export function Calender({ days, today }: CalenderProps) {
         "yyyy'-'MM'-'dd"
       )}&dataFinal=${format(days[6], "yyyy'-'MM'-'dd")}`
     );
+    console.log(response.data)
     setAulas(response.data);
   }
 
@@ -122,6 +124,7 @@ export function Calender({ days, today }: CalenderProps) {
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
       {teachers.map((teacher) => {
+        teacher.ativo = true
         return (
           <div key={teacher.id}>
             <HomeCalenderContent>

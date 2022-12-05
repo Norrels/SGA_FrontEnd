@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
+import { EditClassModalProps } from "../EditClassModal";
 import { AulaType } from "../ModalCreateNewClass";
 
 
@@ -22,9 +23,11 @@ import {
 interface ModalCreateNewClassProps {
   closeModal(): void;
   aulas: AulaProps;
+  handleEditAllClasses: (data: EditAllClassModalProps) => void;
 }
 
-interface EditAllClassModalProps {
+export interface EditAllClassModalProps {
+  id: number
   professor: number
   ambiente: number
   dataFinal: string
@@ -41,7 +44,7 @@ interface AvaliblePlaces {
   nome: string;
 }
 
-export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassProps) {
+export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: ModalCreateNewClassProps) {
   const [avalibleTeachers, setAvalibleTeachers] = useState<AvalibleTeachers[]>(
     []
   );
@@ -49,15 +52,18 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
   const { register, handleSubmit, reset } = useForm<EditAllClassModalProps>();
 
   
-  // useEffect(() => {
-  //   fetchPlacesAndTeachersAvaliable();
-  // }, []);
+  useEffect(() => {
+    fetchPlacesAndTeachersAvaliable();
+  }, []);
 
-  // async function fetchPlacesAndTeachersAvaliable() {
-  //   const res = await API.get("/aula/valoresLivres");
-  //   setAvalibleTeachers(res.data[0]);
-  //   setAvaliblePlaces(res.data[1]);
-  // }
+  async function fetchPlacesAndTeachersAvaliable() {
+    const res = await API.get(`aula/aulasProfessorAmbienteDisponivel?periodo=${aulas.periodo}&dataInicio=${aulas.data}&dataFinal=17/01/2023`);
+    setAvalibleTeachers(res.data[0]);
+    setAvaliblePlaces(res.data[1]);
+  }
+
+  const dataFinal = aulas.data
+  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
 
   async function handleEditAllClass(data: EditAllClassModalProps) {
@@ -65,8 +71,9 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
     aulas.dataInicio = data.dataInicio
     aulas.professor.id = data.professor
     aulas.dataFinal = data.dataFinal
-    const res = await API.put(`aula/turma/${aulas.codTurma}`, aulas);
+    const res = await API.put(`aula/key/${aulas.partitionKey}`, aulas);
     console.log(res)
+    handleEditAllClasses(data)
     reset();
     closeModal();
   }
@@ -91,6 +98,7 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
                   <label>Data de início</label>
                   <input
                     type="date"
+                    readOnly
                     defaultValue={`${aulas.data.slice(
                       6,
                       10
@@ -101,7 +109,7 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
                 </InputIndividual>
                 <InputIndividual>
                   <label>Data de fim</label>
-                  <input type="date" placeholder="Escolha uma data..."  {...register("dataFinal")} />
+                  <input defaultValue={dataFinal} type="date" placeholder="Escolha uma data..." min={dataFinal}  required {...register("dataFinal")} />
                 </InputIndividual>
               </InputContent>
               <InputContent>
@@ -110,6 +118,7 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
                   placeholder="Selecione o ambiente..."
                   {...register("ambiente")}
                   defaultValue={aulas.ambiente.id}
+                  required
                 >
                     {
                     avaliblePlaces.map((place) => {
@@ -132,6 +141,7 @@ export function EditAllClassModal({ closeModal,  aulas }: ModalCreateNewClassPro
                   placeholder="Selecione o professor..."
                   {...register("professor")}
                   defaultValue={aulas.professor.id}
+                  required
                 >
                  {avalibleTeachers.map((teacher) => {
                     return (

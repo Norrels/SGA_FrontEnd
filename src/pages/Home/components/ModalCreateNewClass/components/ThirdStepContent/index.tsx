@@ -122,10 +122,10 @@ export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
         </SummaryHeader>
         <SummaryContent>
           <SummaryDetails>
-            <p>{periodo?.toLowerCase()}</p>
+            <p>{periodo == "MANHA" ? "manhã" : periodo?.toLowerCase()}</p>
           </SummaryDetails>
           <SummaryDetails>
-            <p>{diasSemana.filter((dias) => {return dias != undefined}).join(",")}</p>
+            <p>{diasSemana.filter((dias) => {return dias != undefined}).join(", ")}</p>
           </SummaryDetails>
         </SummaryContent>
       </SummaryContainer>

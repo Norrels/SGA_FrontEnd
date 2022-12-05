@@ -34,7 +34,7 @@ export type AulaType = z.infer<typeof aulaInput>;
 
 //Propriedades da Modal
 interface ViewClassModalProps {
-  classItem: AulaTypeSuper;
+  classItem: AulaProps;
   closeModal(): void;
 }
 

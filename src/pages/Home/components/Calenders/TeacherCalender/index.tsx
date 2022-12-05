@@ -26,6 +26,7 @@ import {
 } from "../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../lib/axios";
 import { EditClassModalProps } from "../../EditClassModal";
+import { EditAllClassModalProps } from "../../EditAllClassModal";
 
 interface CalenderProps {
   days: Date[];
@@ -34,6 +35,7 @@ interface CalenderProps {
 
 export interface AulaProps {
   id: number;
+  partitionKey?: number
   dataFinal: string;
   professor: TeacherProps;
   ambiente: PlaceProps;
@@ -73,12 +75,28 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
     const teacherName = teachers.find(
       (element) => element.id == data.professor
     );
-    console.log(data.professor);
     const aulasEditadas = aulas.map((aula) => {
       if (aula.id === data.id) {
         aula.ambiente.id = data.ambientes;
         aula.professor.id = data.professor;
         aula.dataInicio = data.data;
+        aula.professor.nome = teacherName!.nome;
+      }
+      return aula;
+    });
+
+    setAulas(aulasEditadas);
+  }
+
+  function handleEditAllClass(data: EditAllClassModalProps) {
+    const teacherName = teachers.find(
+      (element) => element.id == data.professor
+    );
+    const aulasEditadas = aulas.map((aula) => {
+      if (aula.id === data.id) {
+        aula.ambiente.id = data.ambiente;
+        aula.professor.id = data.professor;
+        aula.dataInicio = data.dataInicio;
         aula.professor.nome = teacherName!.nome;
       }
       return aula;
@@ -116,9 +134,10 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
       {placesList.map((places) => {
+        
         return (
           <div key={places.id}>
-            <HomeCalenderContent>
+            <HomeCalenderContent >
               <HomePlaces>
                 <p>{places.nome}</p>
               </HomePlaces>
@@ -156,6 +175,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                               <RightClick
                                 aulas={aula}
                                 handleEditClass={handleEditClass}
+                                handleEditAllClasses={handleEditAllClass}
                               />
                             </ContextMenu.Root>
                           )

@@ -167,6 +167,12 @@ export const InputContent = styled.div`
   p {
     color: #8d0000;
   }
+
+  option{
+    &:disabled {
+      background-color: ${(props) => props.theme["white-500"]};
+    }
+  }
 `;
 
 export const InputIndividual = styled.div`
@@ -199,6 +205,8 @@ export const InputIndividual = styled.div`
       transform: translateY(-5px);
     }
   }
+
+
 `;
 
 export const FinalButton = styled.div`
