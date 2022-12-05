@@ -20,7 +20,7 @@ export function Course() {
   const { courses } = useContext(ObjectsContext);
   const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
   const [on, setOn] = useState<Boolean>(false);
-  const { userToEdit } = useContext(AuthContext)
+  const { userAutheticated } = useContext(AuthContext)
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
   function closeModal() {
@@ -76,7 +76,7 @@ export function Course() {
           placeholder="Busque um ou vários cursos..."
           onChange={(e) => searchCourse(e.target.value)}
         />
-        {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
+        {userAutheticated.tipoUsuario == "ADMINISTRADOR" &&
           <Toggle>
             <label>Desativados</label>
             <input

@@ -1,3 +1,4 @@
+import { fromUnixTime, toDate } from "date-fns"
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod"
@@ -13,7 +14,7 @@ interface AuthContextType {
   autheticated: boolean
   login: (data: LoginProps) => void
   logout: () => void
-  userToEdit: UserType
+  userAutheticated: UserType
 }
 
 
@@ -36,42 +37,49 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }: AuthProviderProvideProps) {
   const [autheticated, setAutheticated] = useState(false)
-  const [userToEdit, setUserToEdit] = useState<UserType>({
+  const [userAutheticated, setuserAutheticated] = useState<UserType>({
     email: "", nome: "", senha: undefined, nif: "", id: ""
   });
+  const today = new Date()
   const navigate = useNavigate()
 
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
       const object = JSON.parse(atob(token.split('.')[1]))
-      setUserToEdit(object)
+      if (fromUnixTime(object.exp) > today) {
+        setuserAutheticated(object)
+        setAutheticated(true)
+        navigate('/inicio', { replace: true })
+      } else {
+        localStorage.removeItem("token")
+      }
     }
   }, [autheticated])
 
   async function login(user: LoginProps) {
-    const {nif, senha} = user
-    
+    const { nif, senha } = user
+
     const { data: { token } } = await API.post('usuario/login', {
-        nif,
-        senha
-        
+      nif,
+      senha
+
     })
-    
-    if(token !== null){
+
+    if (token !== null) {
       localStorage.setItem('token', JSON.stringify(token))
       setAutheticated(true)
       API.defaults.headers.common['Authorization'] = token;
       navigate('/inicio', { replace: true })
-    } 
-}
+    }
+  }
 
-async function logout() {
-  setAutheticated(false)
-  localStorage.removeItem('token')
-  delete API.defaults.headers.common['Authorization']
-  navigate('/', { replace: true })
-}
+  async function logout() {
+    setAutheticated(false)
+    localStorage.removeItem('token')
+    delete API.defaults.headers.common['Authorization']
+    navigate('/', { replace: true })
+  }
 
   return (
     <AuthContext.Provider value={
@@ -79,7 +87,7 @@ async function logout() {
         login,
         autheticated,
         logout,
-        userToEdit
+        userAutheticated
       }}>
       {children}
     </AuthContext.Provider>

@@ -27,7 +27,7 @@ export function Teacher() {
 
   const [open1, setOpen1] = useState(false);
   const [on1, setOn1] = useState<Boolean>(false);
-  const { userToEdit } = useContext(AuthContext);
+  const { userAutheticated } = useContext(AuthContext);
 
   function closeModal() {
     setOpen(false);
@@ -104,7 +104,7 @@ export function Teacher() {
           placeholder="Busque um ou vários professores..."
           onChange={(v) => searchTeacher(v.target.value)}
         />
-        {userToEdit.tipoUsuario == "ADMINISTRADOR" && (
+        {userAutheticated.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input

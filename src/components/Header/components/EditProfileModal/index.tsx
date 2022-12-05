@@ -39,7 +39,7 @@ export type UserType = z.infer<typeof userInput>;
 
 export function EditUserModal({ closeModal }: EditUserModal) {
   const [editable, setEditable] = useState(false);
-  const [userToEdit, setUserToEdit] = useState<UserType>();
+  const [userAutheticated, setuserAutheticated] = useState<UserType>();
   const {
     register,
     handleSubmit,
@@ -49,7 +49,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
   const [validaSenha, setValidaSenha] = useState(false);
 
   async function handleUpdateUser(data: UserType) {
-    const res = await API.put(`usuario/perfil/${userToEdit?.id}`, data);
+    const res = await API.put(`usuario/perfil/${userAutheticated?.id}`, data);
     if (res.status == 200) {
       localStorage.setItem("usuario", JSON.stringify(data));
       reset();
@@ -61,7 +61,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
     const token = localStorage.getItem("token");
     if (token) {
       const object = JSON.parse(atob(token.split(".")[1]));
-      setUserToEdit(object);
+      setuserAutheticated(object);
     }
   }, []);
 
@@ -89,7 +89,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
         <form onSubmit={handleSubmit(handleUpdateUser)}>
           <input
             type="hidden"
-            value={userToEdit?.id}
+            value={userAutheticated?.id}
             {...register("id")}
           ></input>
           <InputScroll>
@@ -99,7 +99,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                 <input
                   type="text"
                   placeholder="Digite o nome"
-                  defaultValue={userToEdit?.nome}
+                  defaultValue={userAutheticated?.nome}
                   {...register("nome")}
                   readOnly={!editable}
                   minLength={4}
@@ -113,7 +113,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   <label>Nif</label>
                   <input
                     type="text"
-                    defaultValue={userToEdit?.nif}
+                    defaultValue={userAutheticated?.nif}
                     placeholder="Digite nif"
                     {...register("nif")}
                     readOnly={!editable}
@@ -127,7 +127,7 @@ export function EditUserModal({ closeModal }: EditUserModal) {
                   <label>Email</label>
                   <input
                     type="text"
-                    defaultValue={userToEdit?.email}
+                    defaultValue={userAutheticated?.email}
                     placeholder="Digite o email"
                     {...register("email")}
                     readOnly={!editable}

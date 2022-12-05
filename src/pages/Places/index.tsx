@@ -23,7 +23,7 @@ export function Places() {
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
-  const { userToEdit } = useContext(AuthContext);
+  const { userAutheticated } = useContext(AuthContext);
 
   function closeModal() {
     setOpen(false);
@@ -84,7 +84,7 @@ export function Places() {
           placeholder="Busque um ou vários ambientes..."
           onChange={(e) => searchPlace(e.target.value)}
         />
-        {userToEdit.tipoUsuario == "ADMINISTRADOR" && (
+        {userAutheticated.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input

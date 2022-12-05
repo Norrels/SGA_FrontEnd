@@ -34,7 +34,7 @@ export function User() {
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);
 
-  const { userToEdit } = useContext(AuthContext)
+  const { userAutheticated } = useContext(AuthContext)
 
   function closeModal() {
     setOpen(false);
@@ -105,9 +105,9 @@ export function User() {
           </Toggle>
           <UsersList>
             {userMatches.map((user) => {
-              if (user.ativo && on == false && user.id !=  userToEdit.id) {
+              if (user.ativo && on == false && user.id !=  userAutheticated.id) {
                 return <UserItem key={user.id} user={user} />;
-              } else if (user.ativo == false && on == true && user.id !=  userToEdit.id) {
+              } else if (user.ativo == false && on == true && user.id !=  userAutheticated.id) {
                 return <UserItem key={user.id} user={user} />;
               }
             })}

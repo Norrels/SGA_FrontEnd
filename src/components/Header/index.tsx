@@ -21,7 +21,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 export function Header() {
   const [open, setOpen] = useState(false);
   const { logout } = useContext(AuthContext)
-  const { userToEdit } = useContext(AuthContext)
+  const { userAutheticated } = useContext(AuthContext)
 
   const location = useLocation();
 
@@ -97,7 +97,7 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
-            {userToEdit.tipoUsuario == "ADMINISTRADOR" &&
+            {userAutheticated.tipoUsuario == "ADMINISTRADOR" &&
               <HeaderNavMenu>
                 {location.pathname == "/chamados" ? (
                   <p>Chamados</p>
