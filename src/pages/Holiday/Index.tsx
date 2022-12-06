@@ -45,7 +45,7 @@ export function Holiday() {
   }, []);
 
   useEffect(() => {
-    console.log(holidayMatch);
+    
   }, [holidayMatch]);
 
   async function handleGetHolidays() {

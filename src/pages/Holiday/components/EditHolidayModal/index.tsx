@@ -4,6 +4,7 @@ import { NotePencil, X } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { Notification } from "../../../../components/Notification";
 import { API } from "../../../../lib/axios";
 import { HolidayProps } from "../../Index";
 import {
@@ -24,7 +25,12 @@ interface EditAdminModalProps {
 
 export const holidayInput = z.object({
   id: z.number(),
-  nome: z.string(),
+  nome: z
+    .string()
+    .min(4, { message: "* O nome deve ser maior que 3 caracteres..." })
+    .max(30, {
+      message: "* O nome deve ser menor ou igual a 20 que  caracteres...",
+    }),
   tipo: z.string(),
   type: z.string(),
   data: z.date(),
@@ -34,29 +40,48 @@ export type HolidayType = z.infer<typeof holidayInput>;
 
 export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
   const [editable, setEditable] = useState(false);
-  const [date, setDate] = useState<String>();
-  // const [datat, setDatat] = useState(format(new Date(holiday.dataInicio), "dd-MM-yyyy"))
+
+  //Variavel para usado para exibir a notificaçãp
+  const [open, setOpen] = useState(false);
+
+  // Váriavel para controlar oque vai ser exibido na notificação
+  const [notificationStataus, setNotificationStataus] = useState(false);
 
   const { handleSubmit, register, reset } = useForm<HolidayType>();
 
   function handleUpdateHoliday(data: HolidayType) {
-    handleUpdateHolidayAPI(data);
-    reset();
-    closeModal();
+    handleUpdateHolidayAPI(data)
+      .then(() => {
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      })
+      .catch((e) => {
+        setNotificationStataus(true);
+        console.log(e);
+      });
+
+    setOpen(true);
+    onCloseCreateHolidayModal();
+  }
+
+  function openNotificantionMethod() {
+    setOpen(false);
   }
 
   async function handleUpdateHolidayAPI(data: HolidayType) {
-    if (data.type == "FERIADO" || data.type == "EMENDA") {
+    if (
+      data.type == "FERIADO" ||
+      data.type == "EMENDA" ||
+      data.type == "RECORRENTE"
+    ) {
       const resp = await API.put(`dnl/${holiday.id}`, {
         id: holiday.id,
         nome: data.nome,
         data: data.data,
         tipo: data.tipo,
       });
-
-      if (resp.status == 200) {
-        location.reload();
-      }
+      console.log(resp);
     } else {
       const resp = await API.put(`feriados/${holiday.id}`, {
         id: holiday.id,
@@ -64,171 +89,109 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
         date: data.data,
         type: data.tipo,
       });
-
-      if (resp.status == 200) {
-        location.reload();
-      }
+      console.log(resp);
     }
   }
 
+  function onCloseCreateHolidayModal() {
+    reset();
+    setEditable(false);
+    closeModal();
+  }
+
   return (
-    <Dialog.Portal>
-      <Overlay />
-      <Content onCloseAutoFocus={() => setEditable(false)}>
-        <ModalHeader>
-          <Dialog.Title>
-            {!editable ? "Dia não letivo" : "Editar dia não letivo"}
-          </Dialog.Title>
-          <HeaderButtons>
-            {!editable && (
-              <button onClick={() => setEditable(true)}>
-                <NotePencil size={50} weight="light" />
-              </button>
-            )}
-            <Dialog.Close>
-              <X size={50} weight="light" />
-            </Dialog.Close>
-          </HeaderButtons>
-        </ModalHeader>
-        <form onSubmit={handleSubmit(handleUpdateHoliday)}>
-          <InputScroll>
-            <InputContainer>
-              <input type="hidden" {...register("id")} value={holiday.id} />
-              <input type="hidden" {...register("type")} value={holiday.tipo} />
-              <InputContent disabled={"on"}>
-                <label>Nome</label>
-                <input
-                  type="text"
-                  placeholder="Digite o nome do dia"
-                  defaultValue={holiday.nome}
-                  {...register("nome")}
-                  readOnly={!editable}
-                />
-                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
-              </InputContent>
-              <InputContent disabled={editable ? "on" : "disabled"}>
-                <label>Tipo</label>
-                <select
-                  placeholder="Selecione o tipo do dia"
-                  {...register("tipo")}
-                  defaultValue={holiday.tipo}
-                >
-                  <option value="FERIADO">Feriado</option>
-                  <option value="EMENDA">Emenda</option>
-                  <option value="RECORRENTE">Recorrente</option>
-                </select>
-                {/* {errors.tipoAmbiente && <p>* Selecione um valor</p>} */}
-              </InputContent>
-              <InputContent disabled={"on"}>
-                <label>Data</label>
-                <input
-                  type="date"
-                  placeholder="dd/MM/yyyy"
-                  defaultValue={
-                    holiday.data.match("/")
-                      ? holiday.data.split("/")[2] +
-                        "-" +
-                        holiday.data.split("/")[1] +
-                        "-" +
-                        holiday.data.split("/")[0]
-                      : holiday.data
-                  }
-                  {...register("data")}
-                  readOnly={!editable}
-                />
-                {/* {errors.data && <p>{errors.data.message}</p>} */}
-              </InputContent>
-              {editable && (
-                <FinalButton>
-                  <button>Salvar</button>
-                </FinalButton>
+    <>
+      <Dialog.Portal>
+        <Overlay />
+        <Content onCloseAutoFocus={() => onCloseCreateHolidayModal()}>
+          <ModalHeader>
+            <Dialog.Title>
+              {!editable ? "Dia não letivo" : "Editar dia não letivo"}
+            </Dialog.Title>
+            <HeaderButtons>
+              {!editable && (
+                <button onClick={() => setEditable(true)}>
+                  <NotePencil size={50} weight="light" />
+                </button>
               )}
-            </InputContainer>
-          </InputScroll>
-        </form>
-      </Content>
-      {/* <Dialog.Portal>
-      <Overlay />
-      <Content>
-        <form onSubmit={handleSubmit(handleUpdateAdmin)}>
-          {disabled ? (
-            <>
-              <NoteButton>
-                <NotePencil onClick={() => setDisabled(false)} size={32} />
-              </NoteButton>
-            </>
-          ) : (
-            <></>
-          )}
-          <CloseButton>
-            <X size={24} onClick={() => setDisabled(true)} />
-          </CloseButton>
-
-          <Dialog.Title>Editar Dia</Dialog.Title>
-
-          <InputContainer>
-            {disabled ? (
-              <>
-                <InputContent>
+              <Dialog.Close>
+                <X size={50} weight="light" />
+              </Dialog.Close>
+            </HeaderButtons>
+          </ModalHeader>
+          <form onSubmit={handleSubmit(handleUpdateHoliday)}>
+            <InputScroll>
+              <InputContainer>
+                <input type="hidden" {...register("id")} value={holiday.id} />
+                <input
+                  type="hidden"
+                  {...register("type")}
+                  value={holiday.tipo}
+                />
+                <InputContent disabled={"on"}>
                   <label>Nome</label>
                   <input
                     type="text"
-                    value={holiday.nome}
-                    placeholder="digite o nome do dia"
-                    disabled
-                  />
-                </InputContent>
-                <InputContent>
-                  <label>Tipo</label>
-                  <select disabled>
-                    <option>Feriado</option>
-                    <option>Imenda</option>
-                  </select>
-                </InputContent>
-                <InputContent>
-                  <label>Data</label>
-                  <input
-                    type="date"
-                    placeholder="digite a data"
-                    disabled
-                  />
-                </InputContent>
-              </>
-            ) : (
-              <>
-                <InputContent>
-                  <label>Nome</label>
-                  <input
-                    type="text"
-                    {...register("nome")}
+                    placeholder="Digite o nome do dia"
                     defaultValue={holiday.nome}
-                    placeholder="digite o nome do dia"
+                    {...register("nome")}
+                    readOnly={!editable}
+                    required
+                    minLength={4}
+                    maxLength={30}
                   />
                 </InputContent>
-                <InputContent>
+                <InputContent disabled={editable ? "on" : "disabled"}>
                   <label>Tipo</label>
-                  <select {...register("tipoDeDia")}>
+                  <select
+                    placeholder="Selecione o tipo do dia"
+                    {...register("tipo")}
+                    defaultValue={holiday.tipo}
+                    required
+                  >
                     <option value="FERIADO">Feriado</option>
                     <option value="EMENDA">Emenda</option>
+                    <option value="RECORRENTE">Recorrente</option>
                   </select>
                 </InputContent>
-                <InputContent>
+                <InputContent disabled={"on"}>
                   <label>Data</label>
                   <input
-                    {...register("diaInicio")}
                     type="date"
-                    placeholder="digite a data"
+                    placeholder="dd/MM/yyyy"
+                    defaultValue={
+                      holiday.data.match("/")
+                        ? holiday.data.split("/")[2] +
+                          "-" +
+                          holiday.data.split("/")[1] +
+                          "-" +
+                          holiday.data.split("/")[0]
+                        : holiday.data
+                    }
+                    {...register("data")}
+                    readOnly={!editable}
+                    required
                   />
                 </InputContent>
-              </>
-            )}
-          </InputContainer>
-          <ContainerButtonCreate>
-            <button>Editar</button>
-          </ContainerButtonCreate>
-        </form>
-      </Content>
-    </Dialog.Portal> */}
-    </Dialog.Portal>
+                {editable && (
+                  <FinalButton>
+                    <button>Salvar</button>
+                  </FinalButton>
+                )}
+              </InputContainer>
+            </InputScroll>
+          </form>
+        </Content>
+      </Dialog.Portal>
+      <Notification
+        tipe={notificationStataus ? "Erro" : "Sucesso"}
+        description={
+          notificationStataus ? "Falha ao editar." : "Editado com sucesso."
+        }
+        title="Dia não letivo"
+        openNotification={open}
+        openNotificationMethod={openNotificantionMethod}
+      />
+    </>
   );
 }
