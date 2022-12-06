@@ -862,7 +862,7 @@ export default function AdvancedSearch() {
 
   async function handleGetPlaces(data: SearchValue) {
     const res = await API.get(`/aula/filtro/${data.busca}`);
-
+    console.log(res);
     setClassMatch(res.data);
     setUnidadeMatch([]);
     reset();
@@ -873,6 +873,7 @@ export default function AdvancedSearch() {
       setClassMatch(aula);
     } else {
       const res = await API.get(`/aula/filtro/${value}`);
+      console.log(res);
       setClassMatch(res.data);
     }
   }
@@ -1055,7 +1056,7 @@ export default function AdvancedSearch() {
                   </AdvancedFilterItens>
                 </Accordion.Content>
               </Accordion.Item>
-              <Accordion.Item value="4">
+              {/* <Accordion.Item value="4">
                 <AdvancedContentTitle>
                   <p>Dias</p>
                   <Accordion.Trigger>
@@ -1136,7 +1137,7 @@ export default function AdvancedSearch() {
                     </AdvancedFilterItensIndividual>
                   </AdvancedFilterItens>
                 </Accordion.Content>
-              </Accordion.Item>
+              </Accordion.Item> */}
               <Accordion.Item value="5">
                 <AdvancedContentTitle>
                   <p>Professores</p>
