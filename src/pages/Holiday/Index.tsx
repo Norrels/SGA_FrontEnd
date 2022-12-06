@@ -45,8 +45,8 @@ export function Holiday() {
   }, []);
 
   useEffect(() => {
-    console.log(holidayMatch);
-  }, [holidayMatch]);
+    console.log(holiday);
+  }, [holiday]);
 
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");
@@ -62,17 +62,22 @@ export function Holiday() {
       let ___: HolidayProps[] = [];
 
       resp2.data.map((v: any) => {
-        ___.push({ id: v.id, nome: v.name, data: v.date, tipo: v.type, type: v.type });
+        ___.push({
+          id: v.id,
+          nome: v.name,
+          data: v.date,
+          tipo: v.type,
+          type: v.type,
+        });
       });
 
       ___.map((v) => {
-        setHolidayMatches2((state) => [...state, v]);
+        setHolidayMatches((state) => [...state, v]);
         setHoliday((state) => [...state, v]);
       });
     }
   }
 
-  
   const searchHoliday = (text: String) => {
     if (!text) {
       setHolidayMatches(holiday);
@@ -85,6 +90,7 @@ export function Holiday() {
           holiday.tipo.match(regex)
         );
       });
+
       setHolidayMatches(matches);
     }
   };
@@ -112,9 +118,6 @@ export function Holiday() {
 
         <HolidayList>
           {holidayMatch.map((data) => (
-            <HolidayItem key={data.data} holiday={data} />
-          ))}
-          {holidayMatch2.map((data) => (
             <HolidayItem key={data.data} holiday={data} />
           ))}
         </HolidayList>

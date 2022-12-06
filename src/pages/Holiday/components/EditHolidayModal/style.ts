@@ -192,6 +192,9 @@ export const InputContent = styled.div<DisabledProps>`
 
 export const FinalButton = styled.div`
   width: 100%;
+
+  opacity: 0;
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
   button {
     width: 100%;
     height: 4.688rem;
