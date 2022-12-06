@@ -78,7 +78,7 @@ export function ClassGraph() {
         <span>
           <Moon size={22} color="#fff" />
         </span>
-        <p>Manhã</p>
+        <p>Noite</p>
         <strong>
           {data.find((data) => { return (data.periodo == "NOITE") })?.quantidade ? data.find((data) => { return (data.periodo == "NOITE") })?.quantidade : "0"}
           {data.find((data) => { return (data.periodo == "NOITE") })?.periodo == "NOITE" && data.find((data) => { return (data.periodo == "NOITE") })?.maior ?
@@ -92,7 +92,7 @@ export function ClassGraph() {
         <span>
           <Clock size={22} color="#fff" />
         </span>
-        <p>Manhã</p>
+        <p>Integral</p>
         <strong>
           {data.find((data) => { return (data.periodo == "INTEGRAL") })?.quantidade ? data.find((data) => { return (data.periodo == "INTEGRAL") })?.quantidade : "0"}
           {data.find((data) => { return (data.periodo == "INTEGRAL") })?.periodo == "INTEGRAL" && data.find((data) => { return (data.periodo == "INTEGRAL") })?.maior ?
