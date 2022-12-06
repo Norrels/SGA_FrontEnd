@@ -2,10 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import {
-  ObjectsContext,
-  TeacherProps,
-} from "../../../../contexts/ObjectsContext";
+import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import {
   CheckContent,
   CheckIndividual,
@@ -21,6 +18,7 @@ import {
 } from "./style";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
+import { ta } from "date-fns/locale";
 
 interface NewVacationModalProps {
   closeModal1: () => void;
@@ -31,20 +29,33 @@ export const vacationInput = z.object({
   dataFinal: z.date(),
 });
 
+export interface TeacherProps {
+  id?: number;
+  nome?: string;
+  cargaSemanal?: number;
+  ativo?: boolean;
+  foto?: string;
+  email?: string;
+  isChecked?: boolean;
+  competencia?: {
+    nivel?: number;
+    unidadeCurricular?: {
+      id?: number;
+      nome?: string;
+    };
+  }[];
+}
+[];
+
 //Transformando a variavel de validação em uma interface
 export type VacationType = z.infer<typeof vacationInput>;
 
 export function NewVacation({ closeModal1 }: NewVacationModalProps) {
   const { teachers } = useContext(ObjectsContext);
-
-  const [teachersSelected, setTeachersSelected] = useState<TeacherProps[]>([]);
+  const [teachersArray, setTeachersArray] = useState<TeacherProps[]>([]);
 
   const { register, handleSubmit, reset } = useForm<VacationType>();
-
-  const [isChecked, setIsChecked] = useState(false);
-  const [selecionarTodos, setSelecionarTodos] = useState(false);
-  const [selecionarTodosPrimeiraVez, setSelecionarTodosPrimeiraVez] =
-    useState(false);
+  useState(false);
 
   const [dataFinal, setDataFinal] = useState("");
 
@@ -53,41 +64,17 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
     .toLocaleDateString()
     .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
-  useEffect(() => {
-    console.log(teachersSelected);
-  }, [teachersSelected]);
-
   function handleCreateVacation(data: VacationType) {
     handleCreateVacationAPI(data);
   }
-
-  function handleCreateArrayTeachers(value: String) {
-    if (teachersSelected.some((v) => v.id == Number(value))) {
-      setTeachersSelected(
-        teachersSelected.filter((c) => c.id !== Number(value))
-      );
-    } else {
-      setTeachersSelected([
-        ...teachersSelected,
-        {
-          id: Number(value),
-          nome: "",
-          cargaSemanal: 0,
-          competencia: [],
-          email: "",
-          ativo: true,
-          foto: "",
-        },
-      ]);
-    }
-  }
-
   // Cria Ausência
   async function handleCreateVacationAPI(data: VacationType) {
+    console.log(teachersArray.filter((c) => c.isChecked == true));
+
     const res = await API.post("ausencia/criaAusencia", {
       dataInicio: data.dataInicio,
       dataFinal: data.dataFinal,
-      profList: teachersSelected,
+      profList: teachersArray.filter((c) => c.isChecked == true),
     });
 
     if (res.status === 200) {
@@ -104,18 +91,28 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
     }
   }
 
-  function onChangeCheckSelecionarTodos(e: ChangeEvent<HTMLInputElement>) {
-    !selecionarTodosPrimeiraVez && setSelecionarTodosPrimeiraVez(true);
-    e.target.checked ? setSelecionarTodos(false) : setSelecionarTodos(true);
-    e.target.checked ? setIsChecked(true) : setIsChecked(false);
-  }
+  useEffect(() => {
+    setTeachersArray(teachers.filter((t) => t.ativo == true));
+  }, [teachers]);
 
   function onCloseAvaliableModal() {
     reset();
     setDataFinal("");
-    setSelecionarTodosPrimeiraVez(false);
-    setSelecionarTodos(false);
-    setIsChecked(false);
+  }
+
+  function handleChange(e: any) {
+    const { name, checked } = e.target;
+    if (name === "allSelect") {
+      let tempTeachers = teachersArray.map((tch) => {
+        return { ...tch, isChecked: checked };
+      });
+      setTeachersArray(tempTeachers);
+    } else {
+      let tempUser = teachersArray.map((tch) =>
+        tch.nome === name ? { ...tch, isChecked: checked } : tch
+      );
+      setTeachersArray(tempUser);
+    }
   }
 
   return (
@@ -159,40 +156,45 @@ export function NewVacation({ closeModal1 }: NewVacationModalProps) {
               <InputContent>
                 <h1>Professores</h1>
                 <hr />
-                {/* <CheckIndividual style={{ marginBottom: "10px" }}>
+                <CheckIndividual style={{ marginBottom: "10px" }}>
                   <input
                     type="checkbox"
                     value="check"
-                    onChange={onChangeCheckSelecionarTodos}
+                    name="allSelect"
+                    checked={
+                      !teachersArray.some((thc) => thc?.isChecked !== true)
+                    }
+                    onChange={handleChange}
                   />
                   <label>Selecionar todos</label>
-                </CheckIndividual> */}
+                </CheckIndividual>
 
                 <CheckContent>
-                  {teachers.map(
-                    (teacher) =>
-                      teacher.ativo && (
-                        <CheckIndividual key={teacher.id}>
-                          <input
-                            onChange={(checked) => {
-                              handleCreateArrayTeachers(checked.target.value);
-                              checked.target.checked ? setIsChecked(true) : setIsChecked(false);
-                            }}
-                            type="checkbox"
-                            value={teacher.id}
-                            name="teachers"
-                            /* checked={!selecionarTodos} */
-                          />
-                          <p>{teacher.nome}</p>
-                        </CheckIndividual>
-                      )
-                  )}
+                  {teachersArray.map((teacher, index) => (
+                    <CheckIndividual key={index}>
+                      <input
+                        type="checkbox"
+                        value={teacher.id}
+                        name={teacher.nome}
+                        checked={teacher?.isChecked || false}
+                        onChange={handleChange}
+                      />
+                      <p>{teacher.nome}</p>
+                    </CheckIndividual>
+                  ))}
                 </CheckContent>
               </InputContent>
             </InputContainer>
             <FinalButton>
-              <button type="submit" disabled={!isChecked}>
-                {!isChecked ? 'Selecione um professor...': 'Criar'}
+              <button
+                type="submit"
+                disabled={
+                  teachersArray?.filter((v) => v.isChecked == true).length == 0
+                }
+              >
+                {teachersArray.filter((v) => v.isChecked == true).length == 0
+                  ? "Selecione um professor..."
+                  : "Criar"}
               </button>
             </FinalButton>
           </InputScroll>
