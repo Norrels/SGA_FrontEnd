@@ -19,7 +19,7 @@ export function Router() {
     <Routes>
       <Route path="/" element={<Login />} />
 
-      {/* <Route element={<ProtectedRoutes />}> */}
+      <Route element={<ProtectedRoutes />}>
         <Route path="/" element={<DefaultLayout />}>
           <Route path="/inicio" element={<Home />} />
           <Route path="/professores" element={<Teacher />} />
@@ -32,12 +32,12 @@ export function Router() {
           <Route path="/aulas" element={<AdvancedSearch />} />
           <Route path="/dias-nao-letivos" element={<Holiday />} />
         </Route>
-      {/* </Route> */}
+      </Route>
 
-      {/* <Route element={<ProtectedRoutesAdm />}> */}
+      <Route element={<ProtectedRoutesAdm />}>
         <Route path="/chamados" element={<Call />} />
         <Route path="/usuarios" element={<User />} />
-      {/* </Route> */}
+      </Route>
     </Routes>
   );
 }

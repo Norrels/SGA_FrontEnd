@@ -21,7 +21,7 @@ export function ClassGraph() {
   const [data, setData] = useState<DataValues[]>([]);
   const today = new Date()
 
-  
+
 
   useEffect(() => {
     handleGetValuesOfMonth();
@@ -47,51 +47,59 @@ export function ClassGraph() {
 
       <ClassGraphCard>
         <span>
-          <Sun size={22} color="#fff" /> :
+          <Sun size={22} color="#fff" />
         </span>
         <p>Manhã</p>
         <strong>
-          {data.find((data) => {return(data.periodo == "MANHA")})?.quantidade}
+          {data.find((data) => { return (data.periodo == "MANHA") })?.quantidade ? data.find((data) => { return (data.periodo == "MANHA") })?.quantidade : "0"}
+          {data.find((data) => { return (data.periodo == "MANHA") })?.periodo == "MANHA" && data.find((data) => { return (data.periodo == "MANHA") })?.maior ?
+            <ArrowUp size={20} color="#7BD75B" weight="bold" /> :
+            <ArrowDown size={20} color="#D75B5B" weight="bold" />
+          }
         </strong>
-        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
-          <ArrowUp size={20} color="#7BD75B" weight="bold" />
-        }
+
+      </ClassGraphCard>
+
+      <ClassGraphCard>
+        <span>
+          <SunHorizon size={22} color="#fff" />
+        </span>
+        <p>Tarde</p>
+        <strong>
+          {data.find((data) => { return (data.periodo == "TARDE") })?.quantidade ? data.find((data) => { return (data.periodo == "TARDE") })?.quantidade : "0"}
+          {data.find((data) => { return (data.periodo == "TARDE") })?.periodo == "TARDE" && data.find((data) => { return (data.periodo == "TARDE") })?.maior ?
+            <ArrowUp size={20} color="#7BD75B" weight="bold" /> :
+            <ArrowDown size={20} color="#D75B5B" weight="bold" />
+          }
+        </strong>
+
       </ClassGraphCard>
       <ClassGraphCard>
         <span>
-          <Sun size={22} color="#fff" /> :
+          <Moon size={22} color="#fff" />
         </span>
         <p>Manhã</p>
         <strong>
-          {data.find((data) => {return(data.periodo == "TARDE")})?.quantidade}
+          {data.find((data) => { return (data.periodo == "NOITE") })?.quantidade ? data.find((data) => { return (data.periodo == "NOITE") })?.quantidade : "0"}
+          {data.find((data) => { return (data.periodo == "NOITE") })?.periodo == "NOITE" && data.find((data) => { return (data.periodo == "NOITE") })?.maior ?
+            <ArrowUp size={20} color="#7BD75B" weight="bold" /> :
+            <ArrowDown size={20} color="#D75B5B" weight="bold" />
+          }
         </strong>
-        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
-          <ArrowUp size={20} color="#7BD75B" weight="bold" />
-        }
+
       </ClassGraphCard>
       <ClassGraphCard>
         <span>
-          <Sun size={22} color="#fff" /> :
+          <Clock size={22} color="#fff" />
         </span>
         <p>Manhã</p>
         <strong>
-          {data[1]?.periodo == "MANHA" && data[1]?.quantidade}
+          {data.find((data) => { return (data.periodo == "INTEGRAL") })?.quantidade ? data.find((data) => { return (data.periodo == "INTEGRAL") })?.quantidade : "0"}
+          {data.find((data) => { return (data.periodo == "INTEGRAL") })?.periodo == "INTEGRAL" && data.find((data) => { return (data.periodo == "INTEGRAL") })?.maior ?
+            <ArrowUp size={20} color="#7BD75B" weight="bold" /> :
+            <ArrowDown size={20} color="#D75B5B" weight="bold" />
+          }
         </strong>
-        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
-          <ArrowUp size={20} color="#7BD75B" weight="bold" />
-        }
-      </ClassGraphCard>
-      <ClassGraphCard>
-        <span>
-          <Sun size={22} color="#fff" /> :
-        </span>
-        <p>Manhã</p>
-        <strong>
-          {data[1]?.periodo == "MANHA" && data[1]?.quantidade}
-        </strong>
-        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
-          <ArrowUp size={20} color="#7BD75B" weight="bold" />
-        }
       </ClassGraphCard>
     </ClassGraphContainer >
   );

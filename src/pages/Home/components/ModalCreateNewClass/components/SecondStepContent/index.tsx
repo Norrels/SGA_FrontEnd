@@ -17,9 +17,9 @@ interface firstStepContentProps {
   places: PlaceProps[] | undefined;
 }
 
-export function SecondStepContent({ handleNextStep, teachers, places }: firstStepContentProps) {
+export function SecondStepContent({ handleNextStep, places }: firstStepContentProps) {
   const { register, watch } = useFormContext();
-  const { placesList } = useContext(ObjectsContext);
+  const { placesList, teachers } = useContext(ObjectsContext);
 
   const isValidForm = watch("professor.id") != "" && watch("ambiente.id") != "" && watch("professor.id") != undefined && watch("ambiente.id") != undefined
 
