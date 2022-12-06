@@ -20,6 +20,7 @@ import {
   InputFile,
   InputFileContent,
   InputIndividual,
+  InputName,
   InputScroll,
   ModalHeader,
   Overlay,
@@ -199,12 +200,10 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
               <InputContainer>
                 <InputContent>
                   <label>Nome</label>
-                  <input
+                  <InputName
                     type="text"
                     placeholder="Digite o nome do professor"
-                    {...register("nome", {
-                      setValueAs: (v) => firstLetterUppercase(v),
-                    })}
+                    {...register("nome")}
                     minLength={4}
                     maxLength={25}
                     required

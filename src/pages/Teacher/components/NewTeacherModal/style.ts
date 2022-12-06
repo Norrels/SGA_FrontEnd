@@ -192,6 +192,10 @@ export const InputContent = styled.div`
 
     transition-duration: 0.15s;
 
+
+   
+    
+
     // ver isso aqui, ta meio travado no opera, verificar se no google vai estar dahora
     &:focus {
       box-shadow: 0px 10px 10px 2px rgba(0, 0, 0, 0.1);
@@ -465,3 +469,7 @@ export const FinalButton = styled.div`
     font-weight: bold;
   }
 `;
+
+export const InputName = styled.input`
+  text-transform: capitalize;
+`
