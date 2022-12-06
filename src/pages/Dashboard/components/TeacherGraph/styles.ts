@@ -75,6 +75,12 @@ export const TeacherGraphSelects = styled.div`
       background-color: ${(props) => props.theme["blue-500"]}
     }
   }
+
+  option {
+    &:disabled{
+      color: ${(props) => props.theme["gray-400"]}
+    }
+  }
 `;
 
 export const TeacherGraphs = styled.div`

@@ -1,7 +1,6 @@
-import { ArrowClockwise, Confetti, Lightbulb, Warning, WarningOctagon } from "phosphor-react";
-import { ChangeEvent, useContext, useEffect } from "react";
+import { Confetti, Lightbulb, Warning, WarningOctagon } from "phosphor-react";
+import { ChangeEvent, useContext } from "react";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
-import NotFound from "../../../../assets/bro.svg";
 import {
   TeacherGraphContainer,
   TeacherGraphDescription,
@@ -23,7 +22,6 @@ import {
 } from "chart.js";
 import { useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Await } from "react-router-dom";
 import { API } from "../../../../lib/axios";
 import { endOfMonth, format } from "date-fns";
 
@@ -58,21 +56,13 @@ export function TeacherGraph() {
     ];
   }
 
-
-
   const [labels, setLabelss] = useState(semestreAtual);
 
-  const [title, setTitle] = useState("");
+  // const [title, setTitle] = useState("");
 
-  function handleBackToSemester() {
-    setLabelss(semestreAtual), setTitle("");
-  }
-
-  // professor/emAula
-
-
-
-
+  // function handleBackToSemester() {
+  //   setLabelss(semestreAtual), setTitle("");
+  // }
 
   const [horasContratuais, setHorasContratuais] = useState([0])
   const [horasCadastradas, setHorasCadastradas] = useState([0])
@@ -117,8 +107,6 @@ export function TeacherGraph() {
         }
 
       }
-
-
     }
     setHorasCadastradas(arrayToSave)
     setHorasContratuais(arrayTosave2)
@@ -148,12 +136,14 @@ export function TeacherGraph() {
   const options = {
     responsive: true,
     //Gambiarra Total aqui :D
-    onClick: async (e: any, elements: string | any[]) => {
-      if (elements.length != 0 && labels.length > 4) {
-        setLabelss(["Semana 1", "Semana 2", "Semana 3", "Semana 4"]);
-        setTitle(labels[elements[0].index]);
-      }
-    },
+    // onClick: async (e: any, elements: string | any[]) => {
+    //   if (elements.length != 0 && labels.length > 4) {
+    //     console.log(e)
+    //     setLabelss(["Semana 1", "Semana 2", "Semana 3", "Semana 4"]);
+    //     setHorasCadastradas([])
+    //     setTitle(labels[elements[0].index]);
+    //   }
+    // },
     scales: {
       y: {
         max: 200,
@@ -164,6 +154,7 @@ export function TeacherGraph() {
       },
     },
   };
+
   //Definindo as barras do grafico
   const data = {
     labels,
@@ -198,7 +189,7 @@ export function TeacherGraph() {
             onChange={onChageSelectProfessor}
             defaultValue=""
           >
-            <option value={""}>Selecione</option>
+            <option value={""} disabled>Selecione</option>
             {teachers.map((teacher) =>
               teacher.ativo && (
                 <option key={teacher.id} value={teacher.id}>{teacher.nome}</option>
@@ -209,67 +200,55 @@ export function TeacherGraph() {
       </TeacherGraphTextContainer>
 
       <TeacherGraphs>
-        <div>
-          {title && <ArrowClockwise onClick={handleBackToSemester} />}
-          <h4>{title}</h4>
-        </div>
-
         <Bar data={data} options={options} />
       </TeacherGraphs>
 
       <footer>
         {
           teacherId != 0 ?
-          <>
-            <TeacherGraphDescription>
-              {
-                horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
-                <h5>
-                  <Lightbulb size={18} /> {teacherName} precisa fazer {horasContratuais[hoursThisMounth] - horasCadastradas[hoursThisMounth]}h para completar {horasContratuais[hoursThisMounth]}h
-                  nesse mês
-                </h5>
-              }
-              {
-                horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
-                <h5>
-                  <Warning size={18} /> {teacherName} não possui aulas o suficiente para
-                  completar {horasContratuais[hoursThisMounth]}h
-                </h5>
-              }
-              {
-                horasContratuais[hoursThisMounth] == horasCadastradas[hoursThisMounth] &&
-                <h5>
-                  <Confetti size={18} /> Uuuhuu! O professor(a) bateu a meta a diária de {horasContratuais[hoursThisMounth]}h esse mês
-                </h5>
-              }
-              {
-                horasContratuais[hoursThisMounth] <= horasCadastradas[hoursThisMounth] &&
-                <strong>
-                  <WarningOctagon size={25} /> O professor possui mais aulas cadastradas do que deveria esse mês
-                </strong>
-              }
-            </TeacherGraphDescription>
+            <>
+              <TeacherGraphDescription>
+                {
+                  horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
+                  <h5>
+                    <Lightbulb size={18} /> {teacherName} precisa fazer {horasContratuais[hoursThisMounth] - horasCadastradas[hoursThisMounth]}h para completar {horasContratuais[hoursThisMounth]}h
+                    nesse mês
+                  </h5>
+                }
+                {
+                  horasContratuais[hoursThisMounth] >= horasCadastradas[hoursThisMounth] &&
+                  <h5>
+                    <Warning size={18} /> {teacherName} não possui aulas o suficiente para
+                    completar {horasContratuais[hoursThisMounth]}h
+                  </h5>
+                }
+                {
+                  horasContratuais[hoursThisMounth] == horasCadastradas[hoursThisMounth] &&
+                  <h5>
+                    <Confetti size={18} /> Uuuhuu! O professor(a) bateu a meta a diária de {horasContratuais[hoursThisMounth]}h esse mês
+                  </h5>
+                }
+                {
+                  horasContratuais[hoursThisMounth] <= horasCadastradas[hoursThisMounth] &&
+                  <strong>
+                    <WarningOctagon size={25} /> O professor possui mais aulas cadastradas do que deveria esse mês
+                  </strong>
+                }
+              </TeacherGraphDescription>
+              <TeacherGraphSubtitles>
+                <TeacherGraphSubtitle>
+                  <p>Horas cadastradas</p>
+                  <p>Horas contratuais</p>
+                </TeacherGraphSubtitle>
 
-
-
-            <TeacherGraphSubtitles>
-              <TeacherGraphSubtitle>
-                <p>Horas cadastradas</p>
-                <p>Horas contratuais</p>
-              </TeacherGraphSubtitle>
-
-              <TeacherGraphSubtitleSpan>
-                <span></span>
-                <span></span>
-              </TeacherGraphSubtitleSpan>
-            </TeacherGraphSubtitles>
-          </>
-          :
-          <>
-            
-          <h4><Lightbulb size={18} /> Selecione um(a) professor(a)...</h4>
-          </>
-        
+                <TeacherGraphSubtitleSpan>
+                  <span></span>
+                  <span></span>
+                </TeacherGraphSubtitleSpan>
+              </TeacherGraphSubtitles>
+            </>
+            :
+            <h4><Lightbulb size={18} /> Selecione um(a) professor(a)...</h4>
         }
       </footer>
     </TeacherGraphContainer>

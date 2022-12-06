@@ -9,17 +9,15 @@ export function TeacherCard({
 }: InclassTeacherProps) {
 
   return (
-    <>
-      <TeacherCardContainer disponibilidade={professor ? "emAula" : "livre"}>
-        <TeacherCardText>
-          <img alt="" src={professor.foto ? professor.foto : UserPicture} />
-          <div>
-            <strong>{professor.nome}</strong>
-            <p>{ambiente == null ? "Livre" : ambiente.nome}</p>
-          </div>
-        </TeacherCardText>
-        <span>{emAula ? "Em Aula" : "Livre"}</span>
-      </TeacherCardContainer>
-    </>
+    <TeacherCardContainer disponibilidade={professor ? "emAula" : "livre"}>
+      <TeacherCardText>
+        <img alt="" src={professor.foto ? professor.foto : UserPicture} />
+        <div>
+          <strong>{professor.nome}</strong>
+          <p>{ambiente == null ? "Livre" : ambiente.nome}</p>
+        </div>
+      </TeacherCardText>
+      <span>{emAula ? "Em Aula" : "Livre"}</span>
+    </TeacherCardContainer>
   );
 }

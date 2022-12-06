@@ -250,7 +250,7 @@ export function FirstStepContent({
             placeholder="Digite as horas..."
             {...register("cargaDiaria")}
           />
-          {watch("cargaDiaria") > 8 && <p> * Deve se menor que 8h</p>}
+          {watch("cargaDiaria") > 8 && <p> * Deve se menor que 9h</p>}
           {watch("cargaDiaria") < 2 && watch("cargaDiaria") != "" && <p> * Deve se maior que 2h</p>}
         </InputIndividual>
       </InputContent>

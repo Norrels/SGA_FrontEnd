@@ -1,4 +1,4 @@
-import { getDate, getMonth } from "date-fns";
+import { endOfMonth, format } from "date-fns";
 import {
   ArrowDown,
   ArrowUp,
@@ -19,49 +19,24 @@ interface DataValues {
 
 export function ClassGraph() {
   const [data, setData] = useState<DataValues[]>([]);
+  const today = new Date()
 
-  const [manha, setManha] = useState<Boolean>();
-  const [tarde, setTarde] = useState<Boolean>();
-  const [noite, setNoite] = useState<Boolean>();
-  const [integral, setIntegral] = useState<Boolean>();
-
-  const [qnt, setQnt] = useState<String>("0");
+  
 
   useEffect(() => {
-    if (qnt == "0") {
-      handleGetValuesOfMonth();
-      handleSetValues();
-    }
+    handleGetValuesOfMonth();
+  }, []);
 
-    setTimeout(() => {
-      setQnt("1");
-    }, 800);
-  }, [data]);
 
   async function handleGetValuesOfMonth() {
-    const result = getDate(new Date());
-
-    const res = await API.get(`aula/analise/${getMonth(result)}`);
-
+    const lastDay = endOfMonth(today)
+    const res = await API.get(`aula/analise/mes/2022-${today.getMonth() + 1}-01/fimMes/${format((lastDay), "yyyy-MM-dd")}`);
     if (res.status == 200) {
+      console.log(res)
       setData(res.data);
     }
   }
 
-  async function handleSetValues() {
-    if (data.some((data) => data.periodo == "MANHA")) {
-      setManha(true);
-    }
-    if (data.some((data) => data.periodo == "TARDE")) {
-      setTarde(true);
-    }
-    if (data.some((data) => data.periodo == "NOITE")) {
-      setNoite(true);
-    }
-    if (data.some((data) => data.periodo == "INTEGRAL")) {
-      setIntegral(true);
-    }
-  }
 
   return (
     <ClassGraphContainer>
@@ -72,127 +47,52 @@ export function ClassGraph() {
 
       <ClassGraphCard>
         <span>
-          <Sun size={22} color="#fff" />
+          <Sun size={22} color="#fff" /> :
         </span>
         <p>Manhã</p>
         <strong>
-          {manha ? (
-            data?.map((v) =>
-              v.periodo == "MANHA" ? (
-                <>
-                  <>{v.quantidade == 0 ? "0" : <>{v.quantidade}</>}</>
-                  <>
-                    {v.maior ? (
-                      <ArrowUp size={20} color="#7BD75B" weight="bold" />
-                    ) : (
-                      <ArrowDown size={20} color="#D75B5B" weight="bold" />
-                    )}
-                  </>
-                </>
-              ) : (
-                ""
-              )
-            )
-          ) : (
-            <>
-              0 <ArrowDown size={20} color="#D75B5B" weight="bold" />
-            </>
-          )}
+          {data.find((data) => {return(data.periodo == "MANHA")})?.quantidade}
         </strong>
+        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
+          <ArrowUp size={20} color="#7BD75B" weight="bold" />
+        }
       </ClassGraphCard>
-
       <ClassGraphCard>
         <span>
-          <SunHorizon size={25} color="#fff" />
+          <Sun size={22} color="#fff" /> :
         </span>
-        <p>Tarde</p>
+        <p>Manhã</p>
         <strong>
-          {tarde ? (
-            data?.map((v) =>
-              v.periodo == "TARDE" ? (
-                <>
-                  <>{v.quantidade == 0 ? "0" : <>{v.quantidade}</>}</>
-                  <>
-                    {v.maior ? (
-                      <ArrowUp size={20} color="#7BD75B" weight="bold" />
-                    ) : (
-                      <ArrowDown size={20} color="#D75B5B" weight="bold" />
-                    )}
-                  </>
-                </>
-              ) : (
-                ""
-              )
-            )
-          ) : (
-            <>
-              0 <ArrowDown size={20} color="#D75B5B" weight="bold" />
-            </>
-          )}
+          {data.find((data) => {return(data.periodo == "TARDE")})?.quantidade}
         </strong>
+        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
+          <ArrowUp size={20} color="#7BD75B" weight="bold" />
+        }
       </ClassGraphCard>
-
       <ClassGraphCard>
         <span>
-          <Moon size={22} color="#fff" />
+          <Sun size={22} color="#fff" /> :
         </span>
-        <p>Noite</p>
+        <p>Manhã</p>
         <strong>
-          {noite ? (
-            data?.map((v) =>
-              v.periodo == "NOITE" ? (
-                <>
-                  <>{v.quantidade == 0 ? "0" : <>{v.quantidade}</>}</>
-                  <>
-                    {v.maior ? (
-                      <ArrowUp size={20} color="#7BD75B" weight="bold" />
-                    ) : (
-                      <ArrowDown size={20} color="#D75B5B" weight="bold" />
-                    )}
-                  </>
-                </>
-              ) : (
-                ""
-              )
-            )
-          ) : (
-            <>
-              0 <ArrowDown size={20} color="#D75B5B" weight="bold" />
-            </>
-          )}
+          {data[1]?.periodo == "MANHA" && data[1]?.quantidade}
         </strong>
+        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
+          <ArrowUp size={20} color="#7BD75B" weight="bold" />
+        }
       </ClassGraphCard>
-
       <ClassGraphCard>
         <span>
-          <Clock size={20} color="#fff" />
+          <Sun size={22} color="#fff" /> :
         </span>
-        <p>Integral</p>
+        <p>Manhã</p>
         <strong>
-          {integral ? (
-            data?.map((v) =>
-              v.periodo == "INTEGRAL" ? (
-                <>
-                  <>{v.quantidade == 0 ? "0" : <>{v.quantidade}</>}</>
-                  <>
-                    {v.maior ? (
-                      <ArrowUp size={20} color="#7BD75B" weight="bold" />
-                    ) : (
-                      <ArrowDown size={20} color="#D75B5B" weight="bold" />
-                    )}
-                  </>
-                </>
-              ) : (
-                ""
-              )
-            )
-          ) : (
-            <>
-              0 <ArrowDown size={20} color="#D75B5B" weight="bold" />
-            </>
-          )}
+          {data[1]?.periodo == "MANHA" && data[1]?.quantidade}
         </strong>
+        {data[1]?.periodo == "MANHA" && data[1]?.maior &&
+          <ArrowUp size={20} color="#7BD75B" weight="bold" />
+        }
       </ClassGraphCard>
-    </ClassGraphContainer>
+    </ClassGraphContainer >
   );
 }
