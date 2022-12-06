@@ -472,4 +472,10 @@ export const FinalButton = styled.div`
 
 export const InputName = styled.input`
   text-transform: capitalize;
+
+
+  &::placeholder{
+    text-transform: initial;
+  }
+
 `

@@ -70,6 +70,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
+  const [namePhoto, setNamePhoto] = useState("")
 
   const newTeacherForm = useForm<TeacherType>({
     resolver: zodResolver(teacherInput),
@@ -92,6 +93,8 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     control,
     handleSubmit,
     setValue,
+    setError,
+    clearErrors,
     formState: { errors },
   } = newTeacherForm;
 
@@ -140,16 +143,25 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   function onCloseModalTeacher() {
+    setNamePhoto("")
     closeModal();
     reset();
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
-    console.log(file);
-    const base64 = await convertBase64(file);
-    setValue("foto", String(base64));
-    console.log(String(base64).length);
+    console.log(file.size/1024/1024 < 10)
+    if(file.size/1024/1024 < 10) {
+      setNamePhoto(file.name)
+      const base64 = await convertBase64(file);
+      setValue("foto", String(base64));
+      clearErrors("foto")
+      console.log(String(base64).length);
+    } else {
+      setNamePhoto("")
+      setError("foto", {message: "* A foto deve ser menor que 10Mb"})
+    }
+   
   };
 
   function convertBase64(file: Blob) {
@@ -250,7 +262,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
                     <InputFile>
                       <InputFileContent>
-                        <span>Nome do arquivo...</span>
+                        <span>{namePhoto != "" ? namePhoto : "Nome do arquivo..."}</span>
                         <div>
                           <Upload size={40} weight="light" />
                         </div>
@@ -258,12 +270,16 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                       <input
                         type="file"
                         id="file"
+                        max={1}
                         multiple={false}
                         accept="image/*"
                         onChange={uploadImage}
                       />
+                     
                     </InputFile>
+                    {errors.foto && <p>{errors.foto.message}</p>}
                   </InputIndividual>
+                
                 </InputContent>
                 {fields.map((field, index) => {
                   return (
