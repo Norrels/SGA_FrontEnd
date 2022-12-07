@@ -3,6 +3,7 @@ import { createContext, ReactNode, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { z } from "zod"
 import { API } from "../lib/axios"
+import { useLocation } from 'react-router-dom'
 
 export interface LoginProps {
   nif: string,
@@ -42,7 +43,8 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
   });
   const today = new Date()
   const navigate = useNavigate()
-
+  const paginaAtual = useLocation()
+  console.log(paginaAtual.pathname)
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
@@ -50,6 +52,7 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
       if (fromUnixTime(object.exp) > today) {
         setuserAutheticated(object)
         setAutheticated(true)
+        paginaAtual.pathname === "/" &&
         navigate('/inicio', { replace: true })
       } else {
         localStorage.removeItem("token")

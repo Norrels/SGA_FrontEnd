@@ -151,7 +151,6 @@ export function ViewTeacher() {
       <Absense>
         <AbsenseList>
           {absenseList.map((absense) => {
-            console.log(absense)
             return (
               <AbsenseItem key={absense.id} absence={absense} />
             );

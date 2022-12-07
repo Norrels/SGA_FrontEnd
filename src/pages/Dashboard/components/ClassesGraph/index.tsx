@@ -32,7 +32,6 @@ export function ClassGraph() {
     const lastDay = endOfMonth(today)
     const res = await API.get(`aula/analise/mes/2022-${today.getMonth() + 1}-01/fimMes/${format((lastDay), "yyyy-MM-dd")}`);
     if (res.status == 200) {
-      console.log(res)
       setData(res.data);
     }
   }

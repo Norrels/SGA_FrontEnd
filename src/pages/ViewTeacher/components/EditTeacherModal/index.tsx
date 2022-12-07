@@ -53,11 +53,12 @@ export function EditTeacherModal({
   teacherUpdate,
   teacherItem
 }: EdiTeacherModalProps) {
+  
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
   const [editable, setEditable] = useState(false);
- 
+
   const teacherForm = useForm<TeacherType>({
     resolver: zodResolver(teacherInput),
     defaultValues: {
@@ -70,6 +71,7 @@ export function EditTeacherModal({
     control,
     formState: { errors },
     setValue,
+    watch
   } = teacherForm;
 
   const [foto, setFoto] = useState(teacherItem?.foto);
@@ -81,8 +83,8 @@ export function EditTeacherModal({
       setUnidadeCurricular(response.data);
     }
   }
-  
-  function handleUpdateTeacher(data: TeacherProps){
+
+  function handleUpdateTeacher(data: TeacherProps) {
     data.competencia.map((comp) => {
       unidadeCurricular.find((un) => comp.unidadeCurricular.nome = un.nome)
       return comp
@@ -108,7 +110,6 @@ export function EditTeacherModal({
     const base64 = await convertBase64(file);
     setValue("foto", String(base64));
     setFoto(String(base64))
-    console.log(String(base64).length);
   };
 
   function convertBase64(file: Blob) {
@@ -125,6 +126,8 @@ export function EditTeacherModal({
       };
     });
   }
+
+  console.log(errors)
 
 
   return (
@@ -146,7 +149,7 @@ export function EditTeacherModal({
             </Dialog.Close>
           </HeaderButtons>
         </ModalHeader>
-        <form onSubmit={handleSubmit(teacherUpdate)}>
+        <form onSubmit={handleSubmit(handleUpdateTeacher)}>
           <input
             type="hidden"
             defaultValue={teacherItem?.id}
@@ -286,7 +289,7 @@ export function EditTeacherModal({
                         </p>
                       )}
                     </InputIndividual>
-                    <InputIndividual style={!editable ? {pointerEvents: "none"} : {}}>
+                    <InputIndividual style={!editable ? { pointerEvents: "none" } : {}}>
                       <header>
                         <label>Nível</label>
                         {index !== 0 && (
