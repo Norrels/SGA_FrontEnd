@@ -25,6 +25,7 @@ import { DeleteAlertCall } from "../../../../components/DeleteAlertCall";
 
 interface CallProps {
   call: CallInterface;
+  deleteCall: (id : number) => void
 }
 
 export const callInput = z.object({
@@ -36,12 +37,13 @@ export const callInput = z.object({
 
 export type CallType = z.infer<typeof callInput>;
 
-export function CallItem({ call }: CallProps) {
+export function CallItem({ call, deleteCall }: CallProps) {
+
   async function handleUpdateStatusUserAPI() {
     const res = await API.delete(`chamado/${call.id}`);
-
+   
     if(res.status == 200) {
-      window.location.reload();
+      deleteCall(call.id) 
     }
   }
 

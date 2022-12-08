@@ -65,7 +65,8 @@ export function ViewTeacher() {
   }, []);
 
   async function teacherUpdate(data: TeacherProps) {
-    if (data.foto = "") {
+    console.log(data);
+    if (data.foto == "") {
       data.foto = undefined
     }
     
@@ -77,8 +78,6 @@ export function ViewTeacher() {
   function handlecloseModal() {
     setCloseModal(false)
   }
-
-  console.log(teacherItem)
 
   document.title = `${teacher?.nome} | SGA`;
   return (
@@ -112,7 +111,7 @@ export function ViewTeacher() {
               <h3>Competências:</h3>
               {teacher.competencia?.map((competencia) => {
                 return (
-                  <TeacherSkillsIndividual key={competencia.nivel}>
+                  <TeacherSkillsIndividual key={competencia.unidadeCurricular.id}>
                     <p>{competencia.unidadeCurricular.nome}</p>
                     <TeacherIndividualStars>
                       <Star

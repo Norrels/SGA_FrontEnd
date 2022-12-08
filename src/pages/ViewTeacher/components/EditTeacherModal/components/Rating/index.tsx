@@ -1,62 +1,64 @@
-import { Star } from "phosphor-react";
-import React, { useState } from "react";
 import {
-  ContainerStar,
-  ContainerStarFill,
-  ContainerStarNotFill,
-} from "./style";
+  NivelStars,
+} from "../../style";
+import { useFormContext } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Star } from "phosphor-react";
 
-interface rateValue {
-  nivelHabilidade: number;
-  edit_: boolean;
+interface SkillsSectionProps {
+  index: number | undefined;
 }
 
-export function Rating({ nivelHabilidade, edit_ }: rateValue) {
-  // console.log(nivelHabilidade);
+export function StarsSection({ index }: SkillsSectionProps) {
+  const { register, setValue } = useFormContext();
 
-  const [rating, setRating] = useState(nivelHabilidade || 0);
-  const setValueRating = (e: React.ChangeEvent<any>) => {
-    // console.log(e.target.getAttribute("a-key"));
-    var value = e.target.getAttribute("a-key");
-    setRating(value);
-  };
+  const [nivel, setNivel] = useState(1);
+
+  
+  useEffect(() => {
+    setValue(`competencia.${index}.nivel`, nivel);
+  }, [nivel]);
 
   return (
-    <ContainerStar>
-      {edit_ ? [...Array(5)].map((_, i) => (
-        <span key={i}>
-          {rating > i ? (
-            <ContainerStarFill>
-              <Star
-                onClick={setValueRating}
-                a-key={i + 1}
-                weight="fill"
-                size={40}
-              />
-            </ContainerStarFill>
-          ) : (
-            <ContainerStarNotFill>
-              <Star onClick={setValueRating} a-key={i + 1} size={40} />
-            </ContainerStarNotFill>
-          )}
-        </span>
-      )) : [...Array(5)].map((_, i) => (
-        <span key={i}>
-          {rating > i ? (
-            <ContainerStarFill>
-              <Star
-                a-key={i + 1}
-                weight="fill"
-                size={40}
-              />
-            </ContainerStarFill>
-          ) : (
-            <ContainerStarNotFill>
-              <Star a-key={i + 1} size={40} />
-            </ContainerStarNotFill>
-          )}
-        </span>
-      ))}
-    </ContainerStar>
+    <>
+      <NivelStars>
+        <Star
+          size={37}
+          weight="fill"
+          color={nivel >= 1 ? " #25B5E9" : "#E8E8E8"}
+          onClick={() => setNivel(1)}
+        />
+        <Star
+          size={37}
+          weight="fill"
+          color={nivel >= 2 ? " #25B5E9" : "#E8E8E8"}
+          onClick={() => setNivel(2)}
+        />
+        <Star
+          size={37}
+          weight="fill"
+          color={nivel >= 3 ? " #25B5E9" : "#E8E8E8"}
+          onClick={() => setNivel(3)}
+        />
+        <Star
+          size={37}
+          weight="fill"
+          color={nivel >= 4 ? " #25B5E9" : "#E8E8E8"}
+          onClick={() => setNivel(4)}
+        />
+        <Star
+          size={37}
+          weight="fill"
+          color={nivel == 5 ? " #25B5E9" : "#E8E8E8"}
+          onClick={() => setNivel(5)}
+        />
+      </NivelStars>
+
+      <input
+        type="hidden"
+        value={nivel}
+        {...register(`competencia.${index}.nivel`, {value: nivel})}
+      />
+    </>
   );
 }

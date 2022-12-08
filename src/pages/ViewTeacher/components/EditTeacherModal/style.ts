@@ -515,3 +515,17 @@ export const FinalButton = styled.div`
     font-weight: bold;
   }
 `;
+
+export const NivelStars = styled.div`
+  width: 100%;
+  height: 5.313rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  svg {
+    color: ${(props) => props.theme["gray-400"]};
+  }
+`;
+

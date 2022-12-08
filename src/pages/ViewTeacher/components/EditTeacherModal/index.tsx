@@ -53,7 +53,8 @@ export function EditTeacherModal({
   teacherUpdate,
   teacherItem
 }: EdiTeacherModalProps) {
-  
+
+
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
@@ -85,10 +86,11 @@ export function EditTeacherModal({
   }
 
   function handleUpdateTeacher(data: TeacherProps) {
-    data.competencia.map((comp) => {
-      unidadeCurricular.find((un) => comp.unidadeCurricular.nome = un.nome)
-      return comp
-    })
+    // data.competencia.map((comp) => {
+    //   compById = unidadeCurricular.f
+    // })
+    
+    console.log(data)
     teacherUpdate(data)
   }
 
@@ -265,15 +267,19 @@ export function EditTeacherModal({
                           `competencia.${index}.unidadeCurricular.id`,
                           { valueAsNumber: true, required: true }
                         )}
-                        defaultValue={
-                          teacherItem?.competencia[index]?.unidadeCurricular
-                            ?.nome
-                        }
+                        defaultValue=""
                         required
                       >
+                        <option value="" disabled>
+                          Selecione uma unidade curricular
+                        </option>
                         {unidadeCurricular.map((value, index) => {
                           return (
-                            <option key={value.id} value={value.id}>
+                            <option
+                              key={value.id}
+                              value={value.id}
+
+                            >
                               {value.nome}
                             </option>
                           );
@@ -289,7 +295,7 @@ export function EditTeacherModal({
                         </p>
                       )}
                     </InputIndividual>
-                    <InputIndividual style={!editable ? { pointerEvents: "none" } : {}}>
+                    <InputIndividual>
                       <header>
                         <label>Nível</label>
                         {index !== 0 && (
@@ -297,12 +303,13 @@ export function EditTeacherModal({
                         )}
                       </header>
                       <FormProvider {...teacherForm}>
-                        <StarsSection index={teacherItem?.competencia[index]?.nivel} />
+                        <StarsSection index={index} />
                       </FormProvider>
                     </InputIndividual>
                   </InputContent>
                 );
               })}
+
               {editable && <ButtonNewCompetencia
                 onClick={() => {
                   append({

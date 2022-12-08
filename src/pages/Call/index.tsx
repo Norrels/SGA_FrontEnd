@@ -60,6 +60,10 @@ export function Call() {
     }
   };
 
+  function handleDeleteCall(id: number){
+    setCallMatches(callMatches.filter((call) => call.id != id))
+  }
+
   return (
     <>
       <Header />
@@ -76,7 +80,7 @@ export function Call() {
           />
           <CallList>
             {callMatches.map((call) => (
-              <CallItem key={call.id} call={call} />
+              <CallItem deleteCall={handleDeleteCall} key={call.id} call={call} />
             ))}
           </CallList>
         </CallContent>

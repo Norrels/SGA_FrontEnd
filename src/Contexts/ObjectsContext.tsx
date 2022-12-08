@@ -208,7 +208,7 @@ export function ObjectsContextProvider({
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true;
     const res = await API.put(`/professor/${data.id}`, data);
-
+    console.log(data)
     if (res.status == 200) {
       const valorAtualizado = teachers.map((teacher) => {
         if (teacher.id == data.id) {
