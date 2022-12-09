@@ -59,6 +59,7 @@ const PERIOD = {
     morning: "blue-400",
     afternoon: "blue-500",
     night: "blue-600",
+    integral: "blue-700"
   } as const;
   
   interface subtitleProps {

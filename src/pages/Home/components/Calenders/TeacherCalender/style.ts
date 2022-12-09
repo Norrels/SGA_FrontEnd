@@ -115,6 +115,7 @@ const PERIOD = {
   MANHA: "blue-400",
   TARDE: "blue-500",
   NOITE: "blue-600",
+  INTEGRAL: "blue-700"
 } as const;
 interface ClassProps {
   period: keyof typeof PERIOD;
@@ -129,6 +130,7 @@ export const HomeClasses = styled.div`
   grid-template-areas: "manha" "tarde" "noite";
   gap: 0.5rem;
 `;
+
 export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
   ${(props) =>
     props.theme[PERIOD[props.period]] == "#5AADD1" &&
@@ -154,7 +156,17 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
         border-radius: 0px 0px 8px 8px;
       }
     `}
+    ${(props) =>
+    props.theme[PERIOD[props.period]] == "#0FB2F2" &&
+    css`
+      grid-area: manha;
+      div {
+        height: 100px;
+        border-radius: 8px 8px 0px 0px;
+      }
+    `}
 `;
+
 export const HomeClass = styled.div<ClassProps>`
   display: flex;
   height: 100%;
@@ -188,6 +200,7 @@ export const HomeClass = styled.div<ClassProps>`
     direction: ltr;
   }
 `;
+
 export const HomeDivider = styled.span`
   opacity: 0.2;
   margin-top: 50px;

@@ -89,7 +89,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   }
 
   function handleEditAllClass(data: EditAllClassModalProps) {
-  
+
     const aulasEditadas = aulas.map((aula) => {
       if (aula.id === data.id) {
         aula.ambiente.id = data.ambiente;
@@ -106,8 +106,8 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   // const placesInClass = aulas.filter((place) => {return place.ambiente.id})
 
   // const placesAvaliable = placesList.map((place) => {
-    
-    
+
+
   //   if(placesInClass.toString() == place?.id){
 
   //   }
@@ -143,7 +143,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
       {placesList.map((places) => {
-        
+
         return (
           <div key={places.id}>
             <HomeCalenderContent >
@@ -164,8 +164,9 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                                   aula.periodo == "MANHA"
                                     ? "MANHA"
                                     : aula.periodo == "TARDE"
-                                    ? "TARDE"
-                                    : "NOITE"
+                                      ? "TARDE"
+                                      : aula.periodo == "NOITE"
+                                        ? "NOITE" : "INTEGRAL"
                                 }
                               >
                                 <HomeClass
@@ -173,8 +174,9 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                                     aula.periodo == "MANHA"
                                       ? "MANHA"
                                       : aula.periodo == "TARDE"
-                                      ? "TARDE"
-                                      : "NOITE"
+                                        ? "TARDE"
+                                        : aula.periodo == "NOITE"
+                                          ? "NOITE" : "INTEGRAL"
                                   }
                                 >
                                   <p>{aula.professor.nome}</p>

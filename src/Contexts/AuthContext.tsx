@@ -44,7 +44,6 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
   const today = new Date()
   const navigate = useNavigate()
   const paginaAtual = useLocation()
-  console.log(paginaAtual.pathname)
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {

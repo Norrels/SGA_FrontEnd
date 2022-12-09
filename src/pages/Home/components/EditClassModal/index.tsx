@@ -88,7 +88,7 @@ export function EditClassModal({
 
     const res = await API.put(`aula/${aulas.id}`, aulas);
 
-    
+
     if (res.status == 200) {
       EditClass(data);
       /* setNotification(true); */
@@ -133,12 +133,14 @@ export function EditClassModal({
                     <select
                       placeholder="Selecione o ambiente..."
                       {...register("ambientes")}
-                      defaultValue={aulas.ambiente.id}
+                      defaultValue={""}
                     >
+                      <option value="" disabled>
+                        {aulas.ambiente.nome}
+                      </option>
                       {avaliblePlaces.map((place) => {
                         return (
                           <option
-                            disabled={place.id == aulas.ambiente.id}
                             value={place.id}
                             key={place.id}
                           >
@@ -156,10 +158,12 @@ export function EditClassModal({
                     {...register("professor")}
                     defaultValue={aulas.professor.id}
                   >
+                    <option disabled value={aulas.professor.id}>
+                      {aulas.professor.nome}
+                    </option>
                     {avalibleTeachers.map((teacher) => {
                       return (
                         <option
-                          disabled={teacher.id == aulas.professor.id}
                           value={teacher.id}
                           key={teacher.id}
                         >

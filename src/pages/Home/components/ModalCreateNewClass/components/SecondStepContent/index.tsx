@@ -21,6 +21,7 @@ export function SecondStepContent({ handleNextStep, places, teachers }: firstSte
   const { register, watch } = useFormContext();
   const isValidForm = watch("professor.id") != "" && watch("ambiente.id") != "" && watch("professor.id") != undefined && watch("ambiente.id") != undefined
 
+  console.log(places?.length)
   return (
     <InputContainer>
       <InputContent>
@@ -55,6 +56,10 @@ export function SecondStepContent({ handleNextStep, places, teachers }: firstSte
             );
           })}
         </select>
+        {
+          !teachers?.length && <p>Nenhum professor disponível para esse dia e periodo</p>
+        }
+       
       </InputContent>
       <InputContent>
         <label>Ambiente</label>
@@ -74,6 +79,9 @@ export function SecondStepContent({ handleNextStep, places, teachers }: firstSte
             );
           })}
         </select>
+        {
+          !places?.length && <p>Nenhum ambiente disponível para esse dia e periodo</p>
+        }
       </InputContent>
       <FinalButton>
         <button

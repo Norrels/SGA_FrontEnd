@@ -18,6 +18,9 @@ export function SubtitlteHover() {
         <p>
           <HoverCardSubtitleColor period="night"></HoverCardSubtitleColor > Noite
         </p>
+        <p>
+          <HoverCardSubtitleColor period="integral"></HoverCardSubtitleColor > Integral
+        </p>
       </HoverCardContainer>
     </HoverCard.Portal>
   );
