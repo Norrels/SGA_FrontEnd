@@ -1,6 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
+import { HolidayType } from "./components/EditHolidayModal";
 import { HolidayItem } from "./components/HolidayItem";
 import { NewHolidayModal } from "./components/NewHolidayModal";
 import {
@@ -12,7 +13,7 @@ import {
 } from "./style";
 
 export interface HolidayProps {
-  id: string;
+  id: number;
   data: string;
   nome: string;
   tipo: string;
@@ -33,7 +34,6 @@ export function Holiday() {
 
   const [holiday, setHoliday] = useState<HolidayProps[]>([]);
   const [holidayMatch, setHolidayMatches] = useState<HolidayProps[]>([]);
-  const [holidayMatch2, setHolidayMatches2] = useState<HolidayProps[]>([]);
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -95,6 +95,25 @@ export function Holiday() {
     }
   };
 
+  function handleAddMatches() {
+    handleGetHolidays();
+  }
+
+  function handleDeleteMatches(id: number) {
+    setHolidayMatches(holidayMatch.filter((e) => e.id !== id));
+  }
+
+  function handleUpdateMatches(data: HolidayType) {
+    setHolidayMatches(
+      holidayMatch.map((holiday) => {
+        if(holiday.id == data.id) {
+          holiday = data;
+        }
+        return holiday;
+      }
+    ));
+  }
+
   return (
     <HolidayContainer>
       <HolidayContent>
@@ -106,7 +125,10 @@ export function Holiday() {
               <Dialog.Trigger asChild>
                 <button>Novo dia</button>
               </Dialog.Trigger>
-              <NewHolidayModal closeModal={closeModal} />
+              <NewHolidayModal
+                newHolidayItem={handleAddMatches}
+                closeModal={closeModal}
+              />
             </Dialog.Root>
           </HolidayButtonContainer>
         </HolidayTitleContainer>
@@ -118,7 +140,12 @@ export function Holiday() {
 
         <HolidayList>
           {holidayMatch.map((data) => (
-            <HolidayItem key={data.data} holiday={data} />
+            <HolidayItem
+              holidayItem={handleUpdateMatches}
+              deleteItem={handleDeleteMatches}
+              key={data.data}
+              holiday={data}
+            />
           ))}
         </HolidayList>
       </HolidayContent>
