@@ -30,11 +30,12 @@ export const holidayInput = z.object({
 
 interface holidayProps {
   closeModal(): void;
+  newHolidayItem: () => void;
 }
 
 export type HolidayType = z.infer<typeof holidayInput>;
 
-export function NewHolidayModal({ closeModal }: holidayProps) {
+export function NewHolidayModal({ closeModal, newHolidayItem }: holidayProps) {
   const { register, handleSubmit, reset } = useForm<HolidayType>();
   // pegando a data de hoje e formatando pro estilo americano para validar o input date
   const hoje = new Date()
@@ -50,7 +51,9 @@ export function NewHolidayModal({ closeModal }: holidayProps) {
   function handleCreateHoliday(data: HolidayType) {
     handleCreateHolidayAPI(data)
       .then(() => {
-        location.reload();
+        setTimeout(() => {
+          newHolidayItem();
+        }, 1000);
       })
       .catch(() => setNotificationStataus(true));
 

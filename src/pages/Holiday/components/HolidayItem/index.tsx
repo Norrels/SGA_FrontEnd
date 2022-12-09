@@ -7,7 +7,7 @@ import { DeleteAlertCall } from "../../../../components/DeleteAlertCall";
 import { API } from "../../../../lib/axios";
 import { PlaceInfoType } from "../../../Places/components/PlacesItem/style";
 import { HolidayProps } from "../../Index";
-import { EditHolidayModal } from "../EditHolidayModal";
+import { EditHolidayModal, HolidayType } from "../EditHolidayModal";
 import {
   HolidayInfoType,
   HolidayItemButton,
@@ -21,20 +21,11 @@ import {
 
 interface HolidayItem {
   holiday: HolidayProps;
+  deleteItem: (id: number) => void;
+  holidayItem: (data: HolidayType) => void;
 }
 
-export const holidayInput = z.object({
-  id: z.string(),
-  nome: z.string(),
-  tipo: z.string(),
-  data: z.string(),
-  type: z.string(),
-  date: z.string(),
-});
-
-export type HolidayType = z.infer<typeof holidayInput>;
-
-export function HolidayItem({ holiday }: HolidayItem) {
+export function HolidayItem({ holiday, deleteItem, holidayItem }: HolidayItem) {
   const [open, setOpen] = useState(false);
 
   function closeModal() {
@@ -45,22 +36,26 @@ export function HolidayItem({ holiday }: HolidayItem) {
     const resp = await API.delete(`dnl/${holiday.id}`);
 
     if (resp.status == 200) {
-      window.location.reload();
+      deleteItem(holiday.id);
     }
 
     if(holiday.tipo == "FERIADO" || holiday.tipo == "EMENDA") {
       const resp = await API.delete(`dnl/${holiday.id}`);
 
       if(resp.status  == 200) {
-        location.reload();
+        deleteItem(holiday.id);
       }
     }  else {
       const resp = await API.delete(`feriados/${holiday.id}`);
 
       if(resp.status  == 200) {
-        location.reload();
+        deleteItem(holiday.id);
       }
     }
+  }
+
+  function handleEditItem(data: HolidayType) {
+    holidayItem(data);
   }
 
   return (
@@ -89,6 +84,7 @@ export function HolidayItem({ holiday }: HolidayItem) {
             </HolidayItemButton>
           </Dialog.Trigger>
           <EditHolidayModal
+            holidayItem={handleEditItem}
             closeModal={closeModal}
             key={holiday.id}
             holiday={holiday}

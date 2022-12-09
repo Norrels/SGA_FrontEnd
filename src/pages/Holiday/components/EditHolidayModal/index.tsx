@@ -21,6 +21,7 @@ import {
 interface EditAdminModalProps {
   holiday: HolidayProps;
   closeModal: () => void;
+  holidayItem: (data: HolidayType) => void;
 }
 
 export const holidayInput = z.object({
@@ -33,12 +34,12 @@ export const holidayInput = z.object({
     }),
   tipo: z.string(),
   type: z.string(),
-  data: z.date(),
+  data: z.string(),
 });
 
 export type HolidayType = z.infer<typeof holidayInput>;
 
-export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
+export function EditHolidayModal({ holiday, closeModal, holidayItem }: EditAdminModalProps) {
   const [editable, setEditable] = useState(false);
 
   //Variavel para usado para exibir a notificaçãp
@@ -53,7 +54,7 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
     handleUpdateHolidayAPI(data)
       .then(() => {
         setTimeout(() => {
-          location.reload();
+          holidayItem(data);
         }, 2000);
       })
       .catch((e) => {
@@ -81,7 +82,9 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
         data: data.data,
         tipo: data.tipo,
       });
-      console.log(resp);
+      if(resp.status == 200) {
+        holidayItem(data);
+      }
     } else {
       const resp = await API.put(`feriados/${holiday.id}`, {
         id: holiday.id,
@@ -89,7 +92,9 @@ export function EditHolidayModal({ holiday, closeModal }: EditAdminModalProps) {
         date: data.data,
         type: data.tipo,
       });
-      console.log(resp);
+      if(resp.status == 200) {
+        holidayItem(data);
+      }
     }
   }
 
