@@ -16,22 +16,14 @@ import {
   previousDay,
   startOfWeek,
 } from "date-fns";
-<<<<<<< HEAD
-import { useState } from "react";
-import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
-
-=======
 import { useContext, useEffect, useState } from "react";
 import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
 import { API } from "../../lib/axios";
 import { AulaTypeSuper } from "../AdvancedSearch";
 import { AuthContext } from "../../contexts/AuthContext";
->>>>>>> 2e2ad53cc881bd88bb779b4293578c7e5dd5d490
 
 export function Home() {
   document.title = "Início | SGA";
-  const { userAutheticated } = useContext(AuthContext);
-  console.log(userAutheticated)
 
   const today = new Date();
   //Dia de referencia

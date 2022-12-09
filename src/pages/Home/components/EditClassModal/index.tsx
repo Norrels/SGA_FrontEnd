@@ -53,7 +53,7 @@ export function EditClassModal({
   const [avaliblePlaces, setAvaliblePlaces] = useState<
     AvalibleTeachersAndPlaces[]
   >([]);
-  const { register, handleSubmit, reset, watch } = useForm<EditClassModalProps>();
+  const { register, handleSubmit, reset, watch, formState:{isDirty, dirtyFields} } = useForm<EditClassModalProps>();
 
   // notificação, mas quando uma aula é alterada o calendario é renderizado novamente ai a notificação some...
   /* const [open, setOpen] = useState(false);
@@ -72,6 +72,8 @@ export function EditClassModal({
   ) {
     fetchPadrao(event.target.value);
   }
+
+
 
   async function fetchPadrao(value: string) {
     const res = await API.get(
@@ -100,8 +102,9 @@ export function EditClassModal({
     closeModal();
   }
 
-  console.log(watch("professor"))
-    
+  const isValidForm = dirtyFields.professor && dirtyFields.ambientes
+
+    console.log(isValidForm)
  
   return (
     <>
@@ -181,7 +184,7 @@ export function EditClassModal({
                 </InputContent>
 
                 <FinalButton>
-                  <button>Editar</button>
+                  <button disabled={!isValidForm}>{isValidForm ? "Editar" : "Nenhuma "}</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>

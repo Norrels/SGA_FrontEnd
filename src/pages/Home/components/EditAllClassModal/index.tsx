@@ -1,13 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
-import { EditClassModalProps } from "../EditClassModal";
-import { AulaType } from "../ModalCreateNewClass";
-
 
 import {
   Content,
@@ -33,7 +29,6 @@ export interface EditAllClassModalProps {
   ambiente: number
   dataFinal: string
   dataInicio: string
-  professorNome?: string
 }
 
 interface AvalibleTeachers {
@@ -46,15 +41,13 @@ interface AvaliblePlaces {
   nome: string;
 }
 
-export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: ModalCreateNewClassProps) {
+export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: ModalCreateNewClassProps) {
   const [avalibleTeachers, setAvalibleTeachers] = useState<AvalibleTeachers[]>(
     []
   );
   const [avaliblePlaces, setAvaliblePlaces] = useState<AvaliblePlaces[]>([]);
-  const { register, handleSubmit, reset } = useForm<EditAllClassModalProps>();
-  const { teachers } = useContext(ObjectsContext);
+  const { register, handleSubmit, reset, formState: { isDirty } } = useForm<EditAllClassModalProps>();
 
-  
   useEffect(() => {
     fetchPlacesAndTeachersAvaliable();
   }, []);
@@ -66,23 +59,22 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
   }
 
   const dataFinal = aulas.data
-  .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
 
   async function handleEditAllClass(data: EditAllClassModalProps) {
-    const teacherName = teachers.find(
-      (element) => element.id == data.professor
-    );
     aulas.ambiente.id = data.ambiente
     aulas.dataInicio = data.dataInicio
     aulas.professor.id = data.professor
     aulas.dataFinal = data.dataFinal
-    data.professorNome = teacherName?.nome
+
     const res = await API.put(`aula/key/${aulas.partitionKey}`, aulas);
-    console.log(res)
-    handleEditAllClasses(data)
-    reset();
-    closeModal();
+
+    if (res.status == 200) {
+      handleEditAllClasses(data)
+      reset();
+      closeModal();
+    }
   }
 
   return (
@@ -99,9 +91,8 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
         </ModalHeader>
         <form onSubmit={handleSubmit(handleEditAllClass)}>
           <InputScroll>
-          <input type="hidden" value={aulas.id} {...register("id")} />
+            <input type="hidden" value={aulas.partitionKey} {...register("id")} />
             <InputContainer>
-           
               <InputContent>
                 <InputIndividual>
                   <label>Data de início</label>
@@ -118,7 +109,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
                 </InputIndividual>
                 <InputIndividual>
                   <label>Data de fim</label>
-                  <input defaultValue={dataFinal} type="date" placeholder="Escolha uma data..." min={dataFinal}  required {...register("dataFinal")} />
+                  <input defaultValue={dataFinal} type="date" placeholder="Escolha uma data..." min={dataFinal} required {...register("dataFinal")} />
                 </InputIndividual>
               </InputContent>
               <InputContent>
@@ -129,7 +120,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
                   defaultValue={aulas.ambiente.id}
                   required
                 >
-                    {
+                  {
                     avaliblePlaces.map((place) => {
                       return (
                         <option
@@ -140,7 +131,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
                           {place.nome}
                         </option>
                       );
-                      
+
                     })}
                 </select>
               </InputContent>
@@ -152,7 +143,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
                   defaultValue={aulas.professor.id}
                   required
                 >
-                 {avalibleTeachers.map((teacher) => {
+                  {avalibleTeachers.map((teacher) => {
                     return (
                       <option
                         disabled={teacher.id == aulas.professor.id}
@@ -167,7 +158,7 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
               </InputContent>
 
               <FinalButton>
-                <button>Salvar</button>
+                <button disabled={!isDirty}>{isDirty ? "Editar" : "Nenhuma informação foi alterada"}</button>
               </FinalButton>
             </InputContainer>
           </InputScroll>

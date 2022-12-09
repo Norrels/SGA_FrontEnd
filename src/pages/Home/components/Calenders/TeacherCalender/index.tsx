@@ -93,7 +93,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   function handleEditAllClass(data: EditAllClassModalProps) {
     console.log(data)
     const aulasEditadas = aulas.map((aula) => {
-      if (aula.id === data.id) {
+      if (aula.partitionKey == data.id) {
         aula.ambiente.id = data.ambiente;
         aula.professor.id = data.professor;
         aula.dataInicio = data.dataInicio;

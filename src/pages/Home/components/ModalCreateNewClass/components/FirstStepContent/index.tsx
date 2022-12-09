@@ -276,7 +276,7 @@ export function FirstStepContent({
           <label>Data de início</label>
           <input
             type="date"
-            // min={hoje}
+            min={hoje}
             {...register("dataInicio")}
             onChange={onChangeDataWithWeek}
           />

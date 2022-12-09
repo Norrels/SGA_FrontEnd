@@ -47,7 +47,10 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
+
+
       const object = JSON.parse(atob(token.split('.')[1]))
+
       if (fromUnixTime(object.exp) > today) {
         setuserAutheticated(object)
         setAutheticated(true)
