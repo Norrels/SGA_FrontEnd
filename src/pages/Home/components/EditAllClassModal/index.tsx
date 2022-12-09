@@ -99,7 +99,9 @@ export function EditAllClassModal({ closeModal,  aulas, handleEditAllClasses }: 
         </ModalHeader>
         <form onSubmit={handleSubmit(handleEditAllClass)}>
           <InputScroll>
+          <input type="hidden" value={aulas.id} {...register("id")} />
             <InputContainer>
+           
               <InputContent>
                 <InputIndividual>
                   <label>Data de início</label>

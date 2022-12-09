@@ -16,10 +16,9 @@ import {
   previousDay,
   startOfWeek,
 } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
-import { API } from "../../lib/axios";
-import { AulaTypeSuper } from "../AdvancedSearch";
+
 
 export function Home() {
   document.title = "Início | SGA";

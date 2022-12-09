@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import axios from "axios";
 import { format } from "date-fns";
-import { X } from "phosphor-react";
+import { Watch, X } from "phosphor-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Notification } from "../../../../components/Notification";
@@ -40,6 +40,8 @@ interface AvalibleTeachersAndPlaces {
   nome: string;
 }
 
+
+
 export function EditClassModal({
   closeModal,
   aulas,
@@ -51,7 +53,7 @@ export function EditClassModal({
   const [avaliblePlaces, setAvaliblePlaces] = useState<
     AvalibleTeachersAndPlaces[]
   >([]);
-  const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
+  const { register, handleSubmit, reset, watch } = useForm<EditClassModalProps>();
 
   // notificação, mas quando uma aula é alterada o calendario é renderizado novamente ai a notificação some...
   /* const [open, setOpen] = useState(false);
@@ -98,6 +100,9 @@ export function EditClassModal({
     closeModal();
   }
 
+  console.log(watch("professor"))
+    
+ 
   return (
     <>
       <Dialog.Portal>
@@ -113,6 +118,7 @@ export function EditClassModal({
           </ModalHeader>
           <form onSubmit={handleSubmit(handleEditClass)}>
             <InputScroll>
+              <input type="hidden" value={aulas.id} {...register("id")} />
               <InputContainer>
                 <InputContent>
                   <InputIndividual>
@@ -133,10 +139,10 @@ export function EditClassModal({
                     <select
                       placeholder="Selecione o ambiente..."
                       {...register("ambientes")}
-                      defaultValue={""}
+                      defaultValue={0}
                     >
-                      <option value="" disabled>
-                        {aulas.ambiente.nome}
+                      <option value={0} disabled>
+                        Selecione uma opção
                       </option>
                       {avaliblePlaces.map((place) => {
                         return (
@@ -156,10 +162,10 @@ export function EditClassModal({
                   <select
                     placeholder="Selecione o professor..."
                     {...register("professor")}
-                    defaultValue={aulas.professor.id}
+                    defaultValue={0}
                   >
-                    <option disabled value={aulas.professor.id}>
-                      {aulas.professor.nome}
+                    <option disabled value={0}>
+                      Selecione uma opção
                     </option>
                     {avalibleTeachers.map((teacher) => {
                       return (
@@ -175,20 +181,13 @@ export function EditClassModal({
                 </InputContent>
 
                 <FinalButton>
-                  <button>Salvar</button>
+                  <button>Editar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
           </form>
         </Content>
       </Dialog.Portal>
-      {/* <Notification
-        tipe={notification ? "Sucesso" : "Erro"}
-        description={notification ? "Editada com sucesso." : "Falha ao editar."}
-        title="Aula"
-        openNotification={open}
-        openNotificationMethod={openNotificantionMethod}
-      /> */}
     </>
   );
 }

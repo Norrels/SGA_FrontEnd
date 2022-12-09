@@ -229,5 +229,10 @@ export const FinalButton = styled.div`
     color: ${(props) => props.theme["white"]};
     font-size: 1.25rem;
     font-weight: bold;
+
+    &:disabled{
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
   }
 `;

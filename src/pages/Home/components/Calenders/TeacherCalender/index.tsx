@@ -72,15 +72,17 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   }, [days]);
 
   function handleEditClass(data: EditClassModalProps) {
-    const teacherName = teachers.find(
-      (element) => element.id == data.professor
-    );
+
+    
     const aulasEditadas = aulas.map((aula) => {
-      if (aula.id === data.id) {
+
+      if (aula.id == data.id) {
         aula.ambiente.id = data.ambientes;
         aula.professor.id = data.professor;
         aula.dataInicio = data.data;
-        aula.professor.nome = teacherName!.nome;
+        aula.professor.nome = teachers.find(
+          (element) => element.id == data.professor
+        )?.nome;
       }
       return aula;
     });
@@ -89,13 +91,15 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   }
 
   function handleEditAllClass(data: EditAllClassModalProps) {
-
+    console.log(data)
     const aulasEditadas = aulas.map((aula) => {
       if (aula.id === data.id) {
         aula.ambiente.id = data.ambiente;
         aula.professor.id = data.professor;
         aula.dataInicio = data.dataInicio;
-        aula.professor.nome = data.professorNome
+        aula.professor.nome = teachers.find(
+          (element) => element.id == data.professor
+        )?.nome;
       }
       return aula;
     });
