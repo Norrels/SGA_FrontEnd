@@ -73,7 +73,7 @@ export function EditClassModal({
 
   async function fetchPadrao(value: string) {
     const res = await API.get(
-      `aula/aulaProfessorAmbienteDisponivel?dataInicio=${value}&periodo=${aulas.periodo}&id=${aulas.id}`
+      `aula/aulaProfessorAmbienteDisponivel?data=${value}&periodo=${aulas.periodo}&id=${aulas.id}`
     );
     if (res.status == 200) {
       setAvalibleTeachers(res.data[0]);

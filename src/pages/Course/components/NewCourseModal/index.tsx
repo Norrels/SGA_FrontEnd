@@ -132,7 +132,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <label>Nome</label>
                   <input
                     type="text"
-                    placeholder="Digite seu nome"
+                    placeholder="Digite o nome do curso"
                     {...register("nome", {
                       required: true,
                       setValueAs: (v) => firstLetterUppercase(v),
