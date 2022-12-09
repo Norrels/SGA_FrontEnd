@@ -20,6 +20,7 @@ import {
 
 interface EditUserModalProps {
   user: UserProps;
+  editUser: (data: UserType) => void;
   closeModal: () => void;
 }
 
@@ -42,7 +43,7 @@ export const userInput = z.object({
 
 export type UserType = z.infer<typeof userInput>;
 
-export function EditUserModal({ user, closeModal }: EditUserModalProps) {
+export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps) {
   const [editable, setEditable] = useState(false);
 
   const {
@@ -74,7 +75,7 @@ export function EditUserModal({ user, closeModal }: EditUserModalProps) {
     console.log(res)
 
     if (res.status == 200) {
-      window.location.reload();
+      editUser(data);
     }
   }
 

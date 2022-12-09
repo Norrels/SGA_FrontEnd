@@ -32,7 +32,7 @@ import {
 
 import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
 import { ChangeEvent, useContext, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { z } from "zod";
@@ -98,11 +98,12 @@ export function AvaliableModal() {
 
   const { teachers } = useContext(ObjectsContext);
 
-  const { register, handleSubmit, reset, setValue } = useForm<DispProps>({
-    defaultValues: {
-      diasSemana: [false],
-    },
-  });
+  const { register, handleSubmit, reset, setValue, control } =
+    useForm<DispProps>({
+      defaultValues: {
+        diasSemana: [false],
+      },
+    });
 
   function closeModal() {
     setOpen(false);
@@ -235,99 +236,128 @@ export function AvaliableModal() {
                       />
                     </InputIndividual>
                   </InputContent>
-                  <ChecksContent>
-                    <CheckIndividual title="Domingo">
-                      <label>Dom</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${0}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${0}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Segunda-feira">
-                      <label>Seg</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${1}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${1}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Terça-feira">
-                      <label>Ter</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${2}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${2}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Quarta-feira">
-                      <label>Qua</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${3}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${3}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Quinta-feira">
-                      <label>Qui</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${4}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${4}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Sexta-feira">
-                      <label>Sex</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${5}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${5}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                    <CheckIndividual title="Sábado">
-                      <label>Sab</label>
-                      <CheckboxRoot
-                        {...register(`diasSemana.${6}`, { value: false })}
-                        onCheckedChange={(checked) => {
-                          setValue(`diasSemana.${6}`, checked ? true : false);
-                        }}
-                      >
-                        <CheckboxIndicator>
-                          <Check size={40} weight="bold" color="#fff" />
-                        </CheckboxIndicator>
-                      </CheckboxRoot>
-                    </CheckIndividual>
-                  </ChecksContent>
+                  <Controller
+                    control={control}
+                    name="diasSemana"
+                    render={({ field }) => {
+                      return (
+                        <ChecksContent>
+                          <CheckIndividual title="Domingo">
+                            <label>Dom</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${0}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${0}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Segunda-feira">
+                            <label>Seg</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${1}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${1}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Terça-feira">
+                            <label>Ter</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${2}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${2}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Quarta-feira">
+                            <label>Qua</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${3}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${3}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Quinta-feira">
+                            <label>Qui</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${4}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${4}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Sexta-feira">
+                            <label>Sex</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${5}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${5}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                          <CheckIndividual title="Sábado">
+                            <label>Sab</label>
+                            <CheckboxRoot
+                              {...register(`diasSemana.${6}`, { value: false })}
+                              onCheckedChange={(checked) => {
+                                setValue(
+                                  `diasSemana.${6}`,
+                                  checked ? true : false
+                                );
+                              }}
+                            >
+                              <CheckboxIndicator>
+                                <Check size={40} weight="bold" color="#fff" />
+                              </CheckboxIndicator>
+                            </CheckboxRoot>
+                          </CheckIndividual>
+                        </ChecksContent>
+                      );
+                    }}
+                  />
                 </InputContainer>
               </Main>
               <InfoBusca>

@@ -14,6 +14,7 @@ import { UserItem } from "./components/UserItem";
 import { NewUserModal } from "./components/NewUserModal";
 import { Header } from "../../components/Header";
 import { AuthContext } from "../../contexts/AuthContext";
+import { UserType } from "./components/UserItem";
 
 export interface UserProps {
   id: string;
@@ -21,8 +22,8 @@ export interface UserProps {
   email: string;
   nif: string;
   tipo: string;
-  senha: string;
-  ativo: boolean;
+  senha?: string;
+  ativo?: boolean;
 }
 [];
 
@@ -76,6 +77,30 @@ export function User() {
     fetchUser();
   }
 
+  function handleUpdateUserActive(id: number) {
+    setUserMatches(userMatches.map((user) => {
+      if(Number(user.id) == id) {
+        if(user.ativo) {
+          user.ativo = false;
+        } else {
+          user.ativo = true;
+        }
+      }
+      return user;
+    }))
+  }
+
+  // REVER O METODO
+  function handleEditUserArray(data: UserType) {
+    console.log(data);
+    setUserMatches(userMatches.map((user) => {
+      if(data.id == user.id) {
+        user = data
+      }
+      return user;
+    }));
+  }
+
   return (
     <>
       <Header />
@@ -106,9 +131,9 @@ export function User() {
           <UsersList>
             {userMatches.map((user) => {
               if (user.ativo && on == false && user.id !=  userAutheticated.id) {
-                return <UserItem key={user.id} user={user} />;
+                return <UserItem editUser={handleEditUserArray} deleteUser={handleUpdateUserActive} key={user.id} user={user} />;
               } else if (user.ativo == false && on == true && user.id !=  userAutheticated.id) {
-                return <UserItem key={user.id} user={user} />;
+                return <UserItem editUser={handleEditUserArray} deleteUser={handleUpdateUserActive} key={user.id} user={user} />;
               }
             })}
           </UsersList>

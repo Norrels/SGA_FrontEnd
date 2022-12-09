@@ -21,6 +21,8 @@ import {
 
 interface NewUserModalProps {
   user: UserProps;
+  deleteUser: (id: number) => void;
+  editUser: (data: UserType) => void;
 }
 
 export const userInput = z.object({
@@ -33,26 +35,23 @@ export const userInput = z.object({
 
 export type UserType = z.infer<typeof userInput>;
 
-export function UserItem({ user }: NewUserModalProps) {
+export function UserItem({ user, deleteUser, editUser }: NewUserModalProps) {
   const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);
   }
 
-  async function handleDisableUserAPI(data: UserType) {
-    const res = await API.put(`usuario/desativar/${data.id}`);
-    if (res.status == 200) {
-      window.location.reload();
-    }
-  }
-
   async function handleUpdateStatusUserAPI() {
     const res = await API.put(`/usuario/desativar/${user.id}`);
 
     if (res.status == 200) {
-      window.location.reload();
+      deleteUser(Number(user.id));
     }
+  }
+
+  function handleForIndex(data: UserType) {
+    editUser(data);
   }
 
   return (
@@ -90,6 +89,7 @@ export function UserItem({ user }: NewUserModalProps) {
                 </UserItemButton>
               </Dialog.Trigger>
               <EditUserModal
+                editUser={handleForIndex}
                 closeModal={closeModal}
                 user={user}
                 key={user.id}

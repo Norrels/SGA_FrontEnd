@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as Popover from "@radix-ui/react-popover";
 import {
   ButtonRightContainer,
@@ -17,6 +17,7 @@ import Cobrinha from "../../../../assets/Cobrinha.svg";
 import Idea from "../../../../assets/Idea.svg";
 import Thought from "../../../../assets/Thought.svg";
 import { Notification } from "../../../Notification";
+import { AuthContext } from "../../../../contexts/AuthContext";
 
 const newCallInput = z.object({
   tipoChamado: z.string(),
@@ -31,27 +32,19 @@ interface CloseModalProps {
 export type NewCallType = z.infer<typeof newCallInput>;
 
 export function WidgetForm({ closeModal }: CloseModalProps) {
+  const { userAutheticated } = useContext(AuthContext);
+
   const [type, setType] = useState("inicio");
   const { register, handleSubmit, reset } = useForm<NewCallType>();
 
   const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
 
-  // const [screenshot, setScreenshot] = useState<string | null>(null);
-  // const [screenshotSave, setScreenShotSave] = useState<string | null>(null);
-
-  /* useEffect(() => {
-    setScreenShotSave(screenshot)
-  }, [screenshot]) */
-
   async function handleCreateNewCall(data: NewCallType) {
-    // if(screenshotSave != null) {
     const res = await API.post("chamado", {
       descricao: data.descricao,
       foto: "",
-      usuario: {
-        id: 1,
-      },
+      usuario: userAutheticated,
       tipo: type,
       status: "ABERTO",
     });
@@ -135,13 +128,6 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
                   ></textarea>
                 </ContentBody>
                 <ContentFooter>
-                  {/* <ButtonLeftContainer>
-                  <ScreenshotButton
-                    screenshot={screenshot}
-                    onScreenshotTook={setScreenshot}
-                  />
-                </ButtonLeftContainer> */}
-
                   <ButtonRightContainer>
                     <button type="submit">Enviar Feedback</button>
                   </ButtonRightContainer>
@@ -152,8 +138,8 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
         </Popover.Content>
       </Popover.Portal>
       <Notification
-        tipe={notification ? 'Sucesso' : 'Erro'}
-        description={notification ? 'Criado com sucesso.' : 'Falha ao criar.'}
+        tipe={notification ? "Sucesso" : "Erro"}
+        description={notification ? "Criado com sucesso." : "Falha ao criar."}
         title="Chamado"
         openNotification={open}
         openNotificationMethod={openNotificantionMethod}

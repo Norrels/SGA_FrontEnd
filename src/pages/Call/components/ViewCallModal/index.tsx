@@ -5,6 +5,8 @@ import { z } from "zod";
 import { CallInterface } from "../..";
 import Print from "../../../../assets/testeprintchamado.jpg";
 import { API } from "../../../../lib/axios";
+import { EditClassModal } from "../../../Home/components/EditClassModal";
+import { EditAbsenceTeacherModal } from "../../../ViewTeacher/components/EditAbsenceTeacherModal";
 import {
   Content,
   FinalButton,
@@ -37,17 +39,17 @@ export type CallTypeProps = z.infer<typeof callInput>;
 
 interface ViewCallModal {
   call: CallInterface;
+  editCall: (id: number) => void;
 }
 
-export function ViewCallModal({ call }: ViewCallModal) {
-
-  console.log(call)
+export function ViewCallModal({ call, editCall }: ViewCallModal) {
+  console.log(call);
 
   async function handleUpdateStatusCall(value: number) {
     const res = await API.put(`chamado/alterarStatus/${value}`);
 
     if (res.status == 200) {
-      window.location.reload();
+      editCall(value);
     }
   }
 
@@ -90,13 +92,13 @@ export function ViewCallModal({ call }: ViewCallModal) {
                 readOnly={true}
               ></textarea>
             </InputContent>
-            {
-              call.status == "ABERTO" ? (
-                <FinalButton onClick={() => handleUpdateStatusCall(call.id)}>
-              <button>Fechar chamado</button>
-            </FinalButton>
-              ) : <></>
-            }
+            {call.status == "ABERTO" ? (
+              <FinalButton onClick={() => handleUpdateStatusCall(call.id)}>
+                <button>Fechar chamado</button>
+              </FinalButton>
+            ) : (
+              <></>
+            )}
           </InputContainer>
         </InputContainerContent>
       </Content>
