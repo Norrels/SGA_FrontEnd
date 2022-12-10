@@ -132,6 +132,7 @@ const PERIOD = {
   MANHA: "blue-400",
   TARDE: "blue-500",
   NOITE: "blue-600",
+  INTEGRAL: "blue-700"
 } as const;
 
 interface ClassProps {
@@ -148,6 +149,7 @@ export const HomeClasses = styled.div`
   grid-template-areas: "manha" "tarde" "noite";
   gap: 0.5rem;
 `;
+
 
 export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
   ${(props) =>
@@ -174,29 +176,35 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
         border-radius: 0px 0px 8px 8px;
       }
     `}
+    ${(props) =>
+    props.theme[PERIOD[props.period]] == "#0FB2F2" &&
+    css`
+      grid-area: manha;
+      div {
+        height: 100px;
+        border-radius: 8px 8px 0px 0px;
+      }
+    `}
 `;
 
-export const HomeClass = styled.div<ClassProps>`
-  width: 7.188rem;
-  height: 100%;
-  padding: 0.4rem;
+interface ClassProps {
+  period: keyof typeof PERIOD;
+}
 
+export const HomeClass = styled.div<ClassProps>`
   display: flex;
+  height: 100%;
+  width: 115px;
   flex-direction: column;
   justify-content: center;
-  
+  padding: 0.4rem;
   border-radius: 0;
   grid-area: tarde;
   background-color: ${(props) => props.theme[PERIOD[props.period]]};
   color: ${(props) => props.theme["white"]};
-
-  opacity: 0;
-  animation: ${fadeIn} 0.4s ease-in-out forwards;
-
   &:not(:has(p)) {
     background: transparent;
   }
-
   p {
     font-size: 1rem;
     font-weight: 700;
@@ -207,7 +215,6 @@ export const HomeClass = styled.div<ClassProps>`
     text-overflow: ellipsis;
     direction: ltr;
   }
-
   sup {
     width: 100%;
     display: inline-block;

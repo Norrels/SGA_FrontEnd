@@ -72,8 +72,6 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
   }, [days]);
 
   function handleEditClass(data: EditClassModalProps) {
-
-    
     const aulasEditadas = aulas.map((aula) => {
 
       if (aula.id == data.id) {

@@ -69,9 +69,11 @@ export function ViewTeacher() {
     if (data.foto == "") {
       data.foto = undefined
     }
-    
-    updateTeachers(data)
-    setTeacher(data)
+   
+    await updateTeachers(data)
+    const response = await API.get(`/professor/${teacherId}`);
+    console.log(response)
+    setTeacher(response.data[0]);
     setCloseModal(false)
   }
 
@@ -80,6 +82,7 @@ export function ViewTeacher() {
   }
 
   document.title = `${teacher?.nome} | SGA`;
+  
   return (
     <Main>
       <TeacherMain>
@@ -127,12 +130,12 @@ export function ViewTeacher() {
                       <Star
                         size={35}
                         weight="fill"
-                        color={competencia.nivel > 3 ? " #25B5E9" : "#E8E8E8"}
+                        color={competencia.nivel >= 3 ? " #25B5E9" : "#E8E8E8"}
                       />
                       <Star
                         size={35}
                         weight="fill"
-                        color={competencia.nivel > 4 ? " #25B5E9" : "#E8E8E8"}
+                        color={competencia.nivel >= 4 ? " #25B5E9" : "#E8E8E8"}
                       />
                       <Star
                         size={35}

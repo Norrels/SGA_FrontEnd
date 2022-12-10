@@ -25,6 +25,7 @@ import {
   TeacherProps,
 } from "../../../../../contexts/ObjectsContext";
 import { API } from "../../../../../lib/axios";
+import { EditAllClassModalProps } from "../../EditAllClassModal";
 
 interface CalenderProps {
   days: Date[];
@@ -78,16 +79,32 @@ export function Calender({ days, today }: CalenderProps) {
   }, [days]);
 
   function handleEditClass(data: EditClassModalProps) {
-    const teacherName = teachers.find(
-      (element) => element.id == data.professor
-    );
-    console.log(data.professor);
     const aulasEditadas = aulas.map((aula) => {
-      if (aula.id === data.id) {
+
+      if (aula.id == data.id) {
         aula.ambiente.id = data.ambientes;
         aula.professor.id = data.professor;
         aula.dataInicio = data.data;
-        aula.professor.nome = teacherName!.nome;
+        aula.professor.nome = teachers.find(
+          (element) => element.id == data.professor
+        )?.nome;
+      }
+      return aula;
+    });
+
+    setAulas(aulasEditadas);
+  }
+
+  function handleEditAllClass(data: EditAllClassModalProps) {
+    console.log(data)
+    const aulasEditadas = aulas.map((aula) => {
+      if (aula.partitionKey == data.id) {
+        aula.ambiente.id = data.ambiente;
+        aula.professor.id = data.professor;
+        aula.dataInicio = data.dataInicio;
+        aula.professor.nome = teachers.find(
+          (element) => element.id == data.professor
+        )?.nome;
       }
       return aula;
     });
@@ -145,8 +162,9 @@ export function Calender({ days, today }: CalenderProps) {
                                   aula.periodo == "MANHA"
                                     ? "MANHA"
                                     : aula.periodo == "TARDE"
-                                    ? "TARDE"
-                                    : "NOITE"
+                                      ? "TARDE"
+                                      : aula.periodo == "NOITE"
+                                        ? "NOITE" : "INTEGRAL"
                                 }
                               >
                                 <HomeClass
@@ -154,8 +172,9 @@ export function Calender({ days, today }: CalenderProps) {
                                     aula.periodo == "MANHA"
                                       ? "MANHA"
                                       : aula.periodo == "TARDE"
-                                      ? "TARDE"
-                                      : "NOITE"
+                                        ? "TARDE"
+                                        : aula.periodo == "NOITE"
+                                          ? "NOITE" : "INTEGRAL"
                                   }
                                 >
                                   <p>{aula.ambiente.nome}</p>
@@ -163,6 +182,7 @@ export function Calender({ days, today }: CalenderProps) {
                                 </HomeClass>
                               </HomeButtonClickRoot>
                               <RightClick
+                                handleEditAllClasses={handleEditAllClass}
                                 aulas={aula}
                                 handleEditClass={handleEditClass}
                               />

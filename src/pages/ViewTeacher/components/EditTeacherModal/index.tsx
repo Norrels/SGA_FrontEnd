@@ -89,8 +89,6 @@ export function EditTeacherModal({
     // data.competencia.map((comp) => {
     //   compById = unidadeCurricular.f
     // })
-    
-    console.log(data)
     teacherUpdate(data)
   }
 
@@ -128,9 +126,6 @@ export function EditTeacherModal({
       };
     });
   }
-
-  console.log(errors)
-
 
   return (
     <Dialog.Portal>
@@ -270,7 +265,7 @@ export function EditTeacherModal({
                         defaultValue=""
                         required
                       >
-                        <option value="" disabled>
+                        <option value="">
                           Selecione uma unidade curricular
                         </option>
                         {unidadeCurricular.map((value, index) => {
@@ -285,7 +280,6 @@ export function EditTeacherModal({
                           );
                         })}
                       </select>
-
                       {errors.competencia && (
                         <p>
                           {
@@ -303,7 +297,7 @@ export function EditTeacherModal({
                         )}
                       </header>
                       <FormProvider {...teacherForm}>
-                        <StarsSection index={index} />
+                        <StarsSection defaultValue={teacherItem?.competencia[index]?.nivel} index={index} />
                       </FormProvider>
                     </InputIndividual>
                   </InputContent>

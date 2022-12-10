@@ -184,7 +184,7 @@ export function EditClassModal({
                 </InputContent>
 
                 <FinalButton>
-                  <button disabled={!isValidForm}>{isValidForm ? "Editar" : "Nenhuma "}</button>
+                  <button disabled={!isValidForm}>{isValidForm ? "Editar" : "Ainda há informações pendentes"}</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
