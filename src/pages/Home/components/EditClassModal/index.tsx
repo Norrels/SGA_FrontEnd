@@ -8,6 +8,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Notification } from "../../../../components/Notification";
 import { API } from "../../../../lib/axios";
+import { Place } from "../../../Places/components/PlacesItem";
 import { AulaProps } from "../Calenders/TeacherCalender";
 
 import {
@@ -40,8 +41,6 @@ interface AvalibleTeachersAndPlaces {
   nome: string;
 }
 
-
-
 export function EditClassModal({
   closeModal,
   aulas,
@@ -53,7 +52,12 @@ export function EditClassModal({
   const [avaliblePlaces, setAvaliblePlaces] = useState<
     AvalibleTeachersAndPlaces[]
   >([]);
-  const { register, handleSubmit, reset, watch, formState:{isDirty, dirtyFields} } = useForm<EditClassModalProps>();
+  const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
+
+  // pegando a data de hoje e formatando pro estilo americano para validar o input date
+  const hoje = new Date() 
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
   // notificação, mas quando uma aula é alterada o calendario é renderizado novamente ai a notificação some...
   /* const [open, setOpen] = useState(false);
@@ -73,12 +77,12 @@ export function EditClassModal({
     fetchPadrao(event.target.value);
   }
 
-
-
   async function fetchPadrao(value: string) {
+    value = value.replace(/(\d*)-(\d*)-(\d*).*/, "$3/$2/$1");
     const res = await API.get(
       `aula/aulaProfessorAmbienteDisponivel?data=${value}&periodo=${aulas.periodo}&id=${aulas.id}`
     );
+    
     if (res.status == 200) {
       setAvalibleTeachers(res.data[0]);
       setAvaliblePlaces(res.data[1]);
@@ -92,25 +96,25 @@ export function EditClassModal({
 
     const res = await API.put(`aula/${aulas.id}`, aulas);
 
-
     if (res.status == 200) {
       EditClass(data);
       /* setNotification(true); */
     }
     /* setOpen(true); */
-    reset();
-    closeModal();
+    onCloseEditClassModal(data.data);
   }
 
-  const isValidForm = dirtyFields.professor && dirtyFields.ambientes
+  function onCloseEditClassModal(data: string) {
+    reset();
+    closeModal();
+    fetchPadrao(data);
+  }
 
-    console.log(isValidForm)
- 
   return (
     <>
       <Dialog.Portal>
         <Overlay />
-        <Content>
+        <Content onCloseAutoFocus={() => onCloseEditClassModal(aulas.data)}>
           <ModalHeader>
             <Dialog.Title>Editar aula</Dialog.Title>
             <HeaderButtons>
@@ -134,6 +138,7 @@ export function EditClassModal({
                       )}-${aulas.data.slice(3, 5)}-${aulas.data.slice(0, 2)}`}
                       placeholder="Escolha uma data..."
                       {...register("data")}
+                      min={hoje}
                       onChange={fetchPlacesAndTeachersAvaliable}
                     />
                   </InputIndividual>
@@ -142,20 +147,19 @@ export function EditClassModal({
                     <select
                       placeholder="Selecione o ambiente..."
                       {...register("ambientes")}
-                      defaultValue={0}
+                      defaultValue={aulas.ambiente.id}
                     >
-                      <option value={0} disabled>
-                        Selecione uma opção
+                      <option value={aulas.ambiente.id} disabled>
+                        {aulas.ambiente.nome}
                       </option>
                       {avaliblePlaces.map((place) => {
-                        return (
-                          <option
-                            value={place.id}
-                            key={place.id}
-                          >
-                            {place.nome}
-                          </option>
-                        );
+                        if (aulas.ambiente.id != place.id) {
+                          return (
+                            <option value={place.id} key={place.id}>
+                              {place.nome}
+                            </option>
+                          );
+                        }
                       })}
                     </select>
                   </InputIndividual>
@@ -165,26 +169,27 @@ export function EditClassModal({
                   <select
                     placeholder="Selecione o professor..."
                     {...register("professor")}
-                    defaultValue={0}
+                    defaultValue={aulas.professor.id}
+                    required
                   >
-                    <option disabled value={0}>
-                      Selecione uma opção
+                    <option value={aulas.professor.id} disabled>
+                      {aulas.professor.nome}
                     </option>
+
                     {avalibleTeachers.map((teacher) => {
-                      return (
-                        <option
-                          value={teacher.id}
-                          key={teacher.id}
-                        >
-                          {teacher.nome}
-                        </option>
-                      );
+                      if (aulas.professor.id != teacher.id) {
+                        return (
+                          <option value={teacher.id} key={teacher.id}>
+                            {teacher.nome}
+                          </option>
+                        );
+                      }
                     })}
                   </select>
                 </InputContent>
 
                 <FinalButton>
-                  <button disabled={!isValidForm}>{isValidForm ? "Editar" : "Ainda há informações pendentes"}</button>
+                  <button>Salvar</button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
