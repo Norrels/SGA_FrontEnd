@@ -892,7 +892,7 @@ export default function AdvancedSearch() {
               <Dialog.Trigger asChild>
                 <button>Nova aula</button>
               </Dialog.Trigger>
-              <ModalCreateNewClass name={undefined} closeModal={closeModal} />
+              <ModalCreateNewClass name={'customizável'} closeModal={closeModal} />
             </Dialog.Root>
           </AdvancedButtonContainer>
         </AdvancedTitleContainer>

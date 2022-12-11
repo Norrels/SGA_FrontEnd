@@ -56,7 +56,7 @@ export type AulaType = z.infer<typeof aulaInput>;
 
 //Propriedades da Modal
 interface ModalCreateNewClassProps {
-  name: string | undefined;
+  name: string;
   closeModal(): void;
 }
 
@@ -153,7 +153,7 @@ export function ModalCreateNewClass({
                   <FormProvider {...CreateNewClassForm}>
                     <FirstStepContent
                       createFirstStep={fetchTeacherAndPlacesAvalible}
-                      name={name}
+                      name={name.toLowerCase()}
                       handleNextStep={handleNextStep}
                     />
                   </FormProvider>

@@ -64,7 +64,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     reset,
     control,
     //Variavel utilizada para acessar os erros do formulario
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
     defaultValues: {
@@ -97,6 +97,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
+    data.ativo = true
     createCourseAPI(data)
     .then(() => {
       reset();

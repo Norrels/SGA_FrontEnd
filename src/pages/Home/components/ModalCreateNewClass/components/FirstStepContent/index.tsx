@@ -22,7 +22,7 @@ import {
 } from "../../style";
 
 interface firstStepContentProps {
-  name: string | undefined;
+  name: string;
   handleNextStep: (step: number) => void;
   createFirstStep: (data: classPropsFirstStep) => void
 }
@@ -78,20 +78,10 @@ export function FirstStepContent({
     codTurmaValidation?.length >= 2 &&
     watch("cargaDiaria") <= 8 &&
     watch("cargaDiaria") >= 2 &&
-    codTurmaValidation?.length <= 15  
+    codTurmaValidation?.length <= 15
 
-  //Aqui eu só mostro os cursos que são do tipo que a pessoa clicou no botão
-  const courseFiltedByType = courses.filter((course) => {
-    if (name == "customizável" || name == undefined) {
-      if (course.ativo) {
-        return course;
-      }
-    }
-
-    if (course.tipo.toLowerCase() == name?.toLowerCase() && course.ativo == true) {
-      return course;
-    }
-  });
+    console.log(name)
+  
 
   function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
     const diaSelecionado = event.target.value;
@@ -200,12 +190,20 @@ export function FirstStepContent({
           <option value="" disabled>
             Selecione um curso...
           </option>
-          {courseFiltedByType.map((course) => {
-            return (
-              <option key={course.id} value={course.id}>
-                {course.nome}
-              </option>
-            );
+          {courses.map((course) => {
+            if(name == "customizável") {
+              return (
+                <option key={course.id} value={course.id}>
+                  {course.nome}
+                </option>
+              );
+            } else if (course.tipo.toLowerCase() == name && course.ativo == true) {
+              return (
+                <option key={course.id} value={course.id}>
+                  {course.nome}
+                </option>
+              );
+            }
           })}
         </select>
       </InputContent>
