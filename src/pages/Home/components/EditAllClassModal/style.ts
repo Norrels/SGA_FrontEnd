@@ -98,8 +98,6 @@ export const InputScroll = styled.div`
   max-height: 600px;
   padding: 0 2.344rem 1rem 4.688rem;
 
-  
-
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -126,7 +124,24 @@ export const InputContainer = styled.div`
   gap: 2.5rem;
 `;
 
-export const InputContent = styled.div`
+const DISABLED = {
+  disabled: {
+    display: "none",
+    cor: "background",
+    color: "gray-600",
+  },
+  on: {
+    display: "block",
+    cor: "white",
+    color: "gray-700",
+  },
+} as const;
+
+interface DisabledProps {
+  disabled: keyof typeof DISABLED;
+}
+
+export const InputContent = styled.div<DisabledProps>`
   display: flex;
   justify-content: space-between;
 
@@ -164,11 +179,26 @@ export const InputContent = styled.div`
       transform: translateY(-5px);
     }
   }
+
+  input {
+    &:read-only {
+      color: ${(props) => props.theme["gray-600"]};
+      background-color: ${(props) => props.theme["background"]};
+      pointer-events: none;
+    }
+  }
+
+  select {
+    color: ${(props) => props.theme[DISABLED[props.disabled].color]};
+    pointer-events: ${(props) => [DISABLED[props.disabled].display]};
+    background-color: ${(props) => props.theme[DISABLED[props.disabled].cor]};
+  }
+
   p {
     color: #8d0000;
   }
 
-  option{
+  option {
     &:disabled {
       background-color: ${(props) => props.theme["white-500"]};
     }
@@ -188,7 +218,8 @@ export const InputIndividual = styled.div`
     color: ${(props) => props.theme["gray-700"]};
   }
 
-  input, select {
+  input,
+  select {
     height: 5.313rem;
     padding: 1.25rem;
 
@@ -205,8 +236,6 @@ export const InputIndividual = styled.div`
       transform: translateY(-5px);
     }
   }
-
-
 `;
 
 export const FinalButton = styled.div`
@@ -223,7 +252,7 @@ export const FinalButton = styled.div`
     font-size: 1.25rem;
     font-weight: bold;
 
-    &:disabled{
+    &:disabled {
       opacity: 0.7;
     }
   }

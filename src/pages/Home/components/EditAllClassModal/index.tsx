@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { API } from "../../../../lib/axios";
 import { AulaProps } from "../Calenders/TeacherCalender";
@@ -24,11 +24,11 @@ interface ModalCreateNewClassProps {
 }
 
 export interface EditAllClassModalProps {
-  id: number
-  professor: number
-  ambiente: number
-  dataFinal: string
-  dataInicio: string
+  partitionKey: number;
+  professor: number;
+  ambiente: number;
+  dataFinal: string;
+  dataInicio: string;
 }
 
 interface AvalibleTeachers {
@@ -41,46 +41,68 @@ interface AvaliblePlaces {
   nome: string;
 }
 
-export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: ModalCreateNewClassProps) {
+export function EditAllClassModal({
+  closeModal,
+  aulas,
+  handleEditAllClasses,
+}: ModalCreateNewClassProps) {
   const [avalibleTeachers, setAvalibleTeachers] = useState<AvalibleTeachers[]>(
     []
   );
   const [avaliblePlaces, setAvaliblePlaces] = useState<AvaliblePlaces[]>([]);
-  const { register, handleSubmit, reset, formState: { isDirty } } = useForm<EditAllClassModalProps>();
+  const { register, handleSubmit, reset } = useForm<EditAllClassModalProps>();
 
-  useEffect(() => {
-    fetchPlacesAndTeachersAvaliable();
-  }, []);
+  const [isValidForm, setIsValidForm] = useState(false);
 
-  async function fetchPlacesAndTeachersAvaliable() {
-    const res = await API.get(`aula/aulasProfessorAmbienteDisponivel?periodo=${aulas.periodo}&dataInicio=${aulas.data}&dataFinal=17/01/2023`);
+  // pegando a data de hoje e formatando pro estilo americano para validar o input date
+  const hoje = new Date()
+    .toLocaleDateString()
+    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+
+  async function fetchPlacesAndTeachersAvaliable(dataFinal: string) {
+    dataFinal = dataFinal.replace(/(\d*)-(\d*)-(\d*).*/, "$3/$2/$1");
+    
+    const res = await API.get(
+      `aula/aulasProfessorAmbienteDisponivel?periodo=${aulas.periodo}&dataInicio=${aulas.data}&dataFinal=${dataFinal}`
+    );
     setAvalibleTeachers(res.data[0]);
     setAvaliblePlaces(res.data[1]);
   }
 
-  const dataFinal = aulas.data
-    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
-
-
   async function handleEditAllClass(data: EditAllClassModalProps) {
-    aulas.ambiente.id = data.ambiente
-    aulas.dataInicio = data.dataInicio
-    aulas.professor.id = data.professor
-    aulas.dataFinal = data.dataFinal
+    aulas.ambiente.id = data.ambiente;
+    aulas.dataInicio = data.dataInicio;
+    aulas.professor.id = data.professor;
+    aulas.dataFinal = data.dataFinal;
 
     const res = await API.put(`aula/key/${aulas.partitionKey}`, aulas);
 
     if (res.status == 200) {
-      handleEditAllClasses(data)
+      handleEditAllClasses(data);
       reset();
       closeModal();
     }
   }
 
+  function onChangeInputDataFinal(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.value != "") {
+      setIsValidForm(true); 
+      fetchPlacesAndTeachersAvaliable(event.target.value)
+    } else {
+      setIsValidForm(false);
+    }
+  }
+
+  function onCloseEditClassesModal() {
+    reset();
+    closeModal();
+    setIsValidForm(false);
+  }
+
   return (
     <Dialog.Portal>
       <Overlay />
-      <Content>
+      <Content onCloseAutoFocus={() => onCloseEditClassesModal()}>
         <ModalHeader>
           <Dialog.Title>Editar aula(s)</Dialog.Title>
           <HeaderButtons>
@@ -91,9 +113,13 @@ export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: M
         </ModalHeader>
         <form onSubmit={handleSubmit(handleEditAllClass)}>
           <InputScroll>
-            <input type="hidden" value={aulas.partitionKey} {...register("id")} />
+            <input
+              type="hidden"
+              value={aulas.partitionKey}
+              {...register("partitionKey")}
+            />
             <InputContainer>
-              <InputContent>
+              <InputContent disabled={"on"}>
                 <InputIndividual>
                   <label>Data de início</label>
                   <input
@@ -109,10 +135,19 @@ export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: M
                 </InputIndividual>
                 <InputIndividual>
                   <label>Data de fim</label>
-                  <input defaultValue={dataFinal} type="date" placeholder="Escolha uma data..." min={dataFinal} required {...register("dataFinal")} />
+                  <input
+                    type="date"
+                    placeholder="Escolha uma data..."
+                    {...register("dataFinal")}
+                    onChange={onChangeInputDataFinal}
+                    min={`${aulas.data.slice(6, 10)}-${aulas.data.slice(
+                      3,
+                      5
+                    )}-${aulas.data.slice(0, 2)}`}
+                  />
                 </InputIndividual>
               </InputContent>
-              <InputContent>
+              <InputContent disabled={isValidForm ? "on" : "disabled"}>
                 <label>Ambiente</label>
                 <select
                   placeholder="Selecione o ambiente..."
@@ -120,22 +155,21 @@ export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: M
                   defaultValue={aulas.ambiente.id}
                   required
                 >
-                  {
-                    avaliblePlaces.map((place) => {
+                  <option value={aulas.ambiente.id} disabled>
+                    {aulas.ambiente.nome}
+                  </option>
+                  {avaliblePlaces.map((place) => {
+                    if (aulas.ambiente.id != place.id) {
                       return (
-                        <option
-                          disabled={place.id == aulas.ambiente.id}
-                          value={place.id}
-                          key={place.id}
-                        >
+                        <option value={place.id} key={place.id}>
                           {place.nome}
                         </option>
                       );
-
-                    })}
+                    }
+                  })}
                 </select>
               </InputContent>
-              <InputContent>
+              <InputContent disabled={isValidForm ? "on" : "disabled"}>
                 <label>Professor</label>
                 <select
                   placeholder="Selecione o professor..."
@@ -143,22 +177,25 @@ export function EditAllClassModal({ closeModal, aulas, handleEditAllClasses }: M
                   defaultValue={aulas.professor.id}
                   required
                 >
+                  <option value={aulas.professor.id} disabled>
+                    {aulas.professor.nome}
+                  </option>
                   {avalibleTeachers.map((teacher) => {
-                    return (
-                      <option
-                        disabled={teacher.id == aulas.professor.id}
-                        value={teacher.id}
-                        key={teacher.id}
-                      >
-                        {teacher.nome}
-                      </option>
-                    );
+                    if (aulas.professor.id != teacher.id) {
+                      return (
+                        <option value={teacher.id} key={teacher.id}>
+                          {teacher.nome}
+                        </option>
+                      );
+                    }
                   })}
                 </select>
               </InputContent>
 
               <FinalButton>
-                <button disabled={!isDirty}>{isDirty ? "Editar" : "Nenhuma informação foi alterada"}</button>
+                <button disabled={!isValidForm}>
+                  {isValidForm ? "Salvar" : "Selecione uma data de fim..."}
+                </button>
               </FinalButton>
             </InputContainer>
           </InputScroll>

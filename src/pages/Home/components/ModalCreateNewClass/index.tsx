@@ -60,8 +60,6 @@ interface ModalCreateNewClassProps {
   closeModal(): void;
 }
 
-
-
 export function ModalCreateNewClass({
   name,
   closeModal,
