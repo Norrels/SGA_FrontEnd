@@ -1,3 +1,4 @@
+import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useState } from "react";
@@ -6,6 +7,7 @@ import { Notification } from "../../../../components/Notification";
 import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "../../../AdvancedSearch/components/ViewClassModal";
 import { AulaProps } from "../Calenders/TeacherCalender";
+
 
 import { EditAllClassModal, EditAllClassModalProps } from "../EditAllClassModal";
 import { EditClassModal, EditClassModalProps } from "../EditClassModal";
@@ -20,9 +22,10 @@ interface RightClickProps {
   aulas: AulaProps;
   handleEditClass: (data: EditClassModalProps) => void;
   handleEditAllClasses: (data: EditAllClassModalProps) => void;
+  deleteClasses: (id: number | undefined) => void;
 }
 
-export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: RightClickProps) {
+export function RightClick({ aulas, handleEditClass, handleEditAllClasses, deleteClasses }: RightClickProps) {
   const [openViewClass, setOpenViewClass] = useState(false);
   const [openPostponeClasses, setOpenPostponeClasses] = useState(false);
   const [openEditClass, setOpenEditClass] = useState(false);
@@ -43,13 +46,6 @@ export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: Rig
   }
 
   //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
-  function closePostponeClasses() {
-    setTimeout(() => {
-      setOpenPostponeClasses(true);
-    }, 5);
-  }
-
-  //Precisa desse setTime para fecha porque se não ela não fecha quando a modal abrir
   function closeEditClass() {
     setTimeout(() => {
       setOpenEditClass(true);
@@ -63,6 +59,12 @@ export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: Rig
     }, 5);
   }
 
+  function closeDeleteClasses() {
+    setTimeout(() => {
+      setOpenDeleteClasses(true);
+    }, 5);
+  }
+
   function closeModal() {
     setOpenViewClass(false);
     setOpenPostponeClasses(false);
@@ -71,13 +73,8 @@ export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: Rig
     setOpenDeleteClasses(false);
   }
 
-  async function handleDeleteClassesByPartitioKey(partitionKey: number) {
-    const res = await API.delete(`/aula/key/${partitionKey}`);
-    if (res.status == 200) {
-      setNotificationStataus(true);
-    } else {
-      setNotificationStataus(false);
-    }
+  async function handleDeleteClassesByPartitioKey() {
+    deleteClasses(aulas.partitionKey)
     setOpen(true);
   }
 
@@ -93,28 +90,20 @@ export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: Rig
             Detalhes da aula
           </RightClickItem>
           <RightClickSeperator />
-          {/* <RightClickItem onClick={closePostponeClasses}>
-            Adiar aulas
-          </RightClickItem>
-          <RightClickSeperator /> */}
           <RightClickItem onClick={closeEditClass}>Editar aula</RightClickItem>
           <RightClickItem onClick={closeEditClasses}>
             Editar aula(s)
           </RightClickItem>
-          {/* <RightClickSeperator />
+          <RightClickSeperator />
           <RightClickItem onClick={closeDeleteClasses}>
             Apagar as aula(s)
-          </RightClickItem> */}
+          </RightClickItem>
         </RightClickContainer>
       </ContextMenu.Portal>
 
       <Dialog.Root open={openViewClass} onOpenChange={setOpenViewClass}>
         <ViewClassModal classItem={aulas} closeModal={closeViewAula}/>
       </Dialog.Root>
-
-      {/* <Dialog.Root open={openPostponeClasses} onOpenChange={setOpenPostponeClasses}>
-        <PostponeClassesModal/>
-      </Dialog.Root> */}
 
       <Dialog.Root open={openEditClass} onOpenChange={setOpenEditClass}>
         <EditClassModal
@@ -128,9 +117,9 @@ export function RightClick({ aulas, handleEditClass, handleEditAllClasses }: Rig
         <EditAllClassModal aulas={aulas} closeModal={closeModal} handleEditAllClasses={handleEditAllClasses}  />
       </Dialog.Root>
 
-      {/* <Dialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
+      <AlertDialog.Root open={openDeleteClasses} onOpenChange={setOpenDeleteClasses}>
         <DeleteAlertClasses deleteByPartitionKey={handleDeleteClassesByPartitioKey}/>
-      </Dialog.Root> */}
+      </AlertDialog.Root>
     </>
   );
 }

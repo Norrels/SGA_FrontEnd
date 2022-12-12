@@ -190,7 +190,7 @@ export function EditTeacherModal({
                     readOnly={!editable}
                   />
                 </InputIndividual>
-                {foto == undefined && teacherItem?.foto ? (
+                {foto != "" && teacherItem?.foto ? (
                   <InputIndividual>
                     <label>Foto</label>
                     <TeacherPhotoInput>
@@ -208,6 +208,8 @@ export function EditTeacherModal({
                           size={30}
                           onClick={() => {
                             setFoto("")
+                            setFotoNome("")
+                           
                           }}
                         />
                       )}
@@ -230,7 +232,7 @@ export function EditTeacherModal({
                               ? { color: "rgba(109, 109, 109, 0.5)" }
                               : { color: "#6D6D6D" }
                           }
-                        >{fotoNome == "" ? "Escolha um arquivo..." : fotoNome}</span>
+                        >{fotoNome == "" && "Escolha um arquivo..."}</span>
                         <div
                           style={
                             !editable ? { opacity: "30%" } : { opacity: "100%" }

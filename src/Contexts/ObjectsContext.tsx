@@ -186,7 +186,6 @@ export function ObjectsContextProvider({
   }
 
   async function updatePlaces(data: NewPlaceType) {
-    //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true;
     const res = await API.put(`/ambiente/${data.id}`, data);
 

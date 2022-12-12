@@ -88,10 +88,23 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
     setAulas(aulasEditadas);
   }
 
+  async function handleDeleteClassesByPartitioKey(partionKey: number | undefined) {
+    const res = await API.delete(`/aula/key/${partionKey}`);
+    if (res.status == 200) {
+      const aulaWithoutDeletedOne = aulas.filter((aula) => {
+        return aula.partitionKey != partionKey
+      })
+      setAulas(aulaWithoutDeletedOne)
+    }
+  }
+
+
+
   function handleEditAllClass(data: EditAllClassModalProps) {
-    console.log(data)
     const aulasEditadas = aulas.map((aula) => {
-      if (aula.partitionKey == data.id) {
+      console.log(new Date(aula.data.replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1")))
+      console.log(new Date(data.dataFinal))
+      if (aula.partitionKey == data.partitionKey && new Date(aula.data.replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1")) <= new Date(data.dataFinal)) {
         aula.ambiente.id = data.ambiente;
         aula.professor.id = data.professor;
         aula.dataInicio = data.dataInicio;
@@ -189,6 +202,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
                                 aulas={aula}
                                 handleEditClass={handleEditClass}
                                 handleEditAllClasses={handleEditAllClass}
+                                deleteClasses={handleDeleteClassesByPartitioKey}
                               />
                             </ContextMenu.Root>
                           )

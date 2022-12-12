@@ -98,7 +98,7 @@ export function Calender({ days, today }: CalenderProps) {
   function handleEditAllClass(data: EditAllClassModalProps) {
     console.log(data)
     const aulasEditadas = aulas.map((aula) => {
-      if (aula.partitionKey == data.id) {
+      if (aula.partitionKey == data.partitionKey) {
         aula.ambiente.id = data.ambiente;
         aula.professor.id = data.professor;
         aula.dataInicio = data.dataInicio;
@@ -111,6 +111,17 @@ export function Calender({ days, today }: CalenderProps) {
 
     setAulas(aulasEditadas);
   }
+
+  async function handleDeleteClassesByPartitioKey(partionKey: number | undefined) {
+    const res = await API.delete(`/aula/key/${partionKey}`);
+    if (res.status == 200) {
+      const aulaWithoutDeletedOne = aulas.filter((aula) => {
+        return aula.partitionKey != partionKey
+      })
+      setAulas(aulaWithoutDeletedOne)
+    }
+  }
+
 
   return (
     <HomeCalenderContainer>
@@ -182,6 +193,7 @@ export function Calender({ days, today }: CalenderProps) {
                                 </HomeClass>
                               </HomeButtonClickRoot>
                               <RightClick
+                                deleteClasses={handleDeleteClassesByPartitioKey}
                                 handleEditAllClasses={handleEditAllClass}
                                 aulas={aula}
                                 handleEditClass={handleEditClass}
