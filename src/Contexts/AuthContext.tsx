@@ -74,6 +74,8 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
     if (token !== null) {
       localStorage.setItem('token', JSON.stringify(token))
       setAutheticated(true)
+      const object = JSON.parse(atob(token.split('.')[1]))
+      setuserAutheticated(object)
       API.defaults.headers.common['Authorization'] = token;
       navigate('/inicio', { replace: true })
     }

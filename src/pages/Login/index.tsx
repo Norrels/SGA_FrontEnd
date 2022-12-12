@@ -49,8 +49,6 @@ export function Login() {
           <LoginHeaderContent>
             <img src={Logo} alt="" />
             <HeaderNavBar>
-              <NavLink to="/">Login</NavLink>
-              <NavLink to="/sobre">Sobre</NavLink>
             </HeaderNavBar>
           </LoginHeaderContent>
         </LoginHeaderContainer>
