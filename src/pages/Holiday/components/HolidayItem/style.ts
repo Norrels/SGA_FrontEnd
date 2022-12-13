@@ -112,7 +112,8 @@ export const HolidayItemButtonContainer = styled.div`
 export const HolidayItemButton = styled.button<ButtonProps>`
   width: 40px;
   height: 40px;
-  margin: 0 0.5rem;
+  margin: 0 0.5rem; 
+  
 
   display: flex;
   align-items: center;
