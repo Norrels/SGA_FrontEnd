@@ -127,7 +127,7 @@ export function Calender({ days, today }: CalenderProps) {
     <HomeCalenderContainer>
       <HomeCalenderHeader>
         <HomeCalenderOrderBy>
-          <p>Crescente</p>
+          <p>Professores</p>
         </HomeCalenderOrderBy>
         <HomeCalenderHeaderDays>
           {days?.map((day) => {

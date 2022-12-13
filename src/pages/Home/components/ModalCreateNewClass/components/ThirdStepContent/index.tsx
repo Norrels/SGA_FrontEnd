@@ -59,8 +59,7 @@ export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
     <InputContainer>
       <InputContent>
         <span>
-          Esses são os professores e ambientes disponíveis com base
-          nos dados informados anteriormente...
+          Revise seus dados inseridos, caso estejam incorretos, retorne as etapas anteriores.
         </span>
       </InputContent>
       <InputContent>
