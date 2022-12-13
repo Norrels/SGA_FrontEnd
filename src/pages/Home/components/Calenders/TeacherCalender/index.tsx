@@ -133,7 +133,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
     <HomeCalenderContainer>
       <HomeCalenderHeader>
         <HomeCalenderOrderBy>
-          <p>Crescente</p>
+          <p>Ambientes</p>
         </HomeCalenderOrderBy>
         <HomeCalenderHeaderDays>
           {days?.map((day) => {

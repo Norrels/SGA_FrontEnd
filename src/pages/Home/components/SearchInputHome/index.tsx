@@ -113,7 +113,7 @@ export function HomeSearchInput({
         <HomeSelectAndLegenda>
           <HomeSelectOptionSearch>
             <select onChange={handleChangeCalenderView}>
-              <option>Salas</option>
+              <option>Ambientes</option>
               <option>Professores</option>
             </select>
           </HomeSelectOptionSearch>
