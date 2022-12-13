@@ -97,7 +97,7 @@ export function Header() {
             <NavLink to="/ambientes" title="Ambientes">
               Ambientes
             </NavLink>
-            {userAutheticated.tipoUsuario == "ADMINISTRADOR" &&
+            {userAutheticated?.tipoUsuario == "ADMINISTRADOR" &&
               <HeaderNavMenu>
                 {location.pathname == "/chamados" ? (
                   <p>Chamados</p>

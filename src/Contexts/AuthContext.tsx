@@ -44,31 +44,24 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
   const today = new Date()
   const navigate = useNavigate()
   const paginaAtual = useLocation()
+  
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (token) {
-
-
       const object = JSON.parse(atob(token.split('.')[1]))
-
-      if (fromUnixTime(object.exp) > today) {
-        setuserAutheticated(object)
-        setAutheticated(true)
-        paginaAtual.pathname === "/" &&
+      console.log(fromUnixTime(object.exp) > today)
+      setuserAutheticated(object)
+      setAutheticated(true)
+      paginaAtual.pathname === "/" &&
         navigate('/inicio', { replace: true })
-      } else {
-        localStorage.removeItem("token")
-      }
     }
-  }, [autheticated])
+  }, [])
 
   async function login(user: LoginProps) {
     const { nif, senha } = user
-
     const { data: { token } } = await API.post('usuario/login', {
       nif,
       senha
-
     })
 
     if (token !== null) {
@@ -81,7 +74,7 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
     }
   }
 
-  async function logout() {
+  function logout() {
     setAutheticated(false)
     localStorage.removeItem('token')
     delete API.defaults.headers.common['Authorization']
