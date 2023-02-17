@@ -1,100 +1,78 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
-import {
-  CourseButtonContainer,
-  CourseContainer,
-  CourseContent,
-  CourseList,
-  CourseTitleContainer,
-  Toggle,
-} from "./style";
-import { CourseProps, ObjectsContext } from "../../contexts/ObjectsContext";
-import { API } from "../../lib/axios";
+import { ObjectsContext } from "../../contexts/ObjectsContext";
 import { AuthContext } from "../../contexts/AuthContext";
+import {
+  ButtonModal,
+  Content,
+  HeadingButtonContainer,
+  MainContainer,
+  SearchInput,
+  TitleContainer,
+  Toggle,
+} from "../../styles/commonStyle";
+import { ListContainer } from "../../styles/listStyle";
 
 export function Course() {
   document.title = "Cursos | SGA";
 
   const { courses } = useContext(ObjectsContext);
-  const [courseMatchs, setCourseMatchs] = useState<CourseProps[]>([]);
-  const [on, setOn] = useState<Boolean>(false);
-  const { userAutheticated } = useContext(AuthContext)
+  const [showDisable, setShowDisable] = useState<Boolean>(false);
+  const [search, setSearch] = useState("");
+  const { userAutheticated } = useContext(AuthContext);
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
+
+
   function closeModal() {
     setOpen(false);
   }
 
-  // se colocar o corseMatch ta dando loop de requisicao no back
-  useEffect(() => {
-    handleGetCourse();
-  }, [courses]);
-
-  async function handleGetCourse() {
-    const resp = await API.get("/curso");
-
-    if (resp.status == 200) {
-      setCourseMatchs(resp.data);
-    }
-  }
-
-  async function handleChangeList(value: Boolean) {
-    setOn(value);
-    if (value) {
-      setCourseMatchs(courses.filter((e) => e.ativo == false));
-    } else {
-      setCourseMatchs(courses.filter((e) => e.ativo == true));
-    }
-  }
-
-  async function searchCourse(value: String) {
-    if (!value) {
-      setCourseMatchs(courses);
-    } else {
-      const res = await API.get(`/curso/buscapalavra/${value}`);
-      setCourseMatchs(res.data);
-    }
-  }
+  let filteredCourses = courses.length > 0 
+  ? courses.filter(course => course.nome?.toLowerCase().includes(search)) 
+  : []
 
   return (
-    <CourseContainer>
-      <CourseContent>
-        <CourseTitleContainer>
+    <MainContainer>
+      <Content>
+        <TitleContainer>
           <h1>Cursos</h1>
           <p>Selecione um curso ou crie um novo!</p>
-          <Dialog.Root open={open} onOpenChange={setOpen}>
-            <Dialog.Trigger asChild>
-              <CourseButtonContainer>Novo Curso</CourseButtonContainer>
-            </Dialog.Trigger>
-            <NewCourseModal closeModal={closeModal} />
-          </Dialog.Root>
-        </CourseTitleContainer>
-        <input
+          <HeadingButtonContainer>
+            <Dialog.Root open={open} onOpenChange={setOpen}>
+              <Dialog.Trigger asChild>
+                <ButtonModal>Novo Curso</ButtonModal>
+              </Dialog.Trigger>
+              <NewCourseModal closeModal={closeModal} />
+            </Dialog.Root>
+          </HeadingButtonContainer>
+        </TitleContainer>
+        <SearchInput
           type="text"
           placeholder="Busque um ou vários cursos..."
-          onChange={(e) => searchCourse(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
-        {userAutheticated.tipoUsuario == "ADMINISTRADOR" &&
+        {userAutheticated.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input
-              onChange={(e) => handleChangeList(e.target.checked)}
+              onChange={(e) => setShowDisable(e.target.checked)}
               type="checkbox"
             />
           </Toggle>
-        }
-        <CourseList>
-          {courseMatchs.map((course) => {
-            if (course.ativo && on == false) {
+        )}
+        <ListContainer>
+          {filteredCourses.map((course) => {
+            if (course.ativo && showDisable == false) {
               return <CourseItem key={course.id} course={course} />;
-            } else if (course.ativo == false && on == true) {
+            } else if (course.ativo == false && showDisable == true) {
               return <CourseItem key={course.id} course={course} />;
             }
           })}
-        </CourseList>
-      </CourseContent>
-    </CourseContainer>
+        </ListContainer>
+      </Content>
+    </MainContainer>
   );
 }

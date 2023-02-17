@@ -1,4 +1,3 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import { CheckCircle, DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
@@ -8,79 +7,75 @@ import {
   TeacherProps,
 } from "../../../../contexts/ObjectsContext";
 import UserPicture from "../../../../assets/User.png";
-import {
-  ItemInfoContentHeader,
-  TeacherInfoType,
-  TeacherItemButton,
-  TeacherItemButtonContainer,
-  TeacherItemContainer,
-  TeacherItemIcon,
-  TeacherItemInfoContainer,
-  TeacherItemInfoContent,
-} from "./style";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
-import { API } from "../../../../lib/axios";
+import {
+  ItemButton,
+  ItemButtonContainer,
+  ItemIcon,
+  ItemInfoContentHeader,
+  ListInfoContent,
+  ListItemContainer,
+  ListItemContent,
+} from "../../../../styles/listStyle";
 
 interface TeacherItemProps {
   teacherItem: TeacherProps;
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
+  const { updateStatusTeacher } = useContext(ObjectsContext);
 
   async function handleUpdateStatusTeacher() {
-    const res = await API.put(`/professor/alterarStatus/${teacherItem.id}`);
-
-    if (res.status == 200) {
-      window.location.reload();
-    }
+    updateStatusTeacher(teacherItem.id!);
   }
 
   return (
-    <TeacherItemContainer>
-      <TeacherItemInfoContainer>
-        <TeacherItemIcon>
+    <ListItemContainer>
+      <ListItemContent>
+        <ItemIcon>
           <img alt="" src={teacherItem.foto ? teacherItem.foto : UserPicture} />
-        </TeacherItemIcon>
+        </ItemIcon>
 
-        <TeacherItemInfoContent>
+        <ListInfoContent>
           <ItemInfoContentHeader>
             <h3>{teacherItem.nome}</h3>
-            <TeacherInfoType>Nada</TeacherInfoType>
           </ItemInfoContentHeader>
-          <p>Carga horária semanal: <strong>{teacherItem.cargaSemanal}h</strong></p>
-        </TeacherItemInfoContent>
-      </TeacherItemInfoContainer>
+          <p>
+            Carga horária semanal: <strong>{teacherItem.cargaSemanal}h</strong>
+          </p>
+        </ListInfoContent>
+      </ListItemContent>
 
-      <TeacherItemButtonContainer>
+      <ItemButtonContainer>
         {teacherItem.ativo == false ? (
           <AlertDialog.Root>
             <AlertDialog.Trigger asChild>
-              <TeacherItemButton buttonColor="delete">
+              <ItemButton buttonColor="delete">
                 <CheckCircle color="#fff" size={26} />
-              </TeacherItemButton>
+              </ItemButton>
             </AlertDialog.Trigger>
             <ReactivateAlert reactivateById={handleUpdateStatusTeacher} />
           </AlertDialog.Root>
         ) : (
           <>
             <NavLink to={`/professor/${teacherItem.id}`}>
-              <TeacherItemButton buttonColor="edit">
+              <ItemButton buttonColor="edit">
                 <DotsThree color="#fff" size={32} />
-              </TeacherItemButton>
+              </ItemButton>
             </NavLink>
 
             <AlertDialog.Root>
               <AlertDialog.Trigger asChild>
-                <TeacherItemButton buttonColor="delete">
+                <ItemButton buttonColor="delete">
                   <Trash color="#fff" size={26} />
-                </TeacherItemButton>
+                </ItemButton>
               </AlertDialog.Trigger>
               <DeleteAlert deleteById={handleUpdateStatusTeacher} />
             </AlertDialog.Root>
           </>
         )}
-      </TeacherItemButtonContainer>
-    </TeacherItemContainer>
+      </ItemButtonContainer>
+    </ListItemContainer>
   );
 }

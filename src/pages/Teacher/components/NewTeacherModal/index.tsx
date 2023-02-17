@@ -9,7 +9,6 @@ import { Notification } from "../../../../components/Notification";
 import { ObjectsContext } from "../../../../contexts/ObjectsContext";
 import { API } from "../../../../lib/axios";
 import { StarsSection } from "./components/StarsSection";
-
 import {
   ButtonNewCompetencia,
   Content,
@@ -24,7 +23,6 @@ import {
   InputScroll,
   ModalHeader,
   Overlay,
-  PhotoRecommendation,
 } from "./style";
 import { PhotoRecommendationAlert } from "./components/PhotoRecommendationAlert";
 

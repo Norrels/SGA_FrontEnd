@@ -7,15 +7,13 @@ import { Star } from "phosphor-react";
 
 interface SkillsSectionProps {
   index: number | undefined;
-  defaultValue: number | undefined;
+  defaultValue?: number | undefined;
 }
 
 export function StarsSection({ index, defaultValue }: SkillsSectionProps) {
   const { register, setValue } = useFormContext();
 
   const [nivel, setNivel] = useState(defaultValue);
-  
-
   
   useEffect(() => {
     setValue(`competencia.${index}.nivel`, nivel);

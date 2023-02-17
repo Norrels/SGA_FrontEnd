@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, Plus, Trash, X } from "phosphor-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -37,6 +37,8 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
     handleSubmit,
     control,
     reset,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
@@ -45,12 +47,26 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
     },
   });
 
+  useEffect(() => {
+    reset({
+      unidadeCurricular: course.unidadeCurricular
+    })
+  }, [course])
+
   const { fields, append, remove } = useFieldArray({
-    name: "unidadeCurricular",
     control,
+    name: "unidadeCurricular",
     rules: {
       required: "O curso deve ter pelo menos uma unidade curricular",
     },
+  });
+
+  const watchFieldArray = watch("unidadeCurricular");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index],
+    };
   });
 
   const { updateCourses } = useContext(ObjectsContext);
@@ -61,12 +77,8 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
   // Váriavel para controlar oque vai ser exibido na notificação
   const [notificationStataus, setNotificationStataus] = useState(false);
 
-  function firstLetterUppercase(value: string) {
-    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value;
-  }
-
   async function handleUpdateCourse(data: CourseType) {
+    console.log(data);
     data.ativo = true;
     updateCourses(data)
       .then(() => {
@@ -75,6 +87,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
       })
       .catch(() => setNotificationStataus(true));
     setOpen(true);
+    course = data;
     onCloseModalEditCourse();
   }
 
@@ -123,7 +136,6 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                     defaultValue={course.nome}
                     {...register("nome", {
                       required: true,
-                      setValueAs: (v) => firstLetterUppercase(v),
                     })}
                     readOnly={!editable}
                     minLength={4}
@@ -144,7 +156,8 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   </select>
                   {errors.tipo && <p>* Selecione um valor válido...</p>}
                 </InputContent>
-                {fields.map((field, index) => {
+                {controlledFields.map((field, index) => {
+                  console.log(field);
                   return (
                     <InputContent key={field.id} disabled={"on"}>
                       <InputIndividual>
@@ -152,11 +165,12 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <input
                           type="text"
                           placeholder="Digite a unidade curricular"
-                          defaultValue={course.unidadeCurricular[index]?.nome}
-                          {...register(`unidadeCurricular.${index}.nome`, {
-                            required: true,
-                            setValueAs: (v) => firstLetterUppercase(v),
-                          })}
+                          {...register(
+                            `unidadeCurricular.${index}.nome` as const,
+                            {
+                              required: true,
+                            }
+                          )}
                           readOnly={!editable}
                           minLength={4}
                           maxLength={30}

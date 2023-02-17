@@ -1,6 +1,3 @@
-//To DO
-//Usar o user Memo para dinumir a redezição desse componente
-
 import * as Dialog from "@radix-ui/react-dialog";
 import { Plus, Trash, X } from "phosphor-react";
 import { useContext, useState } from "react";
@@ -27,7 +24,7 @@ export const coursesInputs = z.object({
   id: z.number().optional(),
   nome: z
     .string()
-    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .max(300, { message: "* O nome deve ser menor que 30 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.enum(["FIC", "REGULAR"]),
   unidadeCurricular: z
@@ -35,7 +32,7 @@ export const coursesInputs = z.object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+        .max(60, { message: "* O nome deve ser menor que 30 caracteres..." })
         .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
         .number({ invalid_type_error: "Insira as horas..." })
@@ -90,20 +87,15 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
     },
   });
 
-  function firstLetterUppercase(value: string) {
-    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value;
-  }
-
   //Criando o curso e setando a primeira letra em maiusculo
   function handleCreateNewCourse(data: CourseType) {
-    data.ativo = true
+    data.ativo = true;
     createCourseAPI(data)
-    .then(() => {
-      reset();
-      closeModal();
-    }).catch(() => 
-    setNotificationStataus(true))
+      .then(() => {
+        reset();
+        closeModal();
+      })
+      .catch(() => setNotificationStataus(true));
 
     setOpen(true);
   }
@@ -136,10 +128,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                     placeholder="Digite o nome do curso"
                     {...register("nome", {
                       required: true,
-                      setValueAs: (v) => firstLetterUppercase(v),
                     })}
                     minLength={4}
-                    maxLength={30}
+                    maxLength={60}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -171,7 +162,6 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                           placeholder="Digite a unidade curricular"
                           {...register(`unidadeCurricular.${index}.nome`, {
                             required: true,
-                            setValueAs: (v) => firstLetterUppercase(v),
                           })}
                           minLength={4}
                           maxLength={30}
@@ -225,7 +215,12 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                   <p>Adicionar unidade curricular</p>
                 </ButtonNewUnidadeCurricular>
                 <FinalButton>
-                  <button type="submit" onClick={() => setNotificationStataus(false)}>Criar</button>
+                  <button
+                    type="submit"
+                    onClick={() => setNotificationStataus(false)}
+                  >
+                    Criar
+                  </button>
                 </FinalButton>
               </InputContainer>
             </InputScroll>
@@ -235,7 +230,9 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
 
       <Notification
         tipe={notificationStataus ? "Erro" : "Sucesso"}
-        description={notificationStataus ? "Falha ao criar." : "Criado com sucesso."}
+        description={
+          notificationStataus ? "Falha ao criar." : "Criado com sucesso."
+        }
         title="Curso"
         openNotification={open}
         openNotificationMethod={openNotificantionMethod}

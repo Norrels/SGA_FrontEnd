@@ -140,41 +140,47 @@ export function ObjectsContextProvider({
     }
   }
 
-  async function updateStatusCourse(id: number | undefined) {
-    const res = await API.put(`/curso/alterarStatus/${id}`);
-
-    if (res.status == 200) {
+  async function updateStatusCourse(id: number) {
+    try {
+      const res = await API.put(`/curso/alterarStatus/${id}`);
       const valorAtualizado = courses.filter((course) => {
-        return course.id != id;
+        if (course.id == id) {
+          course.ativo = !course.ativo;
+        }
+        return course;
       });
       setCourses(valorAtualizado);
       return "success";
-    } else {
+    } catch (error) {
       return "erro";
     }
   }
 
   async function updateStatusTeacher(id: number) {
-    const res = await API.put(`/professor/alterarStatus/${id}`);
-
-    if (res.status == 200) {
-      const valorAtualizado = teachers.filter((professor) => {
-        return professor.id != id;
+    try {
+      const res = await API.put(`/professor/alterarStatus/${id}`);
+      const valorAtualizado = teachers.map((professor) => {
+        if (professor.id == id) {
+          professor.ativo = !professor.ativo;
+        }
+        return professor;
       });
       setTeachers(valorAtualizado);
       return "success";
-    } else {
-      return "erro";
+    } catch (error) {
+      return "error";
     }
   }
 
   async function updateCourses(data: CourseProps) {
+   
     const res = await API.put(`/curso/${data.id}`, data);
-
+    console.log(data)
     if (res.status == 200) {
       const valorAtualizado = courses.map((course) => {
         if (course.id == data.id) {
           course = data;
+          console.log(course)
         }
         return course;
       });
@@ -207,7 +213,7 @@ export function ObjectsContextProvider({
     //Mudar essa logica - Colocar um input hiden no form com um register se o o lugar está ativo
     data.ativo = true;
     const res = await API.put(`/professor/${data.id}`, data);
-    console.log(data)
+    console.log(data);
     if (res.status == 200) {
       const valorAtualizado = teachers.map((teacher) => {
         if (teacher.id == data.id) {

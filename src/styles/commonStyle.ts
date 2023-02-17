@@ -9,52 +9,52 @@ const fadeIn = keyframes`
   } 
 `;
 
-export const CourseContainer = styled.main`
+export const MainContainer = styled.main`
   width: 100%;
+
   display: flex;
   justify-content: center;
 `;
 
-export const CourseContent = styled.div`
+export const Content = styled.div`
   max-width: 1120px;
   width: 100%;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-  input {
-    height: 3.75rem;
-    margin-top: 4.313rem;
-    padding-left: 1.813rem;
-
-    border: none;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.5);
-    box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-
-    color: ${(props) => props.theme["black"]};
-    font-weight: 700;
-    font-size: 1rem;
-
-    &:placeholder {
-      font-weight: 500;
-      color: ${(props) => props.theme["sub-title"]};
-    }
-
-    opacity: 0;
-    animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
-  }
 `;
 
-export const CourseTitleContainer = styled.div`
+export const SearchInput = styled.input`
+  height: 3.75rem;
+  margin-top: 4.313rem;
+  padding-left: 1.813rem;
+
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+
+  color: ${(props) => props.theme["black"]};
+  font-weight: 700;
+  font-size: 1rem;
+
+  &:placeholder {
+    font-weight: 500;
+    color: ${(props) => props.theme["sub-title"]};
+  }
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
+`;
+
+export const TitleContainer = styled.section`
   margin-top: 2rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  z-index: 3;
 
   opacity: 0;
   animation: ${fadeIn} 1s ease-in-out forwards;
@@ -83,15 +83,37 @@ export const CourseTitleContainer = styled.div`
   }
 `;
 
-export const CourseButtonContainer = styled.button`
+export const HeadingButtonContainer = styled.div`
   margin-top: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  > button {
+    &:first-child {
+      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+    }
+
+    &:nth-child(3) {
+      background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    }
+
+    &:last-child {
+      background: linear-gradient(180deg, #367fbf 0%, #0031b0 100%);
+    }
+  }
+`;
+
+export const ButtonModal = styled.button`
   width: 12.5rem;
   height: 3.75rem;
+  height: 3.75rem;
+  margin: 0 1rem;
 
   border: none;
   border-radius: 8px;
 
-  background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
   color: ${(props) => props.theme["white"]};
   font-size: 1.125rem;
   font-weight: bold;
@@ -167,10 +189,3 @@ export const Toggle = styled.div`
   }
 `;
 
-export const CourseList = styled.section`
-  margin-top: 2rem;
-  margin-bottom: 3rem;
-
-  opacity: 0;
-  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
-`;

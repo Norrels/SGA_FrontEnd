@@ -1,9 +1,7 @@
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
-
 import { CheckCircle, DotsThree, Pencil, Trash } from "phosphor-react";
-import { useContext, useEffect, useState } from "react";
-
+import { useContext, useState } from "react";
 import { z } from "zod";
 import {
   CourseProps,
@@ -11,18 +9,17 @@ import {
 } from "../../../../contexts/ObjectsContext";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { EditCourseModal } from "../EditCourseModal";
+
 import {
-  CourseInfoType,
-  CourseItemButton,
-  CourseItemButtonContainer,
-  CourseItemContainer,
-  CourseItemIcon,
-  CourseItemInfoContainer,
-  CourseItemInfoContent,
+  ItemButton,
+  ItemIcon,
   ItemInfoContentHeader,
-} from "./style";
+  ListInfoContent,
+  ListItemContainer,
+  ItemButtonContainer,
+  InfoType,
+} from "../../../../styles/listStyle";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
-import { API } from "../../../../lib/axios";
 
 interface NewCouserModalProps {
   course: CourseProps;
@@ -38,8 +35,7 @@ export type CourseType = z.infer<typeof courseInput>;
 
 export function CourseItem({ course }: NewCouserModalProps) {
   const { updateStatusCourse } = useContext(ObjectsContext);
-
-  useEffect(() => {}, [course]);
+  const [open, setOpen] = useState(false);
 
   const cargaHoraria = course.unidadeCurricular.reduce(
     (acc, unidades) => {
@@ -52,45 +48,39 @@ export function CourseItem({ course }: NewCouserModalProps) {
   );
 
   async function handleUpdateStatusCourse() {
-    const res = await API.put(`/curso/alterarStatus/${course?.id}`);
-
-    if (res.status == 200) {
-      window.location.reload();
-    }
+    updateStatusCourse(course.id!);
   }
-
-  const [open, setOpen] = useState(false);
 
   function closeModal() {
     setOpen(false);
   }
 
   return (
-    <CourseItemContainer>
-      <CourseItemInfoContainer>
-        <CourseItemIcon>
+    <ListItemContainer>
+      <ItemButtonContainer>
+        <ItemIcon>
           <Pencil size={32} />
-        </CourseItemIcon>
+        </ItemIcon>
 
-        <CourseItemInfoContent>
+        <ListInfoContent>
           <ItemInfoContentHeader>
             <h3>{course.nome}</h3>
-            <CourseInfoType>{course.tipo?.toLowerCase()}</CourseInfoType>
+            <InfoType>{course.tipo?.toLowerCase()}</InfoType>
           </ItemInfoContentHeader>
 
           <p>
             Carga horária: <span>{cargaHoraria.total + "h"}</span>
           </p>
-        </CourseItemInfoContent>
-      </CourseItemInfoContainer>
+        </ListInfoContent>
+      </ItemButtonContainer>
 
-      <CourseItemButtonContainer>
+      <ItemButtonContainer>
         {course.ativo == false ? (
           <AlertDialog.Root>
             <AlertDialog.Trigger asChild>
-              <CourseItemButton buttonColor="delete">
+              <ItemButton buttonColor="delete">
                 <CheckCircle color="#fff" size={26} />
-              </CourseItemButton>
+              </ItemButton>
             </AlertDialog.Trigger>
             <ReactivateAlert reactivateById={handleUpdateStatusCourse} />
           </AlertDialog.Root>
@@ -104,24 +94,24 @@ export function CourseItem({ course }: NewCouserModalProps) {
                   display: "flex",
                 }}
               >
-                <CourseItemButton buttonColor="edit">
+                <ItemButton buttonColor="edit">
                   <DotsThree color="#fff" size={32} />
-                </CourseItemButton>
+                </ItemButton>
               </Dialog.Trigger>
               <EditCourseModal course={course} closeModal={closeModal} />
             </Dialog.Root>
 
             <AlertDialog.Root>
               <AlertDialog.Trigger asChild>
-                <CourseItemButton buttonColor="delete">
+                <ItemButton buttonColor="delete">
                   <Trash color="#fff" size={26} />
-                </CourseItemButton>
+                </ItemButton>
               </AlertDialog.Trigger>
               <DeleteAlert deleteById={handleUpdateStatusCourse} />
             </AlertDialog.Root>
           </>
         )}
-      </CourseItemButtonContainer>
-    </CourseItemContainer>
+      </ItemButtonContainer>
+    </ListItemContainer>
   );
 }

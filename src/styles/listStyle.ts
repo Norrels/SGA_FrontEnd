@@ -9,7 +9,15 @@ const fadeIn = keyframes`
   } 
 `;
 
-export const CourseItemContainer = styled.article`
+export const ListContainer = styled.section`
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+
+  opacity: 0;
+  animation: ${fadeIn} 1s 0.4s ease-in-out forwards;
+`;
+
+export const ListItemContainer = styled.div`
   width: 100%;
   padding: 2rem;
   margin-bottom: 1rem;
@@ -27,42 +35,22 @@ export const CourseItemContainer = styled.article`
   animation: ${fadeIn} 1s ease-in-out forwards;
 `;
 
-export const CourseItemInfoContainer = styled.div`
+export const ListItemContent = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
-
-  img {
-    width: 50px;
-    height: 50px;
-
-    border-radius: 8px;
-  }
 `;
 
-export const CourseItemIcon = styled.span`
-  width: 3.125rem;
-  height: 3.125rem;
+export const ListInfoContent = styled.span`
+display: flex;
+flex-direction: column;
+justify-content: space-between;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border-radius: 8px;
-
-  background: ${(props) => props.theme["white-300"]};
-`;
-
-export const CourseItemInfoContent = styled.span`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  p {
-    span {
-      font-weight: bold;
-    }
+p {
+  span {
+    font-weight: bold;
   }
+}
 `;
 
 export const ItemInfoContentHeader = styled.div`
@@ -71,7 +59,26 @@ export const ItemInfoContentHeader = styled.div`
   align-items: center;
 `;
 
-export const CourseInfoType = styled.div`
+export const ItemIcon = styled.span`
+  width: 3.125rem;
+  height: 3.125rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 3.125rem;
+
+  background: ${(props) => props.theme["white-300"]};
+
+  img {
+    width: 100%; 
+    height: 100%;
+    border-radius: 3.125rem;
+  }
+`;
+
+export const InfoType = styled.div`
   width: 110px;
   height: 20px;
   padding: 5px;
@@ -100,15 +107,15 @@ interface ButtonProps {
   buttonColor: keyof typeof BUTTONS;
 }
 
-export const CourseItemButtonContainer = styled.div`
+export const ItemButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 1rem;
 `;
 
-export const CourseItemButton = styled.div<ButtonProps>`
+export const ItemButton = styled.div<ButtonProps>`
   width: 40px;
   height: 40px;
-  margin: 0 0.5rem;
 
   display: flex;
   align-items: center;
