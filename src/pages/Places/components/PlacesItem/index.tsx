@@ -5,7 +5,7 @@ import { useContext, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { EditPlaceModal } from "../EditPlaceModal";
 import { NewPlaceType } from "../NewPlaceModal";
@@ -26,7 +26,7 @@ interface PlacesProps {
 }
 
 export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
-  const { updateStatusPlace } = useContext(ObjectsContext);
+  const { updateStatusPlace } = useContext(ResourcesContext);
   const [open, setOpen] = useState(false);
 
   function closeModal() {

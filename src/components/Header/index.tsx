@@ -1,10 +1,18 @@
-import { User, CaretDown, CaretUp, SignOut } from "phosphor-react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  User,
+  CaretDown,
+  CaretUp,
+  SignOut,
+  BellRinging,
+  Palette,
+} from "phosphor-react";
+import { NavLink, useLocation } from "react-router-dom";
 import {
   HeaderContainer,
   HeaderContent,
   HeaderEditUserButton,
   HeaderNavBar,
+  HeaderNavGroup,
   HeaderNavMenu,
   HeaderNavMenuArrow,
   HeaderNavMenuContent,
@@ -12,16 +20,18 @@ import {
   HeaderUser,
 } from "./style";
 import Logo from "../../assets/Logo.svg";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import * as Dialog from "@radix-ui/react-dialog";
 import { EditUserModal } from "./components/EditProfileModal";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
+import * as Menubar from "@radix-ui/react-menubar";
+import { UpdateMenu } from "../UpdateMenu";
+import { ColorPickerMenu } from "../ColorPickerMenu";
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { logout } = useContext(AuthContext)
-  const { userAutheticated } = useContext(AuthContext)
+  const { logout } = useContext(AuthContext);
+  const { userAutheticated } = useContext(AuthContext);
 
   const location = useLocation();
 
@@ -37,132 +47,117 @@ export function Header() {
 
   return (
     <>
-      <HeaderContainer>
-        <HeaderContent>
-          <img src={Logo} alt="" />
+      <Menubar.Root>
+        <HeaderContainer>
+          <HeaderContent>
+            <img src={Logo} alt="" />
 
-          <HeaderNavBar>
-            <HeaderNavMenu>
-              {location.pathname == "/dias-nao-letivos" ? (
-                <NavLink to="/dias-nao-letivos" title="Dias não letivos">
-                  Dias não letivos
-                </NavLink>
-              ) : location.pathname == "/aulas" ? (
-                <NavLink to="/aulas" title="Aulas">
-                  Aulas
-                </NavLink>
-              ) : (
-                <NavLink to="/inicio" title="Início">
-                  Início
-                </NavLink>
-              )}
-
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger asChild>
-                  <CaretDown weight="fill" />
-                </DropdownMenu.Trigger>
-                <HeaderNavMenuContent>
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem>
-                    {location.pathname == "/aulas" ? (
-                      <NavLink to="/inicio">Inicio</NavLink>
-                    ) : (
-                      <NavLink to="/aulas">Aulas</NavLink>
-                    )}
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    {location.pathname == "/dias-nao-letivos" ? (
-                      <NavLink to="/inicio">Inicio</NavLink>
-                    ) : (
-                      <NavLink to="/dias-nao-letivos">Dias não letivos</NavLink>
-                    )}
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
-              </DropdownMenu.Root>
-            </HeaderNavMenu>
-            <NavLink to="/dashboard" title="Dashboard">
-              Dashboard
-            </NavLink>
-            <HeaderNavMenu>
-              <NavLink to="/professores" title="Professor">
-                Professores
-              </NavLink>
-            </HeaderNavMenu>
-            <NavLink to="/cursos" title="Cursos">
-              Cursos
-            </NavLink>
-            <NavLink to="/ambientes" title="Ambientes">
-              Ambientes
-            </NavLink>
-            {userAutheticated?.tipoUsuario == "ADMINISTRADOR" &&
+            <HeaderNavBar>
               <HeaderNavMenu>
-                {location.pathname == "/chamados" ? (
-                  <p>Chamados</p>
-                ) : location.pathname == "/usuarios" ? (
-                  <p>Usuários</p>
-                ) : (
-                  <p>Administrador</p>
-                )}
-                <DropdownMenu.Root>
-                  <DropdownMenu.Trigger asChild>
+                <HeaderNavGroup>
+                  {location.pathname == "/dias-nao-letivos" ? (
+                    <NavLink to="/dias-nao-letivos" title="Dias não letivos">
+                      Dias não letivos
+                    </NavLink>
+                  ) : location.pathname == "/aulas" ? (
+                    <NavLink to="/aulas" title="Aulas">
+                      Aulas
+                    </NavLink>
+                  ) : (
+                    <NavLink to="/inicio" title="Início">
+                      Início
+                    </NavLink>
+                  )}
+
+                  <Menubar.Trigger>
                     <CaretDown weight="fill" />
-                  </DropdownMenu.Trigger>
+                  </Menubar.Trigger>
+                </HeaderNavGroup>
+
+                <Menubar.Content align="start">
                   <HeaderNavMenuContent>
-                    <HeaderNavMenuArrow>
-                      <CaretUp weight="fill" size={30} />
-                    </HeaderNavMenuArrow>
                     <HeaderNavMenuItem>
-                      {location.pathname !== "/chamados" && (
-                        <NavLink to="/chamados" title="Chamados">
-                          Chamados
-                        </NavLink>
+                      {location.pathname == "/aulas" ? (
+                        <NavLink to="/inicio">Inicio</NavLink>
+                      ) : (
+                        <NavLink to="/aulas">Aulas</NavLink>
                       )}
                     </HeaderNavMenuItem>
                     <HeaderNavMenuItem>
-                      {location.pathname !== "/usuarios" && (
-                        <NavLink to="/usuarios" title="usuarios">
-                          Usuários
+                      {location.pathname == "/dias-nao-letivos" ? (
+                        <NavLink to="/inicio">Inicio</NavLink>
+                      ) : (
+                        <NavLink to="/dias-nao-letivos">
+                          Dias não letivos
                         </NavLink>
                       )}
                     </HeaderNavMenuItem>
                   </HeaderNavMenuContent>
-                </DropdownMenu.Root>
+                </Menubar.Content>
               </HeaderNavMenu>
-            }
-          </HeaderNavBar>
 
+              <NavLink to="/dashboard" title="Dashboard">
+                Dashboard
+              </NavLink>
 
-          <HeaderUser>
-            <User size={23} />
-            <p>Perfil</p>
-            <DropdownMenu.Root>
-              <DropdownMenu.Trigger asChild>
-                <CaretDown weight="fill" style={{ cursor: "pointer" }} />
-              </DropdownMenu.Trigger>
+              <NavLink to="/professores" title="Professor">
+                Professores
+              </NavLink>
 
-              <HeaderNavMenuContent>
-                <HeaderNavMenuArrow>
-                  <CaretUp weight="fill" size={30} />
-                </HeaderNavMenuArrow>
+              <NavLink to="/cursos" title="Cursos">
+                Cursos
+              </NavLink>
 
-                <HeaderNavMenuItem onClick={closeAulas}>
-                  <HeaderEditUserButton>Seu perfil</HeaderEditUserButton>
-                </HeaderNavMenuItem>
-                <HeaderNavMenuItem>
-                  <HeaderEditUserButton
-                    onClick={() => logout()}
-                  >
-                    Sair <SignOut />
-                  </HeaderEditUserButton>
-                </HeaderNavMenuItem>
-              </HeaderNavMenuContent>
-            </DropdownMenu.Root>
-          </HeaderUser>
-        </HeaderContent>
-      </HeaderContainer>
+              <NavLink to="/ambientes" title="Ambientes">
+                Ambientes
+              </NavLink>
+
+              {userAutheticated?.tipoUsuario == "ADMINISTRADOR" && (
+                <NavLink to="/usuarios" title="usuarios">
+                  Usuários
+                </NavLink>
+              )}
+            </HeaderNavBar>
+
+            <HeaderUser>
+              <Menubar.Menu>
+                <Menubar.Trigger>
+                  <BellRinging size={23} />
+                </Menubar.Trigger>
+                <UpdateMenu />
+              </Menubar.Menu>
+
+              <Menubar.Menu>
+                <Menubar.Trigger>
+                  <Palette size={25} />
+                </Menubar.Trigger>
+                <ColorPickerMenu />
+              </Menubar.Menu>
+
+              <Menubar.Menu>
+                <Menubar.Trigger asChild>
+                  <User size={23} style={{ cursor: "pointer" }} />
+                </Menubar.Trigger>
+
+                <HeaderNavMenuContent align="center">
+                  <HeaderNavMenuArrow>
+                    <CaretUp weight="fill" size={30} />
+                  </HeaderNavMenuArrow>
+
+                  <HeaderNavMenuItem onClick={closeAulas}>
+                    <HeaderEditUserButton>Seu perfil</HeaderEditUserButton>
+                  </HeaderNavMenuItem>
+                  <HeaderNavMenuItem>
+                    <HeaderEditUserButton onClick={() => logout()}>
+                      Sair <SignOut />
+                    </HeaderEditUserButton>
+                  </HeaderNavMenuItem>
+                </HeaderNavMenuContent>
+              </Menubar.Menu>
+            </HeaderUser>
+          </HeaderContent>
+        </HeaderContainer>
+      </Menubar.Root>
 
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <EditUserModal closeModal={closeModal} />

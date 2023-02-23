@@ -28,9 +28,9 @@ import {
   TeacherPhotoInputImage,
 } from "./style";
 import {
-  ObjectsContext,
+  ResourcesContext,
   TeacherProps,
-} from "../../../../contexts/ObjectsContext";
+} from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { StarsSection } from "../../../Teacher/components/NewTeacherModal/components/StarsSection";
 import { zodResolver } from "@hookform/resolvers/zod";

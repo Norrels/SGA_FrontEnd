@@ -1,6 +1,6 @@
 import { Confetti, Lightbulb, Warning, WarningOctagon } from "phosphor-react";
 import { ChangeEvent, useContext } from "react";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import {
   TeacherGraphContainer,
   TeacherGraphDescription,
@@ -29,7 +29,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
 
 export function TeacherGraph() {
-  const { teachers } = useContext(ObjectsContext);
+  const { teachers } = useContext(ResourcesContext);
   const [hoursThisMounth, setHoursThisMounth] = useState(0)
   const [teacherName, setTeacherName] = useState<any>()
   const [teacherId, setTeacherId] = useState(0)

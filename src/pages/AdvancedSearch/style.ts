@@ -39,7 +39,7 @@ export const AdvancedContent = styled.div`
 
 export const AdvancedTitleContainer = styled.section`
   margin-top: 2rem;
-
+  z-index: -1;
   display: flex;
   justify-content: center;
   align-items: center;

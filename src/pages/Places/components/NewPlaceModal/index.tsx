@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import InputMask from "react-input-mask";
 import { z } from "zod";
 import { Notification } from "../../../../components/Notification";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import {
   Content,
   FinalButton,
@@ -129,7 +129,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setValue,
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
-  const { createPlacesAPI } = useContext(ObjectsContext);
+  const { createPlacesAPI } = useContext(ResourcesContext);
   const [tipoAmbiente, setTipoAmbiente] = useState("");
   const [adress, setAdress] = useState("");
   const [cep, setCep] = useState("");

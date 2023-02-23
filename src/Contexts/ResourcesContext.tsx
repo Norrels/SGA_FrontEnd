@@ -2,7 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 import { API } from "../lib/axios";
 import { NewPlaceType } from "../pages/Places/components/NewPlaceModal";
 
-interface ObjectsContextProviderProps {
+interface ResourcesContextProviderProps {
   children: ReactNode;
 }
 
@@ -48,7 +48,7 @@ export interface CourseProps {
 }
 [];
 
-interface ObjectsContextType {
+interface ResourcesContextType {
   teachers: TeacherProps[];
   courses: CourseProps[];
   placesList: NewPlaceType[];
@@ -63,11 +63,11 @@ interface ObjectsContextType {
   createPlacesAPI: (data: NewPlaceType) => Promise<string>;
 }
 
-export const ObjectsContext = createContext({} as ObjectsContextType);
+export const ResourcesContext = createContext({} as ResourcesContextType);
 
-export function ObjectsContextProvider({
+export function ResourcesContextProvider({
   children,
-}: ObjectsContextProviderProps) {
+}: ResourcesContextProviderProps) {
   useEffect(() => {
     fetchPlaces();
     fetchTeachers();
@@ -229,7 +229,7 @@ export function ObjectsContextProvider({
   }
 
   return (
-    <ObjectsContext.Provider
+    <ResourcesContext.Provider
       value={{
         updateStatusTeacher,
         updateTeachers,
@@ -246,6 +246,6 @@ export function ObjectsContextProvider({
       }}
     >
       {children}
-    </ObjectsContext.Provider>
+    </ResourcesContext.Provider>
   );
 }

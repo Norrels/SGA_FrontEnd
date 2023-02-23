@@ -35,8 +35,9 @@ export function Router() {
       </Route>
 
       <Route element={<ProtectedRoutesAdm />}>
-        <Route path="/chamados" element={<Call />} />
-        <Route path="/usuarios" element={<User />} />
+        <Route path="/" element={<DefaultLayout />}>
+          <Route path="/usuarios" element={<User />} />
+        </Route>
       </Route>
     </Routes>
   );

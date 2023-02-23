@@ -71,23 +71,7 @@ const COLORS = {
 interface ColorsProps {
   colorsColor: keyof typeof COLORS;
 }
-export const InputCheckbox = styled.div<ColorsProps>`
-  display: flex;
-  align-items: center;
-  gap: 0.875rem;
-  input {
-    width: 100%;
-    min-width: 1.688rem;
-    min-height: 1.688rem;
-    border: none;
-    accent-color: ${(props) => props.theme[COLORS[props.colorsColor]]};
-  }
-  span {
-    color: ${(props) => props.theme[COLORS[props.colorsColor]]};
-    font-weight: bold;
-    font-size: 1.25rem;
-  }
-`;
+
 export const HomeUpContentSearchInput = styled.div`
   display: flex;
   gap: 1rem;
@@ -103,17 +87,7 @@ export const HomeUpContentSearchInput = styled.div`
     }
   }
 `;
-export const HomeCheckBox = styled(Checkbox.Root)`
-  background-color: ${(props) => props.theme["white"]};
-  width: 1.75rem;
-  height: 1.75rem;
-  border: none;
-`;
-export const HomeCheckBoxIndicator = styled(Checkbox.Indicator)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+
 export const HomeCalenderBox = styled.div`
   position: relative;
   width: 2rem;

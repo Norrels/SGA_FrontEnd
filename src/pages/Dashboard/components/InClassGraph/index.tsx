@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
+import { PlaceProps, TeacherProps } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { TeacherCard } from "../TeacherCard";
 import { InClassContainer, InclassTeacherCards } from "./style";

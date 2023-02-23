@@ -29,7 +29,7 @@ export const userInput = z.object({
   nome: z.string().max(30, { message: "* O nome não deve ter mais de 20 caracteres..." }),
   email: z.string().email({ message: "* Informe um email válido..." }),
   senha: z.string().optional(),
-  tipoUsuario: z.string().optional()
+  tipoUsuario: z.string()
 })
 
 export type UserType = z.infer<typeof userInput>;
@@ -39,9 +39,9 @@ export const AuthContext = createContext({} as AuthContextType)
 export function AuthProvider({ children }: AuthProviderProvideProps) {
   const [autheticated, setAutheticated] = useState(false)
   const [userAutheticated, setuserAutheticated] = useState<UserType>({
-    email: "", nome: "", senha: undefined, nif: "", id: ""
+    email: "", nome: "", senha: undefined, nif: "", id: "", tipoUsuario: "usuario"
   });
-  const today = new Date()
+
   const navigate = useNavigate()
   const paginaAtual = useLocation()
   
@@ -49,7 +49,6 @@ export function AuthProvider({ children }: AuthProviderProvideProps) {
     const token = localStorage.getItem("token")
     if (token) {
       const object = JSON.parse(atob(token.split('.')[1]))
-      console.log(fromUnixTime(object.exp) > today)
       setuserAutheticated(object)
       setAutheticated(true)
       paginaAtual.pathname === "/" &&

@@ -3,9 +3,9 @@ import { CheckCircle, DotsThree, Trash } from "phosphor-react";
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import {
-  ObjectsContext,
+  ResourcesContext,
   TeacherProps,
-} from "../../../../contexts/ObjectsContext";
+} from "../../../../contexts/ResourcesContext";
 import UserPicture from "../../../../assets/User.png";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
@@ -24,7 +24,7 @@ interface TeacherItemProps {
 }
 
 export function TeacherItem({ teacherItem }: TeacherItemProps) {
-  const { updateStatusTeacher } = useContext(ObjectsContext);
+  const { updateStatusTeacher } = useContext(ResourcesContext);
 
   async function handleUpdateStatusTeacher() {
     updateStatusTeacher(teacherItem.id!);

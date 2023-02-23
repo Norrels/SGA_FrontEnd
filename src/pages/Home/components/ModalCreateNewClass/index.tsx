@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Notification } from "../../../../components/Notification";
-import { PlaceProps, TeacherProps } from "../../../../contexts/ObjectsContext";
+import { PlaceProps, TeacherProps } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { FirstStepContent } from "./components/FirstStepContent";
 import { SecondStepContent } from "./components/SecondStepContent";

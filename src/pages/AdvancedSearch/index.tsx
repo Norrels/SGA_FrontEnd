@@ -21,7 +21,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { AdvancedSeachTable } from "./components/AdvancedSearchTable";
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ObjectsContext } from "../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { API } from "../../lib/axios";
 import { z } from "zod";
 import { getDay, setDay } from "date-fns";
@@ -100,7 +100,7 @@ export default function AdvancedSearch() {
   const [typeCoursesMatch, setTypeCoursesMatch] = useState<String[]>([]);
 
   const { register, handleSubmit, reset } = useForm<SearchValue>();
-  const { teachers, placesList } = useContext(ObjectsContext);
+  const { teachers, placesList } = useContext(ResourcesContext);
 
   const [open, setOpen] = useState(false);
 

@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import {
   ButtonNewUnidadeCurricular,
   Content,
@@ -76,7 +76,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
   const [notificationStataus, setNotificationStataus] = useState(false);
 
   //Método do context que faz a requisição para API e adiciona o valor no state
-  const { createCourseAPI } = useContext(ObjectsContext);
+  const { createCourseAPI } = useContext(ResourcesContext);
 
   //Variavel para criar a logica de adicionar uma nova unidade curricular
   const { fields, append, remove } = useFieldArray({

@@ -1,11 +1,7 @@
-//Tentar criar um context para esses dois
-
-import { ArrowLeft, ArrowRight, Calendar, Check, Info } from "phosphor-react";
+import { ArrowLeft, ArrowRight, Calendar, Info } from "phosphor-react";
 import * as HoverCard from "@radix-ui/react-hover-card";
 import {
   HomeCalenderBox,
-  HomeCheckBox,
-  HomeCheckBoxIndicator,
   HomeDownContentSearchInput,
   HomeDownFilterContentSearchInput,
   HomeSearchInputContainer,
@@ -14,31 +10,34 @@ import {
   HomeSelectOptionSearch,
   HomeTextContentSearchInput,
   HomeUpContentSearchInput,
-  InputCheckbox,
 } from "./style";
 import { SubtitlteHover } from "../SubtitleHover";
 import { ChangeEvent } from "react";
 import { endOfWeek, format, startOfWeek } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { endOfDay } from "date-fns/esm";
 
-interface SearchInputProps {
-  previousDayWeek: () => void;
-  nextDayWeek: () => void;
-  choiceDayWeek: (data: Date) => void;
-  referenceDay: Date;
-  choiceTypeOfViewCalender: (type: string) => void;
+export interface ISearchInputProps {
+  data: {
+    previousDayWeek: () => void;
+    nextDayWeek: () => void;
+    choiceDayWeek: (data: Date) => void;
+    referenceDay: Date;
+    choiceTypeOfViewCalender: (type: string) => void;
+  };
 }
 
-export function HomeSearchInput({
-  previousDayWeek,
-  nextDayWeek,
-  choiceDayWeek,
-  referenceDay,
-  choiceTypeOfViewCalender,
-}: SearchInputProps) {
-  const firstWeekDay = startOfWeek(referenceDay);
-  const lastWeekDay = endOfWeek(referenceDay);
+export function HomeSearchInput({ data }: ISearchInputProps) {
+
+  const {
+    previousDayWeek,
+    nextDayWeek,
+    choiceDayWeek,
+    referenceDay,
+    choiceTypeOfViewCalender,
+  } = data;
+
+  const firstWeekDay = startOfWeek(data.referenceDay);
+  const lastWeekDay = endOfWeek(data.referenceDay);
 
   function handlePreviousDay() {
     previousDayWeek();
@@ -61,23 +60,9 @@ export function HomeSearchInput({
     choiceDayWeek(dayChoiced);
   }
 
-  /* function teste(event: ChangeEvent<HTMLSelectElement>) {
-    if (event.target.value == "MANHA") {
-      console.log("passou ak");
-    }
-  }
-
-  function handleClickInTypeDay(value: any) {
-    handleCreateArrayDayType(value);
-  } */
-
   return (
     <HomeSearchInputContainer>
       <HomeDownContentSearchInput>
-        {/* <input
-          type="text"
-          placeholder="Busque uma ou várias aulas dessa semana..."
-        /> */}
       </HomeDownContentSearchInput>
 
       <HomeDownFilterContentSearchInput>
@@ -124,51 +109,7 @@ export function HomeSearchInput({
             <SubtitlteHover />
           </HoverCard.Root>
         </HomeSelectAndLegenda>
-
         <HomeSelectFilterOptionSearch>
-          {/* <InputCheckbox colorsColor={1}>
-            <HomeCheckBox
-              value=""
-              onChange={(checked) =>
-                handleClickInTypeDay(checked.currentTarget.value)
-              }
-            >
-              <HomeCheckBoxIndicator >
-                <Check size={30} weight="bold" />
-              </HomeCheckBoxIndicator>
-            </HomeCheckBox>
-            <span>Todos</span>
-          </InputCheckbox>
-          <InputCheckbox colorsColor={2}>
-            <HomeCheckBox onCheckedChange={() =>
-                handleClickInTypeDay("MANHA")
-              }>
-              <HomeCheckBoxIndicator>
-                <Check size={30} weight="bold" />
-              </HomeCheckBoxIndicator>
-            </HomeCheckBox>
-            <span>Manhã</span>
-          </InputCheckbox>
-          <InputCheckbox colorsColor={3}>
-            <HomeCheckBox onCheckedChange={() =>
-                handleClickInTypeDay("TARDE")
-              }>
-              <HomeCheckBoxIndicator>
-                <Check size={30} weight="bold" />
-              </HomeCheckBoxIndicator>
-            </HomeCheckBox>
-            <span>Tarde</span>
-          </InputCheckbox>
-          <InputCheckbox colorsColor={4}>
-            <HomeCheckBox onCheckedChange={() =>
-                handleClickInTypeDay("NOITE")
-              }>
-              <HomeCheckBoxIndicator>
-                <Check size={30} weight="bold" />
-              </HomeCheckBoxIndicator>
-            </HomeCheckBox>
-            <span>Noite</span>
-          </InputCheckbox> */}
         </HomeSelectFilterOptionSearch>
       </HomeDownFilterContentSearchInput>
     </HomeSearchInputContainer>

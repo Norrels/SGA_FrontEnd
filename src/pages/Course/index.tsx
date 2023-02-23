@@ -2,37 +2,30 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { useContext, useState } from "react";
 import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
-import { ObjectsContext } from "../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { AuthContext } from "../../contexts/AuthContext";
-import {
-  ButtonModal,
-  Content,
-  HeadingButtonContainer,
-  MainContainer,
-  SearchInput,
-  TitleContainer,
-  Toggle,
-} from "../../styles/commonStyle";
+import { ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer, Toggle } from "../../styles/commonStyle";
+
 import { ListContainer } from "../../styles/listStyle";
 
 export function Course() {
   document.title = "Cursos | SGA";
 
-  const { courses } = useContext(ObjectsContext);
+  const { courses } = useContext(ResourcesContext);
   const [showDisable, setShowDisable] = useState<Boolean>(false);
   const [search, setSearch] = useState("");
   const { userAutheticated } = useContext(AuthContext);
   //Variaveis é método criado para fecha a modal do radix
   const [open, setOpen] = useState(false);
 
+  let filteredCourses =
+  courses.length > 0
+    ? courses.filter((course) => course.nome?.toLowerCase().includes(search))
+    : [];
 
   function closeModal() {
     setOpen(false);
   }
-
-  let filteredCourses = courses.length > 0 
-  ? courses.filter(course => course.nome?.toLowerCase().includes(search)) 
-  : []
 
   return (
     <MainContainer>

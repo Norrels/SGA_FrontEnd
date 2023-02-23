@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Menubar from "@radix-ui/react-menubar";
 
 const fadeIn = keyframes`
   from {
@@ -40,7 +40,7 @@ export const HeaderNavBar = styled.nav`
   p {
     color: ${(props) => props.theme["black"]};
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     text-decoration: none;
 
     position: relative;
@@ -75,6 +75,12 @@ export const HeaderNavBar = styled.nav`
         }
       }
     }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      gap: 2rem;
+    }
   }
 `;
 
@@ -97,17 +103,24 @@ export const HeaderUser = styled.span`
 
   svg {
     transition-duration: 0.2s;
+    margin-left: 0.9rem;
     &:hover {
       color: ${(props) => props.theme["blue-300"]} !important;
     }
   }
 `;
 
-export const HeaderNavMenu = styled.span`
+export const HeaderNavMenu = styled(Menubar.Menu)`
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5rem;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+  }
 
   svg {
     cursor: pointer;
@@ -128,6 +141,7 @@ export const HeaderNavMenu = styled.span`
 export const HeaderNavMenuArrow = styled.span`
   width: 100%;
   margin-top: -1.4rem;
+  margin-left: -0.5rem;
 
   display: flex;
   align-items: center;
@@ -141,12 +155,13 @@ export const HeaderNavMenuArrow = styled.span`
   }
 `;
 
-export const HeaderNavMenuContent = styled(DropdownMenu.Content)`
+export const HeaderNavMenuContent = styled(Menubar.Content)`
   background: ${(props) => props.theme["white"]};
   padding: 0.2rem 0.6rem 0.6rem 0.6rem;
   border-radius: 8px;
   margin-top: 1rem;
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
+  z-index: 10;
 
   opacity: 0;
   animation: ${fadeIn} 0.4s ease-in-out forwards;
@@ -159,7 +174,7 @@ export const HeaderNavMenuContent = styled(DropdownMenu.Content)`
   }
 `;
 
-export const HeaderNavMenuItem = styled(DropdownMenu.Item)`
+export const HeaderNavMenuItem = styled(Menubar.Item)`
   width: 100%;
 
   display: flex;
@@ -207,5 +222,23 @@ export const HeaderEditUserButton = styled.button`
   &:hover {
     background: ${(props) => props.theme["blue-500"]};
     color: ${(props) => props.theme["white"]};
+  }
+`;
+
+export const HeaderNavGroup = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  :has(a.active) {
+    svg {
+      color: ${(props) => props.theme["blue-300"]};
+    }
+  }
+
+  button {
+    border: none;
+    display: flex;
   }
 `;

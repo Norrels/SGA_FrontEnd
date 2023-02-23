@@ -5,10 +5,8 @@ import { Controller, useFormContext } from "react-hook-form";
 import { classPropsFirstStep } from "../..";
 import {
   CourseProps,
-  ObjectsContext,
-  TeacherProps,
-} from "../../../../../../contexts/ObjectsContext";
-import { API } from "../../../../../../lib/axios";
+  ResourcesContext,
+} from "../../../../../../contexts/ResourcesContext";
 import {
   CheckboxIndicator,
   CheckboxRoot,
@@ -21,20 +19,20 @@ import {
   Steps,
 } from "../../style";
 
-interface firstStepContentProps {
+interface IfirstStepContentProps {
   name: string;
   handleNextStep: (step: number) => void;
-  createFirstStep: (data: classPropsFirstStep) => void
+  createFirstStep: (data: classPropsFirstStep) => void;
 }
 
 export function FirstStepContent({
   name,
   handleNextStep,
-  createFirstStep
-}: firstStepContentProps) {
+  createFirstStep,
+}: IfirstStepContentProps) {
   const [selectedCourse, setSelectedCourse] = useState<CourseProps>();
   const [selectedDay, setSelectedDay] = useState("");
-  const [dia, setDia] = useState("")
+  const [dia, setDia] = useState("");
   const [segundaSelected, setSegundaSelected] = useState(false);
   const [terSelected, setTerSelected] = useState(false);
   const [quaSelected, setQuaSelected] = useState(false);
@@ -42,8 +40,8 @@ export function FirstStepContent({
   const [sexSelected, setSexSelected] = useState(false);
   const [sabSelected, setSabSelected] = useState(false);
   const [domSelected, setDomSelected] = useState(false);
-  const [lastSelected, setLastSelected] = useState("")
-  const { courses } = useContext(ObjectsContext);
+  const [lastSelected, setLastSelected] = useState("");
+  const { courses } = useContext(ResourcesContext);
   const {
     control,
     register,
@@ -62,11 +60,7 @@ export function FirstStepContent({
     setValue("unidadeCurricular.id", "");
     setSelectedCourse(course);
   }
-  let codTurmaValidation: string = watch("codTurma")
-
-  const hoje = new Date()
-    .toLocaleDateString()
-    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
+  let codTurmaValidation: string = watch("codTurma");
 
   const isValidForm =
     watch("curso.id") != undefined &&
@@ -78,71 +72,66 @@ export function FirstStepContent({
     codTurmaValidation?.length >= 2 &&
     watch("cargaDiaria") <= 8 &&
     watch("cargaDiaria") >= 2 &&
-    codTurmaValidation?.length <= 15
-
-    console.log(name)
-  
+    codTurmaValidation?.length <= 15;
 
   function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
     const diaSelecionado = event.target.value;
-    setDia(diaSelecionado)
+    setDia(diaSelecionado);
     diaSelecionado.replace("-", ", ");
     //Descobrindo o dia da semana
     const selecionadoDia = format(new Date(diaSelecionado), "i");
     switch (lastSelected) {
       case "6":
-        setDomSelected(false)
+        setDomSelected(false);
         break;
       case "7":
-        setSegundaSelected(false)
+        setSegundaSelected(false);
         break;
       case "1":
-        setTerSelected(false)
+        setTerSelected(false);
         break;
       case "2":
-        setQuaSelected(false)
+        setQuaSelected(false);
         break;
       case "3":
-        setQuiSelected(false)
+        setQuiSelected(false);
         break;
       case "4":
-        setSexSelected(false)
+        setSexSelected(false);
         break;
       case "5":
-        setSabSelected(false)
+        setSabSelected(false);
         break;
       default:
         break;
     }
-    setSelectedDay(selecionadoDia)
-    setLastSelected(selecionadoDia)
+    setSelectedDay(selecionadoDia);
+    setLastSelected(selecionadoDia);
     switch (selecionadoDia) {
       case "6":
-        setDomSelected(true)
+        setDomSelected(true);
         break;
       case "7":
-        setSegundaSelected(true)
+        setSegundaSelected(true);
         break;
       case "1":
-        setTerSelected(true)
+        setTerSelected(true);
         break;
       case "2":
-        setQuaSelected(true)
+        setQuaSelected(true);
         break;
       case "3":
-        setQuiSelected(true)
+        setQuiSelected(true);
         break;
       case "4":
-        setSexSelected(true)
+        setSexSelected(true);
         break;
       case "5":
-        setSabSelected(true)
+        setSabSelected(true);
         break;
       default:
         break;
     }
-
-
   }
 
   const data = {
@@ -153,15 +142,23 @@ export function FirstStepContent({
     codTurma: getValues("codTurma"),
     periodo: getValues("periodo"),
     dataInicio: dia,
-    diaSemana: [domSelected, segundaSelected, terSelected, quaSelected, quiSelected, sexSelected, sabSelected],
+    diaSemana: [
+      domSelected,
+      segundaSelected,
+      terSelected,
+      quaSelected,
+      quiSelected,
+      sexSelected,
+      sabSelected,
+    ],
     cargaDiaria: getValues("cargaDiaria"),
   };
 
   function createClassFirstStep() {
-    setValue("diaSemana", data.diaSemana)
-    createFirstStep(data)
-    resetField("professor.id")
-    resetField("ambiente.id")
+    setValue("diaSemana", data.diaSemana);
+    createFirstStep(data);
+    resetField("professor.id");
+    resetField("ambiente.id");
   }
 
   return (
@@ -191,13 +188,16 @@ export function FirstStepContent({
             Selecione um curso...
           </option>
           {courses.map((course) => {
-            if(name == "customizável") {
+            if (name == "customizável") {
               return (
                 <option key={course.id} value={course.id}>
                   {course.nome}
                 </option>
               );
-            } else if (course.tipo.toLowerCase() == name && course.ativo == true) {
+            } else if (
+              course.tipo.toLowerCase() == name &&
+              course.ativo == true
+            ) {
               return (
                 <option key={course.id} value={course.id}>
                   {course.nome}
@@ -237,7 +237,9 @@ export function FirstStepContent({
             placeholder="Digite o código da turma..."
           />
           {codTurmaValidation?.length >= 15 && <p> * Deve se menor que 15</p>}
-          {codTurmaValidation?.length < 2 && watch("codTurma") != "" && <p> * Deve se maior que 2</p>}
+          {codTurmaValidation?.length < 2 && watch("codTurma") != "" && (
+            <p> * Deve se maior que 2</p>
+          )}
         </InputIndividual>
         <InputIndividual>
           <label>Hora(s) por dia</label>
@@ -249,7 +251,9 @@ export function FirstStepContent({
             {...register("cargaDiaria")}
           />
           {watch("cargaDiaria") > 8 && <p> * Deve se menor que 9h</p>}
-          {watch("cargaDiaria") < 2 && watch("cargaDiaria") != "" && <p> * Deve se maior que 2h</p>}
+          {watch("cargaDiaria") < 2 && watch("cargaDiaria") != "" && (
+            <p> * Deve se maior que 2h</p>
+          )}
         </InputIndividual>
       </InputContent>
       <InputContent style={{ flexDirection: "row" }}>
@@ -274,126 +278,130 @@ export function FirstStepContent({
           <label>Data de início</label>
           <input
             type="date"
-            min={hoje}
             {...register("dataInicio")}
             onChange={onChangeDataWithWeek}
           />
         </InputIndividual>
       </InputContent>
 
-      <Controller control={control} name="diaSemana" render={({ field }) => {
-        return (
-          <ChecksContent>
-            <CheckIndividual title="Domingo">
-              <label>Dom</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${0}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  setValue(`diaSemana.${0}`, checked ? true : false);
-                  setDomSelected(selectedDay == "6" ? false : !domSelected);
-                }}
-                checked={selectedDay == "6" ? true : domSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Segunda-feira">
-              <label>Seg</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${1}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  setValue(`diaSemana.${1}`, checked ? true : false);
-                  setSegundaSelected(selectedDay == "7" ? false : !segundaSelected);
-                }}
-                checked={selectedDay == "7" ? true : segundaSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Terça-feira">
-              <label>Ter</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${2}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  setValue(`diaSemana.${2}`, checked ? true : false);
-                  setTerSelected(selectedDay == "1" ? false : !terSelected);
-                }}
-                checked={selectedDay == "1" ? true : terSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Quarta-feira">
-              <label>Qua</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${3}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  setValue(`diaSemana.${3}`, checked ? true : false);
-                  setQuaSelected(selectedDay == "2" ? false : !quaSelected);
-                }}
-                checked={selectedDay == "2" ? true : quaSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Quinta-feira">
-              <label>Qui</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${4}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  setValue(`diaSemana.${4}`, checked ? true : false);
-                  setQuiSelected(selectedDay == "3" ? false : !quiSelected);
-                }}
-                checked={selectedDay == "3" ? true : quiSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Sexta-feira">
-              <label>Sex</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${5}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  console.log(checked);
-                  setValue(`diaSemana.${5}`, checked ? true : false);
-                  setSexSelected(selectedDay == "4" ? false : !sexSelected);
-                }}
-                checked={selectedDay == "4" ? true : sexSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-            <CheckIndividual title="Sábado">
-              <label>Sab</label>
-              <CheckboxRoot
-                {...register(`diaSemana.${6}`, { value: false })}
-                onCheckedChange={(checked) => {
-                  console.log(checked);
-                  setValue(`diaSemana.${6}`, checked ? true : false);
-                  setSabSelected(selectedDay == "5" ? false : !sabSelected);
-                }}
-                checked={selectedDay == "5" ? true : sabSelected}
-              >
-                <CheckboxIndicator>
-                  <Check size={30} weight="bold" color="#fff" />
-                </CheckboxIndicator>
-              </CheckboxRoot>
-            </CheckIndividual>
-          </ChecksContent>
-        )
-      }}
+      <Controller
+        control={control}
+        name="diaSemana"
+        render={({ field }) => {
+          return (
+            <ChecksContent>
+              <CheckIndividual title="Domingo">
+                <label>Dom</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${0}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    setValue(`diaSemana.${0}`, checked ? true : false);
+                    setDomSelected(selectedDay == "6" ? false : !domSelected);
+                  }}
+                  checked={selectedDay == "6" ? true : domSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Segunda-feira">
+                <label>Seg</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${1}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    setValue(`diaSemana.${1}`, checked ? true : false);
+                    setSegundaSelected(
+                      selectedDay == "7" ? false : !segundaSelected
+                    );
+                  }}
+                  checked={selectedDay == "7" ? true : segundaSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Terça-feira">
+                <label>Ter</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${2}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    setValue(`diaSemana.${2}`, checked ? true : false);
+                    setTerSelected(selectedDay == "1" ? false : !terSelected);
+                  }}
+                  checked={selectedDay == "1" ? true : terSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Quarta-feira">
+                <label>Qua</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${3}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    setValue(`diaSemana.${3}`, checked ? true : false);
+                    setQuaSelected(selectedDay == "2" ? false : !quaSelected);
+                  }}
+                  checked={selectedDay == "2" ? true : quaSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Quinta-feira">
+                <label>Qui</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${4}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    setValue(`diaSemana.${4}`, checked ? true : false);
+                    setQuiSelected(selectedDay == "3" ? false : !quiSelected);
+                  }}
+                  checked={selectedDay == "3" ? true : quiSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Sexta-feira">
+                <label>Sex</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${5}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    console.log(checked);
+                    setValue(`diaSemana.${5}`, checked ? true : false);
+                    setSexSelected(selectedDay == "4" ? false : !sexSelected);
+                  }}
+                  checked={selectedDay == "4" ? true : sexSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+              <CheckIndividual title="Sábado">
+                <label>Sab</label>
+                <CheckboxRoot
+                  {...register(`diaSemana.${6}`, { value: false })}
+                  onCheckedChange={(checked) => {
+                    console.log(checked);
+                    setValue(`diaSemana.${6}`, checked ? true : false);
+                    setSabSelected(selectedDay == "5" ? false : !sabSelected);
+                  }}
+                  checked={selectedDay == "5" ? true : sabSelected}
+                >
+                  <CheckboxIndicator>
+                    <Check size={30} weight="bold" color="#fff" />
+                  </CheckboxIndicator>
+                </CheckboxRoot>
+              </CheckIndividual>
+            </ChecksContent>
+          );
+        }}
       />
       <FinalButton>
         <button

@@ -20,10 +20,10 @@ import { RightClick } from "../../RightClick";
 import { useContext, useEffect, useState } from "react";
 import {
   CourseProps,
-  ObjectsContext,
+  ResourcesContext,
   PlaceProps,
   TeacherProps,
-} from "../../../../../contexts/ObjectsContext";
+} from "../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../lib/axios";
 import { EditClassModalProps } from "../../EditClassModal";
 import { EditAllClassModalProps } from "../../EditAllClassModal";
@@ -53,9 +53,9 @@ export interface AulaProps {
 }
 
 export function CalenderTeacher({ days, today }: CalenderProps) {
-  const { placesList } = useContext(ObjectsContext);
+  const { placesList } = useContext(ResourcesContext);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
-  const { teachers } = useContext(ObjectsContext);
+  const { teachers } = useContext(ResourcesContext);
 
   async function fetchAulas() {
     const response = await API.get(

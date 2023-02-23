@@ -1,7 +1,7 @@
 import { ArrowRight } from "phosphor-react";
 import { useContext, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
-import { ObjectsContext, PlaceProps, TeacherProps } from "../../../../../../contexts/ObjectsContext";
+import { ResourcesContext, PlaceProps, TeacherProps } from "../../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../../lib/axios";
 import {
   FinalButton,

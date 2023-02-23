@@ -34,7 +34,7 @@ import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg"
 import { ChangeEvent, useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "./components/ViewClassModal";
@@ -96,7 +96,7 @@ export function AvaliableModal() {
     .toLocaleDateString()
     .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
 
-  const { teachers } = useContext(ObjectsContext);
+  const { teachers } = useContext(ResourcesContext);
 
   const { register, handleSubmit, reset, setValue, control } =
     useForm<DispProps>({

@@ -12,14 +12,14 @@ import {
 import { AvaliableModal } from "./components/AvaliableModal";
 import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
 import { useContext, useEffect, useState } from "react";
-import { ObjectsContext } from "../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { API } from "../../lib/axios";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export function Places() {
   document.title = "Ambientes | SGA";
 
-  const { placesList } = useContext(ObjectsContext);
+  const { placesList } = useContext(ResourcesContext);
   const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
   const [on, setOn] = useState<Boolean>(false);

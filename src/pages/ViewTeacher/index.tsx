@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { boolean } from "zod";
 import VisualzacaoProfessores from "../../assets/VisualizacaoProfessores.svg";
-import { ObjectsContext, TeacherProps } from "../../contexts/ObjectsContext";
+import { ResourcesContext, TeacherProps } from "../../contexts/ResourcesContext";
 import { API } from "../../lib/axios";
 import { AbsenseItem } from "./components/AbsenseItem";
 import { EditTeacherModal } from "./components/EditTeacherModal";
@@ -47,7 +47,7 @@ export function ViewTeacher() {
   });
   const [closeModal, setCloseModal] = useState(false)
   const [absenseList, setAbsenseList] = useState<AbsenceProps[]>([]);
-  const { updateTeachers } = useContext(ObjectsContext)
+  const { updateTeachers } = useContext(ResourcesContext)
 
   async function fetchUser() {
     const response = await API.get(`/professor/${teacherId}`);
@@ -57,7 +57,7 @@ export function ViewTeacher() {
   }
 
 
-  const { teachers } = useContext(ObjectsContext)
+  const { teachers } = useContext(ResourcesContext)
   const teacherItem = teachers.find((teacher) => teacher.id == teacherId)
 
   useEffect(() => {

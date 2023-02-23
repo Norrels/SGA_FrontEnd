@@ -1,7 +1,9 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
 import { Calender } from "./components/Calenders/PlacesCalender";
-import { HomeSearchInput } from "./components/SearchInputHome";
+import {
+  HomeSearchInput,
+} from "./components/SearchInputHome";
 import {
   ButtonTitle,
   HomeButtonContainer,
@@ -16,8 +18,16 @@ import {
   previousDay,
   startOfWeek,
 } from "date-fns";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
+
+interface ISearchInputSchema {
+  previousDayWeek: () => void;
+  nextDayWeek: () => void;
+  choiceDayWeek: (data: Date) => void;
+  referenceDay: Date;
+  choiceTypeOfViewCalender: (type: string) => void;
+}
 
 export function Home() {
   document.title = "Início | SGA";
@@ -35,7 +45,7 @@ export function Home() {
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
-  function changeView(type: string) {
+  function choiceTypeOfViewCalender(type: string) {
     setIsViewClass(type);
   }
 
@@ -54,7 +64,7 @@ export function Home() {
     setReferenceDay(previousWeekDay);
   }
 
-  function choicedDay(Data: Date) {
+  function choiceDayWeek(Data: Date) {
     const dayChoiced = startOfWeek(new Date(Data));
     setReferenceDay(dayChoiced);
   }
@@ -64,6 +74,14 @@ export function Home() {
     setOpenFic(false);
     setOpenCustomizavel(false);
   }
+
+  const searchInputData: ISearchInputSchema = {
+    choiceTypeOfViewCalender,
+    referenceDay,
+    previousDayWeek,
+    choiceDayWeek,
+    nextDayWeek,
+  };
 
   return (
     <HomeContainer>
@@ -100,14 +118,7 @@ export function Home() {
           </HomeButtonContainer>
         </HomeTitleContainer>
 
-        <HomeSearchInput
-          /* handleCreateArrayDayType={handleCreateArrayDayType} */
-          choiceTypeOfViewCalender={changeView}
-          referenceDay={referenceDay}
-          previousDayWeek={previousDayWeek}
-          choiceDayWeek={choicedDay}
-          nextDayWeek={nextDayWeek}
-        />
+        <HomeSearchInput data={searchInputData} />
 
         {isViewClass == "Professores" ? (
           <Calender today={today} days={daysWeek} />

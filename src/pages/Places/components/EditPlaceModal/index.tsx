@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { allValidation, NewPlaceType } from "../NewPlaceModal";
 import InputMask from "react-input-mask";
 import {
@@ -32,7 +32,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
     formState: { errors },
   } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
   const [editable, setEditable] = useState(false);
-  const { updatePlaces } = useContext(ObjectsContext);
+  const { updatePlaces } = useContext(ResourcesContext);
 
   //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false);

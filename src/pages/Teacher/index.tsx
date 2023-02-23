@@ -3,7 +3,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { AvaliableModal } from "./components/AvaliableModal";
 import NewTeacherModal from "./components/NewTeacherModal";
 import { useContext, useState } from "react";
-import { ObjectsContext } from "../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { NewVacation } from "./components/NewVacation";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer, Toggle } from "../../styles/commonStyle";
@@ -13,7 +13,7 @@ import { ListContainer } from "../../styles/listStyle";
 export function Teacher() {
   document.title = "Professores | SGA";
 
-  const { teachers } = useContext(ObjectsContext);
+  const { teachers } = useContext(ResourcesContext);
   const [openModalNewTeacher, setOpenModalNewTeacher] = useState(false);
   const [showDisable, setShowDisable] = useState<Boolean>(false);
   const [search, setSearch] = useState("");

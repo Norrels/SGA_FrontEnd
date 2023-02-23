@@ -54,6 +54,7 @@ export const HomeTitleContainer = styled.div`
   flex-direction: column;
   opacity: 0;
   animation: ${fadeIn} 1s ease-in-out forwards;
+  z-index: -1;
   h1 {
     width: 100%;
     margin: 0.5rem;
@@ -64,6 +65,7 @@ export const HomeTitleContainer = styled.div`
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-align: center;
+  
   }
   p {
     width: 100%;

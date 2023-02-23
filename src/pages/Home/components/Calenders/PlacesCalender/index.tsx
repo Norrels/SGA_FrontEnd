@@ -20,10 +20,10 @@ import { RightClick } from "../../RightClick";
 import { useContext, useEffect, useState } from "react";
 import {
   CourseProps,
-  ObjectsContext,
+  ResourcesContext,
   PlaceProps,
   TeacherProps,
-} from "../../../../../contexts/ObjectsContext";
+} from "../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../lib/axios";
 import { EditAllClassModalProps } from "../../EditAllClassModal";
 
@@ -41,7 +41,7 @@ export interface EditClassModalProps {
 
 export interface AulaProps {
   id: number;
-  partitionKey?: number
+  partitionKey?: number;
   dataFinal: string;
   professor: TeacherProps;
   ambiente: PlaceProps;
@@ -59,9 +59,28 @@ export interface AulaProps {
 }
 
 export function Calender({ days, today }: CalenderProps) {
-  const { teachers } = useContext(ObjectsContext);
-  const [open, setOpen] = useState(false);
+  const { teachers } = useContext(ResourcesContext);
   const [aulas, setAulas] = useState<AulaProps[]>([]);
+
+  const teachersInClass = aulas.map((aula) => aula.professor);
+
+  const teacherToShow = teachers.filter((teacher) => {
+    if (teacher.ativo == true) {
+      return teacher;
+    }
+
+    if (teacher.ativo == false) {
+      const teacherInClass = teachersInClass.find((teacherToFind) => {
+        return teacherToFind.id === teacher.id;
+      });
+
+      if (teacherInClass !== undefined) {
+        return teacherInClass;
+      }
+    }
+  });
+
+  console.log(teacherToShow);
 
   async function fetchAulas() {
     const response = await API.get(
@@ -70,7 +89,6 @@ export function Calender({ days, today }: CalenderProps) {
         "yyyy'-'MM'-'dd"
       )}&dataFinal=${format(days[6], "yyyy'-'MM'-'dd")}`
     );
-    console.log(response.data)
     setAulas(response.data);
   }
 
@@ -80,7 +98,6 @@ export function Calender({ days, today }: CalenderProps) {
 
   function handleEditClass(data: EditClassModalProps) {
     const aulasEditadas = aulas.map((aula) => {
-
       if (aula.id == data.id) {
         aula.ambiente.id = data.ambientes;
         aula.professor.id = data.professor;
@@ -96,7 +113,7 @@ export function Calender({ days, today }: CalenderProps) {
   }
 
   function handleEditAllClass(data: EditAllClassModalProps) {
-    console.log(data)
+    console.log(data);
     const aulasEditadas = aulas.map((aula) => {
       if (aula.partitionKey == data.partitionKey) {
         aula.ambiente.id = data.ambiente;
@@ -112,16 +129,17 @@ export function Calender({ days, today }: CalenderProps) {
     setAulas(aulasEditadas);
   }
 
-  async function handleDeleteClassesByPartitioKey(partionKey: number | undefined) {
+  async function handleDeleteClassesByPartitioKey(
+    partionKey: number | undefined
+  ) {
     const res = await API.delete(`/aula/key/${partionKey}`);
     if (res.status == 200) {
       const aulaWithoutDeletedOne = aulas.filter((aula) => {
-        return aula.partitionKey != partionKey
-      })
-      setAulas(aulaWithoutDeletedOne)
+        return aula.partitionKey != partionKey;
+      });
+      setAulas(aulaWithoutDeletedOne);
     }
   }
-
 
   return (
     <HomeCalenderContainer>
@@ -151,13 +169,12 @@ export function Calender({ days, today }: CalenderProps) {
           })}
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
-      {teachers.map((teacher) => {
-        teacher.ativo = true
+      {teacherToShow.map((teacher) => {
         return (
-          <div key={teacher.id}>
+          <div key={teacher?.id}>
             <HomeCalenderContent>
               <HomePlaces>
-                <p>{teacher.nome}</p>
+                <p>{teacher?.nome}</p>
               </HomePlaces>
               <HomeClassesContainer>
                 {days?.map((day) => {
@@ -166,16 +183,17 @@ export function Calender({ days, today }: CalenderProps) {
                       {aulas?.map((aula) => {
                         return (
                           aula.data.toString() == format(day, "dd/MM/yyyy") &&
-                          aula.professor.id == teacher.id && (
+                          aula.professor.id == teacher?.id && (
                             <ContextMenu.Root key={aula.id}>
                               <HomeButtonClickRoot
                                 period={
                                   aula.periodo == "MANHA"
                                     ? "MANHA"
                                     : aula.periodo == "TARDE"
-                                      ? "TARDE"
-                                      : aula.periodo == "NOITE"
-                                        ? "NOITE" : "INTEGRAL"
+                                    ? "TARDE"
+                                    : aula.periodo == "NOITE"
+                                    ? "NOITE"
+                                    : "INTEGRAL"
                                 }
                               >
                                 <HomeClass
@@ -183,9 +201,10 @@ export function Calender({ days, today }: CalenderProps) {
                                     aula.periodo == "MANHA"
                                       ? "MANHA"
                                       : aula.periodo == "TARDE"
-                                        ? "TARDE"
-                                        : aula.periodo == "NOITE"
-                                          ? "NOITE" : "INTEGRAL"
+                                      ? "TARDE"
+                                      : aula.periodo == "NOITE"
+                                      ? "NOITE"
+                                      : "INTEGRAL"
                                   }
                                 >
                                   <p>{aula.ambiente.nome}</p>

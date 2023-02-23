@@ -5,8 +5,8 @@ import { useContext, useState } from "react";
 import { z } from "zod";
 import {
   CourseProps,
-  ObjectsContext,
-} from "../../../../contexts/ObjectsContext";
+  ResourcesContext,
+} from "../../../../contexts/ResourcesContext";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { EditCourseModal } from "../EditCourseModal";
 
@@ -25,16 +25,8 @@ interface NewCouserModalProps {
   course: CourseProps;
 }
 
-export const courseInput = z.object({
-  id: z.number(),
-  nome: z.string(),
-  tipoCurso: z.string(),
-});
-
-export type CourseType = z.infer<typeof courseInput>;
-
 export function CourseItem({ course }: NewCouserModalProps) {
-  const { updateStatusCourse } = useContext(ObjectsContext);
+  const { updateStatusCourse } = useContext(ResourcesContext);
   const [open, setOpen] = useState(false);
 
   const cargaHoraria = course.unidadeCurricular.reduce(

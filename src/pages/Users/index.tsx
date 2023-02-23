@@ -103,7 +103,6 @@ export function User() {
 
   return (
     <>
-      <Header />
       <UsersContainer>
         <UsersContent>
           <UsersTitleContainer>

@@ -6,7 +6,7 @@ import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useFieldArray, useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 import { Notification } from "../../../../components/Notification";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { StarsSection } from "./components/StarsSection";
 import {
@@ -122,7 +122,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   //Pegando os professores do context
-  const { createTeacherAPI } = useContext(ObjectsContext);
+  const { createTeacherAPI } = useContext(ResourcesContext);
 
   function handleCreateNewTeacher(data: TeacherType) {
     data.ativo = true;

@@ -6,8 +6,8 @@ import { z } from "zod";
 import { useFieldArray, useForm } from "react-hook-form";
 import {
   CourseProps,
-  ObjectsContext,
-} from "../../../../contexts/ObjectsContext";
+  ResourcesContext,
+} from "../../../../contexts/ResourcesContext";
 import {
   ButtonNewUnidadeCurricular,
   Content,
@@ -38,7 +38,6 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
     control,
     reset,
     watch,
-    setValue,
     formState: { errors },
   } = useForm<CourseType>({
     resolver: zodResolver(coursesInputs),
@@ -69,7 +68,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
     };
   });
 
-  const { updateCourses } = useContext(ObjectsContext);
+  const { updateCourses } = useContext(ResourcesContext);
 
   //Variavel para usado para exibir a notificaçãp
   const [open, setOpen] = useState(false);
@@ -78,7 +77,6 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
   const [notificationStataus, setNotificationStataus] = useState(false);
 
   async function handleUpdateCourse(data: CourseType) {
-    console.log(data);
     data.ativo = true;
     updateCourses(data)
       .then(() => {
@@ -139,7 +137,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                     })}
                     readOnly={!editable}
                     minLength={4}
-                    maxLength={30}
+                    maxLength={60}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -157,7 +155,6 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   {errors.tipo && <p>* Selecione um valor válido...</p>}
                 </InputContent>
                 {controlledFields.map((field, index) => {
-                  console.log(field);
                   return (
                     <InputContent key={field.id} disabled={"on"}>
                       <InputIndividual>
@@ -173,7 +170,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                           )}
                           readOnly={!editable}
                           minLength={4}
-                          maxLength={30}
+                          maxLength={40}
                           required
                         />
                         {errors.unidadeCurricular && (

@@ -3,7 +3,7 @@
 import { format } from "date-fns";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
-import { ObjectsContext } from "../../../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../../lib/axios";
 import { FinalButton, InputContainer, InputContent, Steps, SummaryContainer, SummaryContent, SummaryDetails, SummaryHeader } from "../../style";
 
@@ -15,7 +15,7 @@ export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
 
   const { getValues } = useFormContext();
 
-  const { teachers, placesList, courses } = useContext(ObjectsContext);
+  const { teachers, placesList, courses } = useContext(ResourcesContext);
 
   const course = courses.find(c => c.id == getValues("curso.id"))
   const place = placesList.find(c => c.id == getValues("ambiente.id"))

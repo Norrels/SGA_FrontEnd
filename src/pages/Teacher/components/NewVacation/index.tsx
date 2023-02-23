@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { ChangeEvent, useContext, useEffect, useState } from "react";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import {
   CheckContent,
   CheckIndividual,
@@ -51,7 +51,7 @@ export interface TeacherProps {
 export type VacationType = z.infer<typeof vacationInput>;
 
 export function NewVacation({ closeModal1 }: NewVacationModalProps) {
-  const { teachers } = useContext(ObjectsContext);
+  const { teachers } = useContext(ResourcesContext);
   const [teachersArray, setTeachersArray] = useState<TeacherProps[]>([]);
 
   const { register, handleSubmit, reset } = useForm<VacationType>();

@@ -34,7 +34,7 @@ import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg"
 import { ChangeEvent, useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { ObjectsContext } from "../../../../contexts/ObjectsContext";
+import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "../../../Teacher/components/AvaliableModal/components/ViewClassModal";
 
@@ -88,7 +88,7 @@ export function AvaliableModal() {
   const [dataFinal, setDataFinal] = useState("");
   const [aula, setAula] = useState<AulaType[]>([]);
   const [object, setObject] = useState<Object>();
-  const { placesList } = useContext(ObjectsContext);
+  const { placesList } = useContext(ResourcesContext);
 
   // pegando a data de hoje e formatando pro estilo americano para validar o input date
   const hoje = new Date()

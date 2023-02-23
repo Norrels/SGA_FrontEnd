@@ -51,7 +51,7 @@ export const HolidayContent = styled.div`
 
 export const HolidayTitleContainer = styled.div`
   margin-top: 2rem;
-
+  z-index: -1;
   display: flex;
   justify-content: center;
   align-items: center;
