@@ -138,31 +138,14 @@ export const HeaderNavMenu = styled(Menubar.Menu)`
   }
 `;
 
-export const HeaderNavMenuArrow = styled.span`
-  width: 100%;
-  margin-top: -1.4rem;
-  margin-left: -0.5rem;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  svg {
-    color: ${(props) => props.theme["white"]} !important;
-    &:hover {
-      color: ${(props) => props.theme["white"]} !important;
-    }
-  }
-`;
-
 export const HeaderNavMenuContent = styled(Menubar.Content)`
   background: ${(props) => props.theme["white"]};
-  padding: 0.2rem 0.6rem 0.6rem 0.6rem;
+  padding: 0.6rem 0.6rem 0.6rem 0.6rem;
   border-radius: 8px;
   margin-top: 1rem;
   box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
-  z-index: 10;
 
+  z-index: 30px;
   opacity: 0;
   animation: ${fadeIn} 0.4s ease-in-out forwards;
 
@@ -176,8 +159,9 @@ export const HeaderNavMenuContent = styled(Menubar.Content)`
 
 export const HeaderNavMenuItem = styled(Menubar.Item)`
   width: 100%;
-
+  border: none;
   display: flex;
+  z-index: 20px;
   border-radius: 4px;
 
   cursor: pointer;
@@ -191,7 +175,7 @@ export const HeaderNavMenuItem = styled(Menubar.Item)`
     width: 100%;
     max-width: 100%;
     padding: 4px;
-
+    font-size: 1.1rem;
     transition: color, background-color 0.1s;
 
     &:hover {
@@ -200,28 +184,6 @@ export const HeaderNavMenuItem = styled(Menubar.Item)`
       }
       color: ${(props) => props.theme["white"]};
     }
-  }
-`;
-
-export const HeaderEditUserButton = styled.button`
-  width: 100%;
-  padding: 0.2rem 0.4rem;
-
-  color: ${(props) => props.theme["black"]};
-  font-weight: bold;
-  font-size: 1.25rem;
-  background: transparent;
-  border-radius: 3px;
-
-  transition: color, background-color 0.1s;
-
-  display: flex;
-  gap: 0.5rem;
-  justify-content: center;
-
-  &:hover {
-    background: ${(props) => props.theme["blue-500"]};
-    color: ${(props) => props.theme["white"]};
   }
 `;
 

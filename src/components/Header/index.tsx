@@ -1,49 +1,27 @@
-import {
-  User,
-  CaretDown,
-  CaretUp,
-  SignOut,
-  BellRinging,
-  Palette,
-} from "phosphor-react";
+import { User, CaretDown, BellRinging, Palette } from "phosphor-react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
   HeaderContainer,
   HeaderContent,
-  HeaderEditUserButton,
   HeaderNavBar,
   HeaderNavGroup,
   HeaderNavMenu,
-  HeaderNavMenuArrow,
-  HeaderNavMenuContent,
-  HeaderNavMenuItem,
   HeaderUser,
 } from "./style";
 import Logo from "../../assets/Logo.svg";
-import * as Dialog from "@radix-ui/react-dialog";
-import { EditUserModal } from "./components/EditProfileModal";
-import { useContext, useState } from "react";
+
+import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import * as Menubar from "@radix-ui/react-menubar";
-import { UpdateMenu } from "../UpdateMenu";
-import { ColorPickerMenu } from "../ColorPickerMenu";
+import { UpdateMenu } from "../Menus/UpdateMenu";
+import { ColorPickerMenu } from "../Menus/ColourPickerMenu";
+import { UserMenu } from "../Menus/UserMenu";
+import { HomeMenu } from "../Menus/HomeMenu";
 
 export function Header() {
-  const [open, setOpen] = useState(false);
-  const { logout } = useContext(AuthContext);
   const { userAutheticated } = useContext(AuthContext);
 
   const location = useLocation();
-
-  function closeModal() {
-    setOpen(false);
-  }
-
-  function closeAulas() {
-    setTimeout(() => {
-      setOpen(true);
-    }, 5);
-  }
 
   return (
     <>
@@ -72,28 +50,9 @@ export function Header() {
                   <Menubar.Trigger>
                     <CaretDown weight="fill" />
                   </Menubar.Trigger>
-                </HeaderNavGroup>
 
-                <Menubar.Content align="start">
-                  <HeaderNavMenuContent>
-                    <HeaderNavMenuItem>
-                      {location.pathname == "/aulas" ? (
-                        <NavLink to="/inicio">Inicio</NavLink>
-                      ) : (
-                        <NavLink to="/aulas">Aulas</NavLink>
-                      )}
-                    </HeaderNavMenuItem>
-                    <HeaderNavMenuItem>
-                      {location.pathname == "/dias-nao-letivos" ? (
-                        <NavLink to="/inicio">Inicio</NavLink>
-                      ) : (
-                        <NavLink to="/dias-nao-letivos">
-                          Dias não letivos
-                        </NavLink>
-                      )}
-                    </HeaderNavMenuItem>
-                  </HeaderNavMenuContent>
-                </Menubar.Content>
+                  <HomeMenu />
+                </HeaderNavGroup>
               </HeaderNavMenu>
 
               <NavLink to="/dashboard" title="Dashboard">
@@ -138,30 +97,12 @@ export function Header() {
                 <Menubar.Trigger asChild>
                   <User size={23} style={{ cursor: "pointer" }} />
                 </Menubar.Trigger>
-
-                <HeaderNavMenuContent align="center">
-                  <HeaderNavMenuArrow>
-                    <CaretUp weight="fill" size={30} />
-                  </HeaderNavMenuArrow>
-
-                  <HeaderNavMenuItem onClick={closeAulas}>
-                    <HeaderEditUserButton>Seu perfil</HeaderEditUserButton>
-                  </HeaderNavMenuItem>
-                  <HeaderNavMenuItem>
-                    <HeaderEditUserButton onClick={() => logout()}>
-                      Sair <SignOut />
-                    </HeaderEditUserButton>
-                  </HeaderNavMenuItem>
-                </HeaderNavMenuContent>
+                <UserMenu />
               </Menubar.Menu>
             </HeaderUser>
           </HeaderContent>
         </HeaderContainer>
       </Menubar.Root>
-
-      <Dialog.Root open={open} onOpenChange={setOpen}>
-        <EditUserModal closeModal={closeModal} />
-      </Dialog.Root>
     </>
   );
 }
