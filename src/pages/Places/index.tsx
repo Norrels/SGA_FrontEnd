@@ -1,108 +1,76 @@
 import { Place } from "./components/PlacesItem";
 import * as Dialog from "@radix-ui/react-dialog";
-import {
-  ButtonTitle,
-  PlacesButtonContainer,
-  PlacesContainer,
-  PlacesContent,
-  PlacesList,
-  PlacesTitleContainer,
-  Toggle,
-} from "./style";
 import { AvaliableModal } from "./components/AvaliableModal";
-import { NewPlaceModal, NewPlaceType } from "./components/NewPlaceModal";
-import { useContext, useEffect, useState } from "react";
+import { NewPlaceModal } from "./components/NewPlaceModal";
+import { useContext, useState } from "react";
 import { ResourcesContext } from "../../contexts/ResourcesContext";
-import { API } from "../../lib/axios";
 import { AuthContext } from "../../contexts/AuthContext";
+import { Toggle, ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer } from "../../styles/commonStyle";
+import { ListContainer } from "../../styles/listStyle";
 
 export function Places() {
   document.title = "Ambientes | SGA";
 
   const { placesList } = useContext(ResourcesContext);
-  const [placeMatchs, setPlaceMatchs] = useState<NewPlaceType[]>([]);
   const [open, setOpen] = useState(false);
-  const [on, setOn] = useState<Boolean>(false);
+  const [search, setSearch] = useState("");
+  const [showDisable, setShowDisable] = useState<Boolean>(false);
   const { userAutheticated } = useContext(AuthContext);
 
   function closeModal() {
     setOpen(false);
   }
 
-  useEffect(() => {
-    handleGetPlaces();
-  }, [placesList]);
-
-  async function handleGetPlaces() {
-    const resp = await API.get("/ambiente");
-    if (resp.status == 200) {
-      setPlaceMatchs(resp.data);
-    }
-  }
-
-  async function handleChangeList(value: Boolean) {
-    setOn(value);
-    if (value) {
-      setPlaceMatchs(placesList.filter((e) => e.ativo == false));
-    } else {
-      setPlaceMatchs(placesList.filter((e) => e.ativo == true));
-    }
-  }
-
-  async function searchPlace(value: String) {
-    if (!value) {
-      setPlaceMatchs(placesList);
-    } else {
-      const res = await API.get(`/ambiente/buscapalavra/${value}`);
-      setPlaceMatchs(res.data);
-    }
-  }
+  let filteredPlaces =
+    placesList.length > 0
+      ? placesList.filter((place) => place.nome?.toLowerCase().includes(search))
+      : [];
 
   return (
-    <PlacesContainer>
-      <PlacesContent>
-        <PlacesTitleContainer>
+    <MainContainer>
+      <Content>
+        <TitleContainer>
           <h1>Ambientes</h1>
           <p>Selecione um ambiente ou crie um novo!</p>
-          <PlacesButtonContainer>
+          <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <ButtonTitle>Novo ambiente</ButtonTitle>
+                <ButtonModal>Novo ambiente</ButtonModal>
               </Dialog.Trigger>
               <NewPlaceModal closeModal={closeModal} />
             </Dialog.Root>
             <Dialog.Root>
               <Dialog.Trigger asChild>
-                <ButtonTitle>Disponibilidade</ButtonTitle>
+                <ButtonModal>Disponibilidade</ButtonModal>
               </Dialog.Trigger>
               <AvaliableModal />
             </Dialog.Root>
-          </PlacesButtonContainer>
-        </PlacesTitleContainer>
-        <input
+          </HeadingButtonContainer>
+        </TitleContainer>
+        <SearchInput
           type="text"
           placeholder="Busque um ou vários ambientes..."
-          onChange={(e) => searchPlace(e.target.value)}
+          onChange={(e) => setSearch(e.target.value)}
         />
         {userAutheticated.tipoUsuario == "ADMINISTRADOR" && (
           <Toggle>
             <label>Desativados</label>
             <input
-              onChange={(e) => handleChangeList(e.target.checked)}
+              onChange={(e) => setShowDisable(e.target.checked)}
               type="checkbox"
             />
           </Toggle>
         )}
-        <PlacesList>
-          {placeMatchs.map((place, index) => {
-            if (place.ativo && on == false) {
+        <ListContainer>
+          {filteredPlaces.map((place) => {
+            if (place.ativo && showDisable == false) {
               return <Place key={place.id} placeItem={place} />;
-            } else if (place.ativo == false && on == true) {
+            } else if (place.ativo == false && showDisable == true) {
               return <Place key={place.id} placeItem={place} />;
             }
           })}
-        </PlacesList>
-      </PlacesContent>
-    </PlacesContainer>
+        </ListContainer>
+      </Content>
+    </MainContainer>
   );
 }

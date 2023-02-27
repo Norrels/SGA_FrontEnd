@@ -24,7 +24,7 @@ export interface TeacherProps {
 [];
 
 export interface PlaceProps {
-  id: number;
+  id: string;
   nome: string;
   capacidade: number;
   tipo: string;
@@ -51,16 +51,16 @@ export interface CourseProps {
 interface ResourcesContextType {
   teachers: TeacherProps[];
   courses: CourseProps[];
-  placesList: NewPlaceType[];
+  placesList: PlaceProps[];
   updateStatusTeacher: (id: number) => Promise<string>;
   updateStatusCourse: (id: number) => Promise<string>;
-  updateStatusPlace: (id: number) => Promise<string>;
+  updateStatusPlace: (id: string) => Promise<string>;
   updateTeachers: (data: TeacherProps) => Promise<string>;
-  updatePlaces: (data: NewPlaceType) => Promise<string>;
+  updatePlaces: (data: PlaceProps) => Promise<string>;
   updateCourses: (data: CourseProps) => Promise<string>;
   createTeacherAPI: (data: TeacherProps) => Promise<string>;
   createCourseAPI: (data: CourseProps) => Promise<string>;
-  createPlacesAPI: (data: NewPlaceType) => Promise<string>;
+  createPlacesAPI: (data: PlaceProps) => Promise<string>;
 }
 
 export const ResourcesContext = createContext({} as ResourcesContextType);
@@ -76,7 +76,7 @@ export function ResourcesContextProvider({
 
   const [teachers, setTeachers] = useState<TeacherProps[]>([]);
   const [courses, setCourses] = useState<CourseProps[]>([]);
-  const [placesList, setPlacesList] = useState<NewPlaceType[]>([]);
+  const [placesList, setPlacesList] = useState<PlaceProps[]>([]);
 
   async function fetchTeachers() {
     const res = await API.get("professor");
@@ -105,7 +105,7 @@ export function ResourcesContextProvider({
     }
   }
 
-  async function createPlacesAPI(data: NewPlaceType) {
+  async function createPlacesAPI(data: PlaceProps) {
     const res = await API.post("ambiente", data);
     if (res.status == 200) {
       data.id = res.data[1];
@@ -122,21 +122,29 @@ export function ResourcesContextProvider({
   }
 
   async function fetchPlaces() {
-    const res = await API.get("ambiente");
-    setPlacesList(res.data);
+    try {
+      const res = await API.get("ambiente");
+      setPlacesList(res.data);
+    } catch (error) {
+      console.log("Não foi possivel carregar os ambientes");
+    }
   }
 
-  async function updateStatusPlace(id: number) {
-    const res = await API.put(`/ambiente/alterarStatus/${id}`);
+  async function updateStatusPlace(id: string) {
+    try {
+      const res = await API.put(`/ambiente/alterarStatus/${id}`);
 
-    if (res.status == 200) {
-      const valorAtualizado = placesList.filter((place) => {
-        return place.id != id;
+      const valorAtualizado = placesList.map((places) => {
+        if (places.id == id) {
+          places.ativo = !places.ativo;
+        }
+        return places;
       });
       setPlacesList(valorAtualizado);
       return "success";
-    } else {
-      return "erro";
+    } catch (error) {
+      console.log("error" + error);
+      return "error";
     }
   }
 
@@ -173,14 +181,13 @@ export function ResourcesContextProvider({
   }
 
   async function updateCourses(data: CourseProps) {
-   
     const res = await API.put(`/curso/${data.id}`, data);
-    console.log(data)
+    console.log(data);
     if (res.status == 200) {
       const valorAtualizado = courses.map((course) => {
         if (course.id == data.id) {
           course = data;
-          console.log(course)
+          console.log(course);
         }
         return course;
       });
@@ -191,7 +198,7 @@ export function ResourcesContextProvider({
     }
   }
 
-  async function updatePlaces(data: NewPlaceType) {
+  async function updatePlaces(data: PlaceProps) {
     data.ativo = true;
     const res = await API.put(`/ambiente/${data.id}`, data);
 

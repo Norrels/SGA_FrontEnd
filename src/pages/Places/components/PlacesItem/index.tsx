@@ -2,30 +2,17 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 import { ChalkboardTeacher, CheckCircle, DotsThree, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
-import styled, { keyframes } from "styled-components";
 import { DeleteAlert } from "../../../../components/DeleteAlert";
 import { ReactivateAlert } from "../../../../components/ReactivateAlert";
-import { ResourcesContext } from "../../../../contexts/ResourcesContext";
-import { API } from "../../../../lib/axios";
+import { PlaceProps, ResourcesContext } from "../../../../contexts/ResourcesContext";
+import { InfoType, ItemButton, ItemButtonContainer, ItemIcon, ItemInfoContentHeader, ListInfoContent, ListItemContainer } from "../../../../styles/listStyle";
 import { EditPlaceModal } from "../EditPlaceModal";
-import { NewPlaceType } from "../NewPlaceModal";
-import {
-  ItemInfoContentHeader,
-  PlaceInfoType,
-  PlacesItemButton,
-  PlacesItemButtonContainer,
-  PlacesItemContainer,
-  PlacesItemIcon,
-  PlacesItemInfoContainer,
-  PlacesItemInfoContent,
-} from "./style";
 
 interface PlacesProps {
-  placeItem: NewPlaceType;
-  /* placeAnimationDelay: number; */
+  placeItem: PlaceProps;
 }
 
-export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
+export function Place({ placeItem }: PlacesProps) {
   const { updateStatusPlace } = useContext(ResourcesContext);
   const [open, setOpen] = useState(false);
 
@@ -34,44 +21,40 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
   }
 
   async function handleUpdateStatusPlace() {
-    const res = await API.put(`/ambiente/alterarStatus/${placeItem.id}`);
-
-    if (res.status == 200) {
-      window.location.reload();
-    }
+    updateStatusPlace(placeItem.id)
   }
 
   return (
-    <PlacesItemContainer>
-      <PlacesItemInfoContainer>
-        <PlacesItemIcon>
+    <ListItemContainer>
+      <ItemButtonContainer>
+        <ItemIcon>
           <ChalkboardTeacher size={32} />
-        </PlacesItemIcon>
+        </ItemIcon>
 
-        <PlacesItemInfoContent>
+        <ListInfoContent>
           <ItemInfoContentHeader>
             <h3>{placeItem.nome}</h3>
-            <PlaceInfoType>
+            <InfoType>
               {placeItem?.tipo?.toLowerCase() === "unidade_movel"
                 ? "Unidade Móvel"
                 : placeItem?.tipo?.toLowerCase()}
-            </PlaceInfoType>
+            </InfoType>
           </ItemInfoContentHeader>
           {placeItem.tipo !== "REMOTO" && (
             <p>
               Quantidade de pessoas: <span>{placeItem.capacidade}</span>
             </p>
           )}
-        </PlacesItemInfoContent>
-      </PlacesItemInfoContainer>
+        </ListInfoContent>
+      </ItemButtonContainer>
 
-      <PlacesItemButtonContainer>
+      <ItemButtonContainer>
         {placeItem.ativo == false ? (
           <AlertDialog.Root>
             <AlertDialog.Trigger asChild>
-              <PlacesItemButton buttonColor="delete">
+              <ItemButton buttonColor="delete">
                 <CheckCircle color="#fff" size={26} />
-              </PlacesItemButton>
+              </ItemButton>
             </AlertDialog.Trigger>
             <ReactivateAlert reactivateById={handleUpdateStatusPlace} />
           </AlertDialog.Root>
@@ -85,24 +68,24 @@ export function Place({ placeItem /* placeAnimationDelay */ }: PlacesProps) {
                   display: "flex",
                 }}
               >
-                <PlacesItemButton buttonColor="edit">
+                <ItemButton buttonColor="edit">
                   <DotsThree color="#fff" size={32} />
-                </PlacesItemButton>
+                </ItemButton>
               </Dialog.Trigger>
               <EditPlaceModal place={placeItem} closeModal={closeModal} />
             </Dialog.Root>
 
             <AlertDialog.Root>
               <AlertDialog.Trigger asChild>
-                <PlacesItemButton buttonColor="delete">
+                <ItemButton buttonColor="delete">
                   <Trash color="#fff" size={26} />
-                </PlacesItemButton>
+                </ItemButton>
               </AlertDialog.Trigger>
               <DeleteAlert deleteById={handleUpdateStatusPlace} />
             </AlertDialog.Root>
           </>
         )}
-      </PlacesItemButtonContainer>
-    </PlacesItemContainer>
+      </ItemButtonContainer>
+    </ListItemContainer>
   );
 }

@@ -1,9 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import { ChangeEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ResourcesContext } from "../../../../contexts/ResourcesContext";
+import { PlaceProps, ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { allValidation, NewPlaceType } from "../NewPlaceModal";
 import InputMask from "react-input-mask";
 import {
@@ -20,7 +20,7 @@ import {
 import { Notification } from "../../../../components/Notification";
 
 interface EditPlaceModalProps {
-  place: NewPlaceType;
+  place: PlaceProps;
   closeModal: () => void;
 }
 
@@ -30,7 +30,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<NewPlaceType>({ resolver: zodResolver(allValidation) });
+  } = useForm<PlaceProps>({ resolver: zodResolver(allValidation) });
   const [editable, setEditable] = useState(false);
   const { updatePlaces } = useContext(ResourcesContext);
 
@@ -40,7 +40,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
   // Váriavel para controlar oque vai ser exibido na notificação
   const [notificationStataus, setNotificationStataus] = useState(false);
 
-  async function handleUpdatePlace(data: NewPlaceType) {
+  async function handleUpdatePlace(data: PlaceProps) {
     data.id = place.id;
     updatePlaces(data)
       .then(() => {
