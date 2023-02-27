@@ -12,7 +12,6 @@ import { Teacher } from "./pages/Teacher";
 import { User } from "./pages/Users";
 import { ViewTeacher } from "./pages/ViewTeacher";
 import { ProtectedRoutes } from "./ProtectedRoutes";
-import { ProtectedRoutesAdm } from "./ProtectedRoutesAdm";
 
 export function Router() {
   return (
@@ -31,11 +30,6 @@ export function Router() {
           <Route path="/cursos" element={<Course />} />
           <Route path="/aulas" element={<AdvancedSearch />} />
           <Route path="/dias-nao-letivos" element={<Holiday />} />
-        </Route>
-      </Route>
-
-      <Route element={<ProtectedRoutesAdm />}>
-        <Route path="/" element={<DefaultLayout />}>
           <Route path="/usuarios" element={<User />} />
         </Route>
       </Route>

@@ -2,7 +2,6 @@ import * as AlertDialog from "@radix-ui/react-alert-dialog";
 import * as Dialog from "@radix-ui/react-dialog";
 import { CheckCircle, DotsThree, Pencil, Trash } from "phosphor-react";
 import { useContext, useState } from "react";
-import { z } from "zod";
 import {
   CourseProps,
   ResourcesContext,

@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "phosphor-react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
@@ -19,7 +18,7 @@ import {
 
 interface NewUserModalProps {
   closeModal: () => void;
-  handleAddInMatchs: () => void;
+  handleCreateUser: (data: InewUser) => void;
 }
 
 export const userInput = z.object({
@@ -38,25 +37,25 @@ export const userInput = z.object({
   tipo: z.enum([ "USUARIO", "ADMINISTRADOR"]),
 });
 
-export type UserType = z.infer<typeof userInput>;
+export type InewUser = z.infer<typeof userInput>;
 
-export function NewUserModal({ closeModal, handleAddInMatchs }: NewUserModalProps) {
+export function NewUserModal({ closeModal, handleCreateUser }: NewUserModalProps) {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<UserType>({
+  } = useForm<InewUser>({
     resolver: zodResolver(userInput),
   });
 
-  function handleCreateNewUser(data: UserType) {
+  function handleCreateNewUser(data: InewUser) {
     handleCreateUserAPI(data);
     reset();
     closeModal();
   }
 
-  async function handleCreateUserAPI(user: UserType) {
+  async function handleCreateUserAPI(user: InewUser) {
     const res = await API.post("usuario", {
       nome: user.nome,
       nif: user.nif,
@@ -66,7 +65,13 @@ export function NewUserModal({ closeModal, handleAddInMatchs }: NewUserModalProp
       ativo: true,
     });
 
-    handleAddInMatchs();
+    const newUser = {
+      ...user,
+      ativo: true,
+      id: res.data
+    }
+
+    handleCreateUser(newUser);
   }
 
   return (

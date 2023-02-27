@@ -14,6 +14,7 @@ export const MainContainer = styled.main`
 
   display: flex;
   justify-content: center;
+  
 `;
 
 export const Content = styled.div`
@@ -92,7 +93,7 @@ export const HeadingButtonContainer = styled.div`
 
   > button {
     &:first-child {
-      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%) !important;
     }
 
     &:nth-child(3) {

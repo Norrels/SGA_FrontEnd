@@ -19,7 +19,9 @@ export const GlobalStyle = createGlobalStyle`
         background-color: ${(props) => props.theme["background"]};
         color: ${(props) => props.theme["black"]};
         -webkit-font-smoothing: antialiased;
-        margin: 0
+        width: calc(100vw - 34px);
+        margin: 0,
+
     }
 
     body, textarea  {

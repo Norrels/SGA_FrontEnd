@@ -1,10 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { NotePencil, X } from "phosphor-react";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { UserProps } from "../..";
+import { IUserProps } from "../..";
 import { API } from "../../../../lib/axios";
 import {
   Content,
@@ -19,7 +19,7 @@ import {
 } from "./style";
 
 interface EditUserModalProps {
-  user: UserProps;
+  user: IUserProps;
   editUser: (data: UserType) => void;
   closeModal: () => void;
 }
@@ -43,7 +43,11 @@ export const userInput = z.object({
 
 export type UserType = z.infer<typeof userInput>;
 
-export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps) {
+export function EditUserModal({
+  user,
+  closeModal,
+  editUser,
+}: EditUserModalProps) {
   const [editable, setEditable] = useState(false);
 
   const {
@@ -55,7 +59,6 @@ export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps
     resolver: zodResolver(userInput),
   });
 
-  console.log(errors)
   function handleUpdateUser(data: UserType) {
     handleUpdateUserAPI(data);
     reset();
@@ -63,19 +66,21 @@ export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps
   }
 
   async function handleUpdateUserAPI(data: UserType) {
-    const res = await API.put(`usuario/${user.id}`, {
+    const userToUpdate: IUserProps = {
       id: user.id,
       nome: data.nome,
       nif: data.nif,
       email: data.email,
       tipo: data.tipo,
-      ativo: "true",
-    });
+      ativo: true,
+    }
 
-    console.log(res)
 
-    if (res.status == 200) {
+    try {
+      const res = await API.put(`usuario/${user.id}`, userToUpdate);
       editUser(data);
+    } catch (error) {
+      console.log("error" + error);
     }
   }
 
@@ -88,12 +93,10 @@ export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps
             {!editable ? "Usuário" : "Editar usuário"}
           </Dialog.Title>
           <HeaderButtons>
-            {!editable ? (
+            {!editable && (
               <button onClick={() => setEditable(true)}>
                 <NotePencil size={50} weight="light" />
               </button>
-            ) : (
-              <></>
             )}
             <Dialog.Close>
               <X size={50} weight="light" />
@@ -101,11 +104,7 @@ export function EditUserModal({ user, closeModal, editUser }: EditUserModalProps
           </HeaderButtons>
         </ModalHeader>
         <form onSubmit={handleSubmit(handleUpdateUser)}>
-          <input
-            type="hidden"
-              value={user.id}
-            {...register("id")}
-          />
+          <input type="hidden" value={user.id} {...register("id")} />
           <InputScroll>
             <InputContainer>
               <InputContent disabled={"on"}>
