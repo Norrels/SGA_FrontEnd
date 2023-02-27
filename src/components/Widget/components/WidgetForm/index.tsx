@@ -12,12 +12,12 @@ import {
 import { ArrowLeft, X } from "phosphor-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { API } from "../../../../lib/axios";
 import Cobrinha from "../../../../assets/Cobrinha.svg";
 import Idea from "../../../../assets/Idea.svg";
 import Thought from "../../../../assets/Thought.svg";
 import { Notification } from "../../../Notification";
 import { AuthContext } from "../../../../contexts/AuthContext";
+import axios from "axios";
 
 const newCallInput = z.object({
   tipoChamado: z.string(),
@@ -41,22 +41,23 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
   const [notification, setNotification] = useState(false);
 
   async function handleCreateNewCall(data: NewCallType) {
-    const res = await API.post("chamado", {
-      descricao: data.descricao,
-      foto: "",
-      usuario: userAutheticated,
-      tipo: type,
-      status: "ABERTO",
-    });
-
-    if (res.status == 200) {
+    try {
+      const res = await axios.post("https://email-api-tirj.vercel.app/chamado", {
+        mensagem: data.descricao,
+        email: ["matheuus412@gmail.com"],
+        user: userAutheticated.nome,
+        type: type,
+      });
       setNotification(true);
       setType("inicio");
       reset();
       closeModal();
-    } else {
+    } catch (error) {
       setNotification(false);
+      console.log("Não foi possivel enviar o email")
+      console.log("Error" + error)
     }
+
     setOpen(true);
   }
 
@@ -77,17 +78,17 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
                 </Popover.Close>
               </TextContent>
               <ContainerSelect>
-                <div onClick={() => setType("PROBLEMA")}>
+                <div onClick={() => setType("bug")}>
                   <img src={Cobrinha} />
                   <p>Problema</p>
                 </div>
-                <div onClick={() => setType("IDEIA")}>
+                <div onClick={() => setType("ideia")}>
                   <img src={Idea} />
                   <p>Ideia</p>
                 </div>
-                <div onClick={() => setType("OUTRO")}>
+                <div onClick={() => setType("dúvida")}>
                   <img src={Thought} />
-                  <p>Outro</p>
+                  <p>Dúvida</p>
                 </div>
               </ContainerSelect>
             </Content>
@@ -99,17 +100,17 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
                   <div>
                     <img
                       src={
-                        type === "PROBLEMA"
+                        type === "bug"
                           ? Cobrinha
-                          : type === "IDEIA"
+                          : type === "ideia"
                           ? Idea
                           : Thought
                       }
                     />
                     <p>
-                      {type === "PROBLEMA"
+                      {type === "bug"
                         ? "Problema"
-                        : type === "IDEIA"
+                        : type === "ideia"
                         ? "Ideia"
                         : "Outro"}
                     </p>
