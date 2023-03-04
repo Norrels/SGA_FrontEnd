@@ -22,7 +22,7 @@ export const ClassGraphText = styled.article`
   gap: 1rem;
 
   h3 {
-    color: ${(props) => props.theme["blue-300"]};
+    color: ${(props) => props.theme["primary_300"]};
     font-size: 1.563rem;
   }
 
@@ -53,7 +53,7 @@ export const ClassGraphCard = styled.article`
     position: absolute;
     top: -1rem;
 
-    background-color: ${(props) => props.theme["blue-300"]};
+    background-color: ${(props) => props.theme["primary_300"]};
     border-radius: 8px;
 
     display: flex;

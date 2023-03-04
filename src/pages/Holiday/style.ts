@@ -51,7 +51,7 @@ export const HolidayContent = styled.div`
 
 export const HolidayTitleContainer = styled.div`
   margin-top: 2rem;
-  z-index: -1;
+  z-index: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,7 +66,7 @@ export const HolidayTitleContainer = styled.div`
 
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    background: linear-gradient(90deg, #0031b0 40.94%, ${(props) => props.theme["primary_300"]} 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -99,7 +99,7 @@ export const HolidayButtonContainer = styled.div`
       border-radius: 8px;
 
       color: ${(props) => props.theme["white"]};
-      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+      background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 0%, #5aadd1 100%);
       font-size: 1.125rem;
       font-weight: bold;
 

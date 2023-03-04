@@ -4,7 +4,8 @@ import { API } from "../../lib/axios";
 import { UserItem } from "./components/UserItem";
 import { NewUserModal } from "./components/NewUserModal";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Navigate } from "react-router-dom";''
+import { Navigate } from "react-router-dom";
+("");
 import {
   Content,
   HeadingButtonContainer,
@@ -13,8 +14,10 @@ import {
   TitleContainer,
   Toggle,
   ButtonModal,
+  HeadingContainer,
 } from "../../styles/commonStyle";
 import { ListContainer } from "../../styles/listStyle";
+import { Heading } from "../Components/Heading";
 
 export interface IUserProps {
   id?: string;
@@ -49,8 +52,8 @@ export function User() {
   }
 
   useEffect(() => {
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
   async function fetchUser() {
     const response = await API.get("usuario");
@@ -90,9 +93,11 @@ export function User() {
   return (
     <MainContainer>
       <Content>
-        <TitleContainer>
-          <h1>Usuários</h1>
-          <p>Selecione um usuário ou crie um novo!</p>
+        <HeadingContainer>
+          <Heading
+            subtitle="Selecione um usuário ou crie um novo!"
+            title="Usuários"
+          />
           <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
@@ -104,7 +109,8 @@ export function User() {
               />
             </Dialog.Root>
           </HeadingButtonContainer>
-        </TitleContainer>
+        </HeadingContainer>
+
         <SearchInput
           type="text"
           placeholder="Busque um ou vários usuários..."

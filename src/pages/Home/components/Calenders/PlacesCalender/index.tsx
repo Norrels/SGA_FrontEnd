@@ -33,14 +33,14 @@ interface CalenderProps {
 }
 
 export interface EditClassModalProps {
-  professor: number;
-  ambientes: number;
+  professor: string;
+  ambientes: string;
   data: string;
-  id: number;
+  id: string;
 }
 
 export interface AulaProps {
-  id: number;
+  id: string;
   partitionKey?: number;
   dataFinal: string;
   professor: TeacherProps;
@@ -80,7 +80,6 @@ export function Calender({ days, today }: CalenderProps) {
     }
   });
 
-  console.log(teacherToShow);
 
   async function fetchAulas() {
     const response = await API.get(
@@ -113,7 +112,7 @@ export function Calender({ days, today }: CalenderProps) {
   }
 
   function handleEditAllClass(data: EditAllClassModalProps) {
-    console.log(data);
+
     const aulasEditadas = aulas.map((aula) => {
       if (aula.partitionKey == data.partitionKey) {
         aula.ambiente.id = data.ambiente;

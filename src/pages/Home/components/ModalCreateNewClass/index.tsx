@@ -88,8 +88,7 @@ export function ModalCreateNewClass({
 
   async function fetchTeacherAndPlacesAvalible(data: classPropsFirstStep ) {
       const res = await API.post("/aula/criar", data);
-      console.log(data)
-      console.log(res.data)
+
       
       setDataFim(res.data[0])
       setAvalibleTeachers(res.data[1])

@@ -37,6 +37,7 @@ import { z } from "zod";
 import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "../../../Teacher/components/AvaliableModal/components/ViewClassModal";
+import { ThemeContext } from "styled-components";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -89,6 +90,7 @@ export function AvaliableModal() {
   const [aula, setAula] = useState<AulaType[]>([]);
   const [object, setObject] = useState<Object>();
   const { placesList } = useContext(ResourcesContext);
+   const themeContext = useContext(ThemeContext)
 
   // pegando a data de hoje e formatando pro estilo americano para validar o input date
   const hoje = new Date()
@@ -167,7 +169,7 @@ export function AvaliableModal() {
             <div id="up" style={{ display: "none" }}></div>
             <ContentContainer>
               <Main>
-                <img src={DisponibilidadePerson} />
+              <img src={`/avaliable-${themeContext.theme}.svg`} />
                 <InputContainer>
                   <InputContent>
                     <InputIndividual>

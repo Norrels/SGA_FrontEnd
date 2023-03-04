@@ -8,7 +8,7 @@ import {
   HeaderNavMenu,
   HeaderUser,
 } from "./style";
-import Logo from "../../assets/Logo.svg";
+
 
 import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -17,10 +17,15 @@ import { UpdateMenu } from "../Menus/UpdateMenu";
 import { ColorPickerMenu } from "../Menus/ColourPickerMenu";
 import { UserMenu } from "../Menus/UserMenu";
 import { HomeMenu } from "../Menus/HomeMenu";
+import { IHeaderProps } from "../../layout/DefaultLayout";
 
-export function Header() {
+import { ThemeContext } from 'styled-components'
+
+export function Header({changeTheme}: IHeaderProps) {
   const { userAutheticated } = useContext(AuthContext);
 
+  const themeContext = useContext(ThemeContext)
+  
   const location = useLocation();
 
   return (
@@ -28,7 +33,7 @@ export function Header() {
       <Menubar.Root>
         <HeaderContainer>
           <HeaderContent>
-            <img src={Logo} alt="" />
+            <img src={`/Logo-${themeContext.theme}.svg`} alt="" />
 
             <HeaderNavBar>
               <HeaderNavMenu>
@@ -90,7 +95,7 @@ export function Header() {
                 <Menubar.Trigger>
                   <Palette size={25} />
                 </Menubar.Trigger>
-                <ColorPickerMenu />
+                <ColorPickerMenu changeTheme={changeTheme}/>
               </Menubar.Menu>
 
               <Menubar.Menu>

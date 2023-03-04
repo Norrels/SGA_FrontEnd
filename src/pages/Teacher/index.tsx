@@ -6,9 +6,19 @@ import { useContext, useState } from "react";
 import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { NewVacation } from "./components/NewVacation";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer, Toggle } from "../../styles/commonStyle";
+import {
+  ButtonModal,
+  Content,
+  HeadingButtonContainer,
+  HeadingContainer,
+  MainContainer,
+  SearchInput,
+  TitleContainer,
+  Toggle,
+} from "../../styles/commonStyle";
 
 import { ListContainer } from "../../styles/listStyle";
+import { Heading } from "../Components/Heading";
 
 export function Teacher() {
   document.title = "Professores | SGA";
@@ -20,9 +30,12 @@ export function Teacher() {
   const [openModalVacations, setOpenModalVacations] = useState(false);
   const { userAutheticated } = useContext(AuthContext);
 
-  let filteredTeachers = teachers.length > 0 
-  ? teachers.filter(teacher => teacher.nome?.toLowerCase().includes(search)) 
-  : []
+  let filteredTeachers =
+    teachers.length > 0
+      ? teachers.filter((teacher) =>
+          teacher.nome?.toLowerCase().includes(search.toLowerCase())
+        )
+      : [];
 
   function closeModalNewTeacher() {
     setOpenModalNewTeacher(false);
@@ -34,11 +47,16 @@ export function Teacher() {
   return (
     <MainContainer>
       <Content>
-        <TitleContainer>
-          <h1>Professores</h1>
-          <p>Selecione um professor ou crie um novo!</p>
+        <HeadingContainer>
+          <Heading
+            title="Professores"
+            subtitle="Selecione um professor ou crie um novo!"
+          />
           <HeadingButtonContainer>
-            <Dialog.Root open={openModalNewTeacher} onOpenChange={setOpenModalNewTeacher}>
+            <Dialog.Root
+              open={openModalNewTeacher}
+              onOpenChange={setOpenModalNewTeacher}
+            >
               <Dialog.Trigger asChild>
                 <ButtonModal>Novo professor</ButtonModal>
               </Dialog.Trigger>
@@ -52,14 +70,17 @@ export function Teacher() {
               <AvaliableModal />
             </Dialog.Root>
 
-            <Dialog.Root open={openModalVacations} onOpenChange={setOpenModalVacations}>
+            <Dialog.Root
+              open={openModalVacations}
+              onOpenChange={setOpenModalVacations}
+            >
               <Dialog.Trigger asChild>
                 <ButtonModal>Férias</ButtonModal>
               </Dialog.Trigger>
               <NewVacation closeModal1={closeModalVacations} />
             </Dialog.Root>
           </HeadingButtonContainer>
-        </TitleContainer>
+        </HeadingContainer>
 
         <SearchInput
           type="text"

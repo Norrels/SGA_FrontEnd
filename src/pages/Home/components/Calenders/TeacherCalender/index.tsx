@@ -34,7 +34,7 @@ interface CalenderProps {
 }
 
 export interface AulaProps {
-  id: number;
+  id: string;
   partitionKey?: number
   dataFinal: string;
   professor: TeacherProps;

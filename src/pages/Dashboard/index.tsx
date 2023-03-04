@@ -2,21 +2,18 @@ import {
   DashboardContent,
   DashContainer,
   DashContent,
-  DashTitleContainer,
 } from "./style";
 import { TeacherGraph } from "./components/TeacherGraph";
 import { ClassGraph } from "./components/ClassesGraph";
 import { InClassGraph } from "./components/InClassGraph";
+import { Heading } from "../Components/Heading";
 
 export function Dashboard() {
   document.title = "Dashboard | SGA";
   return (
     <DashContainer>
       <DashContent>
-        <DashTitleContainer>
-          <h1>Dashboard</h1>
-          <p>Informações gerais do sistema</p>
-        </DashTitleContainer>
+        <Heading title="Dashboard" subtitle="Informações gerais do sistema" />
 
         <DashboardContent>
           <div>

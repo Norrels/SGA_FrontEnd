@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
-import Logo from "../../assets/Logo.svg";
+import Logo from "../../../public/Logo-blue.svg";
 import Mockup from "../../assets/Mockup.svg";
 import { useForm } from "react-hook-form";
 import { AuthContext, LoginProps } from "../../contexts/AuthContext";
@@ -19,9 +19,7 @@ import {
 import { Notification } from "../../components/Notification";
 import { FirstAcessAlert } from "./components/FirstAcessAlert";
 import { ArrowClockwise } from "phosphor-react";
-
-
-
+import { ThemeContext } from "styled-components";
 
 export function Login() {
   document.title = "Login | SGA";
@@ -30,6 +28,7 @@ export function Login() {
   const { register, handleSubmit } = useForm<LoginProps>();
   const [open, setOpen] = useState(false)
   const [isSubmiting, setIsSubmiting] = useState(false)
+  const themeContext = useContext(ThemeContext)
 
   function handleLogin(data: LoginProps) {
     login(data)
@@ -47,7 +46,7 @@ export function Login() {
       <div style={{}}>
         <LoginHeaderContainer>
           <LoginHeaderContent>
-            <img src={Logo} alt="" />
+          <img src={`/Logo-${themeContext.theme}.svg`} alt="" />
             <HeaderNavBar>
             </HeaderNavBar>
           </LoginHeaderContent>
@@ -64,8 +63,8 @@ export function Login() {
                 Gerencie e controle os <br /> espaços da escola
               </h1>
 
-              <input type="text" id="" placeholder="Insira seu nif" {...register("nif")} />
-              <input type="password" placeholder="Digite sua senha" {...register("senha")} />
+              <input type="text" id="" placeholder="Insira seu nif" autoComplete="username" {...register("nif")} />
+              <input type="password" placeholder="Digite sua senha" autoComplete="current-password" {...register("senha")} />
               <sup>
                 Após 7 dias o login deverá ser realizado novamente,<br/> ou quando for feito o logout.
 
@@ -82,7 +81,7 @@ export function Login() {
                 }
               </button>
             </form>
-            <img src={Mockup} alt="" />
+            <img src={`/Mockup-${themeContext.theme}.svg`} alt="" />
           </LoginFormContent>
         </LoginFormContainer>
       </div>

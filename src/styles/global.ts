@@ -10,9 +10,10 @@ export const GlobalStyle = createGlobalStyle`
         :focus {
         outline: 0;
      }
+
     }
     body {
-        background-image: url('/src/assets/background.svg');
+        background-image: ${(props) => `url(${props.theme["backgroundImage"]})`};;
         background-repeat: no-repeat;
         background-size: 2000px;
         background-position: top;
@@ -20,9 +21,15 @@ export const GlobalStyle = createGlobalStyle`
         color: ${(props) => props.theme["black"]};
         -webkit-font-smoothing: antialiased;
         width: calc(100vw - 34px);
-        margin: 0,
+        margin: 0;
 
+    
+       
     }
+
+
+    
+    
 
     body, textarea  {
         font-family: 'Inter', sans-serif;

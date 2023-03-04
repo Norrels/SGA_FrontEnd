@@ -95,11 +95,11 @@ export const InfoType = styled.div`
   color: ${(props) => props.theme["white"]};
 
   border-radius: 1rem;
-  background: ${(props) => props.theme["blue-300"]};
+  background: ${(props) => props.theme["primary_300"]};
 `;
 
 const BUTTONS = {
-  edit: "blue-300",
+  edit: "primary_300",
   delete: "blue-500",
 } as const;
 

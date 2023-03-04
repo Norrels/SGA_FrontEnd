@@ -49,6 +49,7 @@ export function HomeSearchInput({ data }: ISearchInputProps) {
 
   function handleChangeCalenderView(event: ChangeEvent<HTMLSelectElement>) {
     choiceTypeOfViewCalender(event.target.value);
+    localStorage.setItem('PreferenceCalendar', event.target.value);
   }
 
   function handleChoiceDay(event: ChangeEvent<HTMLInputElement>) {

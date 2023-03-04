@@ -80,8 +80,8 @@ export const HeaderNavBar = styled.nav`
     text-decoration: none;
 
     &.active {
-      border-bottom: 4px solid ${(props) => props.theme["blue-300"]};
-      color: ${(props) => props.theme["blue-300"]};
+      border-bottom: 4px solid ${(props) => props.theme["primary_300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 `;
@@ -116,8 +116,8 @@ export const LoginFormContent = styled.div`
     background: linear-gradient(
       90deg,
       #0f62ab -1.73%,
-      #0031b0 -1.72%,
-      #25b5e9 90.1%
+      ${(props) => props.theme["blue-800"]} -1.72%,
+      ${(props) => props.theme["primary_300"]} 90.1%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -183,8 +183,8 @@ export const LoginFormContent = styled.div`
       background: linear-gradient(
         90deg,
         #0f62ab -6.06%,
-        #0031b0 -6.05%,
-        #25b5e9 113.64%
+        ${(props) => props.theme["blue-800"]} -6.05%,
+        ${(props) => props.theme["primary_300"]} 113.64%
       );
       background-size: 200% 200%;
       transition-duration: 1s;
@@ -256,8 +256,8 @@ export const LittleDividerContent = styled.div`
   background: linear-gradient(
     90deg,
     #0f62ab -1.73%,
-    #0031b0 -1.72%,
-    #25b5e9 90.1%
+    ${(props) => props.theme["blue-800"]} -1.72%,
+    ${(props) => props.theme["primary_300"]} 90.1%
   );
   border-radius: 10px;
 

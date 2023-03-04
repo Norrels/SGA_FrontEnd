@@ -4,9 +4,19 @@ import { CourseItem } from "./components/CourseItem";
 import NewCourseModal from "./components/NewCourseModal";
 import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer, Toggle } from "../../styles/commonStyle";
+import {
+  ButtonModal,
+  Content,
+  HeadingButtonContainer,
+  HeadingContainer,
+  MainContainer,
+  SearchInput,
+  TitleContainer,
+  Toggle,
+} from "../../styles/commonStyle";
 
 import { ListContainer } from "../../styles/listStyle";
+import { Heading } from "../Components/Heading";
 
 export function Course() {
   document.title = "Cursos | SGA";
@@ -19,9 +29,9 @@ export function Course() {
   const [open, setOpen] = useState(false);
 
   let filteredCourses =
-  courses.length > 0
-    ? courses.filter((course) => course.nome?.toLowerCase().includes(search))
-    : [];
+    courses.length > 0
+      ? courses.filter((course) => course.nome?.toLowerCase().includes(search))
+      : [];
 
   function closeModal() {
     setOpen(false);
@@ -30,9 +40,11 @@ export function Course() {
   return (
     <MainContainer>
       <Content>
-        <TitleContainer>
-          <h1>Cursos</h1>
-          <p>Selecione um curso ou crie um novo!</p>
+        <HeadingContainer>
+          <Heading
+            subtitle="Selecione um curso ou crie um novo!"
+            title="Cursos"
+          />
           <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
@@ -41,7 +53,7 @@ export function Course() {
               <NewCourseModal closeModal={closeModal} />
             </Dialog.Root>
           </HeadingButtonContainer>
-        </TitleContainer>
+        </HeadingContainer>
         <SearchInput
           type="text"
           placeholder="Busque um ou vários cursos..."

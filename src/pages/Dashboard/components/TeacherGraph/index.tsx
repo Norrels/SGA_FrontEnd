@@ -24,6 +24,7 @@ import { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { API } from "../../../../lib/axios";
 import { endOfMonth, format } from "date-fns";
+import { ThemeContext } from "styled-components";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip);
 
@@ -34,6 +35,7 @@ export function TeacherGraph() {
   const [teacherName, setTeacherName] = useState<any>()
   const [teacherId, setTeacherId] = useState(0)
   const today = new Date();
+  const themeContext = useContext(ThemeContext)
   let semestreAtual = [""]
 
   if (today.getMonth() <= 6) {
@@ -115,7 +117,7 @@ export function TeacherGraph() {
   function onChageSelectProfessor(event: ChangeEvent<HTMLSelectElement>) {
     setTeacherId(parseInt(event.target.value))
     const TeacherName = teachers.find((teacher) => {
-      if (teacher.id == parseInt(event.target.value)) {
+      if (teacher.id == event.target.value) {
         return teacher
       }
     })
@@ -162,7 +164,7 @@ export function TeacherGraph() {
       {
         label: "Horas Cadastradas",
         data: horasCadastradas.map((dataset) => dataset),
-        backgroundColor: "#25B5E9",
+        backgroundColor: themeContext!.primary_300,
       },
       {
         label: "Horas Contratuais",

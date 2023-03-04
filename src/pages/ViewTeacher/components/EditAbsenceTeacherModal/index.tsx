@@ -54,7 +54,7 @@ export function EditAbsenceTeacherModal({
   }
 
   async function handleAbsence(data: AbsenceProps) {
-    console.log(data);
+   
     data.dataInicio = format(
       new Date(data.dataInicio + "T00:00:00"),
       "dd/MM/yyyy"

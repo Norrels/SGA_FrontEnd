@@ -30,7 +30,6 @@ import {
   TableRow,
 } from "./style";
 
-import DisponibilidadePerson from "../../../../assets/DisponibilidadePerson.svg";
 import { ChangeEvent, useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { CheckboxIndicator } from "@radix-ui/react-checkbox";
@@ -38,6 +37,7 @@ import { ResourcesContext } from "../../../../contexts/ResourcesContext";
 import { z } from "zod";
 import { API } from "../../../../lib/axios";
 import { ViewClassModal } from "./components/ViewClassModal";
+import { ThemeContext } from "styled-components";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -90,6 +90,7 @@ export function AvaliableModal() {
   const [dataFinal, setDataFinal] = useState("");
   const [object, setObject] = useState<Object>();
   const [aula, setAula] = useState<AulaType[]>([]);
+  const themeContext = useContext(ThemeContext)
 
   // pegando a data de hoje e formatando pro estilo americano para validar o input date
   const hoje = new Date()
@@ -169,7 +170,7 @@ export function AvaliableModal() {
             <div id="up" style={{ display: "none" }}></div>
             <ContentContainer>
               <Main>
-                <img src={DisponibilidadePerson} />
+              <img src={`/avaliable-${themeContext.theme}.svg`} />
                 <InputContainer>
                   <InputContent>
                     <InputIndividual>

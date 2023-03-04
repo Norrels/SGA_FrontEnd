@@ -70,8 +70,8 @@ export const ModalHeader = styled.div`
     background: linear-gradient(
       90deg,
       #0f62ab -2.99%,
-      #0031b0 -2.98%,
-      #25b5e9 99.8%
+      ${(props) => props.theme["blue-800"]} -2.98%,
+      ${(props) => props.theme["primary_300"]} 99.8%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -91,13 +91,13 @@ export const HeaderButtons = styled.div`
     transition-duration: 0.3s;
 
     &:hover {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
 
     svg {
       transition-duration: 0.3s;
       &:hover {
-        color: ${(props) => props.theme["blue-300"]};
+        color: ${(props) => props.theme["primary_300"]};
       }
     }
   }
@@ -120,7 +120,7 @@ export const ButtonIndividual = styled.button`
 
   &:hover {
     cursor: pointer;
-    color: ${(props) => props.theme["blue-300"]};
+    color: ${(props) => props.theme["primary_300"]};
   }
 `;
 
@@ -280,7 +280,7 @@ export const CheckboxRoot = styled(Checkbox.Root)`
     cursor: pointer;
   }
   &[data-state="checked"] {
-    background-color: ${(props) => props.theme["blue-300"]};
+    background-color: ${(props) => props.theme["primary_300"]};
   }
 `;
 
@@ -293,7 +293,7 @@ export const CheckboxIndicator = styled(Checkbox.Indicator)`
 export const InfoBusca = styled.div`
   width: 100%;
 
-  animation: ${fadeIn} .3s ease-in-out forwards;
+  animation: ${fadeIn} 0.3s ease-in-out forwards;
   p {
     text-align: left;
     font-style: italic;
@@ -312,7 +312,7 @@ export const TableContainer = styled.div`
 
   gap: 1.25rem;
 
-  animation: ${fadeIn} .5s ease-in-out forwards;
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 `;
 
 export const TableRow = styled.div`
@@ -349,7 +349,7 @@ export const TableRow = styled.div`
   &:first-child {
     padding: 1.5rem;
 
-    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    background: linear-gradient(180deg, ${(props) => props.theme["blue-400"]} 0%, ${(props) => props.theme["blue-500"]} 100%);
     box-shadow: 0px 4px 10px 3px rgba(0, 0, 0, 0.1);
     border-radius: 8px 8px 0px 0px;
 
@@ -369,7 +369,7 @@ export const AvailableContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  animation: ${fadeIn} .5s ease-in-out forwards;
+  animation: ${fadeIn} 0.5s ease-in-out forwards;
 
   svg {
     color: ${(props) => props.theme["gray-500"]};
@@ -384,7 +384,7 @@ export const AvailableContainer = styled.div`
     margin-bottom: 0.625rem;
 
     &:last-child {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
       cursor: pointer;
       margin-bottom: 0;
     }

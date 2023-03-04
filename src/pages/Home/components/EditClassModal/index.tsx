@@ -30,14 +30,14 @@ interface ModalCreateNewClassProps {
 }
 
 export interface EditClassModalProps {
-  professor: number;
-  ambientes: number;
+  professor: string;
+  ambientes: string;
   data: string;
-  id: number;
+  id: string;
 }
 
 interface AvalibleTeachersAndPlaces {
-  id: number;
+  id: string;
   nome: string;
 }
 
@@ -177,7 +177,7 @@ export function EditClassModal({
                     </option>
 
                     {avalibleTeachers.map((teacher) => {
-                      if (aulas.professor.id != teacher.id) {
+                      if (aulas.professor.id! != teacher.id) {
                         return (
                           <option value={teacher.id} key={teacher.id}>
                             {teacher.nome}

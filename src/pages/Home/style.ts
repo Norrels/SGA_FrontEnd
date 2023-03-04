@@ -55,12 +55,13 @@ export const HomeTitleContainer = styled.div`
   opacity: 0;
   animation: ${fadeIn} 1s ease-in-out forwards;
   z-index: 2px;
+  
   h1 {
     width: 100%;
     margin: 0.5rem;
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    background: linear-gradient(90deg, ${(props) => props.theme["blue-600"]} 40.94%, ${(props) => props.theme["primary_300"]} 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -93,14 +94,28 @@ export const ButtonTitle = styled.button`
   font-size: 1.125rem;
   font-weight: bold;
   transition-duration: 0.3s;
+  /* > button {
+    &:first-child {
+      background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 0%, ${(props) => props.theme["blue-400"]} 100%) !important;
+    }
+
+    &:nth-child(3) {
+      background: linear-gradient(180deg, ${(props) => props.theme["blue-400"]} 0%, ${(props) => props.theme["blue-500"]} 100%);
+    }
+
+    &:last-child {
+      background: linear-gradient(180deg, ${(props) => props.theme["blue-500"]} 0%, ${(props) => props.theme["blue-600"]} 100%);
+    }
+  } */
+
   &:first-child {
-    background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+    background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 0%, ${(props) => props.theme["blue-400"]} 100%);
   }
   &:nth-child(3) {
-    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    background: linear-gradient(180deg, ${(props) => props.theme["blue-400"]} 0%, ${(props) => props.theme["blue-500"]} 100%);
   }
   &:nth-child(5) {
-    background: linear-gradient(180deg, #367fbf 0%, #0031b0 100%);
+    background: linear-gradient(180deg,  ${(props) => props.theme["blue-500"]} 0%, ${(props) => props.theme["blue-600"]} 100%);
   }
   &:hover {
     box-shadow: 0px 5px 4px rgba(0, 0, 0, 0.2);

@@ -41,7 +41,7 @@ export const TeacherGraphLabel = styled.div`
   gap: 1rem;
 
   h3 {
-    color: ${(props) => props.theme["blue-300"]};
+    color: ${(props) => props.theme["primary_300"]};
     font-size: 1.563rem;
     font-weight: 700;
   }
@@ -68,7 +68,7 @@ export const TeacherGraphSelects = styled.div`
     background-color: ${(props) => props.theme["blue-400"]};
 
     :first-child {
-      background-color: ${(props) => props.theme["blue-300"]}
+      background-color: ${(props) => props.theme["primary_300"]}
     }
 
     :last-child {
@@ -158,7 +158,7 @@ export const TeacherGraphSubtitleSpan = styled.article`
     display: block;
     
     :first-child {
-      background-color: ${(props) => props.theme["blue-300"]}
+      background-color: ${(props) => props.theme["primary_300"]}
     }
 
     :last-child {

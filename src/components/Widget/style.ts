@@ -22,7 +22,7 @@ export const ButtonContainer = styled.div`
     align-items: center;
     justify-content: center;
 
-    background-color: #0031b0;
+    background-color: ${(props) => props.theme["blue-500"]};
     color: white;
     border: none;
     font-size: 25px;

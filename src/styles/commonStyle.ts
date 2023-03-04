@@ -14,7 +14,6 @@ export const MainContainer = styled.main`
 
   display: flex;
   justify-content: center;
-  
 `;
 
 export const Content = styled.div`
@@ -49,6 +48,11 @@ export const SearchInput = styled.input`
   animation: ${fadeIn} 1s 0.2s ease-in-out forwards;
 `;
 
+export const HeadingContainer = styled.div`
+  opacity: 0;
+  animation: ${fadeIn} 1s ease-in-out forwards;
+`;
+
 export const TitleContainer = styled.section`
   margin-top: 2rem;
 
@@ -66,7 +70,11 @@ export const TitleContainer = styled.section`
 
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    background: linear-gradient(
+      90deg,
+      ${(props) => props.theme["blue-800"]} 40.94%,
+      ${(props) => props.theme["primary_300"]} 58.61%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -93,15 +101,27 @@ export const HeadingButtonContainer = styled.div`
 
   > button {
     &:first-child {
-      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%) !important;
+      background: linear-gradient(
+        180deg,
+        ${(props) => props.theme["primary_300"]} 0%,
+        ${(props) => props.theme["blue-400"]} 100%
+      ) !important;
     }
 
     &:nth-child(3) {
-      background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+      background: linear-gradient(
+        180deg,
+        ${(props) => props.theme["blue-400"]} 0%,
+        ${(props) => props.theme["blue-500"]} 100%
+      );
     }
 
     &:last-child {
-      background: linear-gradient(180deg, #367fbf 0%, #0031b0 100%);
+      background: linear-gradient(
+        180deg,
+        ${(props) => props.theme["blue-500"]} 0%,
+        ${(props) => props.theme["blue-600"]} 100%
+      );
     }
   }
 `;
@@ -164,7 +184,7 @@ export const Toggle = styled.div`
     transition-duration: 0.6s;
 
     &:checked {
-      background-color: ${(props) => props.theme["blue-300"]};
+      background-color: ${(props) => props.theme["primary_300"]};
     }
   }
 
@@ -189,4 +209,3 @@ export const Toggle = styled.div`
     left: 25px;
   }
 `;
-

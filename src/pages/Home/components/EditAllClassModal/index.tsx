@@ -25,19 +25,19 @@ interface ModalCreateNewClassProps {
 
 export interface EditAllClassModalProps {
   partitionKey: number;
-  professor: number;
-  ambiente: number;
+  professor: string;
+  ambiente: string;
   dataFinal: string;
   dataInicio: string;
 }
 
 interface AvalibleTeachers {
-  id: number;
+  id: string;
   nome: string;
 }
 
 interface AvaliblePlaces {
-  id: number;
+  id: string;
   nome: string;
 }
 

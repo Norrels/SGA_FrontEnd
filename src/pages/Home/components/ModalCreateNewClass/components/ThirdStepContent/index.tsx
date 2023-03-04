@@ -3,6 +3,7 @@
 import { format } from "date-fns";
 import { useContext } from "react";
 import { useFormContext } from "react-hook-form";
+import { ThemeContext } from "styled-components";
 import { ResourcesContext } from "../../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../../lib/axios";
 import { FinalButton, InputContainer, InputContent, Steps, SummaryContainer, SummaryContent, SummaryDetails, SummaryHeader } from "../../style";
@@ -14,6 +15,7 @@ interface ThirdStepContentProps {
 export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
 
   const { getValues } = useFormContext();
+  const themeContext = useContext(ThemeContext)
 
   const { teachers, placesList, courses } = useContext(ResourcesContext);
 
@@ -65,9 +67,9 @@ export function ThirdStepContent({ lastDay }: ThirdStepContentProps) {
       <InputContent>
         <label>Passo 3 de 3</label>
         <Steps>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
         </Steps>
       </InputContent>
       <SummaryContainer>

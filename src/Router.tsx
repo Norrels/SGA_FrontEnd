@@ -13,13 +13,17 @@ import { User } from "./pages/Users";
 import { ViewTeacher } from "./pages/ViewTeacher";
 import { ProtectedRoutes } from "./ProtectedRoutes";
 
-export function Router() {
+interface IRouterProps {
+  changeTheme: (theme: string) => void
+}
+
+export function Router({changeTheme}: IRouterProps) {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
 
       <Route element={<ProtectedRoutes />}>
-        <Route path="/" element={<DefaultLayout />}>
+        <Route path="/" element={<DefaultLayout changeTheme={changeTheme} />}>
           <Route path="/inicio" element={<Home />} />
           <Route path="/professores" element={<Teacher />} />
           <Route path="/professor">

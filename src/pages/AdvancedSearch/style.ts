@@ -54,7 +54,7 @@ export const AdvancedTitleContainer = styled.section`
 
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    background: linear-gradient(90deg, #0031b0 40.94%, ${(props) => props.theme["primary_300"]} 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -76,6 +76,7 @@ export const AdvancedButtonContainer = styled.div`
   margin-top: 2rem;
 
   display: flex;
+  justify-content: center;
   gap: 2rem;
 
   button {
@@ -92,7 +93,7 @@ export const AdvancedButtonContainer = styled.div`
     transition-duration: 0.3s;
 
     &:first-child {
-      background: linear-gradient(180deg, #25b5e9 0%, #5aadd1 100%);
+      background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 0%, #5aadd1 100%);
     }
 
     &:hover {
@@ -150,7 +151,7 @@ export const AdvancedSearchInputContent = styled.div`
   input {
     width: 100%;
     height: 3.75rem;
-
+    accent-color: ${(props) => props.theme["blue-400"]};
     padding-left: 1.813rem;
 
     border: none;

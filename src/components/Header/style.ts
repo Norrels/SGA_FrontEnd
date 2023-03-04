@@ -55,7 +55,7 @@ export const HeaderNavBar = styled.nav`
       position: absolute;
       top: 25px;
 
-      background-color: ${(props) => props.theme["blue-300"]};
+      background-color: ${(props) => props.theme["primary_300"]};
 
       transition-duration: 0.4s;
     }
@@ -67,7 +67,7 @@ export const HeaderNavBar = styled.nav`
     }
 
     &.active {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
 
       &:hover {
         &::before {
@@ -105,7 +105,7 @@ export const HeaderUser = styled.span`
     transition-duration: 0.2s;
     margin-left: 0.9rem;
     &:hover {
-      color: ${(props) => props.theme["blue-300"]} !important;
+      color: ${(props) => props.theme["primary_300"]} !important;
     }
   }
 `;
@@ -127,13 +127,13 @@ export const HeaderNavMenu = styled(Menubar.Menu)`
     transition-duration: 0.2s;
 
     &:hover {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 
   :has(a.active) {
     svg {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 `;
@@ -161,7 +161,6 @@ export const HeaderNavMenuItem = styled(Menubar.Item)`
   width: 100%;
   border: none;
   display: flex;
-  z-index: 20px;
   border-radius: 4px;
 
   cursor: pointer;
@@ -195,7 +194,7 @@ export const HeaderNavGroup = styled.div`
 
   :has(a.active) {
     svg {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 

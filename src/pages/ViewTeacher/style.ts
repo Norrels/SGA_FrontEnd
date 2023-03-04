@@ -41,7 +41,7 @@ export const TeacherMainProfile = styled.div`
   svg {
     transition-duration: 0.3s;
     &:hover {
-      color: ${(props) => props.theme["blue-300"]}
+      color: ${(props) => props.theme["primary_300"]}
     }
   }
 `;
@@ -56,7 +56,7 @@ export const TeacherProfileContent = styled.div`
 `;
 
 const DISPONIBILIDADE = {
-  emAula: "blue-300",
+  emAula: "primary_300",
   livre: "blue-500",
 } as const;
 

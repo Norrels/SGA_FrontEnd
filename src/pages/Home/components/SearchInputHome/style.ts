@@ -82,7 +82,7 @@ export const HomeUpContentSearchInput = styled.div`
     svg {
       transition-duration: 0.3s;
       &:hover {
-        color: ${(props) => props.theme["blue-300"]};
+        color: ${(props) => props.theme["primary_300"]};
       }
     }
   }

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const DISPONIBILIDADE = {
-  emAula: 'blue-300',
+  emAula: 'primary_300',
   livre: 'blue-500'
 } as const
 

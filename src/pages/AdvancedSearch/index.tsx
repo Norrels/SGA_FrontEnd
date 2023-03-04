@@ -26,6 +26,8 @@ import { API } from "../../lib/axios";
 import { z } from "zod";
 import { getDay, setDay } from "date-fns";
 import { ModalCreateNewClass } from "../Home/components/ModalCreateNewClass";
+import { ButtonModal, HeadingButtonContainer, HeadingContainer } from "../../styles/commonStyle";
+import { Heading } from "../Components/Heading";
 
 export const aulaInput = z.object({
   id: z.number(),
@@ -656,10 +658,12 @@ export default function AdvancedSearch() {
       );
 
       _l.map((v) => {
-        console.log(Number(v.data.split("/")[2]),
-        Number(v.data.split("/")[0]),
-        Number(v.data.split("/")[1])),
         console.log(
+          Number(v.data.split("/")[2]),
+          Number(v.data.split("/")[0]),
+          Number(v.data.split("/")[1])
+        ),
+          console.log(
             getDay(
               new Date(
                 Number(v.data.split("/")[2]),
@@ -667,7 +671,7 @@ export default function AdvancedSearch() {
                 Number(v.data.split("/")[0])
               )
             )
-          )
+          );
       });
 
       if (initialDate != "" || lastDate != "") {
@@ -792,7 +796,7 @@ export default function AdvancedSearch() {
           setSaveClass([..._l]);
         }
       }
-    }  */else if (typeCoursesMatch.length != 0) {
+    }  */ else if (typeCoursesMatch.length != 0) {
       let _l = aula.filter((e) => e.curso.tipo == lastCourseType);
 
       if (initialDate.length > 0 && lastDate.length > 0) {
@@ -881,21 +885,24 @@ export default function AdvancedSearch() {
   return (
     <AdvancedContainer>
       <AdvancedContent>
-        <AdvancedTitleContainer>
-          <h1>Aulas</h1>
-          <p>
-            Crie, busque e aplique filtros para encontrar determinada aula ou
-            aula(s).
-          </p>
-          <AdvancedButtonContainer>
+        <HeadingContainer>
+          <Heading
+            subtitle=" Crie, busque e aplique filtros para encontrar determinada aula ou
+            aula(s)."
+            title="Aulas"
+          />
+          <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <button>Nova aula</button>
+                <ButtonModal>Nova aula</ButtonModal>
               </Dialog.Trigger>
-              <ModalCreateNewClass name={'customizável'} closeModal={closeModal} />
+              <ModalCreateNewClass
+                name={"customizável"}
+                closeModal={closeModal}
+              />
             </Dialog.Root>
-          </AdvancedButtonContainer>
-        </AdvancedTitleContainer>
+          </HeadingButtonContainer>
+        </HeadingContainer>
 
         <form onSubmit={handleSubmit(handleGetPlaces)}>
           <AdvancedSearchInput>

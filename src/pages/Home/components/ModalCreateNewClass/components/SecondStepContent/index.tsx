@@ -1,6 +1,7 @@
 import { ArrowRight } from "phosphor-react";
 import { useContext, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
+import { ThemeContext } from "styled-components";
 import { ResourcesContext, PlaceProps, TeacherProps } from "../../../../../../contexts/ResourcesContext";
 import { API } from "../../../../../../lib/axios";
 import {
@@ -19,6 +20,7 @@ interface firstStepContentProps {
 
 export function SecondStepContent({ handleNextStep, places, teachers }: firstStepContentProps) {
   const { register, watch } = useFormContext();
+  const themeContext = useContext(ThemeContext)
   const isValidForm = watch("professor.id") != "" && watch("ambiente.id") != "" && watch("professor.id") != undefined && watch("ambiente.id") != undefined
   return (
     <InputContainer>
@@ -31,8 +33,8 @@ export function SecondStepContent({ handleNextStep, places, teachers }: firstSte
       <InputContent>
         <label>Passo 2 de 3</label>
         <Steps>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
           <div style={{ backgroundColor: "#B6B6B6" }}></div>
         </Steps>
       </InputContent>

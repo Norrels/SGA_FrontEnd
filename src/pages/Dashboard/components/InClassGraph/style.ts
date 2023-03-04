@@ -13,7 +13,7 @@ export const InClassContainer = styled.section`
   flex-direction: column;
 
   h3 {
-    color: ${(props) => props.theme["blue-300"]};
+    color: ${(props) => props.theme["primary_300"]};
     font-size: 1.563rem;
     font-weight: 700;
   }

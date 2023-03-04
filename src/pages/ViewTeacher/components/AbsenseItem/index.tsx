@@ -23,6 +23,7 @@ interface AbsenceItemProps {
 
 export function AbsenseItem({ absence }: AbsenceItemProps) {
   const [open, setOpen] = useState(false);
+  
 
   function closeModal() {
     setOpen(false);

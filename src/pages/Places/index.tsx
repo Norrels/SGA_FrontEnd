@@ -5,8 +5,18 @@ import { NewPlaceModal } from "./components/NewPlaceModal";
 import { useContext, useState } from "react";
 import { ResourcesContext } from "../../contexts/ResourcesContext";
 import { AuthContext } from "../../contexts/AuthContext";
-import { Toggle, ButtonModal, Content, HeadingButtonContainer, MainContainer, SearchInput, TitleContainer } from "../../styles/commonStyle";
+import {
+  Toggle,
+  ButtonModal,
+  Content,
+  HeadingButtonContainer,
+  MainContainer,
+  SearchInput,
+  TitleContainer,
+  HeadingContainer,
+} from "../../styles/commonStyle";
 import { ListContainer } from "../../styles/listStyle";
+import { Heading } from "../Components/Heading";
 
 export function Places() {
   document.title = "Ambientes | SGA";
@@ -29,9 +39,11 @@ export function Places() {
   return (
     <MainContainer>
       <Content>
-        <TitleContainer>
-          <h1>Ambientes</h1>
-          <p>Selecione um ambiente ou crie um novo!</p>
+        <HeadingContainer>
+          <Heading
+            title="Ambientes"
+            subtitle="Selecione um ambiente ou crie um novo!"
+          />
           <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
@@ -46,7 +58,7 @@ export function Places() {
               <AvaliableModal />
             </Dialog.Root>
           </HeadingButtonContainer>
-        </TitleContainer>
+        </HeadingContainer>
         <SearchInput
           type="text"
           placeholder="Busque um ou vários ambientes..."

@@ -7,7 +7,7 @@ interface ResourcesContextProviderProps {
 }
 
 export interface TeacherProps {
-  id?: number;
+  id?: string;
   nome?: string;
   cargaSemanal: number;
   ativo?: boolean;
@@ -52,7 +52,7 @@ interface ResourcesContextType {
   teachers: TeacherProps[];
   courses: CourseProps[];
   placesList: PlaceProps[];
-  updateStatusTeacher: (id: number) => Promise<string>;
+  updateStatusTeacher: (id: string) => Promise<string>;
   updateStatusCourse: (id: number) => Promise<string>;
   updateStatusPlace: (id: string) => Promise<string>;
   updateTeachers: (data: TeacherProps) => Promise<string>;
@@ -98,7 +98,7 @@ export function ResourcesContextProvider({
     const res = await API.post("/curso", data);
     if (res.status == 200) {
       data.id = res.data[1];
-      setCourses([...courses, data]);
+      setCourses([...courses, res.data[1]]);
       return "success";
     } else {
       return "erro";
@@ -164,7 +164,7 @@ export function ResourcesContextProvider({
     }
   }
 
-  async function updateStatusTeacher(id: number) {
+  async function updateStatusTeacher(id: string) {
     try {
       const res = await API.put(`/professor/alterarStatus/${id}`);
       const valorAtualizado = teachers.map((professor) => {
@@ -186,7 +186,7 @@ export function ResourcesContextProvider({
     if (res.status == 200) {
       const valorAtualizado = courses.map((course) => {
         if (course.id == data.id) {
-          course = data;
+          course = res.data;
           console.log(course);
         }
         return course;

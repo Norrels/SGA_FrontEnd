@@ -1,9 +1,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { ModalCreateNewClass } from "./components/ModalCreateNewClass";
 import { Calender } from "./components/Calenders/PlacesCalender";
-import {
-  HomeSearchInput,
-} from "./components/SearchInputHome";
+import { HomeSearchInput } from "./components/SearchInputHome";
 import {
   ButtonTitle,
   HomeButtonContainer,
@@ -20,6 +18,8 @@ import {
 } from "date-fns";
 import { useState } from "react";
 import { CalenderTeacher } from "./components/Calenders/TeacherCalender";
+import { HeadingContainer } from "../../styles/commonStyle";
+import { Heading } from "../Components/Heading";
 
 interface ISearchInputSchema {
   previousDayWeek: () => void;
@@ -41,7 +41,10 @@ export function Home() {
   const [openCustomizavel, setOpenCustomizavel] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [isViewClass, setIsViewClass] = useState("");
+
+  const prefereneCalendar = localStorage.getItem("PreferenceCalendar");
+
+  const [isViewClass, setIsViewClass] = useState(prefereneCalendar);
 
   const semana = startOfWeek(referenceDay, { weekStartsOn: 0 });
 
@@ -86,9 +89,11 @@ export function Home() {
   return (
     <HomeContainer>
       <HomeContent>
-        <HomeTitleContainer>
-          <h1>Bem Vindo</h1>
-          <p>Selecione um tipo de curso e crie uma nova aula</p>
+        <HeadingContainer>
+          <Heading
+            title="Bem Vindo"
+            subtitle="Selecione um tipo de curso e crie uma nova aula"
+          />
           <HomeButtonContainer>
             <Dialog.Root open={openRegular} onOpenChange={setOpenRegular}>
               <Dialog.Trigger asChild>
@@ -116,7 +121,7 @@ export function Home() {
               <ModalCreateNewClass closeModal={closeModal} name={title} />
             </Dialog.Root>
           </HomeButtonContainer>
-        </HomeTitleContainer>
+        </HeadingContainer>
 
         <HomeSearchInput data={searchInputData} />
 

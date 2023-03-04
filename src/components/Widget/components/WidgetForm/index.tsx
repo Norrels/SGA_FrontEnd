@@ -44,7 +44,7 @@ export function WidgetForm({ closeModal }: CloseModalProps) {
     try {
       const res = await axios.post("https://email-api-tirj.vercel.app/chamado", {
         mensagem: data.descricao,
-        email: ["matheuus412@gmail.com"],
+        email: ["matheuus412@gmail.com", "bruno.duarte314@gmail.com"],
         user: userAutheticated.nome,
         type: type,
       });

@@ -33,7 +33,7 @@ export const HomeCalenderOrderBy = styled.span`
   justify-content: center;
   align-items: center;
   p {
-    background: linear-gradient(180deg, #25b5e9 45.83%, #367fbf 100%);
+    background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 45.83%, ${(props) => props.theme["blue-500"]} 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -67,10 +67,10 @@ export const HomeCalenderDay = styled.span<DayProps>`
   gap: 0.563rem;
   strong {
     background: ${(props) => {
-      if (DAY[props.days] == "today") {
-        return "#0031B0";
+      if (props.days == "today") {
+      return `${props.theme["blue-600"]}`;
       } else if (DAY[props.days] == "notToday") {
-        return "linear-gradient(180deg, #25B5E9 45.83%, #367FBF 100%);";
+        return `linear-gradient(180deg, ${props.theme["primary_300"]} 45.83%, ${props.theme["blue-500"]} 100%)`;
       }
     }};
     -webkit-background-clip: text;
@@ -133,7 +133,7 @@ export const HomeClasses = styled.div`
 
 export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
   ${(props) =>
-    props.theme[PERIOD[props.period]] == "#5AADD1" &&
+    props.period == "MANHA" &&
     css`
       grid-area: manha;
       div {
@@ -141,7 +141,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
   ${(props) =>
-    props.theme[PERIOD[props.period]] == "#367FBF" &&
+     props.period == "TARDE" &&
     css`
       grid-area: tarde;
       div {
@@ -149,7 +149,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
   ${(props) =>
-    props.theme[PERIOD[props.period]] == "#0031B0" &&
+     props.period == "NOITE" &&
     css`
       grid-area: noite;
       div {
@@ -157,7 +157,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
     ${(props) =>
-    props.theme[PERIOD[props.period]] == "#0FB2F2" &&
+     props.period == "INTEGRAL" &&
     css`
       grid-area: manha;
       div {

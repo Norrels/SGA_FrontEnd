@@ -45,7 +45,7 @@ export const DashTitleContainer = styled.div`
 
     font-size: 2.813rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #0031b0 40.94%, #25b5e9 58.61%);
+    background: linear-gradient(90deg, #0031b0 40.94%, ${(props) => props.theme["primary_300"]} 58.61%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

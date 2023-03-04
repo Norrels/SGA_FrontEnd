@@ -49,10 +49,15 @@ interface CurricularUnit {
   horas: string;
 }
 
+
+
 export function EditTeacherModal({
   teacherUpdate,
   teacherItem
 }: EdiTeacherModalProps) {
+
+  
+
 
 
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
@@ -94,6 +99,7 @@ export function EditTeacherModal({
 
   useEffect(() => {
     handleGetUnidadeCurricular();
+    alert("Estamos cientes dos bugs que a pagina do perfil do professor está apresentando, estamos refazendo ela do zero, desde já agradeçemos a comprensão")
   }, []);
 
   const { fields, append, remove } = useFieldArray({

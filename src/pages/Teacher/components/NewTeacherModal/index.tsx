@@ -27,7 +27,7 @@ import {
 import { PhotoRecommendationAlert } from "./components/PhotoRecommendationAlert";
 
 export const teacherInput = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
     .max(25, { message: "* O nome deve ser menor que 30 caracteres..." })
@@ -292,7 +292,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                           defaultValue=""
                           required
                         >
-                          <option value="" disabled>
+                          <option value={0} disabled>
                             Selecione uma unidade curricular
                           </option>
                           {unidadeCurricular.map((value, index) => {

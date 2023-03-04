@@ -58,7 +58,7 @@ export const TableContaine = styled.section`
     top: 0;
 
     color: ${(props) => props.theme["white"]};
-    background: linear-gradient(180deg, #5aadd1 0%, #367fbf 100%);
+    background: linear-gradient(180deg, ${(props) => props.theme["blue-400"]} 0%, ${(props) => props.theme["blue-500"]} 100%);
 
     opacity: 0;
     animation: ${fadeIn} 0.4s ease-in-out forwards;
@@ -98,7 +98,7 @@ export const TableContaine = styled.section`
       svg {
         transition-duration: 0.3s;
         &:hover {
-          color: ${(props) => props.theme["blue-300"]};
+          color: ${(props) => props.theme["primary_300"]};
         }
       }
     }

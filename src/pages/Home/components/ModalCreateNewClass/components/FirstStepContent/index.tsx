@@ -2,6 +2,7 @@ import { format } from "date-fns";
 import { ArrowRight, Check } from "phosphor-react";
 import { ChangeEvent, useContext, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { ThemeContext } from "styled-components";
 import { classPropsFirstStep } from "../..";
 import {
   CourseProps,
@@ -51,6 +52,7 @@ export function FirstStepContent({
     getValues,
     resetField,
   } = useFormContext();
+  const themeContext = useContext(ThemeContext)
 
   //Aqui eu exibo as unidades curriculares do curso que a pessoa selecionou
   function onChangeCourse(event: ChangeEvent<HTMLSelectElement>) {
@@ -172,7 +174,7 @@ export function FirstStepContent({
       <InputContent>
         <label>Passo 1 de 3</label>
         <Steps>
-          <div style={{ backgroundColor: "#367FBF" }}></div>
+          <div style={{ backgroundColor: themeContext.primary_300 }}></div>
           <div style={{ backgroundColor: "#B6B6B6" }}></div>
           <div style={{ backgroundColor: "#B6B6B6" }}></div>
         </Steps>
@@ -188,7 +190,8 @@ export function FirstStepContent({
             Selecione um curso...
           </option>
           {courses.map((course) => {
-            if (name == "customizável") {
+            if (name == "customizável"  &&
+            course.ativo == true) {
               return (
                 <option key={course.id} value={course.id}>
                   {course.nome}

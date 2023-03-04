@@ -79,8 +79,8 @@ export const ModalHeader = styled.div`
     background: linear-gradient(
       90deg,
       #0f62ab -2.99%,
-      #0031b0 -2.98%,
-      #25b5e9 99.8%
+      ${(props) => props.theme["blue-800"]} -2.98%,
+      ${(props) => props.theme["primary_300"]} 99.8%
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -96,14 +96,14 @@ export const HeaderButtons = styled.div`
     transition-duration: 0.3s;
 
     &:hover {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 
   svg {
     transition-duration: 0.3s;
     &:hover {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
       cursor: pointer;
     }
   }
@@ -304,7 +304,7 @@ export const CheckboxRoot = styled(Checkbox.Root)`
     cursor: pointer;
   }
   &[data-state="checked"] {
-    background-color: ${(props) => props.theme["blue-300"]};
+    background-color: ${(props) => props.theme["primary_300"]};
   }
 `;
 
@@ -357,7 +357,7 @@ export const SummaryDetails = styled.div`
     font-size: 1.125rem;
 
     span {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
 
     p {

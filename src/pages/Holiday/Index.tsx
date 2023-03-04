@@ -1,6 +1,12 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { useEffect, useState } from "react";
 import { API } from "../../lib/axios";
+import {
+  ButtonModal,
+  HeadingButtonContainer,
+  HeadingContainer,
+} from "../../styles/commonStyle";
+import { Heading } from "../Components/Heading";
 import { HolidayType } from "./components/EditHolidayModal";
 import { HolidayItem } from "./components/HolidayItem";
 import { NewHolidayModal } from "./components/NewHolidayModal";
@@ -40,13 +46,13 @@ export function Holiday() {
     setOpen(false);
   }
 
-  useEffect(() => {
-    handleGetHolidays();
-  }, []);
+  // useEffect(() => {
+  //   handleGetHolidays();
+  // }, []);
 
-  useEffect(() => {
-    console.log(holiday);
-  }, [holiday]);
+  // useEffect(() => {
+  //   console.log(holiday);
+  // }, [holiday]);
 
   async function handleGetHolidays() {
     const resp = await API.get("/dnl");
@@ -106,32 +112,34 @@ export function Holiday() {
   function handleUpdateMatches(data: HolidayType) {
     setHolidayMatches(
       holidayMatch.map((holiday) => {
-        if(holiday.id == data.id) {
+        if (holiday.id == data.id) {
           holiday = data;
         }
         return holiday;
-      }
-    ));
+      })
+    );
   }
 
   return (
     <HolidayContainer>
       <HolidayContent>
-        <HolidayTitleContainer>
-          <h1>Dias não letivos</h1>
-          <p>Selecione um dia não letivo ou crie um novo!</p>
-          <HolidayButtonContainer>
+        <HeadingContainer>
+          <Heading
+            subtitle="Selecione um dia não letivo ou crie um novo!"
+            title="Dias não letivos"
+          />
+          <HeadingButtonContainer>
             <Dialog.Root open={open} onOpenChange={setOpen}>
               <Dialog.Trigger asChild>
-                <button>Novo dia</button>
+                <ButtonModal>Novo dia</ButtonModal>
               </Dialog.Trigger>
               <NewHolidayModal
                 newHolidayItem={handleAddMatches}
                 closeModal={closeModal}
               />
             </Dialog.Root>
-          </HolidayButtonContainer>
-        </HolidayTitleContainer>
+          </HeadingButtonContainer>
+        </HeadingContainer>
         <input
           type="text"
           onChange={(v) => searchHoliday(v.target.value)}

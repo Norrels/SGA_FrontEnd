@@ -37,7 +37,7 @@ export const TextContent = styled.div`
     transition-duration: 0.3s;
 
     &:hover {
-      color: ${(props) => props.theme["blue-300"]};
+      color: ${(props) => props.theme["primary_300"]};
     }
   }
 
@@ -81,7 +81,7 @@ export const ContainerSelect = styled.div`
     transition-duration: 0.4s;
 
     &:hover {
-      box-shadow: 0px 5px 0px rgba(37, 181, 233, 0.6);
+      box-shadow: 0px 5px 0px ${(props) => props.theme["blue-500"]};
       transform: translateY(-5px);
     }
 
@@ -171,6 +171,6 @@ export const ButtonRightContainer = styled.div`
 
     border: none;
     color: white;
-    background-color: ${(props) => props.theme["blue-300"]};
+    background-color: ${(props) => props.theme["primary_300"]};
   }
 `;
