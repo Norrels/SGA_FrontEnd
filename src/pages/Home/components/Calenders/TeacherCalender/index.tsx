@@ -118,16 +118,23 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
     setAulas(aulasEditadas);
   }
 
-  // const placesInClass = aulas.filter((place) => {return place.ambiente.id})
+  const placesInClass = aulas.map((aula) => aula.ambiente);
 
-  // const placesAvaliable = placesList.map((place) => {
+  const placesToShow = placesList.filter((places) => {
+    if (places.ativo == true) {
+      return places;
+    }
 
+    if (places.ativo == false) {
+      const placeInClass = placesInClass.find((placeToFind) => {
+        return placeToFind.id === places.id;
+      });
 
-  //   if(placesInClass.toString() == place?.id){
-
-  //   }
-  //   return place
-  // })
+      if (placeInClass !== undefined) {
+        return placeInClass;
+      }
+    }
+  });
 
   return (
     <HomeCalenderContainer>
@@ -157,7 +164,7 @@ export function CalenderTeacher({ days, today }: CalenderProps) {
           })}
         </HomeCalenderHeaderDays>
       </HomeCalenderHeader>
-      {placesList.map((places) => {
+      {placesToShow.map((places) => {
 
         return (
           <div key={places.id}>

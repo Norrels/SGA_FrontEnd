@@ -14,7 +14,7 @@ export function UpdateMenu() {
           <>
             <CircleWavyCheck color="#0031B0" size={50} weight={"thin"} />
             <strong>Uhuu! Sua aplicação está atualizada</strong>
-            <a href="">Leia as novidades</a>
+            <a target="_blank" href="https://github.com/Norrels/SGA_FrontEnd/blob/master/patch-notes.md">Leia as novidades</a>
           </>
         ) : (
           <>

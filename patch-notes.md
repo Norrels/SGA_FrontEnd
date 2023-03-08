@@ -50,6 +50,8 @@
 :partying_face: done - Agora é possível criar uma aula em qualquer dia,
 - Não há mais um limite que permetia criar apenas a partir da data atual
 
+:partying_face: done - Não é exibido mais ambientes e professores que foram desabilitados no calendário,
+- Mas cuidado, caso o houver uma aula relacionada há algum desses recursos eles ainda apareceram no calendário até que as aulas relacionadas acabem, entendemos que caso um ambiente com aula fosse desabilitado, essas aulas ficariam "perdidas", com isso essa mecânica permite que o usuário consiga alterar essas aulas do antigo para ambiente para um ambiente ativo, recomendamos que desative um ambiente ou professor caso realmente não haja nenhuma aula relacionadas a um deles
 ---
 
 ### Usuários
