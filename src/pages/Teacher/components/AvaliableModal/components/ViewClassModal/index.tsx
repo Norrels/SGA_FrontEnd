@@ -107,6 +107,7 @@ export function ViewClassModal({ classItem, closeModal }: ViewClassModalProps) {
                     <label>Hora(s) por dia</label>
                     <input
                       type="number"
+                      onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                       placeholder="Digite as horas..."
                       readOnly
                       defaultValue={classItem.cargaDiaria}

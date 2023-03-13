@@ -24,19 +24,19 @@ export interface TeacherProps {
 [];
 
 export interface PlaceProps {
-  id: string;
+  id?: string;
   nome: string;
-  capacidade: number;
+  capacidade?: number;
   tipo: string;
-  cep: string;
-  endereco: string;
-  complemento: string;
-  ativo: boolean;
+  cep?: string;
+  endereco?: string;
+  complemento?: string;
+  ativo?: boolean;
 }
 [];
 
 export interface CourseProps {
-  id?: number;
+  id?: string;
   nome: string;
   tipo: string;
   ativo?: boolean;
@@ -53,7 +53,7 @@ interface ResourcesContextType {
   courses: CourseProps[];
   placesList: PlaceProps[];
   updateStatusTeacher: (id: string) => Promise<string>;
-  updateStatusCourse: (id: number) => Promise<string>;
+  updateStatusCourse: (id: string) => Promise<string>;
   updateStatusPlace: (id: string) => Promise<string>;
   updateTeachers: (data: TeacherProps) => Promise<string>;
   updatePlaces: (data: PlaceProps) => Promise<string>;
@@ -148,7 +148,7 @@ export function ResourcesContextProvider({
     }
   }
 
-  async function updateStatusCourse(id: number) {
+  async function updateStatusCourse(id: string) {
     try {
       const res = await API.put(`/curso/alterarStatus/${id}`);
       const valorAtualizado = courses.filter((course) => {

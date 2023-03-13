@@ -20,10 +20,10 @@ import {
 } from "./style";
 
 const presencialValidation = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 25 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("PRESENCIAL"),
   capacidade: z
@@ -36,10 +36,10 @@ const presencialValidation = z.object({
 });
 
 const unidadeMovelValidation = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 25 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("UNIDADE_MOVEL"),
   capacidade: z
@@ -52,10 +52,10 @@ const unidadeMovelValidation = z.object({
 });
 
 const empresaValidation = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 25 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("EMPRESA"),
   capacidade: z
@@ -73,10 +73,10 @@ const empresaValidation = z.object({
 });
 
 const entidadeValidation = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 25 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("ENTIDADE"),
   capacidade: z
@@ -94,10 +94,10 @@ const entidadeValidation = z.object({
 });
 
 const remotoValidation = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(20, { message: "* O nome deve ser menor que 20 caracteres..." })
+    .max(25, { message: "* O nome deve ser menor que 25 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("REMOTO"),
   capacidade: z.number().optional(),
@@ -192,10 +192,6 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
     setValue("endereco", adress);
   }
 
-  function firstLetterUppercase(value: string) {
-    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value;
-  }
 
   function onCloseModalPlaces() {
     closeModal();
@@ -228,10 +224,9 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     placeholder="Digite o nome do ambiente"
                     {...register("nome", {
                       required: true,
-                      setValueAs: (v) => firstLetterUppercase(v),
                     })}
                     minLength={4}
-                    maxLength={20}
+                    maxLength={26}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -269,6 +264,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                     </label>
                     <input
                       type="number"
+                      onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                       placeholder="Digite a capacidade"
                       min="1"
                       {...register("capacidade", {
@@ -334,7 +330,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                       tipoAmbiente == "EMPRESA" || tipoAmbiente == "ENTIDADE"
                     }
                     minLength={4}
-                    maxLength={50}
+                    maxLength={70}
                   />
                   {errors.endereco && <p>{errors.endereco.message}</p>}
                 </InputContent>

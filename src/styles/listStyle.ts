@@ -22,10 +22,9 @@ export const ListItemContainer = styled.div`
   padding: 2rem;
   margin-bottom: 1rem;
 
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 80% 10%;
   justify-content: space-between;
-  align-items: center;
 
   border-radius: 8px;
   background: ${(props) => props.theme["white"]};
@@ -45,6 +44,9 @@ export const ListInfoContent = styled.span`
 display: flex;
 flex-direction: column;
 justify-content: space-between;
+width: 100%;
+
+
 
 p {
   span {
@@ -57,6 +59,16 @@ export const ItemInfoContentHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+
+
+  h3 {
+  
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
+  }
 `;
 
 export const ItemIcon = styled.span`

@@ -30,7 +30,7 @@ export const teacherInput = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(25, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 carecteres..." }),
   email: z.string().email({ message: "* Informe um email válido..." }),
   cargaSemanal: z
@@ -68,7 +68,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   const [unidadeCurricular, setUnidadeCurricular] = useState<CurricularUnit[]>(
     []
   );
-  const [namePhoto, setNamePhoto] = useState("")
+  const [namePhoto, setNamePhoto] = useState("");
 
   const newTeacherForm = useForm<TeacherType>({
     resolver: zodResolver(teacherInput),
@@ -141,25 +141,24 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
   }
 
   function onCloseModalTeacher() {
-    setNamePhoto("")
+    setNamePhoto("");
     closeModal();
     reset();
   }
 
   const uploadImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files![0];
-    console.log(file.size/1024/1024 < 10)
-    if(file.size/1024/1024 < 10) {
-      setNamePhoto(file.name)
+    console.log(file.size / 1024 / 1024 < 10);
+    if (file.size / 1024 / 1024 < 10) {
+      setNamePhoto(file.name);
       const base64 = await convertBase64(file);
       setValue("foto", String(base64));
-      clearErrors("foto")
+      clearErrors("foto");
       console.log(String(base64).length);
     } else {
-      setNamePhoto("")
-      setError("foto", {message: "* A foto deve ser menor que 10Mb"})
+      setNamePhoto("");
+      setError("foto", { message: "* A foto deve ser menor que 10Mb" });
     }
-   
   };
 
   function convertBase64(file: Blob) {
@@ -187,11 +186,6 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
     return false;
   }
 
-  function firstLetterUppercase(value: string) {
-    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value;
-  }
-
   return (
     <>
       <Dialog.Portal>
@@ -215,7 +209,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     placeholder="Digite o nome do professor"
                     {...register("nome")}
                     minLength={4}
-                    maxLength={25}
+                    maxLength={31}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -225,9 +219,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                   <input
                     type="email"
                     placeholder="Digite o email do professor"
-                    {...register("email", {
-                      setValueAs: (v) => firstLetterUppercase(v),
-                    })}
+                    {...register("email")}
                     required
                   />
                   {errors.email && <p>{errors.email.message}</p>}
@@ -237,6 +229,15 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     <label>Carga horária semanal</label>
                     <input
                       type="number"
+                      onFocus={(e) =>
+                        e.target.addEventListener(
+                          "wheel",
+                          function (e) {
+                            e.preventDefault();
+                          },
+                          { passive: false }
+                        )
+                      }
                       placeholder="Digite as horas"
                       {...register("cargaSemanal", { valueAsNumber: true })}
                       min="20"
@@ -260,7 +261,9 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
 
                     <InputFile>
                       <InputFileContent>
-                        <span>{namePhoto != "" ? namePhoto : "Nome do arquivo..."}</span>
+                        <span>
+                          {namePhoto != "" ? namePhoto : "Nome do arquivo..."}
+                        </span>
                         <div>
                           <Upload size={40} weight="light" />
                         </div>
@@ -273,11 +276,9 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                         accept="image/*"
                         onChange={uploadImage}
                       />
-                     
                     </InputFile>
                     {errors.foto && <p>{errors.foto.message}</p>}
                   </InputIndividual>
-                
                 </InputContent>
                 {fields.map((field, index) => {
                   return (
@@ -289,7 +290,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                             `competencia.${index}.unidadeCurricular.id`,
                             { valueAsNumber: true, required: true }
                           )}
-                          defaultValue=""
+                          defaultValue={0}
                           required
                         >
                           <option value={0} disabled>

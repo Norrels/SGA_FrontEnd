@@ -122,7 +122,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
             <input
               type="hidden"
               value={course.id}
-              {...register("id", { valueAsNumber: true })}
+              {...register("id")}
             />
             <InputScroll>
               <InputContainer>
@@ -130,14 +130,14 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                   <label>Nome</label>
                   <input
                     type="text"
-                    placeholder="Digite seu nome"
+                    placeholder="Digite o nome"
                     defaultValue={course.nome}
                     {...register("nome", {
                       required: true,
                     })}
                     readOnly={!editable}
                     minLength={4}
-                    maxLength={60}
+                    maxLength={101}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -170,7 +170,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                           )}
                           readOnly={!editable}
                           minLength={4}
-                          maxLength={40}
+                          maxLength={71}
                           required
                         />
                         {errors.unidadeCurricular && (
@@ -183,6 +183,7 @@ export function EditCourseModal({ course, closeModal }: EditCourseModalProps) {
                         <label>Horas</label>
                         <input
                           type="number"
+                          onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                           placeholder="Digite as horas"
                           {...register(`unidadeCurricular.${index}.horas`, {
                             valueAsNumber: true,

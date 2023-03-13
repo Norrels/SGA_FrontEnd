@@ -1,6 +1,14 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button
+{ 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+
     * {
         margin: 0;
         padding: 0;
@@ -13,7 +21,8 @@ export const GlobalStyle = createGlobalStyle`
 
     }
     body {
-        background-image: ${(props) => `url(${props.theme["backgroundImage"]})`};;
+        background-image: ${(props) =>
+          `url(${props.theme["backgroundImage"]})`};;
         background-repeat: no-repeat;
         background-size: 2000px;
         background-position: top;

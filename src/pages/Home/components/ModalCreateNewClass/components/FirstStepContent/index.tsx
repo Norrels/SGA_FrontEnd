@@ -47,7 +47,6 @@ export function FirstStepContent({
     control,
     register,
     setValue,
-    formState: { errors },
     watch,
     getValues,
     resetField,
@@ -74,7 +73,7 @@ export function FirstStepContent({
     codTurmaValidation?.length >= 2 &&
     watch("cargaDiaria") <= 8 &&
     watch("cargaDiaria") >= 2 &&
-    codTurmaValidation?.length <= 15;
+    codTurmaValidation?.length <= 20;
 
   function onChangeDataWithWeek(event: ChangeEvent<HTMLDataElement>) {
     const diaSelecionado = event.target.value;
@@ -239,7 +238,7 @@ export function FirstStepContent({
             {...register("codTurma")}
             placeholder="Digite o código da turma..."
           />
-          {codTurmaValidation?.length >= 15 && <p> * Deve se menor que 15</p>}
+          {codTurmaValidation?.length >= 20 && <p> * Deve se menor que 20</p>}
           {codTurmaValidation?.length < 2 && watch("codTurma") != "" && (
             <p> * Deve se maior que 2</p>
           )}
@@ -250,6 +249,7 @@ export function FirstStepContent({
             type="number"
             max={8}
             required
+            onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
             placeholder="Digite as horas..."
             {...register("cargaDiaria")}
           />

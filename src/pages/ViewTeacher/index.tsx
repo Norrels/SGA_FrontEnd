@@ -60,12 +60,14 @@ export function ViewTeacher() {
     response.data[2] ? setInClass(true) : setInClass(false)
   }
 
+  
 
   const { teachers } = useContext(ResourcesContext)
   const teacherItem = teachers.find((teacher) => teacher.id == teacherId)
 
   useEffect(() => {
     fetchUser();
+    alert("Estamos cientes dos bugs que a pagina do perfil do professor está apresentando, estamos refazendo ela do zero, desde já agradeçemos a compreensão")
   }, []);
 
   async function teacherUpdate(data: TeacherProps) {

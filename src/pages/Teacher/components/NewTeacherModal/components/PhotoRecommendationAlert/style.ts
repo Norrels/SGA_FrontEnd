@@ -79,16 +79,10 @@ export const ButtonContainer = styled.div`
     border: none;
     border-radius: 8px;
     font-weight: 600;
-    background-color: ${(props) => props.theme["blue-100"]};
-    color: ${(props) => props.theme["blue-500"]};
-    background-color: rgb(255, 229, 229);
-    color: rgb(205, 43, 4);
+    background-color: rgba(219, 233, 245, 1);
+      color: rgba(54, 127, 191, 1);
 
-    &:first-child {
-      background-color: ${(props) => props.theme["blue-100"]};
-      color: ${(props) => props.theme["blue-500"]};
-    }
-
+    
     transition-duration: 0.3s;
 
     &:hover {

@@ -21,7 +21,7 @@ export function Place({ placeItem }: PlacesProps) {
   }
 
   async function handleUpdateStatusPlace() {
-    updateStatusPlace(placeItem.id)
+    updateStatusPlace(placeItem.id!)
   }
 
   return (

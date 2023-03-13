@@ -33,7 +33,11 @@ export const HomeCalenderOrderBy = styled.span`
   justify-content: center;
   align-items: center;
   p {
-    background: linear-gradient(180deg, ${(props) => props.theme["primary_300"]} 45.83%, ${(props) => props.theme["blue-500"]} 100%);
+    background: linear-gradient(
+      180deg,
+      ${(props) => props.theme["primary_300"]} 45.83%,
+      ${(props) => props.theme["blue-500"]} 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -68,7 +72,7 @@ export const HomeCalenderDay = styled.span<DayProps>`
   strong {
     background: ${(props) => {
       if (props.days == "today") {
-      return `${props.theme["blue-600"]}`;
+        return `${props.theme["blue-600"]}`;
       } else if (DAY[props.days] == "notToday") {
         return `linear-gradient(180deg, ${props.theme["primary_300"]} 45.83%, ${props.theme["blue-500"]} 100%)`;
       }
@@ -98,7 +102,13 @@ export const HomePlaces = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+
   p {
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
     color: ${(props) => props.theme["blue-500"]};
     font-family: "Inter";
     font-weight: 700;
@@ -115,7 +125,7 @@ const PERIOD = {
   MANHA: "blue-400",
   TARDE: "blue-500",
   NOITE: "blue-600",
-  INTEGRAL: "blue-700"
+  INTEGRAL: "blue-700",
 } as const;
 interface ClassProps {
   period: keyof typeof PERIOD;
@@ -141,7 +151,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
   ${(props) =>
-     props.period == "TARDE" &&
+    props.period == "TARDE" &&
     css`
       grid-area: tarde;
       div {
@@ -149,7 +159,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
   ${(props) =>
-     props.period == "NOITE" &&
+    props.period == "NOITE" &&
     css`
       grid-area: noite;
       div {
@@ -157,7 +167,7 @@ export const HomeButtonClickRoot = styled(ContextMenu.Trigger)<ClassProps>`
       }
     `}
     ${(props) =>
-     props.period == "INTEGRAL" &&
+    props.period == "INTEGRAL" &&
     css`
       grid-area: manha;
       div {

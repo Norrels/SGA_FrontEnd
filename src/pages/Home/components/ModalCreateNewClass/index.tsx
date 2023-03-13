@@ -70,7 +70,7 @@ export function ModalCreateNewClass({
     },
   });
 
-  const { handleSubmit, reset, getValues } = CreateNewClassForm;
+  const { handleSubmit, reset } = CreateNewClassForm;
   const [avaliableTeacher, setAvalibleTeachers] = useState<TeacherProps[]>();
   const [avaliablePlaces, setAvaliblePlaces] = useState<PlaceProps[]>();
   const [dataFim, setDataFim] = useState("")

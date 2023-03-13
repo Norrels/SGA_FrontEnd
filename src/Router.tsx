@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { DefaultLayout } from "./layout/DefaultLayout";
 import AdvancedSearch from "./pages/AdvancedSearch";
-import { Call } from "./pages/Call";
 import { Course } from "./pages/Course";
 import { Dashboard } from "./pages/Dashboard";
 import { Holiday } from "./pages/Holiday/Index";

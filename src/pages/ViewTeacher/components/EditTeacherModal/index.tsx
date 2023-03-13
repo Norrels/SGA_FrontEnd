@@ -99,7 +99,7 @@ export function EditTeacherModal({
 
   useEffect(() => {
     handleGetUnidadeCurricular();
-    alert("Estamos cientes dos bugs que a pagina do perfil do professor está apresentando, estamos refazendo ela do zero, desde já agradeçemos a comprensão")
+
   }, []);
 
   const { fields, append, remove } = useFieldArray({
@@ -132,6 +132,7 @@ export function EditTeacherModal({
       };
     });
   }
+  console.log(errors)
 
   return (
     <Dialog.Portal>
@@ -156,7 +157,7 @@ export function EditTeacherModal({
           <input
             type="hidden"
             defaultValue={teacherItem?.id}
-            {...register("id", { valueAsNumber: true })}
+            {...register("id")}
           />
           <InputScroll>
             <InputContainer>
@@ -169,8 +170,10 @@ export function EditTeacherModal({
                   defaultValue={teacherItem?.nome}
                   {...register("nome")}
                   readOnly={!editable}
+                  minLength={4}
+                  maxLength={31}
                 />
-                {/* {errors.nome && <p>{errors.nome.message}</p>} */}
+                {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>
               <InputContent disabled={"on"}>
                 <label>Email</label>

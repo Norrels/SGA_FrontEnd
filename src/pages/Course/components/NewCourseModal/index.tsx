@@ -21,10 +21,10 @@ import { Notification } from "../../../../components/Notification";
 
 //Varivel de validação
 export const coursesInputs = z.object({
-  id: z.number().optional(),
+  id: z.string().optional(),
   nome: z
     .string()
-    .max(300, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.enum(["FIC", "REGULAR"]),
   unidadeCurricular: z
@@ -32,7 +32,7 @@ export const coursesInputs = z.object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(60, { message: "* O nome deve ser menor que 30 caracteres..." })
+        .max(70, { message: "* O nome deve ser menor que 80 caracteres..." })
         .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
         .number({ invalid_type_error: "Insira as horas..." })
@@ -130,7 +130,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                       required: true,
                     })}
                     minLength={4}
-                    maxLength={60}
+                    maxLength={101}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}
@@ -164,7 +164,7 @@ export default function NewCourseModal({ closeModal }: NewCourseModalProps) {
                             required: true,
                           })}
                           minLength={4}
-                          maxLength={30}
+                          maxLength={71}
                           required
                         />
                         {errors.unidadeCurricular && (

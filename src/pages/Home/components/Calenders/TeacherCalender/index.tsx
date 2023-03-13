@@ -11,7 +11,7 @@ import {
   HomeClassesContainer,
   HomeDivider,
   HomePlaces,
-} from "./style";
+} from "../../../../../styles/calenders";
 import * as ContextMenu from "@radix-ui/react-context-menu";
 
 import { format } from "date-fns";

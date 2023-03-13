@@ -55,11 +55,6 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
     setOpen(false);
   }
 
-  function firstLetterUppercase(value: string) {
-    value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
-    return value;
-  }
-
   function onCloseModalEditPlaces() {
     reset();
     setEditable(false);
@@ -95,11 +90,9 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     type="text"
                     placeholder="Digite o nome do ambiente"
                     defaultValue={place.nome}
-                    {...register("nome", {
-                      setValueAs: (v) => firstLetterUppercase(v),
-                    })}
+                    {...register("nome")}
                     minLength={4}
-                    maxLength={20}
+                    maxLength={26}
                     required
                     readOnly={!editable}
                   />
@@ -132,6 +125,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     </label>
                     <input
                       type="number"
+                      onFocus={(e) => e.target.addEventListener("wheel", function (e) { e.preventDefault() }, { passive: false })}
                       placeholder="Digite a capacidade"
                       min="1"
                       defaultValue={place.capacidade}
