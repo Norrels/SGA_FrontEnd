@@ -32,7 +32,7 @@ export const coursesInputs = z.object({
       id: z.number().optional().nullable(),
       nome: z
         .string()
-        .max(70, { message: "* O nome deve ser menor que 80 caracteres..." })
+        .max(70, { message: "* O nome deve ser menor que 70 caracteres..." })
         .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
       horas: z
         .number({ invalid_type_error: "Insira as horas..." })

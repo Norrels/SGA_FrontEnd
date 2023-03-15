@@ -41,33 +41,31 @@ export const ListItemContent = styled.div`
 `;
 
 export const ListInfoContent = styled.span`
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 500px;
 
-
-
-p {
-  span {
-    font-weight: bold;
+  p {
+    span {
+      font-weight: bold;
+    }
   }
-}
 `;
 
 export const ItemInfoContentHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-
+  width: 700px;
 
   h3 {
-  
     display: inline-block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     direction: ltr;
+    max-width: 500px;
   }
 `;
 
@@ -84,7 +82,7 @@ export const ItemIcon = styled.span`
   background: ${(props) => props.theme["white-300"]};
 
   img {
-    width: 100%; 
+    width: 100%;
     height: 100%;
     border-radius: 3.125rem;
   }
