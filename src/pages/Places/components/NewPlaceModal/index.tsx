@@ -23,7 +23,7 @@ const presencialValidation = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(60, { message: "* O nome deve ser menor que 60 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("PRESENCIAL"),
   capacidade: z
@@ -39,7 +39,7 @@ const unidadeMovelValidation = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(60, { message: "* O nome deve ser menor que 60 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("UNIDADE_MOVEL"),
   capacidade: z
@@ -55,7 +55,7 @@ const empresaValidation = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(60, { message: "* O nome deve ser menor que 60 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("EMPRESA"),
   capacidade: z
@@ -76,7 +76,7 @@ const entidadeValidation = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(60, { message: "* O nome deve ser menor que 60 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("ENTIDADE"),
   capacidade: z
@@ -97,7 +97,7 @@ const remotoValidation = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(60, { message: "* O nome deve ser menor que 60 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(4, { message: "* O nome deve ser maior que 3 caracteres..." }),
   tipo: z.literal("REMOTO"),
   capacidade: z.number().optional(),
@@ -226,7 +226,7 @@ export function NewPlaceModal({ closeModal }: NewPlaceModalProps) {
                       required: true,
                     })}
                     minLength={4}
-                    maxLength={61}
+                    maxLength={101}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}

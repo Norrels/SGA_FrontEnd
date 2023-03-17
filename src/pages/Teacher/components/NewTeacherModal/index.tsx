@@ -30,7 +30,7 @@ export const teacherInput = z.object({
   id: z.string().optional(),
   nome: z
     .string()
-    .max(30, { message: "* O nome deve ser menor que 30 caracteres..." })
+    .max(100, { message: "* O nome deve ser menor que 100 caracteres..." })
     .min(3, { message: "* O nome deve ser maior que 3 carecteres..." }),
   email: z.string().email({ message: "* Informe um email válido..." }),
   cargaSemanal: z
@@ -209,7 +209,7 @@ export default function NewTeacherModal({ closeModal }: NewTeacherModalProps) {
                     placeholder="Digite o nome do professor"
                     {...register("nome")}
                     minLength={4}
-                    maxLength={31}
+                    maxLength={101}
                     required
                   />
                   {errors.nome && <p>{errors.nome.message}</p>}

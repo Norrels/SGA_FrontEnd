@@ -171,7 +171,7 @@ export function EditTeacherModal({
                   {...register("nome")}
                   readOnly={!editable}
                   minLength={4}
-                  maxLength={31}
+                  maxLength={101}
                 />
                 {errors.nome && <p>{errors.nome.message}</p>}
               </InputContent>

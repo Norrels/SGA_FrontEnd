@@ -92,7 +92,7 @@ export function EditPlaceModal({ place, closeModal }: EditPlaceModalProps) {
                     defaultValue={place.nome}
                     {...register("nome")}
                     minLength={4}
-                    maxLength={61}
+                    maxLength={101}
                     required
                     readOnly={!editable}
                   />
