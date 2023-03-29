@@ -54,11 +54,6 @@ export function EditClassModal({
   >([]);
   const { register, handleSubmit, reset } = useForm<EditClassModalProps>();
 
-  // pegando a data de hoje e formatando pro estilo americano para validar o input date
-  const hoje = new Date() 
-    .toLocaleDateString()
-    .replace(/(\d*)\/(\d*)\/(\d*).*/, "$3-$2-$1");
-
   // notificação, mas quando uma aula é alterada o calendario é renderizado novamente ai a notificação some...
   /* const [open, setOpen] = useState(false);
   const [notification, setNotification] = useState(false);
@@ -138,7 +133,6 @@ export function EditClassModal({
                       )}-${aulas.data.slice(3, 5)}-${aulas.data.slice(0, 2)}`}
                       placeholder="Escolha uma data..."
                       {...register("data")}
-                      min={hoje}
                       onChange={fetchPlacesAndTeachersAvaliable}
                     />
                   </InputIndividual>
